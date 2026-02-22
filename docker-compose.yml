@@ -1,0 +1,6 @@
+services:
+  web:
+    build: .
+    ports:
+      - "${HOST_PORT:-80}:80"
+    restart: unless-stopped
