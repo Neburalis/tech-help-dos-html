@@ -201,7 +201,7 @@ body.spa-shell {
 .shell-header .nav-btn {
   flex-shrink: 0;
   min-width: auto;
-  padding: 5px 8px;
+  padding: 5px 0;
   line-height: 0;
 }
 
