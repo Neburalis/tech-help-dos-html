@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 54H: Get DOS Verify State - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 54H: Get DOS Verify State</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    54H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    current state: 00H is OFF
+                               01H is ON
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the current DOS disk write verification state.  If AL
+          returns as 01H, then DOS will check the CRC of each sector that
+          it writes, verifying that data was written correctly.
+
+   Notes: ■ Programs can use Fn <a href="415-dos_fn_2eh__set_reset_verify_switch.html">2eH</a> to set or reset the verification state.
+          ■ The DOS <span class="c2">Verify</span> command can be used to change the state.
+
+See Also: <a href="19-system_information_functions.html">System Information Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

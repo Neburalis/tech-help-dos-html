@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DPMI Services - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DPMI Services</h1><pre>
+ The DPMI (<span class="c2">DOS Protected Mode Interface</span>) specification describes services
+ provided by a DPMI host.  One popular DPMI host is Microsoft Windows and
+ these DPMI services are available to Windows programs and to DOS programs
+ when running under <span class="c1">Windows 386Enh</span> mode.
+
+    Note: A solid understanding of the Intel 80x86 protected-mode
+          architecture is mandatory.  See <a href="572-using_dpmi_services.html">Using DPMI Services</a> for related
+          information.
+
+     See: <a href="771-int_2fh_1680h__program_idle__release_timeslice_.html">INT 2fH 1680H</a> (release time slice)
+          <a href="777-int_2fh_1686h__detect_int_31h_dpmi_services.html">INT 2fH 1686H</a> (query CPU Mode / Query INT 31H services)
+          <a href="573-int_2fh_1687h__get_real_to_protected_mode_switch_address.html">INT 2fH 1687H</a> (obtain mode-switch entry address)
+          <a href="574-int_2fh_168ah__get_vendor_specific_dpmi_api_entry_address.html">INT 2fH 168aH</a> (get DPMI vendor's API address)
+
+          <a href="575-int_31h_0000h__allocate_ldt_descriptors.html">INT 31H 0000H</a> (allocate LDT descriptors)
+          <a href="576-int_31h_0001h__free_ldt_descriptor.html">INT 31H 0001H</a> (free LDT descriptor)
+          <a href="577-int_31h_0002h__segment_to_descriptor.html">INT 31H 0002H</a> (segment to descriptor)
+          <a href="578-int_31h_0003h__query_selector_increment_value.html">INT 31H 0003H</a> (query selector increment value)
+          <a href="579-int_31h_0006h__query_segment_base_address.html">INT 31H 0006H</a> (query segment base address)
+          <a href="580-int_31h_0007h__set_segment_base_address.html">INT 31H 0007H</a> (set segment base address)
+          <a href="581-int_31h_0008h__set_segment_limit.html">INT 31H 0008H</a> (set segment limit)
+          <a href="582-int_31h_0009h__set_descriptor_access_rights.html">INT 31H 0009H</a> (set descriptor access rights)
+          <a href="583-int_31h_000ah__create_alias_descriptor.html">INT 31H 000aH</a> (create alias descriptor)
+          <a href="584-int_31h_000bh__query_descriptor.html">INT 31H 000bH</a> (query descriptor)
+          <a href="585-int_31h_000ch__set_descriptor.html">INT 31H 000cH</a> (set descriptor)
+          <a href="586-int_31h_000dh__allocate_specific_descriptor.html">INT 31H 000dH</a> (allocate specific descriptor)
+          <a href="587-int_31h_000eh__query_multiple_descriptors.html">INT 31H 000eH</a> (query multiple descriptors)
+          <a href="588-int_31h_000fh__set_multiple_descriptors.html">INT 31H 000fH</a> (set multiple descriptors)
+
+          <a href="589-int_31h_0100h__allocate_dos_memory_block.html">INT 31H 0100H</a> (allocate DOS memory block)
+          <a href="590-int_31h_0101h__free_dos_memory_block.html">INT 31H 0101H</a> (free DOS memory block)
+          <a href="591-int_31h_0102h__resize_dos_memory_block.html">INT 31H 0102H</a> (resize DOS memory block)
+
+          <a href="592-int_31h_0200h__query_real_mode_interrupt_vector.html">INT 31H 0200H</a> (query real-mode interrupt vector)
+          <a href="593-int_31h_0201h__set_real_mode_interrupt_vector.html">INT 31H 0201H</a> (set real-mode interrupt vector)
+          <a href="594-int_31h_0202h__query_processor_exception_handler_vector.html">INT 31H 0202H</a> (query processor exception handler vector)
+          <a href="595-int_31h_0203h__set_processor_exception_handler_vector.html">INT 31H 0203H</a> (set processor exception handler vector)
+          <a href="596-int_31h_0204h__query_protected_mode_interrupt_vector.html">INT 31H 0204H</a> (query protected-mode interrupt vector)
+          <a href="597-int_31h_0205h__set_protected_mode_interrupt_vector.html">INT 31H 0205H</a> (set protected-mode interrupt vector)
+
+          <a href="602-int_31h_0300h__simulate_real_mode_interrupt.html">INT 31H 0300H</a> (simulate real-mode interrupt)
+          <a href="603-int_31h_0301h__simulate_real_mode_far_call.html">INT 31H 0301H</a> (call real-mode for FAR RET return)
+          <a href="604-int_31h_0302h__simulate_real_mode_call_for_iret.html">INT 31H 0302H</a> (call real-mode for IRET return)
+          <a href="605-int_31h_0303h__allocate_real_mode_callback_address.html">INT 31H 0303H</a> (allocate real-mode callback address)
+          <a href="606-int_31h_0304h__free_real_mode_callback_address.html">INT 31H 0304H</a> (free real-mode callback address)
+          <a href="607-int_31h_0305h__query_state_save_restore_addresses.html">INT 31H 0305H</a> (query state save/restore addresses)
+          <a href="608-int_31h_0306h__query_raw_mode_switch_address.html">INT 31H 0306H</a> (query raw mode switch address)
+
+          <a href="609-int_31h_0400h__query_dpmi_version.html">INT 31H 0400H</a> (query DPMI version)
+          <a href="610-int_31h_0401h__query_dpmi_capabilities.html">INT 31H 0401H</a> (query DPMI capabilities)
+
+          <a href="611-int_31h_0500h__query_free_memory_information.html">INT 31H 0500H</a> (query free memory information)
+          <a href="612-int_31h_0501h__allocate_memory_block.html">INT 31H 0501H</a> (allocate memory block)
+          <a href="613-int_31h_0502h__free_memory_block.html">INT 31H 0502H</a> (free memory block)
+          <a href="614-int_31h_0503h__resize_memory_block.html">INT 31H 0503H</a> (resize memory block)
+          <a href="615-int_31h_0504h__allocate_linear_memory_block.html">INT 31H 0504H</a> (allocate linear memory block)
+          <a href="617-int_31h_0506h__query_page_attributes.html">INT 31H 0506H</a> (query page attributes)
+          <a href="618-int_31h_0507h__set_page_attributes.html">INT 31H 0507H</a> (set page attributes)
+          <a href="619-int_31h_0508h__map_device_in_memory_block.html">INT 31H 0508H</a> (map device in memory block)
+          <a href="620-int_31h_0509h__map_conventional_memory_in_memory_block.html">INT 31H 0509H</a> (map conventional memory in memory block)
+          <a href="621-int_31h_050ah__query_memory_block_size_and_base.html">INT 31H 050aH</a> (query memory block size and base)
+          <a href="622-int_31h_050bh__query_memory_information.html">INT 31H 050bH</a> (query memory information)
+
+          <a href="623-int_31h_0600h__lock_linear_region.html">INT 31H 0600H</a> (lock linear region)
+          <a href="624-int_31h_0601h__unlock_linear_region.html">INT 31H 0601H</a> (unlock linear region)
+          <a href="625-int_31h_0602h__mark_real_mode_region_as_pageable.html">INT 31H 0602H</a> (mark real-mode region as pageable)
+          <a href="626-int_31h_0603h__relock_real_mode_region.html">INT 31H 0603H</a> (relock real-mode region)
+          <a href="627-int_31h_0604h__query_page_size.html">INT 31H 0604H</a> (get page size)
+
+          <a href="628-int_31h_0700h__mark_page_as_demand_paging_candidate.html">INT 31H 0700H</a> (mark page as demand paging candidate)
+          <a href="629-int_31h_0701h__discard_page_contents.html">INT 31H 0701H</a> (discard page contents)
+
+          <a href="630-int_31h_0800h__physical_address_mapping.html">INT 31H 0800H</a> (physical address mapping)
+          <a href="631-int_31h_0801h__free_physical_address_mapping.html">INT 31H 0801H</a> (free physical address mapping)
+
+          <a href="632-int_31h_0900h__query_and_disable_virtual_interrupt_state.html">INT 31H 0900H</a> (disable virtual interrupt state)
+          <a href="633-int_31h_0901h__query_and_disable_virtual_interrupt_state.html">INT 31H 0901H</a> (enable virtual interrupt state)
+          <a href="634-int_31h_0902h__query_virtual_interrupt_state.html">INT 31H 0902H</a> (query virtual interrupt state)
+
+          <a href="635-int_31h_0a00h__get_vendor_specific_api_entry_address.html">INT 31H 0a00H</a> (query vendor-specific API entry address)
+
+          <a href="636-int_31h_0b00h__set_debug_watchpoint.html">INT 31H 0b00H</a> (set debug watchpoint)
+          <a href="637-int_31h_0b01h__clear_debug_watchpoint.html">INT 31H 0b01H</a> (clear debug watchpoint)
+          <a href="638-int_31h_0b02h__query_state_of_debug_watchpoint.html">INT 31H 0b02H</a> (query state of debug watchpoint)
+          <a href="639-int_31h_0b03h__reset_debug_watchpoint.html">INT 31H 0b03H</a> (reset debug watchpoint)
+
+          <a href="640-int_31h_0c00h__setup_dpmi_tsr_callback.html">INT 31H 0c00H</a> (setup DPMI TSR callback)
+          <a href="641-int_31h_0c01h__protected_mode_terminate_and_stay_resident.html">INT 31H 0c01H</a> (protected-mode terminate and stay resident)
+
+          <a href="642-int_31h_0d00h__allocate_shared_memory.html">INT 31H 0d00H</a> (allocate shared memory)
+          <a href="643-int_31h_0d01h__free_shared_memory.html">INT 31H 0d01H</a> (free shared memory)
+          <a href="644-int_31h_0d02h__serialize_on_shared_memory.html">INT 31H 0d02H</a> (serialize on shared memory)
+          <a href="645-int_31h_0d03h__free_serialization_on_shared_memory.html">INT 31H 0d03H</a> (free serialization on shared memory)
+
+          <a href="646-int_31h_0e00h__query_coprocessor_status.html">INT 31H 0e00H</a> (query coprocessor status)
+          <a href="647-int_31h_0e01h__set_coprocessor_emulation.html">INT 31H 0e01H</a> (set coprocessor emulation)
+
+   Notes: Before accessing <span class="c1">any</span> INT 31H services, the CPU must be in
+          protected mode.
+
+See Also: <a href="572-using_dpmi_services.html">Using DPMI Services</a>
+          <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH</a> (Enh386 Windows Services &amp; Notifications)
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

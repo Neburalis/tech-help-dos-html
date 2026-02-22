@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Equipment List - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Equipment List</h1><pre>
+ This identifies equipment and peripheral options which are installed
+ and/or active.  It is returned from <a href="183-int_11h__equipment_check.html">INT 11H</a> (in AX) and can be found in
+ the <a href="93-rom_bios_variables.html">BIOS Data Area</a> at 0040:0010.
+
+ <span class="c2">EquipmentListRec</span>
+  1 1 1 1 1 1
+ ╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+ ║<span class="c1">prt</span>│ │<span class="c1">j</span>│ <span class="c1">aux</span> │ ║<span class="c1">drv</span>│<span class="c1">vid</span>│<span class="c1">ram</span>│<span class="c1">n</span>│<span class="c1">d</span>║
+ ╙─┴─┴╥┴╥┴─┴─┴─┴╥╨─┴─┴─┴─┴─┴─┴╥┴╥╜  <span class="c1">bits</span> <span class="c1">  mask</span>
+  ╚╦╝ ║ ║ ╚═╦═╝ ║ ╚╦╝ ╚╦╝ ╚╦╝ ║ ╚═►    0: 0001H disk drives are present
+   ║  ║ ║   ║   ║  ║   ║   ║  ╚═══►    1: 0002H numeric coprocessor present
+   ║  ║ ║   ║   ║  ║   ║   ╚══════►  2-3: 000eH motherboard RAM
+   ║  ║ ║   ║   ║  ║   ╚══════════►  4-5: 0030H Initial/active video mode
+   ║  ║ ║   ║   ║  ╚══════════════►  6-7: 00c0H total diskettes drives-1
+   ║  ║ ║   ║   ╚═════════════════►    8: 0100H DMA present
+   ║  ║ ║   ╚═════════════════════► 9-11: 0e00H RS232 serial ports
+   ║  ║ ╚═════════════════════════►   12: 1000H game adapter present
+   ║  ╚═══════════════════════════►   13: 2000H serial printer (<a href="830-system_compatibility.html">PCjr</a>)
+   ╚══════════════════════════════►14-15: c000H printers installed
+
+       <span class="c1">bit 0</span>  When this is <span class="c2">0</span>, the computer has no diskette drives.
+       <span class="c1">bit 1</span>  <span class="c2">1</span> means that a numeric coprocessor is present.  This is not
+              always reliable on older BIOSes.
+    <span class="c1">bits 2-3</span>  motherboard memory: <span class="c2">01</span>=16K; <span class="c2">10</span>=32K; <span class="c2">11</span>=64K+ (usually <span class="c2">00</span> on
+              most modern PCs, so has no meaning)
+              On <a href="830-system_compatibility.html">PS/2</a>s, <span class="c1">bit 2</span> is 1 when a mouse is detected by the POST
+    <span class="c1">bits 4-5</span>  Currently-active video adaptor.  It is one of:
+                <span class="c2">00</span>=(reserved)   <span class="c2">10</span>=80-clm color
+                <span class="c2">01</span>=40-clm color <span class="c2">11</span>=TTL Monochrome
+    <span class="c1">bits 6-7</span>  number of detected diskette drives -1:
+                <span class="c2">00</span>=1; <span class="c2">01</span>=2; <span class="c2">10</span>=3; <span class="c2">11</span>=4
+       <span class="c1">bit 8</span>  <span class="c2">1</span> = DMA hardware is present (not reliable)
+   <span class="c1">bits 9-11</span>  detected RS-232 serial ports detected:
+                <span class="c2">000</span>=0; <span class="c2">001</span>=1...<span class="c2">100</span>=4...<span class="c2">111</span>=7
+      <span class="c1">bit 12</span>  <span class="c2">1</span>=game adaptor (joystick) was detected by POST.
+      <span class="c1">bit 13</span>  (on <a href="830-system_compatibility.html">PCjr</a> only) <span class="c2">1</span>=serial printer attached
+  <span class="c1">bits 14-15</span>  number of parallel printer ports:
+                <span class="c2">00</span>=0; <span class="c2">01</span>=1; <span class="c2">10</span>=2; <span class="c2">11</span>=3
+
+   Notes: ■ This data word is often used to ascertain the active video
+            adaptor and the <span class="c2">location of video RAM</span>.
+
+            If (AX &amp; 30H) == 30H then the Monochrome adapter is active
+            and video RAM segment is at b000H, otherwise use b800H.  See
+            <a href="89-video_memory_layouts.html">Video Memory Layouts</a>.
+
+          ■ In general, the Equipment List word does not impart much useful
+            information reliably.  For instance, even when <span class="c1">bits 9-11</span>
+            indicate 4 serial ports, the computer may provide support for
+            4 ports, but the hardware to handle only one or two is actually
+            present.
+
+See Also: <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="183-int_11h__equipment_check.html">INT 11H</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

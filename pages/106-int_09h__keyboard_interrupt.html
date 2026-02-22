@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 09H: Keyboard Interrupt - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 09H: Keyboard Interrupt</h1><pre>
+ This hardware-generated interrupt (<a href="96-irqs__hardware_interrupts.html">IRQ</a> 1) is executed upon each press and
+ release of a key.  The ROM-BIOS code interprets the keystroke, storing
+ values into the keyboard buffer at 0040:001e.  It also handles the special
+ cases of the PrtSc, SysReq, Ctrl+Alt+Del, Ctrl+NumLock (or Pause) keys,
+ and tracks the status of the shift and case-lock keys.
+
+ See:  <a href="228-int_16h__keyboard_services.html">INT 16H</a>  ......... BIOS service to access keys stored in the buffer
+                          and obtain status of the certain shift keys.
+       <a href="57-keyboard_scan_codes.html">Scan Codes</a> ....... a list of the values of each possible keystroke
+                          as it is received by INT 09H.
+       <a href="46-ascii_decimal_hex_binary_cross_reference.html">ASCII Table</a>
+       <a href="55-extended_ascii_keystrokes.html">Extended ASCII</a> ... a summary of the values that BIOS stores into the
+                          keyboard buffer after it translates a scan code.
+       <a href="58-keyboard_shift_status_flags.html">Keyboard Flags</a> ... a summary of how to obtain, test for, and modify
+                          the bit-settings of shift and case-lock flags.
+
+ <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>s that have a hot-key to trigger a popup usually intercept INT 09H and
+ test for a certain key with a sequence such as this:
+
+         push    ax
+         in      al,60H             ;read the key
+         cmp     al,POP_KEY         ;is this the hot key?
+         je      do_pop             ; yes, trigger the popup
+                                    ;  no, drop through to original driver
+         pop     ax
+         jmp     cs:[int9_vect]     ;just hop out to original int handler
+
+ do_pop: ;------ following housekeeping is needed to satisfy the hdwr int
+
+         in      al,61H             ;get value of keyboard control lines
+         mov     ah,al              ; save it
+         or      al,80h             ;set the &quot;enable kbd&quot; bit
+         out     61H,al             ; and write it out the control port
+         xchg    ah,al              ;fetch the original control port value
+         out     61H,al             ; and write it back
+
+         mov     al,20H             ;send End-Of-Interrupt signal
+         out     20H,al             ; to the 8259 Interrupt Controller
+         ;------ other code handles other tests and finally triggers popup
+
+<span class="c2">█▌CPU Exception Interrupt▐█</span>
+  286+ computer execute INT 09H when the math coprocessor encounters an
+  Segment Overrun exception.
+
+See Also: <a href="96-irqs__hardware_interrupts.html">IRQs: Hardware Interrupts</a>
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR Functions</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

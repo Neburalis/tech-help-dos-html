@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 05H: Print Screen / Bounds Exception - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 05H: Print Screen / Bounds Exception</h1><pre><span class="c2">█▌Software Interrupt▐█</span>
+  INT 05H, to the dismay of Intel (which considers this a CPU-reserved
+  interrupt), is used in the PC to execute the screen-to-printer dump
+  routine in ROM BIOS.
+
+  It is called directly by the keyboard interrupt <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a> when it senses the
+  press of the PrtSc (or PrintScreen) key.  It may also be invoked by
+  software, and you can intercept this interrupt if you want to write a
+  custom screen-dump routine.
+
+  The <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> BIOS has a function to replace the normal Print-Screen with one
+  that works for a variety of screen character layouts.  See <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">INT 10H 12H</a>.
+
+  The DOS <span class="c2">Graphics</span> command replaces this routine with one that will print
+  screen graphics (dot patterns) on a few types of printer.
+
+<span class="c2">█▌CPU Exception Interrupt▐█</span>
+  <span class="c2">286+</span> computers execute INT 05H when the BOUND opcode is executed and the
+  parameters are found to be out of range.
+
+See Also: <a href="96-irqs__hardware_interrupts.html">IRQs</a> (hardware interrupts)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1009H: Read All Palette Registers - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1009H: Read All Palette Registers</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1009H
+          <span class="c2">ES:BX</span> address of 17-byte buffer to receive data
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> buffer contains 16 palette regs + overscan reg
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the current <span class="c1">rgbRGB</span> values of all the VGA palette
+          registers and the overscan (border) register.  See <a href="137-int_10h_1000h__set_one_palette_register.html">INT 10H 1000H</a>
+          and <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a> for info on rgbRGB palette register settings.
+
+    <span class="c2">ES:BX</span> must point to a 17-byte buffer to receive the data.
+
+   Notes: ■ This is typically used by a program which wants to save the
+            palette in order to restore it later.  You may prefer to use
+            <a href="179-int_10h_1ch__vga_state_save_restore_functions.html">INT 10H 1cH</a> for save/restore operations.
+
+          ■ Since the EGA BIOS does not support this fn, palette
+            manipulation by TSRs and task-switchers is difficult.  The
+            standard DOS device driver, <span class="c2">EGA.SYS</span> intercepts INT 10H and
+            emulates this function (it tracks the current palette as set
+            via BIOS calls, but cannot track direct I/O port manipulation).
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

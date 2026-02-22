@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Mapping DOS FAT to MDFAT - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Mapping DOS FAT to MDFAT</h1><pre>
+  Any system which analyses a CVF<a href="919-qcvf.html">▲</a> must trace FAT chains and examine the
+  corresponding <a href="808-cvf_region__mdfat.html">MdFatEntryRec</a>s in the MDFAT.  Observe:
+
+           <a href="344-directory_entry_layout.html">DirEntryRec</a>              <span class="c1">starting cluster number</span> <span class="c2">══╗</span>
+<span class="c2">Directory</span> ╓───────────────────┬─┬───────────────────┬───┬───┬─<span class="c2">▼</span>─┬───────╖
+<span class="c2">Entry</span> ═══►║M Y F I L E   T X T│a│                   │tim│dat│003│ size  ║
+          ╙─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─<span class="c2">║</span>─┴─┴─┴─┴─╜
+               <span class="c2">    ╔══════════════════════════════════════════╝</span>
+<span class="c2">FAT</span> 000  001  002  <span class="c2">║</span>03  004  005  006  007  008  009  00a  00b ...
+   ┌─┬─┐┌─┬─┐┌─┬─┐┌<span class="c2">▼</span>┬─┐┌─┬─┐<span class="c2">╔═══╗</span>┌─┬─┐┌─┬─┐┌─┬─┐┌─┬─┐┌─┬─┐┌─┬─┐
+   │mid││fff││000││004<span class="c2">═►</span>006<span class="c2">═╝</span>fff<span class="c2">╚►</span>007<span class="c2">═►</span>fff││000││000││000││000│...
+   └─┴─┘└─┴─┘└─┴─┘└─┴─┘└─┴─┘└─┴─┘└─┴─┘└─┴─┘└─┴─┘└─┴─┘└─┴─┘└─┴─┘
+                  <span class="c3">╚═╦═╝╚═╦═╝</span>     <span class="c3">╚═╦═╝╚══╩═════════════════════════╗</span>
+                    <span class="c3">║</span>    <span class="c3">╚═══════╗</span> <span class="c3">╚══════════════════════╗</span>        <span class="c3">║</span>
+                    <span class="c3">╚══════════╗</span> <span class="c3">╚══════╗</span>                 <span class="c3">║</span>        <span class="c3">║</span>
+<span class="c2">MDFAT</span> <span class="c1">n</span>+000    <span class="c1">n</span>+001   <span class="c1">n</span>+002   <span class="c3">║</span> <span class="c1">n</span>+003  <span class="c3">║</span> <span class="c1">n</span>+004    <span class="c1">n</span>+005  <span class="c3">║</span> <span class="c1">n</span>+006  <span class="c3">║</span> <span class="c1">n</span>+007
+   ┌─┬─┬─┬─┐┌─┬─┬─┬─┐┌─┬─┬─┬─┐┌<span class="c3">▼</span>┬─┬─┬─┐┌<span class="c3">▼</span>┬─┬─┬─┐┌─┬─┬─┬─┐┌<span class="c3">▼</span>┬─┬─┬─┐┌<span class="c3">▼</span>┬─┬─┬─┐
+   │       ││       ││       ││f 3 <span class="c1">08e</span>││f 1 <span class="c1">092</span>││0 0 000││f 6 <span class="c1">094</span>││1 0 <span class="c1">09b</span>│
+ ..└─┴─┴─┴─┘└─┴─┴─┴─┘└─┴─┴─┴─┘└─┴─┴─┴<span class="c2">║</span>┘└─┴─┴─┴<span class="c2">║</span>┘└─┴─┴─┴─┘└─┴─┴─┴<span class="c2">║</span>┘└─┴─┴─┴<span class="c2">║</span>┘
+(<span class="c1">n</span>=MdBpbRec.<span class="c1">wFirstData</span>) <span class="c2">╔════════════╝</span>        <span class="c2">║</span>     <span class="c2">╔═══════════╝</span>        <span class="c2">║</span>
+                        <span class="c2">║</span>       <span class="c2">╔═════════════╝</span>     <span class="c2">║</span>                    <span class="c2">║</span>
+                        <span class="c2">║</span>       <span class="c2">║</span>            <span class="c2">╔══════╝</span>     <span class="c2">╔══════════════╝</span>
+<span class="c2">CVF Sector Heap</span>   <span class="c2">╒═════╩════╕╒═╩══╕╒════════╩══════════╕╒╩╕</span>
+   ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐
+   │ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ ││ │...
+   └─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘└─┘
+ .. 89 8a 8b 8c 8d <span class="c1">8e</span> 8f 90 91 <span class="c1">92</span> 93 <span class="c1">94</span> 95 96 97 98 99 91 <span class="c1">9b</span> 9c 9d
+
+ This diagram illustrates how FAT entries correspond to MDFAT entries.
+
+ ■ MYFILE.TXT, starts at cluster 003H (as found in a <a href="344-directory_entry_layout.html">Directory Entry</a>).
+   The FAT chain shows that it occupies clusters 003, 004, 006, and 007
+   (cluster 005 is apparently in use by another file).
+
+ ■ To get the <a href="808-cvf_region__mdfat.html">MdFatEntryRec</a>s of interest, we add <a href="806-cvf_region__mdbpb.html">MdBpbRec</a>.<span class="c1">wFirstData</span> to
+   each cluster number.  For instance, if <span class="c1">wFirstData</span> is 0010H, then we
+   are interested in MDFAT entries 013H, 014H, 016H, and 017H.
+
+ ■ To read a particular <a href="808-cvf_region__mdfat.html">MdFatEntryRec</a>, <span class="c1">m</span>, seek in the CVF to the start
+   of the MDFAT+(<span class="c1">m</span>*4) and read 4 bytes (the size of an MdFatEntryRec).
+   Each entry describes the physical location of the compressed data.
+
+ ■ The low 21 bits indicate a CVF logical sector number and bits 22-25
+   contain one less than the count of the sectors occupied by the
+   cluster.  To convert a CVF logical sector number to a file offset,
+   add 1 to it and multiply the sum by <a href="806-cvf_region__mdbpb.html">MdBpbRec</a>.<span class="c1">wSectSize</span> (usually 512).
+
+ In the diagrammed example, we could access the first byte of the file as
+ follows...
+
+   wClusterNo       = 0003H                 (obtained from directory entry)
+   mdClusterNo      = wClusterNo + MdBpbRec.<span class="c1">wFirstData</span>
+
+   lMdFatFileOffset = (MdBpbRec.<span class="c1">wMdFatStart</span>+1) * MdBpbRec.<span class="c1">wSectSize</span>
+   lItemOffset      = lMdFatFileOffset + (wMdClusterNo * 4)
+
+ ...we seek to lItemOffset and read the 4-byte <a href="808-cvf_region__mdfat.html">MdFatEntryRec</a>.  We find that
+ the low 21 bits contain 00008eH (the <span class="c1">location</span>) and that bits 22-25 contain
+ 03H (<span class="c1">sizCmpr</span>) and bits 26-29 contain 0fH (<span class="c1">sizRaw</span>).  We calculate...
+
+   lClustStartSect = <span class="c1">location</span>+1
+   lCvfSectOffset  = lClustStartSect * MdBpbRec.<span class="c1">wSectSize</span>
+
+   wCmprsdBytes    = (<span class="c1">sizCmpr</span> + 1) * MdBpbRec.<span class="c1">wSectSize</span>
+   wUnCmprsdBytes  = (<span class="c1">sizRaw</span> + 1) * MdBpbRec.<span class="c1">wSectSize</span>
+
+ ...and at last, we can seek to CVF offset lCvfSectOffset and read
+ wCmprsdBytes of data into an internal buffer.  If we bother to examine the
+ compressed data we'd see that the first four bytes are something like
+ '<span class="c2">MD</span>0<span class="c2">☻</span>' (4dH,44H,00H,02H).
+
+ We could use <a href="818-mrci_fn_0002h__decompress_data.html">MRCI Fn 0002H</a> (setting <a href="823-mrcrequestrec.html">MRCRequestRec</a>.<span class="c1">wDestLen</span>=wUnCmprsdBytes)
+ to decompress the data.
+
+   Notes: ■ COMMAND.COM accesses both the FAT and the MDFAT when you use
+            <span class="c2">Dir /c</span>.  In order to obtain the initial FAT entry, it uses the
+            long-obsolete fn <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">11H</a> (find first file via FCB).  The advantage
+            of this over fn <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> is that it returns a raw directory entry,
+            and therefore supplies a pointer into the FAT.
+
+          ■ As you trace a FAT chain, you may encounter a corresponding
+            MDFatEntryRec containing <span class="c2">00000000H</span>.  Such an entry indicates
+            that <span class="c1">no sectors</span> are used by that cluster.
+
+            This can occur, for instance, if you open a file, seek at least
+            8K past the end of the last cluster in the file, then write at
+            least one byte.  To &quot;decompress&quot; such a cluster, just fill the
+            buffer with zeros.
+
+See Also: <a href="808-cvf_region__mdfat.html">CVF Region: MDFAT</a>
+          <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

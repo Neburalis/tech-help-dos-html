@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 52H: Get DOS Variables - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 52H: Get DOS Variables</h1><pre>                                                Compatibility: <span class="c2">2.0+?</span> <a href="912-_undocumented_.html">◄undoc►</a>
+ Expects: <span class="c2">AH</span>    52H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> address of <a href="349-dos_variables_block__list_of_lists_.html">DosVarsRec</a>; addr+2 of segment of root <a href="368-mcb__memory_control_block.html">MCB</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Also called the <span class="c2">List of Lists</span> function.  This returns the address
+          of an undocumented package of DOS internal variables; some of the
+          values in this packet may be handy for use in utility programs.
+
+          See <a href="349-dos_variables_block__list_of_lists_.html">DosVarsRec</a> for a layout of the data.
+
+          At ES:[BX-2], you will find a 2-byte value which is the segment
+          of the fabled &quot;root <a href="368-mcb__memory_control_block.html">Memory Control Block</a>&quot;.  The root MCB can be
+          used to traverse the chain of MCBs and accumulate information
+          about all of the memory blocks that are currently allocated.
+          Each MCB contains its owner's PID so when a recognizable PSP is
+          found, you may be able to trace down its <a href="346-dos_environment.html">environment</a> segment and
+          therefore obtain the programs filename as well the DOS command-
+          line parameters used when it was started.
+
+ <span class="c2">Warning</span>: ■ Alters the value of the ES segment register.
+
+          ■ This undocumented fn may change in future versions of DOS.  It
+            was <span class="c1">conspicuously not documented</span> in DOS 5.0 (which did document
+            most of DOS's secrets).
+
+See Also: <a href="349-dos_variables_block__list_of_lists_.html">DosVarsRec</a>
+          <a href="368-mcb__memory_control_block.html">MemBlockRec</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

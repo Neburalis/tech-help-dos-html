@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>BPB: BIOS Parameter Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>BPB: BIOS Parameter Block</h1><pre>
+ This is a subset of the data found in the <a href="337-boot_sector_layout.html">Boot Sector Layout</a> used by
+ <a href="298-installable_device_drivers.html">device drivers</a>.  The 'Build BPB' device driver command (<a href="303-device_request_02h__build_bpb.html">DvRq 02H</a>) expects
+ the driver to fill a buffer in this layout.
+
+ Note the <span class="c2">DOS 4.0</span> extensions (<span class="c1">Extended BPB</span>) at the end of the block.
+
+<span class="c2">BPBRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wSectSize</span>    bytes per sector (usually 512; 200H)
+   +2      1  <span class="c1">bClustSects</span>  sectors per allocation unit (cluster)
+   +3      2  <span class="c1">wResSects</span>    boot and reserved sectors
+   +5      1  <span class="c1">bFatCnt</span>      number of File Allocation Tables.  See <a href="359-fat__dos_file_allocation_table.html">FAT</a>.
+   +6      2  <span class="c1">wRootEntries</span> max number of 32-byte <a href="344-directory_entry_layout.html">DirEntryRec</a>s in root
+   +8      2  <span class="c1">wTotSects</span>    total number of sectors in media
+                           0000H means &gt;32 MB, so use <span class="c1">lBigTotSects</span>
+ +0aH      1  <span class="c1">bMedia</span>       <a href="370-media_descriptor.html">media descriptor</a> (same as 1st byte in FAT)
+ +0bH      2  <span class="c1">wFatSects</span>    number of sectors in one <a href="359-fat__dos_file_allocation_table.html">FAT</a>
+                           <span class="c2">───────────────────────── Extended BPB additions</span>
+ +0dH      2  <span class="c1">wSectsPerTrk</span> sectors per track
+ +0fH      2  <span class="c1">wHeads</span>       number of read/write heads
+ +11H      4  <span class="c1">lHidSects</span>    hidden sectors (ignore hiword in pre-DOS 4.0)
+ +15H      4  <span class="c1">lBigTotSects</span> 32-bit TotSects in volume (partitions &gt; 32M)
+          25               Length of a BPBRec (was 13 in pre-DOS 4.0)
+
+   <span class="c1">wResSects</span>  The number of &quot;reserved sectors&quot;, starting with absolute
+              sector 0.  This counts how many sectors come before the first
+              <a href="359-fat__dos_file_allocation_table.html">FAT</a> in the partition.  It is usually 0001H; that is only the
+              boot sector comes before the first FAT sector.
+
+     <span class="c1">bFatCnt</span>  The number of <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>s.  Usually 02H; The second
+              FAT is just a copy of the first.
+
+<span class="c1">wRootEntries</span>  The size of the root directory, given in 32-byte units.  The
+              root directory has a fixed size, but subdirectory space is
+              allocated as needed.
+
+   <span class="c1">wTotSects</span>  Total size of the media, in sectors (<span class="c1">wSecSize</span> bytes each).
+              <span class="c2">DOS 4.0+</span>: This field will be 0000H to indicate a DOS partition
+              that is larger than 32 MB.  In that case, the total sector
+              count is the 32-bit value <span class="c1">lBigTotSects</span>.
+
+      <span class="c1">bMedia</span>  Might identify the media.  <a href="370-media_descriptor.html">Media Descriptor</a>.
+
+              <span class="c2">───────────────────────────────────── Extended BPB</span> (DOS <span class="c2">4.0+</span>)
+              These fields may help the driver and/or disk utility programs
+              to understand the media better.  Also, you may need to know
+              this stuff when using BIOS Disk I/O (<a href="185-int_13h__bios_disk_i_o.html">INT 13H</a>).
+
+<span class="c1">wSectsPerTrk</span>  Sectors per track (one surface of one platter)
+
+      <span class="c1">wHeads</span>  Disk read/write heads (total surfaces all platters)
+
+   <span class="c1">lHidSects</span>  Sectors before the start of the 1st FAT in the partition.
+
+<span class="c1">lBigTotSects</span>  Dword total sectors in the partition.  When a partition is
+              larger than 32 MB, there are more than 65535 sectors--the
+              actual count won't fit in <span class="c1">wTotSects</span> so it goes here.
+
+See Also: <a href="337-boot_sector_layout.html">Boot Sector Layout</a>
+          <a href="345-disk_partition_table.html">Partition Table</a>
+          <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

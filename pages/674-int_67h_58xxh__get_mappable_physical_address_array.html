@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 58xxH: Get Mappable Physical Address Array - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 58xxH: Get Mappable Physical Address Array</h1><pre>                                                     Compatibility: <span class="c2">EMS 4.0+</span>
+ Expects: <span class="c2">AH</span>    58H
+          <span class="c2">AL</span>    subfn: 00H=Get segment-to-page map array
+                           <span class="c2">ES:DI</span> = buffer to receive data
+                       01H=Get count of segment-to-page array entries
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">ES:DI</span> (fn 5800H) buffer contains data (see below)
+          <span class="c2">CX</span>    (fn 5801H) count of entries (buffer size is <span class="c2">CX</span> * 4)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains a cross-reference between all EMS page numbers and
+          the segments at which they are physically located.
+
+    <span class="c2">ES:DI</span> (fn 5800H) <span class="c1">on entry</span>, this buffer must be (<span class="c1">n</span> * 4) bytes long.
+          Obtain <span class="c1">n</span> by using fn 5801H.
+
+          <span class="c1">On return</span>, this buffer contains <span class="c1">n</span> 4-byte entries formatted as:
+
+          <span class="c2">EmsSegToPgMapRec</span>
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      2  <span class="c1">wSeg</span>      segment address (conv mem or EMS frame)
+            +2      2  <span class="c1">wPgNo</span>     EMS page number
+                    4            size of one EmsSegToPgMapRec
+
+            +4      2  <span class="c1">wSeg2</span>
+            +6      2  <span class="c1">wPgNo2</span>
+             .
+             :
+            etc.
+
+   Notes: All of the <span class="c1">wSeg</span> values are mappable memory segments.  On 386-
+          based emulators, the lowest of these segments may be in
+          conventional memory, there may be some gaps, and four pages will
+          exist in the EMS frame.
+
+          On 8088 CPUs with physical LIM-EMS hardware, this usually returns
+          just four entries--mapping the EMS frame.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

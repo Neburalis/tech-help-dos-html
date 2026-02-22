@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 59xxH: Get Hardware Configuration - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 59xxH: Get Hardware Configuration</h1><pre>                                                     Compatibility: <span class="c2">EMS 4.0+</span>
+ Expects: <span class="c2">AH</span>    59H
+          <span class="c2">AL</span>    subfn: 00H=Get hardware Info
+                           <span class="c2">ES:DI</span> = buffer to receive data
+                       01H=Get unallocated raw page count
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">ES:DI</span> (fn 5900H) buffer contains data (see below)
+          <span class="c2">BX</span>    (fn 5901H) unallocated raw pages
+          <span class="c2">DX</span>    (fn 5901H) total raw pages
+          ──────────────────────────────────────────────────────────────────
+    Info: This is designed <span class="c1">for use by operating systems only</span> and may be
+          disabled at any time.
+
+          It obtains hardware-related info and info on &quot;raw pages&quot; (that
+          is, pages that are not 16K -- used on a rarely-seen EMS board).
+
+    <span class="c2">ES:DI</span> (fn 5900H) on entry, this points to a 10-byte buffer.  On return,
+          it is filled with data, formatted as:
+
+          <span class="c2">EmsHardwareInfoRec</span>
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      2  <span class="c1">wRawPgParas</span> size of a raw page, in 16-byte units
+            +2      2  <span class="c1">wAltRegSets</span> number of extra mapping reg sets
+            +4      2  <span class="c1">wSaveSize</span>   size of buffer needed for saving mapping
+                                   context; also returned by <a href="664-int_67h_4exxh__get_set_entire_page_map.html">INT 67H 4e03H</a>
+            +6      2  <span class="c1">wDMAChnls</span>   number reg sets to handle DMA
+            +8      2  <span class="c1">wDMAOddball</span> 0=normal; 1=non-standard DMA handling
+                   10              size of this structure
+
+    <span class="c2">BX</span>,<span class="c2">DX</span> (fn 5901H) On nearly all hardware implementation of LIM-EMS,
+          pages are exactly 16K.  One oddball allows for &quot;raw&quot; pages of
+          smaller pages (submultiples of 16K).
+
+          In most cases, these return the same as from <a href="654-int_67h_4200h__get_ems_memory_total___available.html">INT 67H 4200H</a>.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

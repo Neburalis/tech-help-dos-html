@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>VERIFY= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>VERIFY= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 2.0+</span>
+ Purpose: This causes DOS to enable or disable a low-level disk function
+          which checks each disk sector after it is written.
+
+          The <span class="c2">Verify</span> command does the same thing
+
+  Syntax: VERIFY=<span class="c1">ON</span>
+      or: VERIFY=<span class="c1">OFF</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+       <span class="c1">ON</span> turns on write-verification (maximum safety).
+
+      <span class="c1">OFF</span> turns it off (better speed).
+
+          The default setting is VERIFY=OFF.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ You can do this in your program via DOS fn <a href="415-dos_fn_2eh__set_reset_verify_switch.html">2eH</a> (set/reset verify).
+
+  ■ Verify ON <span class="c1">does NOT</span> compare written data to data in memory.  It performs
+    an <a href="190-int_13h_04h__verify_sectors.html">INT 13H 04H</a> (verify sectors) on data after it is written.  That fn
+    compares the ECC<a href="918-qcrc.html">▲</a> recorded in the sector with the ECC calculated by the
+    controller.
+
+  ■ Internally, DOS toggles VERIFY ON when it writes FAT and directory
+    information.  Leaving VERIFY ON all the time will degrade disk
+    performance, especially on floppy diskettes.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

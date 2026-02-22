@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 6501H: Get Extended Country Information - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 6501H: Get Extended Country Information</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AX</span>    6501H
+          <span class="c2">BX</span>    <a href="340-code_page.html">Code Page</a> (0ffffH = current code page for console)
+          <span class="c2">CX</span>    size of data to return (&gt;=29H to get all of the data)
+          <span class="c2">DX</span>    <a href="342-country_id_codes.html">Country ID</a>
+          <span class="c2">ES:DI</span> address of buffer to receive an <a href="357-extended_country_info_block.html">ExtCountryInfoRec</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">ES:DI</span> buffer is filled with return information
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns country-dependant information, including time and date
+          format, currency symbol, etc.
+
+          See <a href="357-extended_country_info_block.html">ExtCountryInfoRec</a> for a layout of the returned information.
+
+   Notes: ■ The buffer size value in <span class="c2">CX</span> must be at least 5.  If it's less
+            than the size of an ExtCountryInfoRec, then only part of the
+            structure is filled.
+
+          ■ Fn <a href="431-dos_fn_38h__get_set_country_dependent_info.html">38H</a> also returns country-specific information in a somewhat
+            different format.
+
+See Also: <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

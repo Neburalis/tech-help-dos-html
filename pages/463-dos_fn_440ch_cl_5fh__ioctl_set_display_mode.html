@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440cH CL=5Fh: IOCTL Set Display Mode - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440cH CL=5Fh: IOCTL Set Display Mode</h1><pre>                                                         Compatibility: <span class="c2">4.0+</span>
+ Expects: <span class="c2">AX</span>    440cH
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device or disk file; 0001H=std output)
+          <span class="c2">CL</span>    5fH
+          <span class="c2">CH</span>    03H (device category: console)
+          <span class="c2">DS:DX</span> Addr of an <a href="491-ioctldisplaymoderec.html">IoctlDisplayModeRec</a> describing desired mode
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the console screen display mode (including selecting the
+          width in columns and height in lines)
+
+          Before calling, you must preset the <a href="491-ioctldisplaymoderec.html">IoctlDisplayModeRec</a>
+          <span class="c1">bInfoLevel</span> field to 00H and the <span class="c1">wDataLen</span> field to 0eH (14).
+
+          This fn works only if the <a href="50-ansi_console_escape_sequences.html">ANSI.SYS</a> (or equivalent) device driver
+          is loaded.
+
+          When an unsupported mode is requested, AX returns with 0005H
+          (access denied).
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (generic IOCTL for character devices)
+          <a href="697-int_2fh_1a00h__is_ansi_sys_installed_.html">INT 2FH 1a00H</a> (query ANSI.SYS installed state)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

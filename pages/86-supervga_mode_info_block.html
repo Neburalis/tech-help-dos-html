@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SuperVGA Mode Info Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SuperVGA Mode Info Block</h1><pre>
+ This structure is returned by <a href="938-int_10h_4f01h___query_supervga_mode_information.html">INT 10H 4f01H</a> to obtain information about a
+ specified video mode when VESA/SCGA support is present.  It will return
+ info about standard CGA/EGA/VGA modes as well.
+
+<span class="c2">SvgaInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">rModeAttrs</span>   bit fields: mode characteristics
+   +2      1  <span class="c1">rWinAAttrs</span>   bit fields: windowing system characteristics
+   +3      1  <span class="c1">rWinBAttrs</span>   bit fields: windowing system characteristics
+   +4      2  <span class="c1">wWinGran</span>     window granularity, in Kbytes
+   +6      2  <span class="c1">wWinSize</span>     window size, in KB
+   +8      2  <span class="c1">wWinASeg</span>     window A segment address
+  +0aH     2  <span class="c1">wWinBSeg</span>     window B segment address
+  +0cH     4  <span class="c1">pfWinFnPtr</span>   far address of window-handling function
+  +10H     2  <span class="c1">wScanLineSiz</span> bytes per scan line
+<span class="c2">────────────────────────── Extended/optional information</span>; present only
+                           when <span class="c1">rModeAttrs</span> bit 1 is 1.
+  +12H     2  <span class="c1">wHorizRes</span>    horizontal resolution, in pixels or char cells
+  +14H     2  <span class="c1">wVertRes</span>     vertical resolution, in pixels or char cells
+  +16H     1  <span class="c1">bCharWide</span>    character cell width
+  +17H     1  <span class="c1">bCharHigh</span>    character cell height
+  +18H     1  <span class="c1">bPlaneCnt</span>    number of video memory planes
+  +19H     1  <span class="c1">bBitsPerPel</span>  number of bits per pixel
+  +1aH     1  <span class="c1">bBankCnt</span>     number of video memory banks
+  +1bH     1  <span class="c1">bMemModel</span>    memory model type code
+  +1cH     1  <span class="c1">bBankSize</span>    video memory bank size, in Kbytes
+  +1dH   227  <span class="c1">res</span>          reserved
+         256               required size of caller buffer
+
+  <span class="c1">rModeAttrs</span>  bit flags, defined as follows:
+         1
+        ┌5- -8╥7┬6┬5┬4┬3┬2┬1┬0┐
+        │0...0║0 0 0│<span class="c1">g</span>│<span class="c1">c</span>│<span class="c1">o</span>│<span class="c1">x</span>│<span class="c1">s</span>│
+        └─ - ─╨─┴─┴─┴╥┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+                     ║ ║ ║ ║ ╚══► 0: 01H mode supported with this hardware
+                     ║ ║ ║ ╚════► 1: 02H extended information, starting at
+                     ║ ║ ║               offset 12H, is present
+                     ║ ║ ╚══════► 2: 04H supports output fns such as
+                     ║ ║                 <a href="125-int_10h_0ah__write_character_to_cursor_location.html">INT 10H 0aH</a> and <a href="129-int_10h_0eh__write_character_as_tty.html">INT 10H 0eH</a>
+                     ║ ╚════════► 3: 08H 1=color mode; 0=monochrome mode
+                     ╚══════════► 4: 10H 1=graphics mode; 0=text mode
+  <span class="c1">rWinAAttrs</span>  and...
+  <span class="c1">rWinBAttrs</span>  bit flags that describe characteristics of the CPU memory
+              windowing scheme for the (maximum of two) windows:
+              ┌7┬6┬5┬4┬3┬2┬1┬0┐
+              │0 0 0 0 0│<span class="c1">w</span>│<span class="c1">r</span>│<span class="c1">s</span>│
+              └─┴─┴─┴─┴─┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+                         ║ ║ ╚══► 0: 01H 1=window (A or B) supported
+                         ║ ╚════► 1: 02H 1=window is readable
+                         ╚══════► 2: 04H 1=window is writable
+
+    <span class="c1">wWinGran</span>  Window granularity: Specifies the smallest boundary, in KB,
+              on which the window can be placed in the video memory.
+
+    <span class="c1">wWinSize</span>  specifies the size of the window in KB.
+
+    <span class="c1">wWinASeg</span>  and...
+    <span class="c1">wWinBSeg</span>  address specify the segment addresses where the windows are
+              located in the CPU address space.
+
+  <span class="c1">pfWinFnPtr</span>  is the far address of the video memory windowing function.
+              The windowing function can be invoked either through VESA BIOS
+              fn 05H, or by calling the function directly.  A direct call
+              will provide faster access to the hardware paging registers
+              than using INT 10h, and is intended to be used by high
+              performance applications.  See <a href="942-int_10h_4f05h___query_set_supervga_video_memory_window.html">INT 10H 4f05H</a> for details.
+
+<span class="c1">wScanLineSiz</span>  size, in bytes, of a video-memory scan line.  This is the
+              &quot;logical&quot; width, which may be larger than the dimensions
+              implied by the physical video mode.
+
+<span class="c2">───────────── Extended/optional info</span>; present when <span class="c1">rModeAttrs</span> bit 1 is set.
+   <span class="c1">wHorizRes</span>  and...
+    <span class="c1">wVertRes</span>  horizontal and vertical resolution of this mode.  In graphics
+              modes (<span class="c1">wModeAttrs</span> bit 4 is set), this is expressed in pixels.
+              In text modes (<span class="c1">wModeAttrs</span> bit 4 is clear), this is expressed
+              in character cells.
+
+   <span class="c1">bCharWide</span>  and...
+   <span class="c1">bCharHigh</span>  width and height of a character cell, in pixels
+
+   <span class="c1">bPlaneCnt</span>  video memory planes.
+
+ <span class="c1">bBitsPerPel</span>  specifies the number of bits that define the color of one
+              pixel.  16-color and 256-color graphics modes would specify 4
+              and 8 respectively.
+
+              Nonstandard memory organizations can be specified using this
+              field and the <span class="c1">bPlaneCnt</span> field.  For example, a 16-color
+              packed-pixel mode would be described as having 1 plane and
+              4 bits per pixel.
+
+    <span class="c1">bBankCnt</span>  number of banks (groups of scan lines).  Given a scan line <span class="c1">s</span>,
+              you should select bank <span class="c1">s</span> MOD <span class="c1">bBankCnt</span> and address the scan
+              line as line INT(<span class="c1">s</span>/<span class="c1">bBankCnt</span>).
+
+              For instance, CGA graphics modes have two banks; even numbered
+              lines start at b800:0000 and odd-numbered lines start at
+              b800:2000.  Hercules graphics modes have four banks starting
+              at b000:0000, 2000, 4000, and 6000.
+
+   <span class="c1">bMemModel</span>  specifies the general type of memory organization used in this
+              mode.  The following models have been defined:
+
+               00H     = Text mode
+               01H     = CGA graphics
+               02H     = Hercules graphics
+               03H     = 4-plane planar
+               04H     = Packed pixel
+               05H     = Non-chain 4, 256 color
+               06H-0fH = Reserved, to be defined by VESA
+               10H-ffH = To be defined by OEM
+
+   <span class="c1">bBankSize</span>  specifies the size of a bank (group of scan lines) in units
+              of 1K.  For CGA and Hercules graphics modes this is 8, as each
+              bank is 8192 (2000H) bytes in length.  For modes that don't
+              have scanline banks (such as VGA modes 0Dh-13h), this field
+              should be set to 0.
+
+See Also: <a href="69-supervga_display_adapters__svga_.html">SVGA</a>
+          <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

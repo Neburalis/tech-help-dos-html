@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4fH: Find Next Matching File - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4fH: Find Next Matching File</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    4fH
+          <span class="c2">DS:DX</span> address of data from a previous Fn <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> Find 1st File
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY (i.e., if no more matches)
+          <a href="351-dta__disk_transfer_address.html">DTA</a>   is filled with a <a href="364-fileinforec.html">FileInfoRec</a> (if no error)
+          ──────────────────────────────────────────────────────────────────
+    Info: Continues a file search begun by a previous call to fn <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> (find
+          first file).
+
+    <span class="c2">DS:DX</span> points to a 43-byte buffer containing information returned by Fn
+          <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> (find first file) -- either the <a href="351-dta__disk_transfer_address.html">DTA</a> or a buffer copied from
+          the DTA.
+
+          Use this after a call to Fn <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a>.  The next filename matching the
+          selected wildcard filespec and <a href="361-file_attribute.html">file attribute</a> will be copied into
+          the buffer at DS:DX, along with other information (see
+          <a href="364-fileinforec.html">FileInfoRec</a> the layout of the return information and see Fn <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a>
+          for related details.
+
+   Notes: The <span class="c2">DS:DX</span> parameter is required for <span class="c2">DOS 3.0+</span>.  It enables you to
+          use recursive searching techniques more easily (for instance to
+          search an entire directory tree).
+
+See Also: Fn <a href="442-dos_fn_43h__set_or_query_file_attributes.html">43H</a> (find first file)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

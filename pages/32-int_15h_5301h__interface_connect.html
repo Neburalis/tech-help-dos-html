@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 5301H: Interface Connect - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 5301H: Interface Connect</h1><pre>
+ Expects: <span class="c2">AX</span>    5301H
+          <span class="c2">BX</span>    0000H (<a href="44-apm_device_id.html">power device ID</a> = System BIOS)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="43-apm_api_error_return_codes.html">APM error code</a> (if CF=CY)
+          ──────────────────────────────────────────────────────────────────
+    Info: This function informs the BIOS that you intend to cooperate with
+          the BIOS in power management.  For instance, it announces that
+          you will be making <a href="36-int_15h_5305h__cpu_idle.html">INT 15H 5305H</a> (CPU Idle) and <a href="37-int_15h_5306h__cpu_busy.html">INT 15H 5306H</a>
+          (CPU Busy) and <a href="38-int_15h_5307h__set_power_state.html">INT 15H 5307H</a> (Set Power State) calls.
+
+          This makes the connection for real-mode.  See <a href="33-int_15h_5302h__interface_connect__prot__mode_16_bit_.html">INT 15H 5302H</a> or
+          <a href="34-int_15h_5303h__interface_connect__prot__mode_32_bit_.html">INT 15H 5303H</a> for protected-mode connection.
+
+          You must make a connection via this fn or before using most other
+          APM API services.  Before you make this call, the BIOS will
+          supply its own default power management services; you would make
+          a connection if you think you can do a better job of keeping
+          track of power in some cases.
+
+See Also: <a href="29-advance_power_management__apm__functions.html">APM API</a>
+          <a href="30-about_advanced_power_management.html">About APM</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

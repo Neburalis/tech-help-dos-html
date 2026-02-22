@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Timer Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Timer Ports</h1><pre>
+  Ports <span class="c2">40H-43H</span> control the PC timer circuits.  There are three timer
+  channels:
+
+   0) Channel 0 is used as a general system timer.  It handles the periodic
+      &quot;timer-tick&quot;.  It is initialized by the BIOS to invoke <a href="105-int_08h__timer_interrupt.html">INT 08H</a>
+      (<a href="96-irqs__hardware_interrupts.html">IRQ</a> 0) 18.206 times per second (once every 54.936 milliseconds).
+
+   1) Channel 1 is used in a dedicated manner to support the <span class="c1">memory refresh</span>
+      function.  The output is used to generate a direct-memory access
+      (DMA) cycle request on DMA channel 0.  This DMA channel is used to
+      refresh the systems RAM by performing a dummy memory-read every so
+      often (once every 15 microseconds on the original PC).
+
+      This is <span class="c1">critical to system operation</span>, so we are usually advised to
+      keep &quot;hands off&quot;.  However, I have seen experiments in which this
+      timer was slowed down a bit in order to increase overall system
+      performance by a few percent.  Too slow of a value eventually causes
+      fatal memory errors.
+
+   2) Channel 2 is used to drive the audio speaker on the system board (it
+      originally handled cassette-tape I/O, but that is surely moot).  The
+      output of channel 2 can be directed to control the speaker via I/O
+      port 61H (see <a href="906-programmable_peripheral_interface__ppi__ports.html">PPI Ports</a> and <a href="903-pc_sounds___speaker_support.html">Speaker Control</a>).
+
+      Channel 2 is available for application-controlled timing tasks;
+      however, it is a global resource.  Rather than using direct port I/O
+      you are advised to use fns such as <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH</a> and <a href="221-int_15h_86h__wait.html">INT 15H 86H</a> for timed
+      operations.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 40H  Read/Write: Count value for counter 0
+                  Port 43H bits 4-5 control the way the counter is set.
+ 41H  Read/Write: Count value for counter 1
+ 41H  Read/Write: Count value for counter 2
+──── ───────────────────────────────────────────────────────────────────────
+ 43H  Write: set channel's mode of operation
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║<span class="c1">ch#</span>│<span class="c1">r/l</span>│<span class="c1">mode</span> │ ║
+      ╙─┴─┴─┴─┴─┴─┴─┴╥╜ bits mask
+       └╥┘ └╥┘ └─╥─┘ ╚═►  0: 01H 0=process count as binary
+        ║   ║    ║               1=process counts as BCD<a href="914-qbcd.html">▲</a>
+        ║   ║    ╚═════►1-3: 0eH select timer mode:
+        ║   ║                    000 = mode 0: interrupt on terminal count
+        ║   ║                    001 = mode 1: programmable one-shot
+        ║   ║                    x10 = mode 2: rate generator
+        ║   ║                    x11 = mode 3: square-wave rate generator
+        ║   ║                    100 = mode 4: software-triggered strobe
+        ║   ║                    101 = mode 5: hardware-triggered strobe
+        ║   ╚══════════►4-5: 30H select read/load sequence:
+        ║                        00 = latch counter for stable read
+        ║                        01 = read/load most significant byte only
+        ║                        10 = read/load least significant byte only
+        ║                        11 = read/load LSB then MSB
+        ╚══════════════►6-7: c0H specify counter to affect:
+                                 00 = counter 0, 01= counter 1
+                                 10 = counter 2, 11= counter 3
+
+See Also: <a href="903-pc_sounds___speaker_support.html">Speaker Control</a>
+          <a href="906-programmable_peripheral_interface__ppi__ports.html">PPI Ports</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

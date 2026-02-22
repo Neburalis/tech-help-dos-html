@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0e00H: Query Coprocessor Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0e00H: Query Coprocessor Status</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0d00H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          <span class="c2">AX</span>    coprocessor status bits (see below)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains information about a numeric coprocessor -- whether
+          one exists, its type, etc.
+
+       <span class="c2">AX</span> on return, contains the following bit codes:
+           1 1
+          ┌5┬4┬ - ┬7┬6┬5┬4┬3┬2┬1┬0┐
+          │    ...│  <span class="c1">type</span> │ │ │ │ │
+          └─┴─┴ - ┴─┴─┴─┴─┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+                  ╚══╦══╝ ║ ║ ║ ╚═►  0: 0001H 1=enabled for this client
+                     ║    ║ ║ ╚═══►  1: 0002H 1=client is emulating coproc
+                     ║    ║ ╚═════►  2: 0004H 1=numeric coproc is present
+                     ║    ╚═══════►  3: 0008H 1=host is emulating coproc
+                     ╚════════════►4-7: 00f0H coprocessor type: 0=none
+                                               2=80287; 3=80387; 4=80486
+                                               5=Pentium coproc
+
+   Notes: You can use <a href="609-int_31h_0400h__query_dpmi_version.html">INT 31H 0400H</a> to determine the CPU type, but you
+          should not make any assumptions about the presence or features of
+          a coprocessor based on the return from that call.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

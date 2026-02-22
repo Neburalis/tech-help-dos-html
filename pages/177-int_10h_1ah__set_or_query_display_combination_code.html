@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1aH: Set or Query Display Combination Code - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1aH: Set or Query Display Combination Code</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AH</span>    1aH
+          <span class="c2">AL</span>    Subfn: 00H= Query current display combination
+                       01H= Select DCC (activate a different display)
+          <span class="c2">BX</span>                <span class="c2">BL</span>=ID of active display;
+                            <span class="c2">BH</span>=ID of inactive display
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    1aH (if this fn is supported)
+          <span class="c2">BL</span>    ID of active display
+          <span class="c2">BH</span>    ID of inactive display
+          ──────────────────────────────────────────────────────────────────
+    Info: This returns or updates the DCC byte at 0040:008a.
+
+          When <span class="c2">AL</span>=00H, the current DCC code is returned in <span class="c2">BX</span>.
+          When <span class="c2">AL</span>=01H, the BIOS examines the DCC table to see if the
+          specified combination is valid, and then deactivates the video
+          subsystem identified in <span class="c2">BH</span> and activates that in <span class="c2">BL</span>.
+
+          The following display ID codes are recognized
+
+           00H no display   (<span class="c2">BH</span>=00H if only one display is installed)
+           01H MDPA on monochrome screen
+           02H CGA color                  07H VGA analog monochrome
+           04H EGA color                  08H VGA analog color
+           05H EGA monochrome             0bH Model 30 analog monochrome
+           06H PGC color                  0cH Model 30  analog color
+
+   Notes: DCC handling is mainly a feature of PS/2 hardware; it was
+          designed as a means to disable the VGA controller on the PS/2's
+          motherboard in order to take advantage of future improvements in
+          video technology.
+
+          Not many VGA BIOSes provide full support of display combination
+          switching, though most support subfn <span class="c2">AL</span>=00H to indicate type 08H
+          in <span class="c2">BL</span>.
+
+See Also: <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

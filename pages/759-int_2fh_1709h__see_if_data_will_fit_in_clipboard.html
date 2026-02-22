@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1709H: See if Data Will Fit in Clipboard - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1709H: See if Data Will Fit in Clipboard</h1><pre>                                                    Compatibility:  <span class="c2">WIN 3.0+</span>
+ Expects: <span class="c2">AX</span>    1709H
+          <span class="c2">SI:CX</span> desired memory size needed
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DX:AX</span> Largest block of free memory available to clipboard
+                0000:0000 = error or no memory
+          ──────────────────────────────────────────────────────────────────
+    Info: This checks to see if a specified amount of data will fit into
+          the clipboard.  It appears to call the Windows memory manager to
+          have it rearrange moveable memory blocks to make room for a
+          specified-size memory allocation.  Equivalent to
+          <span class="c2">ClipboardCompact</span>.
+
+          Typical usage is to set <span class="c2">SI</span> (high word) and <span class="c2">CX</span> (low word) to the
+          size of the data you intend to place in the clipboard.  Call this
+          fn, and if DX:AX returns with the same or larger value, then its
+          OK to go ahead with <a href="755-int_2fh_1703h__put_data_into_the_clipboard.html">INT 2fH 1703H</a> (put data into clipboard).
+
+See Also: <a href="751-int_2fh_17xxh__windows_clipboard_functions.html">INT 2fH 17xxH: Windows Clipboard Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

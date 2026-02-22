@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 67H: Set File Handle Count - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 67H: Set File Handle Count</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AH</span>    67H
+          <span class="c2">BX</span>    desired maximum number of <a href="362-file_handle.html">file handles</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This function sets the maximum number of file handles that can be
+          open concurrently by the calling program.
+
+          <span class="c2">BX</span> can range from 20 to 65535.  If less than 20, 20 is used.
+
+          If <span class="c2">BX</span> is less than the current maximum (that is, if you want to
+          shrink the number of handles) and more than BX files are
+          currently open, then the change will be delayed until there are
+          no more than the desired number of handles open.
+
+          If BX is greater than the current maximum (you want to increase
+          the number of handles), then <span class="c1">DOS must have memory available</span> to
+          allocate space for the new handles.  Use DOS Fn <a href="502-dos_fn_4ah__shrink_or_expand_a_memory_block.html">4aH</a> (SetBlock) to
+          shrink the current memory usage.  See <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a> for
+          a way to put handles in UMB<a href="927-qmemumb.html">▲</a> space.
+
+   Notes: ■ By default, the file handle table is contained in a reserved
+            portion of each program's <a href="371-psp__program_segment_prefix.html">PSP</a>.  This call tells DOS to allocate
+            some memory for an enlarged table.
+
+          ■ This affects only the current application.  The number of
+            handles available to the system itself is set by the FILES=
+            command in CONFIG.SYS.  It does not affect child processes.
+
+          ■ Remember that by default, 5 handles are used for standard I/O
+            devices.
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

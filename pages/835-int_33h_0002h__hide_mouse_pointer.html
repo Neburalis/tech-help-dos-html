@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0002H: Hide Mouse Pointer - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0002H: Hide Mouse Pointer</h1><pre>
+ Expects: <span class="c2">AX</span>    0002H
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This removes the mouse pointer from the screen (if it is
+          currently visible).  It actually decrements an internal pointer-
+          display cursor.  If that counter is 0 before the call, the mouse
+          pointer is removed from the screen.
+
+          Use this function before performing any direct writes to the
+          video display (if doing so will overwrite the mouse pointer) and
+          call <a href="834-int_33h_0001h__show_mouse_pointer.html">INT 33H 0001H</a> (show ptr) after writing to the screen.  See
+          the discussion of <span class="c1">Mouse Droppings</span> under <a href="832-int_33h__mouse_support.html">INT 33H</a>.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

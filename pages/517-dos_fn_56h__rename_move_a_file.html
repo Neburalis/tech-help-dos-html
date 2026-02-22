@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 56H: Rename/Move a File - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 56H: Rename/Move a File</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    56H
+          <span class="c2">DS:DX</span> address of ASCIIZ<a href="913-qasciiz.html">▲</a> string <span class="c1">szOldName</span> (existing file)
+          <span class="c2">ES:DI</span> address of ASCIIZ  string <span class="c1">szNewName</span> (desired path\filespec)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Renames a file or moves a file or directory to a different
+          directory on the same disk.
+
+          DS:DX and ES:DI point to an ASCIIZ strings in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">0</span>
+          If the drive or path is omitted, defaults are assumed.
+
+          The <span class="c1">szOldName</span> must exist and must not contain wildcards<a href="935-qwildcard.html">▲</a>.  The
+          drive and path are optional; if omitted, defaults are used.
+
+          The <span class="c1">szNewName</span> must NOT exist.  If a drive ID is used, then it
+          must match that of the <span class="c1">szOldName</span>.  If drive or path are omitted,
+          current defaults will be assumed.
+
+          If <span class="c1">szOldName</span> and <span class="c1">szNewName</span> contain different paths (explicitly or
+          as assumed by defaults) then the file entry will be <span class="c2">MOVED</span> to the
+          directory named in the <span class="c1">szNewName</span>.
+
+   Notes: ■ You can use this function to rename, but not move, a directory;
+            that is, the path part of <span class="c1">szNewName</span> must be explicitly the same
+            as the path part of <span class="c1">szOldName</span>.
+
+          ■ You cannot use this to move between drives (that's a copy
+            operation which must be performed in multiple steps).
+
+          ■ You can rename files and directories on a network drive only if
+            you have write permission on the network drive.
+
+          ■ For files, the <span class="c1">szOldName</span> must not be open by any process.
+
+See Also: <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

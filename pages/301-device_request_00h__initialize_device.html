@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Request 00H: Initialize device - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Request 00H: Initialize device</h1><pre>                                                                <a href="328-_blk_.html">◄Blk►</a> <a href="327-_chr_.html">◄Chr►</a>
+ This tells the driver to initialize itself and the device and to describe
+ how much memory it needs.
+
+<span class="c2">DevReq00Rec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bLen</span>         19H (length of this request packet)
+   +1      1  <span class="c1">bUnitNo</span>      (not used)
+   +2      1  <span class="c1">bCmd</span>         <span class="c2">00H</span> (command code)
+   +3      2  <span class="c1">rStatus</span>      OUTPUT: <a href="325-device_status_word.html">Device Status Word</a> must fill before exit
+   +5H     8  <span class="c1">res</span>          (reserved)
+  +0dH     1  <span class="c1">bUnits</span>       OUTPUT: number of units you support
+  +0eH     4  <span class="c1">pfEndAddr</span>    INPUT:  end of available memory for driver
+                           OUTPUT: end of resident code
+  +12H     4  <span class="c1">pfParms</span>      INPUT:  addr of DEVICE= line in CONFIG.SYS (<span class="c2">3.0+</span>)
+                           OUTPUT: addr of BPB pointer array
+  +16H     1  <span class="c1">bDrvNo</span>       INPUT:  first drive number
+  +17H     2  <span class="c1">wErrMsgFlag</span>  OUTPUT: 0000H=no error message (<span class="c2">4.0+</span>)
+          25               size of this structure
+
+     <span class="c1">rStatus</span>  On exit, the driver must place a <a href="325-device_status_word.html">DevStatusWord</a> here.  Always
+              set the Done bit (<span class="c1">bit 8</span>).  On an error, set the Done bit and
+              the Error bit (<span class="c1">bit 15</span>) and put a <a href="326-device_driver_errors.html">Device Error Code</a> in the low
+              byte.
+
+      <span class="c1">bUnits</span>  On exit, set this to the number of block devices supported by
+              this driver.
+
+   <span class="c1">pfEndAddr</span>  On entry, this contains the address (segment:offset) of the
+              end of memory available to the driver.
+
+              On exit, you must set this to the address of the byte
+              immediate after the last byte your driver wants to keep
+              resident in memory.
+
+              If you exit without installing, set this to your load addr.
+
+     <span class="c1">pfParms</span>  (<span class="c2">DOS 3.0+</span>) On entry, this is the address of the text directly
+              following the &quot;<span class="c2">DEVICE=</span>&quot; or &quot;<span class="c2">DEVICEHIGH [/L:nn,mm]=</span>&quot; in the
+              line of CONFIG.SYS that loads the driver.  The text ends with
+              a linefeed (<span class="c2">0aH</span>) or carriage return (<span class="c2">0dH</span>).
+
+              On exit, block device drivers should fill this field with the
+              far address of <span class="c1">bUnits</span> 25-byte <a href="338-bpb__bios_parameter_block.html">BPBRec</a> structures.
+
+      <span class="c1">bDrvNo</span>  On entry, this tells you the first available drive number
+              (0=A, 1=B, etc.)  Your block device(s) will be given <span class="c1">bUnits</span> of
+              these drive numbers.
+
+ <span class="c1">wErrMsgFlag</span>  On exit, if your driver fails to install, place 0001H in this
+              field and set bit 15 of <span class="c1">rStatus</span>.  DOS will display:
+
+                 <span class="c2">Config.Sys Error in line ##</span>
+
+   Notes: ■ It's OK to use DOS fns <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a>, <a href="406-dos_fn_25h__set_interrupt_vector.html">25H</a> (set int vector), <a href="417-dos_fn_30h__get_dos_version_number.html">30H</a> (get
+            version) and <a href="426-dos_fn_35h__get_interrupt_vector.html">35H</a> (get int vector) during initialization.
+
+          ■ This command will be used only once--directly after the driver
+            is loaded via CONFIG.SYS.  You can free up some memory by
+            placing the code that handles this request at the end of the
+            driver and setting <span class="c1">pfEndAddr</span> to not include that code.
+
+          ■ Block device drivers can use the <span class="c1">bDrvNo</span> field when displaying a
+            message (e.g, &quot;TAPE drive installed as drive <span class="c1">d</span>:&quot;).
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">DevRequestHdrRec</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>COUNTRY= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>COUNTRY= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 3.3+</span>
+ Purpose: Sets the date and time input and display format.  Also makes the
+          currency symbol and decimal separator available to programs which
+          use the low-level DOS function 38h.
+
+  Syntax: COUNTRY=<span class="c1">xxx</span>[,<span class="c1">yyy</span>]
+      or: COUNTRY=<span class="c1">xxx</span>[,[<span class="c1">yyy</span>],[<span class="c1">d:</span>]<span class="c1">filename</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+      <span class="c1">xxx</span> is the <a href="342-country_id_codes.html">country code</a> for desired date and time format.  This code
+          is the same as that used in the international telephone system.
+          The default (when there is no COUNTRY= command) is the USA (001).
+
+      <span class="c1">yyy</span> specifies a <a href="340-code_page.html">code page</a> (display/printer character set) to be used.
+
+ <span class="c1">filename</span> specifies the name of the file that contains the country
+                information.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ Codes used here correspond to those used in DOS fn <a href="431-dos_fn_38h__get_set_country_dependent_info.html">38H</a>.
+
+See Also: <a href="15-national_language_support_functions.html">National Language Support</a>
+          Fn <a href="544-dos_fn_6501h__get_extended_country_information.html">6501H</a> (get extended country Info)
+          Fn <a href="553-dos_fn_6601h__query_active_code_page.html">6601H</a> (query global code page)
+          Fn <a href="554-dos_fn_6602h__activate_code_page.html">6602H</a> (set global code page)
+                                    <span class="c3">-♦-</span></pre></body></html>

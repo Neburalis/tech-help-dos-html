@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 5309H: Restore System-BIOS Power-On Defaults - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 5309H: Restore System-BIOS Power-On Defaults</h1><pre>
+ Expects: <span class="c2">AX</span>    5309H
+          <span class="c2">BX</span>    ffffH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="43-apm_api_error_return_codes.html">APM error code</a> (if CF=CY)
+          ──────────────────────────────────────────────────────────────────
+    Info: This function resets the power management BIOS and reinitializes
+          all of its default settings.
+
+          You may access this service via <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> or by using the APM entry
+          address obtained via <a href="33-int_15h_5302h__interface_connect__prot__mode_16_bit_.html">INT 15H 5302H</a> or <a href="34-int_15h_5303h__interface_connect__prot__mode_32_bit_.html">INT 15H 5303H</a> (protected
+          mode connect).
+
+See Also: <a href="29-advance_power_management__apm__functions.html">APM API</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

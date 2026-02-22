@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 16H 12H: Query Extended Keyboard Shift Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 16H 12H: Query Extended Keyboard Shift Status</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    12H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="58-keyboard_shift_status_flags.html">KbdShiftFlags101Rec</a> (status of Ctl, Alt, Ins, etc)
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the current status of the shift keys and 'lock' states.
+          This is similar, but not exactly the same as the word at
+          0040:0017 in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>.
+
+   Notes: ■ The low-byte of the return value (<span class="c2">AL</span>) is identical for this fn
+            and <a href="231-int_16h_02h__query_keyboard_shift_status.html">INT 16H 02H</a>.  Only the high byte (<span class="c2">AH</span>) is encoded with
+            additional information.
+
+See Also: <a href="228-int_16h__keyboard_services.html">INT 16H</a> (BIOS keyboard services)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

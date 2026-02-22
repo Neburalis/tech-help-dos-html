@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1609H: Windows is Terminating - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1609H: Windows is Terminating</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+  Expect: <span class="c2">AX</span>    1609H
+          ──────────────────────────────────────────────────────────────────
+  Return: none
+          ──────────────────────────────────────────────────────────────────
+    Info: TSRs and DOS-level device drivers may intercept this function as
+          a way to be notified when Windows is terminating.  It lets you
+          prepare to return to operating in a non-Windows environment.
+
+          Windows calls this at the start of a Sys_VM_Terminate device
+          control call.  All devices still exist at the time of this call,
+          so you can still call device entry-point addresses, if necessary.
+
+See Also: <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

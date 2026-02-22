@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Error Codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Error Codes</h1><pre>
+ This topic lists error codes returned by <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a> (in <span class="c2">AX</span> when Carry
+ Flag is set) as well as extended information returned by fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a>.  Other
+ error-code listings in TECH Help!:  <a href="43-apm_api_error_return_codes.html">APM API Error/Return Codes</a>
+                                     <a href="326-device_driver_errors.html">Device Driver Errors</a>
+                                     <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error/Return Codes</a>
+                                     <a href="648-dpmi_error_codes.html">DPMI Error Codes</a>
+                                     <a href="680-emm_status.html">EMM Error/Status Codes</a>
+                                     <a href="821-mrci_api_error_return_codes.html">MRCI API Error/Return Codes</a>
+                                     <a href="265-power_on_error_codes.html">POST Error Codes</a>
+                                     <a href="963-xms_error_codes.html">XMS Error Codes</a>
+
+ Error #                                Error #
+ Hex Dec  Meaning                       Hex Dec  Meaning
+ ▀▀▀ ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀ ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 01H   1  Invalid function number       0aH  10  Invalid <a href="346-dos_environment.html">environment</a>
+ 02H   2  File not found                0bH  11  Invalid format
+ 03H   3  Path not found                0cH  12  Invalid access code
+ 04H   4  Too many open files           0dH  13  Invalid data
+ 05H   5  Access denied                 0eH  14  (not used)
+ 06H   6  Invalid handle                0fH  15  Invalid drive specified
+ 07H   7  Memory ctrl blocks destroyed  10H  16  Can't remove current dir
+ 08H   8  Insufficient memory           11H  17  Not same device
+ 09H   9  Invalid memory block address  12H  18  No more matching files
+
+<span class="c2">█▌Extended Error Codes▐█</span>
+  These codes (and the class/location/action codes below) are returned by
+  DOS fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> (DOS 3.0+).
+
+ Error #
+ Hex Dec  Meaning (returned in <span class="c2">AX</span> by Fn 59H)
+ ▀▀▀ ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  0    0  No error (don't expect 0 unless no error has EVER occurred)
+
+ 13H  19  Write-protected disk ────────── 0 ┐
+ 14H  20  Unknown unit ID                 1 │
+ 15H  21  Disk drive not ready            2 │
+ 16H  22  Unknown command                 3 │
+ 17H  23  Disk data error (CRC error)     4 ╞═►These correspond to error
+ 18H  24  Bad request structure length    5 │  codes 0-0cH passed in <span class="c2">DI</span> to
+ 19H  25  Disk seek error                 6 │  an <a href="564-int_24h__critical_error_handler.html">INT 24H</a> critical error
+ 1aH  26  Unknown disk media type         7 │  handler and they match the
+ 1bH  27  Disk sector not found           8 │  values in <span class="c2">AL</span> after errors
+ 1cH  28  Printer out of paper            9 │  in <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a>.
+ 1dH  29  Write fault error             0aH │
+ 1eH  30  Read fault error              0bH │
+ 1fH  31  General failure  ──────────── 0cH ┘
+
+ 20H  32  File sharing violation
+ 21H  33  File locking violation
+ 22H  34  Invalid disk change
+ 23H  35  FCB unavailable (too many FCBs)
+ 24H  36  Sharing buffer overflow
+ 25H-31H  (reserved)
+ 32H  50  Network request not supported
+ 33H  51  Remote computer not listening
+ 34H  52  Duplicate name on network
+ 35H  53  Network name not found
+ 36H  54  Network busy
+ 37H  55  Network device no longer exists
+ 38H  56  Net BIOS command limit exceeded
+ 39H  57  Network adapter hardware error
+ 3aH  58  Incorrect response from network
+ 3bH  59  Unexpected network error
+ 3cH  60  Incompatible remote adapter
+ 3dH  61  Print queue full
+ 3eH  62  Not enough space for print file
+ 3fH  63  Print file was deleted
+ 40H  64  Network name was deleted
+ 41H  65  Access denied
+ 42H  66  Incorrect network device type
+ 43H  67  Network name not found
+ 44H  68  Network name limit exceeded
+ 45H  69  Net BIOS session limit exceeded
+ 46H  70  Temporarily paused
+ 47H  71  Network request not accepted
+ 48H  72  Print or disk redirection is paused
+ 49H-4fH  (reserved)
+ 50H  80  File already exists
+ 51H  81  (reserved)
+ 52H  82  Cannot make directory entry
+ 53H  83  &quot;fail&quot; error from <a href="564-int_24h__critical_error_handler.html">INT 24H</a> Critical Error handler
+ 54H  84  Too many redirections
+ 55H  85  Duplicate redirection
+ 56H  86  Invalid password
+ 57H  87  Invalid parameter
+ 58H  88  Network data fault
+
+<span class="c2">█▌Error Class▐█</span>
+  These codes provide additional information to help you determine how to
+  handle the error.  Fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> returns these informational codes in <span class="c2">BH</span>.
+
+ Class #
+ Hex Dec  Meaning (returned in <span class="c2">BH</span> by Fn 59H)
+ ▀▀▀ ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 01H   1  Out of resource: no more FCBs, memory, channels, handles, etc.
+ 02H   2  Temporary situation: will go away in a while (e.g., locked file)
+ 03H   3  Authorization problem:  You need higher permission to do this
+ 04H   4  Internal error: DOS is at fault
+ 05H   5  Hardware failure
+ 06H   6  System failure: DOS is at fault
+ 07H   7  App. error: passed bad info to DOS, inconsistent request,etc.
+ 08H   8  Not found: requested file/item can't be found
+ 09H   9  Bad format: file/item in invalid format (EXE file bad, etc.)
+ 0aH  10  Locked: file/item locked
+ 0bH  11  Media error: wrong disk, disk CRC error, etc.
+ 0cH  12  Already exists: collision with existing file/item
+ 0dH  13  Unknown error class: classification doesn't exist
+
+<span class="c2">█▌Suggested Action▐█</span>
+  These codes indicate appropriate action to take when an error occurs.  The
+  idea is to limit your coding by NOT looking for specific error numbers in
+  your application.  Instead, maintain upward compatibility by taking the
+  suggested actions listed below.  Fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> returns these codes in <span class="c2">BL</span>.
+
+ Action#
+ Hex Dec  Meaning (returned in <span class="c2">BL</span> by Fn 59H)
+ ▀▀▀ ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 01H   1  <span class="c1">Retry</span>: Retry the operation a few times.  If the error continues
+          to occur, ask the user if he wants to continue or quit.
+
+ 02H   2  <span class="c1">Delay Retry</span>: Delay a while and retry the operation a few times.
+          If the error continues to occur, ask the user if she wants to
+          continue or quit.
+
+ 03H   3  <span class="c1">User Input</span>: If data presented to DOS was entered by a user, ask
+          the user to re-enter input (e.g., bad drive ID or pathname).
+
+ 04H   4  <span class="c1">Abort</span>: Abort the application, but it's OK to perform cleanup
+          operations such as closing files, updating indexes, releasing
+          memory blocks, etc.
+
+ 05H   5  <span class="c1">Immediate Exit</span>: Abort immediately without attempting cleanup.
+          The system is in an unhealthy state and immediate exit is best.
+
+ 06H   6  <span class="c1">Ignore</span>: The error doesn't make any difference.
+
+ 07H   7  <span class="c1">Retry after user action</span>: the user needs to perform some action,
+          such as inserting a diskette.  Prompt the user and then retry.
+
+<span class="c2">█▌Error Location▐█</span>
+  These codes are meant to help you figure out where the error occurred.
+  Fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> returns these informational codes in <span class="c2">CH</span>.
+
+ Locus #
+ Hex Dec  Meaning (returned in <span class="c2">CH</span> by Fn 59H)
+ ▀▀▀ ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 01H   1  Unknown: No specific area to pin-point error source
+ 02H   2  Block device: error occurred on disk or tape drive
+ 03H   3  (reserved)
+ 04H   4  Character device
+ 05H   5  Memory
+
+<span class="c2">█▌DOS Versions▐█</span>
+  Error handling is upwardly-compatible for all DOS versions.  These general
+  rules apply:
+
+    ■ DOS <span class="c2">1.x</span>: indicates some errors by placing 0ffH in <span class="c2">AL</span> upon return.
+
+    ■ DOS <span class="c2">2+</span>:  New 2.0+ calls indicate errors by setting the Carry Flag
+               (CF=CY=1) and putting an error code into <span class="c2">AX</span>.
+
+    ■ DOS <span class="c2">3+</span>:  2.0-6.0 calls still return error codes in <span class="c2">AX</span> when <span class="c2">CF</span>=CY.
+               IBM advised us in 1985 to use DOS Fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> to obtain error
+               information since this &quot;AX return code&quot; policy may change.
+               But I don't see that happening.
+
+See Also: DOS Fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> (get extended error info)
+          <a href="564-int_24h__critical_error_handler.html">INT 24H</a> Critical Error Handling
+          <a href="353-errormode_flag.html">ErrorMode Flag</a>
+          <a href="43-apm_api_error_return_codes.html">APM API Error/Return Codes</a>
+          <a href="326-device_driver_errors.html">Device Driver Errors</a>
+          <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error/Return Codes</a>
+          <a href="648-dpmi_error_codes.html">DPMI Error Codes</a>
+          <a href="680-emm_status.html">EMM Error/Status Codes</a>
+          <a href="821-mrci_api_error_return_codes.html">MRCI API Error/Return Codes</a>
+          <a href="963-xms_error_codes.html">XMS Error Codes</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 57xxH: Move/Exchange Memory - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 57xxH: Move/Exchange Memory</h1><pre>                                                     Compatibility: <span class="c2">EMS 4.0+</span>
+ Expects: <span class="c2">AH</span>    57H
+          <span class="c2">AL</span>    subfn: 00H=Move memory
+                       01H=Exchange memory
+          <span class="c2">DS:SI</span> address of an <span class="c2">EmsMoveInfoRec</span> (see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful; 92H is just a warning)
+          ──────────────────────────────────────────────────────────────────
+    Info: Use this to transfer blocks of memory into, out of, or within EMS
+          memory or conventional memory.  Segment overflow and overlapping
+          moves are allowed; blocks as large as 1M are allowed.
+
+    <span class="c2">DS:SI</span> points to a structure that describes the data to be
+          moved/exchanged.  If is formatted as:
+
+          <span class="c2">EmsMoveInfoRec</span>
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      4  <span class="c1">lRgnLength</span>    DWORD size, in bytes to move/xchg
+            +4      1  <span class="c1">bSrcType</span>      src type: 00H=conventional; 01H=EMS
+            +5      2  <span class="c1">wSrcHandle</span>    EMM Handle (or 0 if src in conv mem)
+            +7      2  <span class="c1">wSrcAddr</span>      src segment or page
+            +9      2  <span class="c1">wSrcOffset</span>    src offset within page or segment
+           +0bH     1  <span class="c1">bDestType</span>     dest type: 00H=conventional; 01H=EMS
+           +0cH     2  <span class="c1">wDestHandle</span>   EMM Handle (or 0 if dest in conv mem)
+           +0eH     2  <span class="c1">wDestAddr</span>     dest segment or page
+           +10H     2  <span class="c1">wDestOffset</span>   dest offset in page or segment
+                   18                size of this structure
+
+   Notes: a return code of 92H is not an error; just a warning.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

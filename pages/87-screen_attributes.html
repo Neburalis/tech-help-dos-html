@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Screen Attributes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Screen Attributes</h1><pre>
+ The text-mode screen is laid out as a series of byte-pairs, where the
+ first byte is any of 256 <a href="45-ascii.html">ASCII</a> characters and the second byte is a video
+ attribute; see <a href="88-color_table.html">Color Table</a> for a complete list.  For color/graphics
+ adapters in text mode, the attribute is defined as:
+
+ <span class="c2">ScrnAttrRec</span> -- blink enabled (default BIOS setting)
+ ╓7┬6┬5┬4┬3┬2┬1┬0╖
+ ║ │<span class="c1">bkgnd</span>│ <span class="c1">frgnd</span> ║
+ ╙─┴─┴─┴─┴─┴─┴─┴─╜ <span class="c1">bits</span>  <span class="c1">mask</span>
+  ║ ╚═╦═╝ ╚═════╩═► 0-3:  0fH  foreground color
+  ║   ╚═══════════► 4-6:  70H  background color
+  ╚═══════════════►   7:  80H  1=foreground flashes
+
+ <span class="c2">ScrnAttrRec</span> -- blink disabled
+ ╓7┬6┬5┬4┬3┬2┬1┬0╖
+ ║ <span class="c1">bkgnd</span> │ <span class="c1">frgnd</span> ║
+ ╙─┴─┴─┴─┴─┴─┴─┴─╜ <span class="c1">bits</span>  <span class="c1">mask</span>
+  ╚══╦══╝ ╚═════╩═► 0-3:  0fH  foreground color
+     ╚════════════► 4-6:  f0H  background color
+
+    <span class="c1">bits 0-3</span>  the foreground color (the color of the character itself).  It
+              may have one of the values:
+                <span class="c2">00H</span> black     <span class="c2">08H</span> gray
+                <span class="c2">01H</span> blue      <span class="c2">09H</span> bright blue
+                <span class="c2">02H</span> green     <span class="c2">0aH</span> bright green
+                <span class="c2">03H</span> cyan      <span class="c2">0bH</span> bright cyan
+                <span class="c2">04H</span> red       <span class="c2">0cH</span> bright red
+                <span class="c2">05H</span> magenta   <span class="c2">0dH</span> bright magenta
+                <span class="c2">06H</span> brown     <span class="c2">0eH</span> yellow
+                <span class="c2">07H</span> white     <span class="c2">0fH</span> bright white
+
+    <span class="c1">bits 4-6</span>  the background color.  When blink is enabled (the default BIOS
+              setting), this may have only values 0xH-7xH; that is, dark
+              colors.  When blink is disabled, the background may be any of
+              the 16 colors (0xH-fxH).
+
+       <span class="c1">bit 7</span>  foreground blinks.  When blink is enabled (the default), this
+              bit may be 1 (values 8xH-FxH) to make the foreground color
+              flash.  When blinks is disabled, this bit is part of the
+              background color.
+
+<span class="c2">█▌Blink Enabled/Disabled▐█</span>
+  By default, the video hardware is set to interpret attribute <span class="c1">bit 7</span> as the
+  &quot;foreground blinks&quot; flag.  This makes it possible to use only 8 background
+  colors.  Many modern programs enable all 16 background colors (256
+  combinations) by disabling character blink.  All standard monitor types
+  (MDA<a href="933-qvidmda.html">▲</a>, CGA<a href="931-qvidcga.html">▲</a>, EGA<a href="932-qvidega.html">▲</a>, and VGA<a href="934-qvidvga.html">▲</a>) are capable of disabling blink.
+
+  <span class="c2">On EGA and VGA</span>, just use <a href="140-int_10h_1003h__select_foreground_blink_or_bold_background.html">INT 10H 1003H</a> to enable or disable blinking.
+  <span class="c2">On MDA and CGA</span>, you can turn off blinking by clearing bit 5 of the Mode
+  Select Register.  For instance:
+
+          mov ax,40H
+          mov es,ax
+          mov dx,es:[063H]  ;get port address of the card
+          add dx,4
+
+          mov al,es:[065H]  ;get current value of Mode Select Register
+          and al,0dfH       ;mask value by 1101 1111 (to clear bit 5)
+          out dx,al         ;disable blink
+          mov es:[065H],al  ;save the new setting
+
+  <span class="c2">When</span> <span class="c2">DOS 4.0+ </span><a href="50-ansi_console_escape_sequences.html">ANSI.SYS</a> <span class="c2">is installed</span>, you may use DOS fn <a href="463-dos_fn_440ch_cl_5fh__ioctl_set_display_mode.html">440cH 5fH</a> to
+  change the blink/bold status; see the <a href="491-ioctldisplaymoderec.html">IoctlDisplayModeRec</a>.<span class="c1">wFlags</span> field.
+
+<span class="c2">█▌EGA and VGA Colors▐█</span>
+  On <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> and <a href="70-video_graphics_array__vga_.html">VGA</a> adapters, the color attributes can be redefined.  An
+  attribute byte stored in video memory actually specifies one of 64
+  different color combinations (plus blink).
+
+  For instance, you can use fn <a href="137-int_10h_1000h__set_one_palette_register.html">INT 10H 1000H</a> to set the color attribute
+  that normally displays as &quot;black-on-white&quot; to show as &quot;yellow-on-blue&quot; or
+  any other combination.
+
+  On VGAs, you can have very fine control over the colors displayed.  You
+  can use <a href="144-int_10h_1010h__set_one_dac_color_register.html">INT 10H 1010H</a> (et. al) to reprogram the DAC color registers to
+  select any of 262,144 possible colors for any attribute.
+
+<span class="c2">█▌EGA and VGA 512-character Fonts▐█</span>
+  EGAs and VGAs can be set in a rarely-seen mode in which bit 3 of the
+  attribute selects a different screen font.  For instance, this provides a
+  way to display both italics and upright text simultaneously (though you
+  end up with only 8 foreground colors).
+
+  <span class="c2">ScrnAttrRec</span> -- 512-character set enabled
+  ╓7┬6┬5┬4┬3┬2┬1┬0╖
+  ║ │<span class="c1">bkgnd</span>│<span class="c1">s</span>│<span class="c1">frgnd</span>║
+  ╙─┴─┴─┴─┴─┴─┴─┴─╜  <span class="c1">bits</span> <span class="c1">mask</span>
+   ║ ╚═╦═╝ ║ ╚═══╩═► 0-2:  07H  foreground color (0-7)
+   ║   ║   ╚═══════►   3:  08H  character set (font) number (0-1)
+   ║   ╚═══════════► 4-6:  70H  background color
+   ╚═══════════════►   7:  80H  foreground flashes (or bold background)
+
+  See <a href="155-int_10h_1103h__activate_font_block.html">INT 10H 1103H</a> (enable/select 512-character font) for details.
+
+<span class="c2">█▌MDA Limitations▐█</span>
+  Although any attribute can be used on any monitor, some monitors aren't
+  capable of displaying the full range of colors.  Use this chart for
+  selecting pleasing and readable combinations for your target monitor:
+
+      TTL Monochrome Monitors<a href="933-qvidmda.html">▲</a>     █     Black-and-White Monitors
+  ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+  <span class="c2">01H</span> <span class="c1">underline</span>                    █ <span class="c2">07H</span> normal (white on black)
+  <span class="c2">07H</span> normal (white on black)      █ <span class="c2">08H</span> grey on black
+  <span class="c2">09H</span> bright <span class="c1">underline</span>             █ <span class="c2">0fH</span> bold (bright white on black)
+  <span class="c2">0fH</span> bold (bright white on black) █ <span class="c2">70H</span> reverse (black on white)
+  <span class="c2">70H</span> reverse (black on white)     █ <span class="c2">78H</span> grey on white
+  <span class="c2">81H</span> blinking <span class="c1">underline</span>           █ <span class="c2">7fH</span> bright white on white
+  <span class="c2">87H</span> blinking normal              █ <span class="c2">87H</span> blinking normal
+  <span class="c2">89H</span> blinking bright <span class="c1">underline</span>    █ <span class="c2">8fH</span> blinking bold
+  <span class="c2">8fH</span> blinking bold                █
+
+ The IBM Monochrome monitor<a href="933-qvidmda.html">▲</a> is able to display only the combinations
+ listed above.  Other attributes are displayed as &quot;normal&quot; white on black.
+
+See Also: <a href="66-color_graphics_adapter__cga_.html">CGA</a>  <a href="68-monochrome_display_adapter__mda_.html">MDA</a>  <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>  <a href="70-video_graphics_array__vga_.html">VGA</a>
+          <a href="88-color_table.html">Color Table</a>
+          <a href="114-video_modes.html">Video Modes</a>
+          <a href="89-video_memory_layouts.html">Video Memory Layouts</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="113-int_10h__video_services.html">INT 10H</a>
+          <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

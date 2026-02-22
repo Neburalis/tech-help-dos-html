@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4401H: IOCTL Set Device/File Flags - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4401H: IOCTL Set Device/File Flags</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AX</span>    4401H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device only)
+          <span class="c2">DX</span>    <a href="484-ioctl_device_or_file_info.html">IOCTL device info</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This can change certain aspects of how DOS handles I/O with some
+          devices.  It cannot be used to affect disk file handles.
+
+          Bits 8-15 (i.e. DH) <span class="c2">must be 0</span>
+          Bit  7 must be set (1) to indicate a device
+          Bit  5 selects &quot;raw&quot; or &quot;cooked&quot; mode for character devices
+          Other bits specify special devices.  See <a href="484-ioctl_device_or_file_info.html">IOCTL device info</a>.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="446-dos_fn_4400h__ioctl_query_device_file_flags.html">4400H</a> (Query Device/File Flags)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CGA Video Snow and CLS Flash - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CGA Video Snow and CLS Flash</h1><pre><span class="c2">█▌Video Snow▐█</span>
+  When writing a program that may run on a <a href="66-color_graphics_adapter__cga_.html">CGA</a>, you must take special action
+  to avoid annoying artifacts that appear on the screen when you access
+  video memory directly.  (Note: This is <span class="c1">NOT a problem with any other</span>
+  <span class="c1">monitor types</span>; even many CGAs, such as emulated CGA on an LCD screen, do
+  not have the &quot;video snow&quot; problem).
+
+  To avoid video snow, you must write to video memory only during the
+  retrace period.  You can check for retrace by using:
+
+       les di,vidAddr     ;ES:DI=&gt; address to write (e.g., b800:0000)
+       cli                ;stop interrupts from screwing up the timing
+    waitForNoRetrace:
+       mov  dx,3daH       ;CRT Status register.  See <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>.
+       in   al,dx
+       test al,01h        ;out of retrace yet?
+       jz   waitForNoRetrace
+
+    waitForRetrace:
+       in   al,dx
+       test al,01h        ;in retrace yet?
+       jz waitForRetrace
+
+    okToWrite:
+       mov  ax,charAndAttr ;get character and attribute to write
+       stosw               ;write it
+       sti                 ;let interrupts happen
+
+  This sequence first waits until the CGA is NOT in retrace, then waits
+  until retrace begins, then immediately writes the data.  On the oldest
+  4.77 Mhz PCs, there is just enough time to write one or maybe two
+  characters to video memory before horizontal retrace ends.
+
+  A CGA-optimized video library can squeeze out better performance by
+  waiting for vertical retrace (test dx,08h).  At that point, you can
+  write just over 160 bytes without causing snow.
+
+  There is no way to know if a CGA has this problem.  Most software provides
+  a means, such as a command-line option, to enable or disable the code that
+  synchronizes video access with video retrace.
+
+<span class="c2">█▌CLS Flash▐█</span>
+  The oldest CGA BIOS uses an irritating technique when it clears the screen
+  (for instance, via <a href="121-int_10h_06h__scroll_up___clear_screen_rectangle.html">INT 10H 06H</a>.  It disables the video signal, so it can
+  write lots of data to video memory without awaiting retrace.
+
+  This works fine when most of the screen is black, but if the screen is
+  mostly blue (or other color), then you see an annoying flash of black
+  whenever the screen scrolls.
+
+  A complete video library should include its own CGA-aware CLS function to
+  avoid this problem.
+
+See Also: <a href="66-color_graphics_adapter__cga_.html">CGA</a>
+          <a href="89-video_memory_layouts.html">Video Memory Layouts</a>
+          <a href="114-video_modes.html">Video Modes</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

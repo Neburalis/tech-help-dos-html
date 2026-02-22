@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwNtfy Fn 0000H: A Switcher Is Being Initialized - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwNtfy Fn 0000H: A Switcher Is Being Initialized</h1><pre>
+  Expect: <span class="c2">AX</span>    0000H
+          <span class="c2">ES:DI</span> addr of switcher's service-entry address
+          ──────────────────────────────────────────────────────────────────
+  Return: <span class="c2">AX</span>    0000H if OK, as far as you're concerned
+          ──────────────────────────────────────────────────────────────────
+    Info: Task switchers call this fn when they are initialized.
+
+          Programs that must take special action to coexist with a task
+          switcher may need to handle this notification fn, but in most
+          cases, it can be ignored.
+
+    <span class="c2">ES:SI</span> will contain the task switcher's service entry address.  You can
+          call that address with AX=0000H if you want some information
+          about the task switcher that is being initialized.
+
+  Return: <span class="c2">AX</span>=0000H if you have no objections to this new switcher being
+          installed.  If a program returns a non-zero value, all tasks may
+          receive <a href="722-swntfy_fn_0007h__switcher_is_exiting.html">SwNtfyFn 0007H</a> (switcher is exiting).
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

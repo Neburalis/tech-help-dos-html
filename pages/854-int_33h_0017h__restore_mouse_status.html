@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0017H: Restore Mouse Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0017H: Restore Mouse Status</h1><pre>
+ Expects: <span class="c2">AX</span>    0017H
+          <span class="c2">ES:DX</span> address of buffer containing saved mouse status
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: Use this function to restore mouse-driver status information
+          which you obtained via a previous call to <a href="853-int_33h_0016h__save_mouse_status.html">INT 33H 0016H</a> (e.g.,
+          when your <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> program is about to return control to an
+          interrupted program or you get control back from a child process
+          after using DOS Fn <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> EXEC).
+
+          The buffer at <span class="c2">ES:DX</span> should contain data obtained via
+          <a href="853-int_33h_0016h__save_mouse_status.html">INT 33H 0016H</a> (the buffer layout is not documented) and it
+          should be the size returned by <a href="852-int_33h_0015h__query_size_of_mouse_status_buffer.html">INT 33H 0015H</a>.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

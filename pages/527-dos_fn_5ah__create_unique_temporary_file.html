@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5aH: Create Unique Temporary File - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5aH: Create Unique Temporary File</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AH</span>    5aH
+          <span class="c2">DS:DX</span> address of ASCIIZ<a href="913-qasciiz.html">▲</a> path (i.e., <span class="c1">d:\path\</span><span class="c2">0</span>)
+          <span class="c2">CX</span>    <a href="361-file_attribute.html">file attribute</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+                <a href="362-file_handle.html">file handle</a> (if no error)
+          <span class="c2">DS:DX</span> (+<span class="c1">n</span>) filename has been appended to path
+          ──────────────────────────────────────────────────────────────────
+    Info: Creates (opens) a file with a unique filename in a specified
+          directory and returns a handle to that file and its full name.
+          The DOS command processor uses this function to create the
+          temporary &quot;piping&quot; files used in I/O redirection.
+
+          The pathspec must be ready to receive a filename at its end; that
+          is, the last character must be a backslash (<span class="c2">\</span>) and you must
+          provide at least 12 bytes at the end of the string.  In summary,
+          it must be in the form:
+
+            &quot;<span class="c1">d</span>:\<span class="c1">path</span>\&quot;,0  (specify drive and path)       ...OR...
+            &quot;<span class="c1">d</span>:&quot;,0        (default directory of a drive) ...OR...
+            &quot;<span class="c1">d</span>:\&quot;,0       (root directory of a drive)    ...OR...
+            &quot;&quot;,0          (default drive and directory)
+
+          Upon return, the string at DS:DX has a unique filename appended
+          to it and the file is open for read/write <a href="336-access_mode___open_mode.html">Access Mode</a>.
+
+   Notes: ■ DOS builds a filename of hex digits obtained from the current
+            system date/time.  If the filename already exists, DOS keeps
+            trying new names until a file can be created.
+
+          ■ The files created ARE NOT really TEMPORARY, and must be deleted
+            via Fn <a href="440-dos_fn_41h__delete_file.html">41H</a> if you don't want them to clutter up your
+            directories.
+
+          ■ It is good practice to check the <a href="346-dos_environment.html">environment</a> for a variable
+            named <span class="c2">TEMP</span> and use its value as the directory for the file.
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

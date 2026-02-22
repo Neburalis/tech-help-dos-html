@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0014H: Exchange Mouse Event Handler - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0014H: Exchange Mouse Event Handler</h1><pre>
+ Expects: <span class="c2">AX</span>    0014H
+          <span class="c2">CX</span>    event mask (events which you want sent to your handler)
+                  bit 0 = mouse movement           (CX | 01H)
+                  bit 1 = left button pressed      (CX | 02H)
+                  bit 2 = left button released     (CX | 04H)
+                  bit 3 = right button pressed     (CX | 08H)
+                  bit 4 = right button released    (CX | 10H)
+                  bit 5 = center button pressed    (CX | 20H)
+                  bit 6 = center button released   (CX | 40H)
+                  <span class="c1">All events:      CX = 007fH</span>
+          <span class="c2">ES:DX</span> address of your event handler code
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CX</span>    event mask of previous event handler
+          <span class="c2">ES:DX</span> address of the previously-installed event handler code
+          ──────────────────────────────────────────────────────────────────
+    Info: This function works like <a href="845-int_33h_000ch__set_mouse_event_handler.html">INT 33H 000cH</a> (which see for details).
+          The only difference is that upon return, you obtain the address
+          and event mask of the previously-installed event handler.
+
+          This provides a way to install an event handler <span class="c1">temporarily</span>; that
+          is, you can install one while performing a certain subroutine,
+          then restore the previous one when you exit that subroutine.
+
+          This also provides a way to <span class="c1">chain</span> event handlers.  Install a
+          handler for all events, and if you get an event which you don't
+          really care about, pass it on to the previously-installed handler
+          (assuming its event mask shows that it expects the event).
+
+   Notes: <a href="855-int_33h_0018h__set_alternate_event_handler.html">INT 33H 0018H</a> provides a flexible means for installing up to
+          three specialized-event handlers.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

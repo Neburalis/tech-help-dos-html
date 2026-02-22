@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4000H: Enable VM-Assisted Video Save/Restore - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4000H: Enable VM-Assisted Video Save/Restore</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    4000H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    video support: 00H no support provided
+                               01H no modes virtualized in background
+                               02H only text modes virtualized in background
+                               03H only text and single-plane graphics modes
+                               04H only text, single plane and VGA gfx modes
+                               ffH all supported video modes virtualized
+          ──────────────────────────────────────────────────────────────────
+    Info: This allows a VM-aware application to gain more control over how
+          the screen is saved and restored by the VDD (Virtual Device
+          driver).  This is typically called when the VM-aware app is
+          initializing.  After calling:
+
+          ■ The VDD saves the current settings of the video registers.  The
+            VDD will use these settings before calling <a href="784-int_2fh_4005h__save_video_register_state.html">INT 2fH 4005H</a> and
+            <a href="785-int_2fh_4006h__restore_video_register_state.html">INT 2fH 4006H</a> (save and restore video register).
+
+          ■ The VDD will use <a href="784-int_2fh_4005h__save_video_register_state.html">INT 2fH 4005H</a> and <a href="785-int_2fh_4006h__restore_video_register_state.html">INT 2fH 4006H</a> when it needs
+            to save and restore video register settings.  The idea is that
+            you can provide your own handler for these fns.
+
+          ■ The VDD will no longer save the contents of the virtual display
+            across screen switches.  It will be your responsibility to
+            intercept <a href="781-int_2fh_4002h__notify_foreground_switch.html">INT 2fH 4002H</a> and refresh your own video mode and
+            screen when you are switched to the foreground.
+
+          Use <a href="786-int_2fh_4007h__disable_vm_assisted_video_save_restore.html">INT 2fH 4007H</a> (disable VM-assisted video save/restore) to
+          return to allowing the VDD to have full responsibilities.
+
+See Also: <a href="778-int_2fh_40xxh__virtual_display_driver_functions.html">INT 2fH 40xxH: Virtual Display Driver Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

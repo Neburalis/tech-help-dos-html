@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0a00H: Get Vendor-Specific API Entry Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0a00H: Get Vendor-Specific API Entry Address</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0a00H
+          <span class="c2">DS:SI</span> (or <span class="c2">DS:ESI</span>) addr of an ASCIIZ<a href="913-qasciiz.html">▲</a> string which identifies the
+                DPMI host vendor
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>) address of API extension API entry address
+          ──────────────────────────────────────────────────────────────────
+    Info: If a specific DPMI host vendor supplies an extended API of DPMI
+          services, you may use this fn to obtain the address of the host
+          code that provides those services.
+
+          Use a FAR CALL to access the extended API.
+
+   Notes: ■ <span class="c2">DPMI 1.0+</span> clients should use <a href="574-int_2fh_168ah__get_vendor_specific_dpmi_api_entry_address.html">INT 2fH 168aH</a> rather than this fn.
+
+          ■ The string passed via <span class="c2">ES:(E)DI</span> must match the vendor's name
+            exactly; the comparison is case-sensitive.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

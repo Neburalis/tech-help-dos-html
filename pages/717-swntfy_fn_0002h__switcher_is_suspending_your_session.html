@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwNtfy Fn 0002H: Switcher Is Suspending Your Session - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwNtfy Fn 0002H: Switcher Is Suspending Your Session</h1><pre>
+  Expect: <span class="c2">AX</span>    0002H
+          <span class="c2">BX</span>    ID of the session that is about to be suspended
+          <span class="c2">ES:DI</span> addr of switcher's service-entry address
+          ──────────────────────────────────────────────────────────────────
+  Return: <span class="c2">AX</span>    0000H if OK to suspend, as far as you're concerned
+                0001H if you object to the switch
+          ──────────────────────────────────────────────────────────────────
+    Info: Task switchers first call <a href="716-swntfy_fn_0001h__can_switcher_suspend_your_session_.html">SwNtfyFn 0001H</a> to see if a session
+          switch is OK, then they call this fn directly before suspending
+          your session.  This is the last chance for your application to
+          prevent the switch.  When called, interrupts are <span class="c1">disabled</span> you
+          should <span class="c1">NOT</span> use any DOS fns.
+
+       <span class="c2">BX</span> will contain the session ID of the session that is about to be
+          switched out.  Global TSRs may wish to take special actions for
+          each session.
+
+    <span class="c2">ES:SI</span> will contain the task switcher's service entry address.  Use this
+          address if you need to call service fns such as <a href="724-swsrvc_fn_0001h__test_memory_region.html">SwSrvcFn 0001H</a>
+          (test memory region) to determine how you feel about being
+          switched out.
+
+  Return: <span class="c2">AX</span>=0000H if you have no objection to being switched out. If any
+          task returns a non-zero value, the session will not be switched
+          out and all tasks may receive <a href="719-swntfy_fn_0004h__session_is_now_active.html">SwNtfyFn 0004H</a> (session is active).
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

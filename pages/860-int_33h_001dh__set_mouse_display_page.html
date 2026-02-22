@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 001dH: Set Mouse Display Page - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 001dH: Set Mouse Display Page</h1><pre>
+ Expects: <span class="c2">AX</span>    001dH
+          <span class="c2">BX</span>    video page number to use for displaying the mouse pointer
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This tells the mouse support which video page to display the
+          mouse pointer.  By default, the pointer is displayed on page 0.
+
+          <a href="861-int_33h_001eh__query_mouse_display_page.html">INT 33H 001eH</a> returns the current video page used by the mouse
+          support.
+
+          This fn <span class="c1">does not</span> activate the specified video page.  Use
+          <a href="120-int_10h_05h__select_video_page.html">INT 10H 05H</a> to do that.  Use <a href="130-int_10h_0fh__query_current_video_info.html">INT 10H 0fH</a> to see which video page
+          is currently active.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

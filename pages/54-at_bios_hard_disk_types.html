@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>AT BIOS Hard Disk Types - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>AT BIOS Hard Disk Types</h1><pre>
+ The following drive types are pre-defined in the <a href="830-system_compatibility.html">AT</a> and <a href="830-system_compatibility.html">PS/2</a> ROM-BIOS.
+ During <a href="264-power_on_self_test.html">POST</a>, the value in <a href="60-cmos_storage_layout.html">CMOS Memory</a> address 12H (and/or 19H-1aH) is read
+ and the vectors for <a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">INT 41H</a> and <a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">INT 46H</a> are set to a ROM table containing
+ the information for the types of drive(s) installed.
+
+    Note: This table is probably NOT reliable for your computer.  See
+          Notes, below.
+
+                   Write   Land                       Write   Land
+     Type Cyls Hds PreComp Zone Size    Type Cyls Hds PreComp Zone Size
+     ▀▀▀▀ ▀▀▀▀ ▀▀▀ ▀▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀    ▀▀▀▀ ▀▀▀▀ ▀▀▀ ▀▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀
+      0   (no fixed disk installed)     17   977   5  300      977  42M
+      1   306   4  128     305   10M    18   977   7  0ffffH   977  59M
+      2   615   4  300     615   21M    19  1024   7  512     1023  62M
+      3   615   6  300     615   32M    20   733   5  300      732  31M
+      4   940   8  512     940   65M    21   733   7  300      732  44M
+      5   940   6  512     940   49M    22   733   5  300      733  31M
+      6   615   4  0ffffH  615   21M    23   306   4  0        336  10M
+      7   462   8  256     511   32M    24   612   4  305      663  22M
+      8   733   5  0ffffH  733   31M    25   306   4  0ffffH   340  10M
+      9   900  15  0ffffH  901  117M    26   612   4  0ffffH   670  21M
+     10   820   3  0ffffH  820   21M    27   698   7  300      732  43M
+     11   855   5  0ffffH  855   37M    28   967   5  488      977  42M
+     12   855   7  0ffffH  855   52M    29   306   4  0        340  11M
+     13   306   8  128     319   21M    30   611   4  306      663  21M
+     14   733   7  0ffffH  733   44M    31   732   7  300      732  46M
+     15   <span class="c1">reserved</span> (see notes)          32  1023   5  ffffH   1023  46M
+     16   612   4  0       663   21M    (33-255 reserved, see notes)
+
+   Notes: ■ The drive-type table in ROM is a major point of departure for
+            the various BIOS makers.  The above table identifies values
+            used in IBM's BIOS.  Some BIOSes identify over 100 drive types.
+            Alas, there is no documented ROM address where you can hope to
+            find the table.
+
+          ■ Type 1 is the original XT hard disk
+          ■ Type 2 is the standard 20M AT hard disk
+          ■ Type 15 is reserved. That value in <a href="60-cmos_storage_layout.html">CMOS</a> address 12H tells the
+            system to look in CMOS address 19H for drive C: and 1aH for
+            drive D:
+          ■ Types 16-23 were added to ROM-BIOS of 11/15/85
+          ■ Types 24-32 were added to <a href="830-system_compatibility.html">PS/2</a> BIOS
+
+          ■ Write PreComp selects the lowest cylinder at which the
+            controller is to use different timing for writing.  ffffH
+            means none; 0 means all.
+
+ Newer BIOSes provide a means to define a custom setting.  The setting will
+ be stored in an undocumented location in CMOS memory (and is lost if the
+ battery ever fails -- so write it down!)
+
+ On older BIOSes it is difficult (but possible) to use drives that are not
+ in the table.  You must install a table with the correct parameters and
+ force BIOS and DOS to notice the changes.  Some hard-disk peprearation
+ tools handle this by creating a custom <a href="345-disk_partition_table.html">Master Boot Record</a> that
+ installs the table at boot time.
+
+See Also: <a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a>
+          <a href="264-power_on_self_test.html">POST</a>
+          <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

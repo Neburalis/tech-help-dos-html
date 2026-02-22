@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 170aH: Obtain Device Capabilities - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 170aH: Obtain Device Capabilities</h1><pre>                                                    Compatibility:  <span class="c2">WIN 3.0+</span>
+ Expects: <span class="c2">AX</span>    170aH
+          <span class="c2">DX</span>    GDI information index (see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    integer value of desired item
+                0000h = error
+          ──────────────────────────────────────────────────────────────────
+    Info: This can be used to obtain information about the capabilities of
+          the Windows display device driver. Equivalent to <span class="c2">GetDeviceCaps</span>.
+
+          This calls the windows fn GetDeviceCaps, passing an hDC (handle
+          to a Device Context) of the display device.
+
+       <span class="c2">DX</span> is one of the index numbers that may be used in the Windows
+          GetDeviceCaps call.  For instance, <span class="c2">DX</span>=0004H obtains the
+          horizontal size of the display, in pixels and <span class="c2">DX</span>=0006H obtains
+          the vertical size.
+
+          These index values (and the often bit-encoded) return values can
+          be found by browsing the Windows.H - part of the SDK.
+
+    Note: It's not clear to me why this fn is included with the Clipboard
+          fns.
+
+See Also: <a href="751-int_2fh_17xxh__windows_clipboard_functions.html">INT 2fH 17xxH: Windows Clipboard Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 02H: Non-Maskable Interrupt - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 02H: Non-Maskable Interrupt</h1><pre>
+ The non-maskable interrupt (<span class="c2">NMI</span>) is the only interrupt which is not
+ disabled by the CLI instruction, so it can be used in special cases that
+ need immediate attention.
+
+ It is designed to handle catastrophic problems such as a power failure.
+ In a fail-safe system, the NMI could dump RAM to disk storage in an
+ attempt to save data before all was lost.
+
+ In the standard PC BIOS, the NMI is hard-wired to be executed in the event
+ of a memory parity error.  When it occurs, the PC locks up and dies.  Now
+ don't you feel safer knowing that everything in memory will be lost rather
+ than a few bits?
+
+ The 8087/80287 math coprocessor is tied to the NMI line and causes an
+ interrupt when it encounters an exception condition (e.g., division by 0).
+
+ Typically you must read I/O Port 64H to find if a memory error occurred
+ and if not, perform an FNSAVE to find what caused the 8087 exception, then
+ FNCLX to clear the error.
+
+    Note: <span class="c2">PCjr</span> uses the NMI to detect keystrokes from the infrared linkup.
+
+See Also: <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INSTALL= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INSTALL= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 4.0+</span>
+ Purpose: Loads and executes a TSR<a href="917-qtsr.html">▲</a> (before starting AUTOEXEC.BAT).
+
+    Uses: ■ Avoid some memory loss due to DOS <a href="346-dos_environment.html">environment</a> duplication.
+
+          ■ Hide installation of system-level programs such as Share and
+            Nlsfunc in the &quot;permanent&quot; <a href="267-the_config_sys_file.html">CONFIG.SYS</a> file, rather than loading
+            them in the often-edited <span class="c2">AUTOEXEC.BAT</span> file.
+
+          ■ Give your favorite TSR a chance at intercepting interrupt
+            vectors before COMMAND.COM is loaded.
+
+  Syntax: INSTALL=[<span class="c1">d:</span>][<span class="c1">path</span>]<span class="c1">filename.ext</span> [<span class="c1">progParms</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+<span class="c1">d:\path\filename.ext</span> is the drive, path, filename and extension of the
+          program to be installed.  Only certain DOS external commands and
+          third-party TSR<a href="917-qtsr.html">▲</a> programs can be installed this way.
+
+<span class="c1">progParms</span> specifies command-line parameters (filenames, switches, etc.) for
+          the program being installed.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ On DOS versions prior to <span class="c2">DOS 6.0</span>, a TSR loaded via INSTALL= does not
+    have access to a valid <a href="346-dos_environment.html">DOS Environment</a> block.  DOS 6.0+ does provide a
+    copy of the DOS environment and does follow the standards described in
+    <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>.
+
+    HOWEVER, the environment block does NOT remain in memory after
+    installation.  TSRs should access it only when starting up.
+
+  ■ Your TSR may wish to allocate upper memory when it is available (see
+    <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a> for info).  However, you should always provide a
+    command-line switch to force it to use only conventional<a href="924-qmemconv.html">▲</a> memory (or
+    you'll irritate folks who are saving their UMBs for special purposes.
+
+See Also: <a href="284-installhigh___config_sys_command_.html">INSTALLHIGH=</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

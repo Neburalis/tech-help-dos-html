@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 20H: Program Terminate - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 20H: Program Terminate</h1><pre>
+ This interrupt is a <a href="21-superseded_dos_functions.html">superseded fn</a>.  When running under <span class="c2">DOS 2.0+</span>, you
+ should use fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> instead.  It is still supported and may be used to exit
+ from a program and return control to its parent (usually COMMAND.COM).
+
+    <span class="c2">Note:</span> The <span class="c2">CS</span> register must contain the value of the <a href="371-psp__program_segment_prefix.html">PSP</a> for the
+          terminating process.
+
+          COM-format programs usually run with CS=PSP, so they may issue
+          INT 20H at any time.  EXE programs may perform a FAR JMP or a FAR
+          RET to pass control to PSP:0000 which contains an INT 20H
+          instruction.
+
+ As with other program termination services:
+
+ ■ It restores the values of DOS vectors:  <a href="562-int_22h__terminate_address.html">INT 22H</a>  <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a>  <a href="564-int_24h__critical_error_handler.html">INT 24H</a>.
+ ■ It flushes all file buffers and closes all open files.
+ ■ If you are using file-sharing, you must unlock all locked files and
+   records.
+
+ It is advisable to use DOS Fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> (terminate) to avoid difficulties that
+ occur when <span class="c2">CS</span> is not the same as the PSP.  Fn 4cH also lets you set an
+ exit code, checkable by the IF ERRORLEVEL batch command.
+
+See Also: <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

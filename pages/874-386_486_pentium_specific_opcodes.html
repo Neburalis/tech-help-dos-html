@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>386/486/Pentium-specific Opcodes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>386/486/Pentium-specific Opcodes</h1><pre>
+Opcodes on this page are supported by <span class="c2">386+</span>. Opcodes for <span class="c2">486+</span> and <span class="c2">Pentium</span> are
+flagged.
+
+    Note: On 386+ computers, the &quot;word size&quot; can be 32 bits instead of 16
+          bits.  This affects many opcopdes includng <a href="875-string_operation_instructions.html">String Operation</a>s.  In
+          real mode, 16-bit registers and address operands are the default.
+          In protected mode, the descriptor for CS indicates the default.
+          At any time you can use a <span class="c2">SIZ</span> or <span class="c2">ADDRSIZ</span> prefix to toggle from
+          the default to the other mode for the next operation.
+
+SIZ             <span class="c1">(prefix; 66H)</span> next data reference is non-default size
+ADDRSIZ         <span class="c1">(prefix; 67H)</span> next address reference is non-default size
+
+BSF reg,src      Bit Scan Forward. Put index of next 1-bit of <span class="c1">src</span> into <span class="c1">reg</span>
+BSR reg,src      Bit Scan Reverse. Put index of prev 1-bit of <span class="c1">src</span> into <span class="c1">reg</span>
+                  (both: ZF is set and <span class="c1">reg</span>←0 if <span class="c1">src</span> contains all 0s)
+
+BSWAP reg32      Swap low-to-high ordering of 4-byte <span class="c1">reg32</span> to high-to-low
+                  ordering.                                            <span class="c2">486+</span>
+
+BT r/m,im8       Test bit.  Put bit <span class="c1">im8</span> (or <span class="c1">reg</span>) of reg/mem into CF.
+   r/m,reg        (<span class="c1">im8</span> or <span class="c1">reg</span> is used modulo 16 or modulo 32)
+
+BTC r/m,im8      Test bit <span class="c1">im8</span> (or <span class="c1">reg</span>) of r/m &amp; complement that bit.
+    r/m,reg
+
+BTR r/m,im8      Test bit <span class="c1">im8</span> (or <span class="c1">reg</span>) of reg/mem and reset that bit.
+    r/m,reg
+
+BTS r/m,im8      Test bit <span class="c1">im8</span> (or <span class="c1">reg</span>) of reg/mem and set that bit.
+    r/m,reg
+
+CMPXCHG r/m,reg  Compare and Exchange.                                 <span class="c2">486+</span>
+
+CMPXCHG8B        Compare and Exchange 8 bytes                       <span class="c2">Pentium</span>
+
+CPUID            Get info into EBX,ECX,EBX (mode is 0 or 1 in EAX)  <span class="c2">Pentium</span>
+
+INVD             Invalidate Data Cache.                                <span class="c2">486+</span>
+
+INVLPG mem       Invalidate Translation Lookaside Buffer (TLB) entry   <span class="c2">486+</span>
+
+JECXZ target     Jump to <span class="c1">target</span> if ECX is 0.
+
+LFS reg,mem      Load FS and reg from memory.
+LGS reg,mem      Load GS and reg from memory.
+LSS reg,mem      Load SS and reg from memory.
+
+MOV CR<span class="c1">n</span>,src32    Load <span class="c1">src32</span> data into Control Register <span class="c1">n</span> (0,2,or 3)
+MOV dest,CR<span class="c1">n</span>     Load Control Register <span class="c1">n</span> into dest (reg/mem32)
+
+MOV DR<span class="c1">n</span>,src32    Load <span class="c1">src32</span> data into Debug Register <span class="c1">n</span> (0-3,6,or 7)
+MOV dest,DR<span class="c1">n</span>     Load Debug Register <span class="c1">n</span> into dest (reg/mem32)
+
+MOV TR<span class="c1">n</span>,src32    Load <span class="c1">src32</span> data into Test Register <span class="c1">n</span> (3-7)
+MOV dest,TR<span class="c1">n</span>     Load Test Register <span class="c1">n</span> into dest (reg/mem32)
+
+SET<span class="c1">ccc</span> dest      If condition <span class="c1">ccc</span> is true, set the byte at <span class="c1">dest</span> to 1;
+                  else, set it to 0.  (<span class="c1">ccc</span> is the same as conditional
+                  jump ops; see <a href="871-execution_control_instructions.html">Execution Control Instructions</a>)
+
+RDMSR reg/mem    Read from model-specific register in ECX           <span class="c2">Pentium</span>
+
+RDTSC            Read timestamp counter (calculate clock cycles)    <span class="c2">Pentium</span>
+
+ROL/ROR/RCL/RCR/
+SHL/SAL/SHR/
+SAR  r/m,im8     Shift/rotate by immediate count
+                  <span class="c1">im8</span> is forced mod 16 or mod 32 internally
+
+SHLD r/m,reg,im8 Shift left <span class="c1">r/m</span> (16- or 32-bit) by <span class="c1">im8</span> (or CL) bits,
+SHLD r/m,reg,CL   inserting data from <span class="c1">reg</span> into the vacated positions
+
+SHRD r/m,reg,im8 Shift right <span class="c1">r/m</span> (16- or 32-bit) by <span class="c1">im8</span> (or CL) bits,
+SHRD r/m,reg,CL    inserting data from <span class="c1">reg</span> into the vacated positions
+
+WBINVD           Write-Back and Invalidate Data Cache                  <span class="c2">486+</span>
+
+WRMSR reg/mem    Write to model-specific register in ECX            <span class="c2">Pentium</span>
+
+XADD r/m,reg     Exchange and Add                                      <span class="c2">486+</span>
+────────────────────────────────────────────────────────────────────────────
+                                                            <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

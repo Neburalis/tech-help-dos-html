@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 03H: Auxiliary Input - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 03H: Auxiliary Input</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    03H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    character fetched from the <a href="362-file_handle.html">Standard Auxiliary Device</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Reads (waits for) a character from the Standard Auxiliary Device,
+          COM1 or AUX, returning that character in <span class="c2">AL</span>.
+
+   Notes: ■ Input is not buffered and must be polled (not interrupt
+            driven).
+
+          ■ When DOS starts up, the AUX port (COM1) is initialized to:
+             2400 baud
+             no parity
+             1 stop bit
+             8-bit word
+
+          ■ The DOS MODE command can be used to initialize various
+            settings.
+
+See Also: <a href="206-int_14h__serial_port_i_o.html">INT 14H</a>
+          <a href="895-asynchronous_adapter_ports.html">COM Ports</a>
+          <a href="7-character_i_o_functions.html">Character I/O Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

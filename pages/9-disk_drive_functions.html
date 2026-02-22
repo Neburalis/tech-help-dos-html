@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Disk Drive Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Disk Drive Functions</h1><pre>
+ <a href="397-dos_fn_19h__query_dos_default_disk.html">19H</a> query DOS default disk           <a href="387-dos_fn_0eh__select_dos_default_disk.html">0eH</a> select DOS default disk
+ <a href="499-dos_fn_47h__query_default_directory.html">47H</a> query current default directory  <a href="434-dos_fn_3bh__set_dos_default_directory____chdir.html">3bH</a> set default directory
+ <a href="416-dos_fn_2fh__query_disk_transfer_address__dta_.html">2fH</a> query DTA (Disk Transfer Addr)   <a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">1aH</a> set DTA
+ <a href="516-dos_fn_54h__get_dos_verify_state.html">54H</a> query disk verify status         <a href="415-dos_fn_2eh__set_reset_verify_switch.html">2eH</a> set disk verify status
+
+ <a href="427-dos_fn_36h__get_disk_free_space.html">36H</a> get total and free disk space
+ <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> get DPB disk info                <a href="399-dos_fn_1bh__get_drive_info__current_disk_.html">1bH</a> <a href="400-dos_fn_1ch__get_drive_info__any_disk_.html">1cH</a> get disk info <a href="910-_superseded_.html">◄superseded►</a>
+
+ <a href="423-dos_fn_3305h__get_boot_drive.html">3305H</a> query ID of boot drive
+
+ <a href="386-dos_fn_0dh__reset_disk.html">0dH</a> reset disk (flush buffers)       <a href="802-doublespace_ioctl_fn__f___flush_doublespace_cache.html">DS IOCTL 'F'</a> flush DoubleSpace cache
+                                      <a href="803-doublespace_ioctl_fn__i___flush_and_invalidate_cache.html">DS IOCTL 'I'</a> invalidate Dblspace cache
+ <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> BIOS Disk services
+ <a href="564-int_24h__critical_error_handler.html">INT 24H</a> critical error handler address
+ <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> DOS direct disk read/write
+
+ <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a> (see if disk is compressed, swap IDs, real free space,etc.)
+
+<span class="c2">────────────────────────────────────────────█▌Block device IOCTL functions▐█</span>
+ <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">440dH 60H</a> get device parameters      <a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">440dH 40H</a> set device parameters
+ <a href="475-dos_fn_440dh_cl_61h__ioctl_read_track_on_logical_drive.html">440dH 61H</a> read track                 <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a> write track
+ <a href="476-dos_fn_440dh_cl_62h__ioctl_verify_track_on_logical_drive.html">440dH 62H</a> verify track               <a href="471-dos_fn_440dh_cl_42h__ioctl_format_track_on_logical_drive.html">440dH 42H</a> format and verify track
+ <a href="477-dos_fn_440dh_cl_66h__ioctl_query_media_id.html">440dH 66H</a> query media ID             <a href="472-dos_fn_440dh_cl_46h__ioctl_set_media_id.html">440dH 46H</a> set media ID
+ <a href="479-dos_fn_440dh_cl_68h__ioctl_sense_media_type.html">440dH 68H</a> sense media type
+
+ <a href="454-dos_fn_4408h__ioctl_does_drive_use_removable_media.html">4408H</a> removable media query
+ <a href="480-dos_fn_440eh__ioctl_query_logical_drive_map.html">440eH</a> get logical drive              <a href="481-dos_fn_440fh__ioctl_set_logical_drive_map.html">440fH</a> set logical drive
+ <a href="483-dos_fn_4411h__ioctl_query_ioctl_support_for_device.html">4411H</a> query IOCTL device
+──────────────────────────────────────────────────────────────────────────────
+ <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> BIOS disk I/O                        <a href="6-system_service_groups.html">Service Groups</a>   <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a></pre></body></html>

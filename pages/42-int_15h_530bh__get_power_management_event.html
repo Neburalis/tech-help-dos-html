@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 530bH: Get Power Management Event - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 530bH: Get Power Management Event</h1><pre>
+ Expects: <span class="c2">AX</span>    530bH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="43-apm_api_error_return_codes.html">APM error code</a> (if CF=CY)
+                (AH=80H means no events pending) else...
+          <span class="c2">BX</span>    event code: 0001H System Stand-by Request Notification
+                            0002H System Suspend Request Notification
+                            0003H Normal Resume Request Notification
+                            0004H Critical Resume Request Notification
+                            0005H Battery Low Notification
+          ──────────────────────────────────────────────────────────────────
+    Info: You should poll this fn once or twice per second to see if the
+          APM BIOS wants to tell you something.
+
+          You may access this service via <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> or by using the APM entry
+          address obtained via <a href="33-int_15h_5302h__interface_connect__prot__mode_16_bit_.html">INT 15H 5302H</a> or <a href="34-int_15h_5303h__interface_connect__prot__mode_32_bit_.html">INT 15H 5303H</a> (protected
+          mode connect).
+
+       <span class="c2">BX</span> on return (when CF is clear), this contains the code indicating
+          the event that APM wants you to know about and take action upon.
+          It is one of:
+
+    0001H APM wants to go into <span class="c2">Stand-by</span> state.  Upon receipt of this code,
+          you should call <a href="38-int_15h_5307h__set_power_state.html">INT 15H 5307H</a> with <span class="c2">BX</span>=0001H and <span class="c2">CX</span>=0001H to put
+          the system into stand-by state.
+
+    0002H APM wants to go into <span class="c2">Suspend</span> state.  Upon receipt of this code,
+          you should do any necessary cleanup and call <a href="38-int_15h_5307h__set_power_state.html">INT 15H 5307H</a> with
+          <span class="c2">BX</span>=0001H and <span class="c2">CX</span>=0002H to put the system into suspend state.
+
+    0003H APM had to go into suspend state without notifying you and it has
+          now resumed operation.  You should recover from the unexpected
+          suspend state as best you can.
+
+    0004H APM had to go into suspend state without notifying you and it has
+          now resumed operation, but the battery is critically low.  You
+          should recover from the unexpected suspend state as best you can,
+          but try to conserve power.
+
+    0005H APM is telling you that the battery is running low.  You may want
+          to minimize disk activity or take action to prepare for low-power
+          operation.
+
+   Notes: Notice that this is not a callback.  You must poll this fn every
+          so often to see if any events are waiting.  But don't hog the CPU
+          with these calls; once per second (or even less often) is
+          probably fine.
+
+See Also: <a href="29-advance_power_management__apm__functions.html">APM API</a>
+          <a href="30-about_advanced_power_management.html">About APM</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

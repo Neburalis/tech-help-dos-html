@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH b7xxH: APPEND.EXE Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH b7xxH: APPEND.EXE Functions</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+     See: <a href="745-int_2fh_b700h__is_append_exe_installed_.html">b700H</a> (is APPEND.EXE installed?)
+
+          <a href="746-int_2fh_b702h__get_append_exe_version.html">b702H</a> (query APPEND version)
+
+          <a href="747-int_2fh_b704h__get_append_exe_path_string.html">b704H</a> (query APPEND path string)
+
+          <a href="748-int_2fh_b706h__query_append_exe_option_settings.html">b706H</a> (query APPEND option settings)
+
+          <a href="749-int_2fh_b707h__set_append_exe_options___disable_append.html">b707H</a> (set APPEND options)
+
+          <a href="750-int_2fh_b711h__set_append_exe_truename_flag.html">b711H</a> (set APPEND truename flag)
+
+ These functions are available only when the <span class="c2">APPEND.EXE</span> command has been
+ executed.  When resident, the Append command modifies the functionality of
+ DOS fns...
+   <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a>    (open file)
+   <a href="443-dos_fn_4300h__query_file_attribute.html">4300H</a>  (get file attribute)
+   <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a>    (find file)
+   <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a>    (extended file open/create)
+ ...so that DOS will search a series of directories (in addition to the
+ current default directory) in an attempt to locate files.
+
+   Notes: ■ The Append command is rarely used.  It was designed as a stop-
+            gap measure to allow old programs (that did not recognized
+            pathnames) to work in the DOS 2.0+ environment.
+
+          ■ One potential use for APPEND.EXE is that it provides a way to
+            effectively increase the maximum number of directories on your
+            command search path (the <span class="c2">Path</span> command).  When you use
+            Append /X, DOS will look through the APPEND directories when it
+            attempts to locate program names.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

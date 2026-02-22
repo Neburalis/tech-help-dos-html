@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 48H: Allocate Memory / Query Free Memory - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 48H: Allocate Memory / Query Free Memory</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    48H
+          <span class="c2">BX</span>    requested amount of memory in paragraphs (16-byte chunks)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+                segment address of allocated block (if no error)
+          <span class="c2">BX</span>    size of available RAM, in paragraphs (if allocation fails)
+          ──────────────────────────────────────────────────────────────────
+    Info: Allocates a block of memory BX paragraphs long, returning the
+          segment address of that block in AX (block starts at AX:0000).
+
+          If the allocation fails, the Carry Flag is set, an error code is
+          returned in AX, and BX contains the maximum size allowable (in
+          paragraphs) for an allocation.
+
+          <span class="c2">To determine the largest block available</span>, it is a common practice
+          to set <span class="c2">BX</span>=ffffH before the call.  The allocation will fail,
+          returning the available allocation size in <span class="c2">BX</span>.
+
+          <span class="c2">To allocate from upper</span><a href="927-qmemumb.html">▲</a><span class="c2"> memory</span>, the upper memory link must be
+          active and the memory allocation strategy must be set to one of
+          the options which allocate high memory.  For instance:
+
+            ■ Use fns <a href="522-dos_fn_5800h__query_memory_allocation_strategy.html">5800H</a> and <a href="524-dos_fn_5802h__query_upper_memory_link_state.html">5802H</a> to obtain the current allocation
+              settings.  Save them.
+            ■ Use fn <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> (set UMB link) with <span class="c2">BX</span>=0001H
+            ■ Use fn <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a> (set strategy) with <span class="c2">BX</span>=40H-42H or 80H-82H.
+            ■ Use fn 48H (alloc mem) to allocate the memory.  If NC, and
+              <span class="c2">AX</span> &gt;= A000H, then the high allocation worked.  Otherwise, you
+              just got some conventional memory.
+            ■ Use fns <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a> and <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> to restore the saved allocation
+              settings before terminating.
+
+              See <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a> for related info.
+
+   Notes: ■ When a process receives control via Fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> EXEC, the largest
+            available memory block has been allocated to it already.
+
+            It is usually necessary to shrink the allocation that starts at
+            your PSP (via fn <a href="502-dos_fn_4ah__shrink_or_expand_a_memory_block.html">4aH</a>) in order to make conventional memory
+            available for allocation.
+
+          ■ When a program is loaded high via <span class="c2">loadhigh</span>, its code will be in
+            upper memory, but additional allocations will be made according
+            to the current allocation strategy (see fn <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a>).
+
+See Also: <a href="13-memory_management_functions.html">Memory Control Functions</a>
+          <a href="368-mcb__memory_control_block.html">Memory Control Block</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

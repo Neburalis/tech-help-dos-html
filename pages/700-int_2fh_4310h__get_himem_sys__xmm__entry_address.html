@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4310H: Get HIMEM.SYS (XMM) Entry Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4310H: Get HIMEM.SYS (XMM) Entry Address</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    4310H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> far address of the <a href="943-extended_memory_specification__xms_.html">XMS</a> function dispatcher
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the address of the XMS function dispatcher, though which
+          all eXtended Memory Specification services are accessed.
+
+          Before using this fn, use <a href="699-int_2fh_4300h__is_himem_sys__xms_support__installed_.html">INT 2fH 4300H</a> to check to see if the
+          XMS provider has been installed.
+
+          See <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a> for information on how to
+          access XMS services and a description of the available fns.
+
+ Example: ;--------------- check for and access an EMM fn
+          dd  pfEmmFns     ;will hold 32-bit segment:offset addr
+           .
+           .
+           .
+          mov  ax,4300H
+          int  2fH
+          cmp  al,80H      ;is support present?
+          jne  no_ems      ; no, go
+
+          mov  ax,4310H    ;get entry address
+          int  2fH
+          mov  word ptr [pfEmmFns],bx
+          mov  word ptr [pfEmmFns+2],es
+          ;--------------- now call a service
+          mov  ah,00H      ;get XMS version
+          call [pfEmmFns]  ; this is a far call
+          ;--------------- on most calls, check for AX=0001 (error)
+
+See Also: <a href="698-int_2fh_43xxh__himem_sys__extended_memory_manager__services.html">INT 2fH 43xxH: HIMEM.SYS Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

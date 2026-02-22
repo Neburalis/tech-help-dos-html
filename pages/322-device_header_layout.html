@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Header Layout - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Header Layout</h1><pre>
+ The binary image file of a device driver begins with this structure and
+ this data remains in memory after installation of the driver.
+
+<span class="c2">DevHdrRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      4  <span class="c1">pfNextDev</span>    FAR address of next device in chain.
+                           (offset=ffffH if this the last/only driver)
+   +4      2  <span class="c1">rDevAttr</span>     bit fields that make up the <a href="323-device_attribute.html">Device Attribute</a>
+   +6      2  <span class="c1">pnStrategy</span>   offset address of device STRATEGY routine
+   +8      2  <span class="c1">pnInterrupt</span>  offset address of device INTERRUPT routine
+  +0aH     8  <span class="c1">abDevName</span>    blank-padded device (or 10-byte block device
+                           sub-unit number)
+          18               size of this structure
+                           <span class="c2">───────────────────── Extra fields for CD ROM</span>
+  +12H    2   <span class="c1">wRes</span>         (reserved)
+  +14H    1   <span class="c1">wDrvLtr</span>      CD-ROM drive letter; often 53H ('<span class="c2">S</span>')
+  +15H    1   <span class="c1">wUnits</span>       number of CD-ROM units
+  +16H    6   <span class="c1">abCdrSig</span>     signature &quot;MSCD<span class="c1">nn</span>&quot;)
+          28               size of CD-ROM version of device header
+
+   <span class="c1">pfNextDev</span>  In the device driver file, this should start out as ffff:ffff.
+              During installation it is updated to fit in with device chain.
+              The last driver in the chain will contain ffffH in the first
+              two bytes of this field.
+
+              DOS actually inserts drivers into the chain just after the NUL
+              device (which cannot be replaced).  The address of the start
+              of the device driver chain may be found via the undocumented
+              DOS fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a> (get List of Lists).
+
+    <span class="c1">rDevAttr</span>  But flags describing the device.  See <a href="323-device_attribute.html">Device Attribute</a>.
+
+  <span class="c1">pnStrategy</span>  Near address (in same segment as this structure) of the code
+              to process Device STRATEGY calls.  See <a href="299-device_driver_basics.html">Device Driver Basics</a>.
+
+ <span class="c1">pnInterrupt</span>  Near address of the code to process Device INTERRUPT calls.
+
+   <span class="c1">abDevName</span>  <span class="c2">Character devices</span>: blank-padded name of the device, for
+              instance, &quot;LPT1    &quot;.
+              <span class="c2">Block Devices</span>: First byte is the number of block devices
+              supported by this driver; other bytes are reserved.
+
+   Notes: Fields starting at offset 12H are present only in CD-ROM device
+          drivers.
+
+See Also: <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="323-device_attribute.html">Device Attribute</a>
+          <a href="300-device_requests.html">Device Requests</a>
+          fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a> (get DOS vars address)
+          fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> (get DPB; obtain addr of a DeviceHdrRec)
+                                    <span class="c3">-♦-</span></pre></body></html>

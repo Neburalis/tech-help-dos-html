@@ -1,0 +1,12 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 4c00H: Count Active Handles - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 4c00H: Count Active Handles</h1><pre>                                                     Compatibility: <span class="c2">EMS 3.2+</span>
+ Expects: <span class="c2">AX</span>    4c00H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the number of active EMM handles.  You might use
+          this to calculate the buffer size needed for <a href="663-int_67h_4d00h__get_page_information_for_all_handles.html">INT 67H 4d00H</a>.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

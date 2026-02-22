@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 08H: Read Character/Attribute at Cursor Location - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 08H: Read Character/Attribute at Cursor Location</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    08H
+          <span class="c2">BH</span>    video page number (0-based)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          <span class="c2">AL</span>    character read
+          <span class="c2">BH</span>    <a href="87-screen_attributes.html">video attribute</a> (text modes only)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the <a href="45-ascii.html">ASCII</a> character code and the <a href="87-screen_attributes.html">Video Attribute</a> of
+          the character at the current cursor location.
+
+          When the screen is in graphics mode, <span class="c2">BH</span> (the character color) is
+          not returned.
+
+          To read the screen at a particular location, use <a href="117-int_10h_02h__set_cursor_position.html">INT 10H 02H</a> (set
+          cursor location) before calling here.
+
+          This is too slow for most apps.  See <a href="89-video_memory_layouts.html">Video Memory Layouts</a>.
+
+See Also: <a href="124-int_10h_09h__write_character_attribute_to_cursor_location.html">INT 10H 09H</a> (write char/attr to cursor location)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 13H 03H: Write Sectors - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 13H 03H: Write Sectors</h1><pre>                                                              [PC] [XT] [AT]
+ Expects: <span class="c2">AH</span>    03H
+          <span class="c2">AL</span>    sector count (<span class="c1">see notes</span>)
+          <span class="c2">CH</span>    track (cylinder) number (0-n) ◄═╗
+          <span class="c2">CL</span>    sector number (1-n) ◄═══════════╩══ (<span class="c1">see notes</span>)
+          <span class="c2">DL</span>    drive: 0-3=diskette; 80H-81H=hard disk
+          <span class="c2">DH</span>    head number
+          <span class="c2">ES:BX</span> caller's buffer, containing data to write
+          0:078 <a href="52-diskette_parameter_table.html">Diskette Parameter Table</a>  (for diskette operations)
+          0:104 <a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a>  (for hard disk operations)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="205-bios_disk_error_codes.html">BIOS disk error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This writes the data at <span class="c2">ES:BX</span> to the specified sectors.
+
+   Notes: ■ <span class="c2">CX</span> is actually used as a 6-bit and 10-bit field to specify
+            sector and cylinder.  The maximum cylinder number is 1023
+            but some BIOSes support larger values via translation.  See
+            <a href="188-int_13h_02h__read_sectors.html">INT 13H 02H</a> for details.
+
+          ■ <span class="c2">On diskette writes</span>, this function stops a multi-sector write at
+            the last sector in a track.
+
+          ■ <span class="c2">On hard disks</span> (with <a href="830-system_compatibility.html">XT</a> and <a href="830-system_compatibility.html">AT</a> BIOSes), a multi-sector write
+            continues on the next higher head of the same cylinder and if
+            necessary, advances to the next higher cylinder on the first
+            head.
+
+          ■ Parameters are the same as for <a href="188-int_13h_02h__read_sectors.html">INT 13H 02H</a> (read sectors).
+
+See Also: <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 26H</a> (write absolute sectors)
+          DOS fn <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a> (IOCTL read track)
+          <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

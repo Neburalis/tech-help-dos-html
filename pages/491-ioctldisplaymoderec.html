@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IoctlDisplayModeRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IoctlDisplayModeRec</h1><pre>
+ This structure is used in the following IOCTL fns:
+    <a href="463-dos_fn_440ch_cl_5fh__ioctl_set_display_mode.html">440cH 5fH</a> (set display mode)
+    <a href="467-dos_fn_440ch_cl_7fh__ioctl_query_display_mode.html">440cH 7fH</a> (query display mode)
+    <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>  (generic IOCTL for character devices)
+
+ The <a href="50-ansi_console_escape_sequences.html">ANSI.SYS</a> device driver uses this structure.
+
+<span class="c2">IoctlDisplayModeRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0     1  <span class="c1">bInfoLevel</span>   must be 0
+    +1     1  <span class="c1">res1</span>         (reserved)
+    +2     2  <span class="c1">wDataLen</span>     14; Length of the following data, in bytes
+    +4     2  <span class="c1">wFlags</span>       flags: 0001H=bold background enabled
+    +6     1  <span class="c1">bTxtGfx</span>      mode:  01H = text mode
+                                  02H = graphics mode
+    +7     1  <span class="c1">res2</span>         (reserved--16-bit SVGA modes?)
+    +8     2  <span class="c1">wColors</span>      number of colors supported
+   +0aH    2  <span class="c1">wWidth</span>       screen width, in pixels (graphics modes)
+   +0cH    2  <span class="c1">wHeight</span>      screen height, in pixels  (graphics modes)
+   +0eH    2  <span class="c1">wClms</span>        screen columns (width, in character columns)
+   +10H    2  <span class="c1">wRows</span>        screen lines (height, in character rows)
+          18               length of an IoctlDisplayModeRec structure
+
+  <span class="c1">bInfoLevel</span>  must be set to 00H <span class="c1">before invoking the fn</span>
+    <span class="c1">wDataLen</span>  must be set to 0eH (14) <span class="c1">before invoking the fn</span>
+      <span class="c1">wFlags</span>  currently only one flag is defined:
+              <span class="c2">0000H</span>=normal treatment of <a href="87-screen_attributes.html">Video Attribute</a> bit 7 (makes the
+                    foreground color blink; only seven background colors).
+              <span class="c2">0001H</span>=enable bold background; attribute bit 7 is part of
+                    the 4-bit background color.
+     <span class="c1">bTxtGfx</span>  <span class="c2">00H</span>=text mode; <span class="c2">01H</span>=graphics mode
+     <span class="c1">wColors</span>  number of colors supported; usually 16 for text modes
+
+      <span class="c1">wWidth</span>  and...
+     <span class="c1">wHeight</span>  define graphics mode screen resolution, in pixels.  These are
+              ignored when <span class="c1">bTxtGfx</span> is 01H.
+       <span class="c1">wClms</span>  and...
+       <span class="c1">wRows</span>  define texts mode screen resolution, in characters.  When
+              <span class="c1">bTxtGfx</span> is 01H (graphics), this is also valid; it's the number
+              of character cells displayable by BIOS and DOS display fns.
+
+See Also: fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (Generic IOCTL for character devices)
+          <a href="697-int_2fh_1a00h__is_ansi_sys_installed_.html">INT 2FH 1a00H</a> (query ANSI.SYS installed state)
+          <a href="50-ansi_console_escape_sequences.html">ANSI Console Escape Sequences</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

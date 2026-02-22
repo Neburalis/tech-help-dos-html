@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MENUDEFAULT= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MENUDEFAULT= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 6.0+</span>
+ Purpose: Chooses a default selection in a <a href="271-multiconfig_menus.html">MultiConfig Menu</a> and sets a
+          time-out value to let the boot process continue setting up a
+          default configuration.
+
+    Uses: ■ Set up so that a MultiConfig CONFIG.SYS file can run its course
+            automatically, without user intervention.
+          ■ Position the menu cursor so that one press of Enter will
+            continue with the most-often used configuration.
+          ■ Skip the &quot;MS-DOS Startup Menu&quot; display altogether.
+
+  Syntax: MENUDEFAULT=<span class="c1">blockName</span> [,<span class="c1">time-out</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+<span class="c1">blockName</span> is the name of a block of CONFIG.SYS commands.  It must be one of
+          the blocks named in a <a href="286-menuitem___config_sys_command_.html">MENUITEM=</a> or <a href="296-submenu___config_sys_command_.html">SUBMENU=</a> command in the same
+          menu block.
+
+          [<span class="c1">blockName</span>] (the same text, enclosed in square brackets, on a
+          line by itself) must appear elsewhere in the CONFIG.SYS file.
+
+ <span class="c1">time-out</span> specifies a delay interval, in seconds.  DOS will wait <span class="c1">time-out</span>
+          seconds and if it senses no keystrokes, it exits the menu and
+          executes the commands in the block identified by<span class="c1"> blockName</span>.
+
+          If <span class="c1">time-out</span> is omitted, DOS will display the menu and pause until
+          Enter is pressed.
+
+          The <span class="c1">time-out</span> value can range from <span class="c2">0</span> to <span class="c2">90</span> seconds.  A value of <span class="c2">0</span>
+          causes DOS to bypass the menu and immediately execute the
+          commands in the <span class="c1">blockName</span> block.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ An invalid syntax such as...
+
+      MENUDEFAULT no_ems No EMS, 10
+
+    ...will cause DOS to try to evaluate &quot;NO EMS&quot; as a <span class="c1">time-out</span> number and
+    it comes out as 0.  The result is that execution immediately begins at
+    <span class="c1">blockName</span>.
+
+See Also: <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

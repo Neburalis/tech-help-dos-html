@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 25H/26H: Absolute Disk Read/Write - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 25H/26H: Absolute Disk Read/Write</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects:       <span class="c2">(on drives &lt; 32M and DOS &lt; 4.0)</span>
+          <span class="c2">AL</span>    drive number (0=A, 1=B, etc.)
+          <span class="c2">CX</span>    count of sectors to read
+          <span class="c2">DX</span>    beginning sector (DOS logical sector number)
+          <span class="c2">DS:BX</span> transfer address (destination or source buffer)
+
+ Expects:       <span class="c2">(on drives &gt; 32M and DOS &gt;= 4.0)</span>
+          <span class="c2">AL</span>    drive number (0=A, 1=B, etc.)
+          <span class="c2">CX</span>    ffffH
+          <span class="c2">DX</span>    beginning sector (DOS logical sector number)
+          <span class="c2">DS:BX</span> address of a <a href="335-absdiskiorec.html">AbsDiskIORec</a> structure.
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    special error code (see below) if <span class="c2">CF</span> is set to CY
+
+                <span class="c3">IMPORTANT!</span> This interrupt leaves one word of data on the
+                stack.  You must pop it off (see below).
+          ──────────────────────────────────────────────────────────────────
+    Info: These DOS services provide direct access to any disk sector
+          available through DOS and installed block device drivers.
+
+           ■  INT 25H <span class="c1">reads</span> sectors
+           ■  INT 26H <span class="c1">writes</span> sectors
+
+    <span class="c2">CX,DX</span> and...
+    <span class="c2">DS:BX</span> Prior to DOS 4.0, CX specified the sector count and DS:BX pointed
+          to the transfer buffer.  With DOS 4.0+, a mechanism was added to
+          allow access to sector numbers higher than 65535 (the largest
+          number than can fit in the 16-bit CX register).  The layout of
+          the input parameters changes, depending upon the value in CX.  In
+          summary:
+
+          <span class="c1">When CX is NOT equal to</span> <span class="c2">ffffH</span>, it specifies now many sectors you
+          want to read or write, DX indicates the starting sector, and
+          <span class="c2">DS:BX</span> points the data buffer.  Note that values larger than about
+          1024 (400H) are as much as can be read or written, given the
+          constraints of conventional<a href="924-qmemconv.html">▲</a> memory.
+
+          <span class="c1">When CX IS equal to</span> <span class="c2">ffffH</span>, you must set <span class="c2">DS:BX</span> to point to an
+          <a href="335-absdiskiorec.html">AbsDiskIORec</a> structure which identifies the starting sector,
+          desired number of sectors, and the location of the memory buffer.
+          <span class="c2">DX</span> is ignored.
+
+          <span class="c3">Note:</span> Most disks have a sector size of 512 bytes (½K), but you
+                should not assume that size when allocating the transfer
+                buffer.  Use fn <a href="400-dos_fn_1ch__get_drive_info__any_disk_.html">1cH</a> or <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> to find the true sector size.
+
+       <span class="c2">DX</span> (or <a href="335-absdiskiorec.html">AbsDiskIORec</a><span class="c1">.lStartSect</span>, when CX=ffffH) specifies the
+          starting sector, using a DOS logical sector number.
+
+          DOS logical sector 0 is the DOS <a href="337-boot_sector_layout.html">boot sector</a> (the first sector in
+          the DOS partition).  Logical sector numbers increment first
+          through each sector on a cylinder, then through each head, and
+          finally through each cylinder on the drive (the exact layout is
+          rarely important--just know that you can access any sector from 0
+          through <span class="c1">n</span>, where <span class="c1">n</span> can be derived via fn <a href="400-dos_fn_1ch__get_drive_info__any_disk_.html">1cH</a> or <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a>).
+
+          Notice that the <a href="345-disk_partition_table.html">Master Boot Record</a> and any other sectors outside
+          of the DOS partition are not available through this service.
+          BIOS <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> provides complete access to all parts of a hard
+          disk.  DOS <span class="c2">3.2+</span> device drivers provide direct access via fns
+          <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a> (write track) and <a href="475-dos_fn_440dh_cl_61h__ioctl_read_track_on_logical_drive.html">440dH 61H</a> (read track).
+
+          See <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a> for an overview of how DOS maps logical
+          sector numbers to physical head/track/sector numbers and how to
+          convert a cluster number into a logical sector number.
+
+<span class="c2">█▌Pop the Stack!▐█</span>
+  INT 25H and INT 26H both leave one 16-bit word of data on the stack (it is
+  the Flags register that would have been used in an IRET, but was left
+  there when DOS use a FAR RET to get back to your program.  An IRET was not
+  used since that would overwrite the value in CF (used to indicate errors).
+
+  Be sure to pop one word off of the stack upon return.  See the example,
+  below.
+
+<span class="c2">█▌Error Codes▐█</span>
+  Errors occurring during INT 25H/26H are NOT handled by the <a href="564-int_24h__critical_error_handler.html">INT 24H</a>
+  critical error handler.  Upon return from INT 25H or INT 26H, the Carry
+  Flag set (CF=CY=1) when a error occurred.  When <span class="c2">CF</span> is set:
+
+       <span class="c2">AL</span> is a device error code (00H-0cH). It is the same as bits 0-7 of
+          DI upon <a href="564-int_24h__critical_error_handler.html">INT 24H</a>.
+
+          Add 13H to this value (yielding 13H-1fH) and it will match one of
+          the errors listed under <a href="347-dos_error_codes.html">DOS Error Codes</a>.
+
+       <span class="c2">AH</span>  is one of these values:
+               80H = attachment failed to respond
+               40H = disk seek operation failed
+               08H = Bad CRC on diskette read
+               04H = requested sector not found
+               03H = Attempted write on write-protected diskette
+               02H = some error other than these listed above
+
+<span class="c2">█▌Examples▐█</span>
+  Sample use of INT 25H to read the boot sector of a &lt;32 MB diskette:
+
+          mov   al,0      ;select drive A
+          mov   dx,0      ;select the DOS <a href="337-boot_sector_layout.html">Boot Sector</a>
+          mov   cx,1      ;read one sector ..
+          lea   bx,myBuf  ; ... into buffer at DS:BX
+          INT   25H
+          pop   dx        ;discard the extra word on the stack
+          jnc   noErr
+          ...etc...       ;code to handle any disk error (code in AX)
+   noErr: ...etc...       ;code continues when no error
+
+  Sample use of INT 25H to read 20 sectors starting at logical sector 80,000
+  of a &gt;32 MB hard disk partition:
+
+          mov   al,0                         ;select drive C
+          lea   bx,  ioRec                   ;set up the local <a href="335-absdiskiorec.html">AbsDiskIORec</a>
+          mov   word ptr [bx],  14464        ;large sector number, low word
+          mov   word ptr [bx+2],1            ;large sector number, high word
+          mov   word ptr [bx+4],20           ;read 20 sectors
+          mov   word ptr [bx+6],offset myBuf ;set buffer addr offset
+          mov   word ptr [bx+8],seg myBuf    ;                segment
+          INT   25H
+          pop   dx        ;discard the extra word on the stack
+          jnc   noErr
+          ...etc...
+
+<span class="c2">█▌Diskette Duplication▐█</span>
+  DOS technical documents recommend avoiding INT 25H/26H whenever possible.
+  For instance, to duplicate diskettes (as with the DOS <span class="c2">Diskcopy</span> command),
+  it is better to use <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">IOCTL Functions</a>:
+
+    Fn <a href="475-dos_fn_440dh_cl_61h__ioctl_read_track_on_logical_drive.html">440dH 61H</a> (read track)
+    Fn <a href="471-dos_fn_440dh_cl_42h__ioctl_format_track_on_logical_drive.html">440dH 42H</a> (format and verify track)
+    Fn <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a> (write track)
+
+  Of course, that only works if you are certain to be running under
+  <span class="c2">DOS 3.2</span> or later and the device driver supports IOCTL services.
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> (ROM-BIOS disk access)
+          fn <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a> (write track)
+          fn <a href="475-dos_fn_440dh_cl_61h__ioctl_read_track_on_logical_drive.html">440dH 61H</a> (read track)
+          <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

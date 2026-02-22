@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Some Published VxD IDs - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Some Published VxD IDs</h1><pre>
+ V<span class="c1">x</span>Ds are Windows Virtual Device Drivers.  A VxD runs at CPU privilege
+ level 0 and thus has access to protected-mode CPU operations.
+
+ The following list provides the VxD ID numbers that can be used in
+ <a href="775-int_2fh_1684h__get_device_entry_point_address__for_vxds_.html">INT 2fH 1684H</a> (get device entry address) calls.  Documentation on the API
+ services provided by VxDs can be hard to find (some info can be gleaned
+ from DDK source code files).  In most cases, a fn number is passed in
+ <span class="c2">AX</span> and most VxDs support fn 0000H to mean &quot;get installed state/query
+ version&quot;.
+
+  <span class="c2">0000H</span> (<span class="c2">Undef</span>)    Can be used if VxD does not provide an API
+
+  <span class="c2">0001H</span> (<span class="c2">VMM</span>)      Virtual Machine Manager
+  <span class="c2">0002H</span> (<span class="c2">Debug</span>)    Win386 Debug Device
+
+  <span class="c2">0003H</span> (<span class="c2">VPICD</span>)    Virtual PIC (Programmable Interrupt Controller) Device
+  <span class="c2">0004H</span> (<span class="c2">VMAD</span>)     Virtual DMA (direct memory access) Device
+  <span class="c2">0005H</span> (<span class="c2">VTD</span>)      Virtual Timer Device
+  <span class="c2">0006H</span> (<span class="c2">V86MMGR</span>)  Virtual-86 Mode Memory Manager Device
+  <span class="c2">0007H</span> (<span class="c2">PageSwap</span>) Demand Paging Swap Device services
+  <span class="c2">0008H</span> (<span class="c2">Parity</span>)   handles Parity errors
+  <span class="c2">0009H</span> (<span class="c2">Reboot</span>)   handles virtual reboots
+  <span class="c2">000aH</span> (<span class="c2">VDD</span>)      Virtual Display Device
+  <span class="c2">000bH</span> (<span class="c2">VSD</span>)      Virtual Sound Device
+  <span class="c2">000cH</span> (<span class="c2">VMD</span>)      Virtual Mouse Device
+  <span class="c2">000dH</span> (<span class="c2">VKD</span>)      Virtual Keyboard Device
+  <span class="c2">000eH</span> (<span class="c2">VCD</span>)      Virtual COMM Device
+  <span class="c2">000fH</span> (<span class="c2">VPD</span>)      Virtual Printer Device
+
+  <span class="c2">0010H</span> (<span class="c2">BlockDev</span>) formerly Virtual Hard Disk Device (VHD)
+  <span class="c2">0011H</span> (<span class="c2">VMCPD</span>)    Virtual Math Coprocessor Device
+  <span class="c2">0012H</span> (<span class="c2">EBIOS</span>)    PS/2 Extended BIOS
+  <span class="c2">0013H</span> (<span class="c2">BIOSXlat</span>) BIOS protected mode translation
+  <span class="c2">0014H</span> (<span class="c2">VNETBIOS</span>) Virtual NetBIOS
+  <span class="c2">0015H</span> (<span class="c2">DOSMGR</span>)   Virtual MS-DOS Manager
+  <span class="c2">0016H</span> (<span class="c2">WINLOAD</span>)
+  <span class="c2">0017H</span> (<span class="c2">SHELL</span>)
+  <span class="c2">0018H</span> (<span class="c2">VMPoll</span>)
+  <span class="c2">0019H</span> (<span class="c2">VPROD</span>)
+  <span class="c2">001aH</span> (<span class="c2">DOSNET</span>)
+  <span class="c2">001bH</span> (<span class="c2">VFD</span>)      Virtual Floppy Device
+  <span class="c2">001cH</span> (<span class="c2">LoadHi</span>)   Global EMM Import
+  <span class="c2">001dH</span> (<span class="c2">WINDEBUG</span>)
+  <span class="c2">001eH</span> (<span class="c2">TSRLoad</span>)  TSR instance utility
+  <span class="c2">001fH</span> (<span class="c2">BIOSHook</span>) BIOS Interrupt hooker VxD
+
+  <span class="c2">0020H</span> (<span class="c2">INT13</span>)    Virtual INT 13H (BIOS Disk I/O) Device
+  <span class="c2">0021H</span> (<span class="c2">PageFile</span>) Demand Paging Swap Device services
+  <span class="c2">0022H</span> (<span class="c2">SCSI</span>)
+  <span class="c2">0023H</span> (<span class="c2">MCA_POS</span>)  Microchannel Architecture Programmable Option Select
+  <span class="c2">0024H</span> (<span class="c2">SCSIFD</span>)   SCSI FastDisk
+  <span class="c2">0025H</span> (<span class="c2">VPEND</span>)    Virtual Pen Device
+  <span class="c2">0026H</span> (<span class="c2">APM</span>)      Advanced Power Management
+
+  <span class="c2">0200H</span> (<span class="c2">Novell IPX</span>)
+  <span class="c2">0202H</span> (<span class="c2">Win386 Soft-ICE/W Debugger</span>)
+  <span class="c2">0442H</span> (<span class="c2">VTDAPI</span>)
+  <span class="c2">0445H</span> (<span class="c2">VSBD</span>)     Virtual SoundBlaster Device
+  <span class="c2">1020H</span> (<span class="c2">VCV</span>)      MS C/C++ 7. CodeView
+  <span class="c2">28c0H</span> (<span class="c2">VXD.386</span>)  Generic Virtual Device
+
+ IDs 0000H-1f00H are reserved for Microsoft VxDs (Virtual Devices). To
+ have Microsoft assign you a VxD ID of your very own, send Compuserve
+ email to <span class="c2">INTERNET:vxdid@microsoft.com</span>.
+
+See Also: <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+          <a href="571-dpmi_services.html">DPMI Services</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

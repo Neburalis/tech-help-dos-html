@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1eH: Diskette Parameter Pointer - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1eH: Diskette Parameter Pointer</h1><pre>
+ This vector (0:0078) is a pointer to a table of diskette parameters that
+ BIOS the diskette service <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> uses for a variety of diskette
+ operations.
+
+ This table includes values such as &quot;head-settle time&quot; and &quot;step rate time&quot;
+ which have a tremendous effect on the speed of diskette I/O.
+
+ It is possible to change some facets of diskette operation by creating a
+ RAM-resident version of this table and modify selected parameters.  DOS
+ creates a modified version of this table to improve diskette performance.
+ Oddly, DOS restores the normal (typically slower) values when it restores
+ control to the application program.
+
+ See <a href="52-diskette_parameter_table.html">Diskette Parameter Table</a> for a layout of the table.
+
+See Also: <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

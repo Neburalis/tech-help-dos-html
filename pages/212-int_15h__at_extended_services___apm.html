@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H: AT Extended Services / APM - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H: AT Extended Services / APM</h1><pre>
+ INT 15H handles a set of AT-specific services.
+
+                <span class="c2">AH</span>/AX BIOS Service
+                ▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                00H   Cassette motor ON ═╗
+                01H   Cassette motor OFF ╠═►Oldest PCs only (descriptions
+                02H   read cassette      ║  omitted for lack of interest)
+                03H   write cassette ════╝
+
+                <a href="213-int_15h_4fh__keyboard_intercept.html">4fH</a>   keyboard intercept
+
+                <a href="29-advance_power_management__apm__functions.html">53xxH</a> Advanced Power Management (APM) services
+
+            (<span class="c2">*</span>) <a href="214-int_15h_80h__device_open.html">80H</a>   device open
+            (<span class="c2">*</span>) <a href="215-int_15h_81h__device_close.html">81H</a>   device close
+            (<span class="c2">*</span>) <a href="216-int_15h_82h__program_termination.html">82H</a>   program termination
+                <a href="217-int_15h_8300h__set_event_wait_interval.html">8300H</a> set event wait interval
+                <a href="218-int_15h_8301h__cancel_event_wait_interval.html">8301H</a> cancel event wait interval
+                <a href="219-int_15h_84h__joystick_support.html">84H</a>   joystick
+            (<span class="c2">*</span>) <a href="220-int_15h_85h__sysreq_key.html">85H</a>   SysReq key
+                <a href="221-int_15h_86h__wait.html">86H</a>   wait
+                <a href="222-int_15h_87h__move_memory_block.html">87H</a>   move extended<a href="928-qmemxms.html">▲</a> memory block
+                <a href="223-int_15h_88h__get_extended_memory_size.html">88H</a>   get extended memory size
+                <a href="224-int_15h_89h__switch_to_protected_mode.html">89H</a>   switch to virtual 8086 mode
+
+            (<span class="c2">*</span>) <a href="225-int_15h_90h__device_busy.html">90H</a>   device busy loop
+            (<span class="c2">*</span>) <a href="226-int_15h_91h__interrupt_finished.html">91H</a>   finish interrupt
+
+                <a href="227-int_15h_c0h__get_system_parameters.html">c0H</a>   get system configuration
+
+      (<span class="c2">*</span>) services marked with (<span class="c2">*</span>) are designed for use with multitasking
+          operating systems and will only perform the described service if
+          they have been intercepted by a multitasking operating system.
+          By default (and when MS-DOS is the active system), these fns
+          simply clear the Carry Flag and return immediately.
+
+See Also: <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

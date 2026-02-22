@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440dH CL=47H: IOCTL Set Access Flag - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440dH CL=47H: IOCTL Set Access Flag</h1><pre>                                             Compatibility: <span class="c2">4.0 only</span> <a href="912-_undocumented_.html">◄Undoc►</a>
+ Expects: <span class="c2">AX</span>    440dH
+          <span class="c2">BX</span>    drive (0=default, 1=A, 2=B, etc.)
+          <span class="c2">CL</span>    47H
+          <span class="c2">CH</span>    08H (device category: block device)
+          <span class="c2">DS:DX</span> addr of a two-byte structure:
+                DS:[DX+0]  0
+                DS:[DX+1]  00H=lock the drive
+                           01H=unlock the drive; deny future access
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Locks or unlocks all read/write access to the specified drive.
+          The driver may disable all disk access, for instance, when it
+          detects unformatted media or an invalid boot record.
+
+    Note: This function is not documented in official MS-DOS references.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (generic IOCTL for block devices)
+          Fn <a href="478-dos_fn_440dh_cl_67h__ioctl_query_access_flag.html">440dH 67H</a> (query access flag)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

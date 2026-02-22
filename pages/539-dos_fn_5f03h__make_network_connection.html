@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5f03H: Make Network Connection - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5f03H: Make Network Connection</h1><pre>                                                         Compatibility: <span class="c2">3.1+</span>
+ Expects: <span class="c2">AX</span>    5f03H
+          <span class="c2">BL</span>    03H = it's a printer (DS:SI name is &quot;PRN&quot;, &quot;LPT1&quot;, etc.)
+                04H = it's a drive   (DS:SI name is &quot;A:&quot;, &quot;B:&quot;, etc.)
+          <span class="c2">CX</span>    user value--arbitrary code returned by fn <a href="538-dos_fn_5f02h__network_query_assign_list_entry.html">5f02H</a>
+          <span class="c2">DS:SI</span> addr of ASCIIZ<a href="913-qasciiz.html">▲</a> device name
+          <span class="c2">ES:DI</span> addr of two ASCIIZ strings (network name and password)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Creates a connection to a network device or drive by associating
+          a local drive ID or device name with a network device.
+
+          The value of <span class="c2">CX</span> is arbitrary and is not used by DOS.  It may be
+          used by applications as a way to mark the device for internal
+          processing.  Its value is returned by fn <a href="538-dos_fn_5f02h__network_query_assign_list_entry.html">5f02H</a>.
+
+          <span class="c2">BL=03H connects a network printer</span>
+          ■ Set <span class="c2">DS:SI</span> to point to a printer name such as &quot;LPT1&quot;,0
+          ■ Set <span class="c2">ES:DI</span> to point to the name of a printer on the network
+            followed by a password.  For instance,
+
+              &quot;\\SERVER\HP4&quot;,0,&quot;MYPASSWORD&quot;,0
+
+            If no password is needed, you must append a null string to the
+            end of the network device name; e.g., &quot;\\SERVER\HP4&quot;,0,0
+
+          <span class="c2">BL=04H connects a network drive</span>
+          ■ Set <span class="c2">DS:SI</span> to point to a local drive name such as &quot;E:&quot;,0 or a
+            null string (beginning with a 0).  In that case, DOS attempts
+            to provide access to the network without usurping a drive ID.
+          ■ Set <span class="c2">ES:DI</span> to point to the name of a network drive name,
+            followed by a password.  For instance,
+
+              &quot;\\SERVER\FILES&quot;,0,&quot;MYPASSWORD&quot;,0
+
+            If no password is needed, you must append a null string to the
+            end of the network device name; e.g., &quot;\\SERVER\FILES&quot;,0,0
+
+   Notes: ■ Network redirection is normally handled by system-level
+            utilities rather than application programs.
+
+          ■ The value in <span class="c2">CX</span> is stored in the <a href="348-cds__current_directory_structure.html">CurDirRec</a> for a drive.
+
+See Also: <a href="16-network_and_file_sharing_functions.html">Network Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

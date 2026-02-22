@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 10H: Close File via FCB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 10H: Close File via FCB</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    10H
+          <span class="c2">DS:DX</span> address of an open <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0    if file closed without error
+                0ffH if file was not found where it was upon fn <a href="388-dos_fn_0fh__open_file_via_fcb.html">0fH</a> (open)
+          ──────────────────────────────────────────────────────────────────
+    Info: Closes a file that was opened using an FCB.
+
+          The file entry must be in its original place in the current
+          default directory of the disk from which it was opened.
+
+          If the file IS found, the directory is updated, the file buffers
+          are flushed, and AL=00H upon return.
+
+          If the file IS NOT found, the directory is not updated, a variety
+          of unsavory things happen, and AL=0ffH upon return.
+
+See Also: Fn <a href="437-dos_fn_3eh__close_a_file_handle.html">3eh</a> (close file via handle)
+          <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

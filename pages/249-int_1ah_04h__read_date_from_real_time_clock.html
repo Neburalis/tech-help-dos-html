@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1aH 04H: Read Date from Real-Time Clock - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1aH 04H: Read Date from Real-Time Clock</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    04H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    0
+          <span class="c2">CH</span>    century, in BCD<a href="914-qbcd.html">▲</a> (19H ... 20H)
+          <span class="c2">CL</span>    year, in BCD     (00H ... 99H)
+          <span class="c2">DH</span>    month, in BCD    (i.e., 01H=Jan ... 12H=Dec)
+          <span class="c2">DL</span>    day, in BCD      (00H ... 31H)
+          <span class="c2">CF</span>    NC (0) clock operating
+                CY (1) clock not operating <span class="c1">or busy being updated</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the current date from the battery-backed CMOS Real-Time
+          Clock.
+
+          Return values are in BCD<a href="914-qbcd.html">▲</a>; for instance, <span class="c2">CX</span> = 1998H = 1998.
+
+          The BIOS avoids reentrancy by not returning the date if the clock
+          happens to be in the process of being updated.  Thus, if <span class="c2">CF</span> is
+          set on return, you should try a few more times before giving up.
+
+See Also: <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH</a> (BIOS Time I/O)
+          DOS fn <a href="411-dos_fn_2ah__query_dos_date.html">2aH</a> (get system date)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

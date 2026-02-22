@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MRCI Fn 0001H: Compress Data - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MRCI Fn 0001H: Compress Data</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    0001H
+          <span class="c2">CX</span>    caller type: 0000H=APPLICATION client (<a href="365-indos_flag.html">InDOS</a> is clear)
+                             0001H=SYSTEM client      (InDOS is set)
+          <span class="c2">DS:SI</span> address of a pre-filled <a href="823-mrcrequestrec.html">MRCRequestRec</a> structure:
+                  <span class="c1">.pfbSrc</span>=address of data to compress
+                  <span class="c1">.wSrcLen</span>=size of uncompressed data, in bytes
+                  <span class="c1">.pfbDest</span>=buffer to receive compressed data
+                  <span class="c1">.wDestLen</span>=size of buffer at <span class="c1">pfbDest</span>
+          <span class="c2">ES:BX</span> address of a <a href="822-mrcinforec.html">MRCInfoRec</a> structure obtained via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000H = success
+                else  = <a href="821-mrci_api_error_return_codes.html">MRCI API Error Code</a>
+          <span class="c2">DS:SI</span> <span class="c1">wDestLen</span> field (offset 0eH) is size of compressed data
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn compresses data.  The source and destination addresses
+          (and other important details) are identified in the <a href="823-mrcrequestrec.html">MRCRequestRec</a>
+          structure.  The API entry address is obtained via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a>.
+
+          To use this call, you must:
+
+          1 Set up the request record.
+
+          2 Make certain that the <a href="365-indos_flag.html">InDOS Flag</a> is clear (APPLICATION clients)
+            or set (SYSTEM clients) (see <span class="c2">CX</span> notes, below)
+
+          3 Start a Windows Critical Section (see <a href="569-int_2ah__microsoft_network_services.html">INT 2aH 8001H</a>).  We are
+            told to use this exact sequence...
+
+              push ax
+              mov  ax,8001H
+              int  2aH
+              pop  ax
+
+            ...since Windows may look for and patch this sequence of code.
+
+          4 Set up the CPU registers and call the MRCI entry address (it is
+            the <span class="c1">pfpEntry</span> field of the <a href="822-mrcinforec.html">MRCInfoRec</a> obtained via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a>
+            or <a href="824-int_1ah_b001h__query_rom_hardware_based_mrci_support.html">INT 1aH B001H</a>).
+
+          5 End the Windows Critical Section (see <a href="569-int_2ah__microsoft_network_services.html">INT 2aH 8101H</a>).  We are
+            told to use this exact sequence:
+
+              push ax
+              mov  ax,8101H
+              int  2aH
+              pop  ax
+
+          6 Check the return code in <span class="c2">AX</span> and the value returned in the
+            <span class="c1">wDestLen</span> field of the MRCRequestRec.
+
+       <span class="c2">CX</span> identifies the type of caller you are.  It is one of:
+
+          <span class="c2">0</span>=APPLICATION client: You may only call this fn when the <a href="365-indos_flag.html">InDOS</a>
+            flag is <span class="c1">clear</span> (zero).
+
+          <span class="c2">1</span>=SYSTEM client: You may only call this fn when the <a href="365-indos_flag.html">InDOS</a> flag is
+            <span class="c1">set</span> (non-zero)
+
+          This distinction is important for <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> writers.  InDOS is always
+          clear when application program code is being executed.  But it is
+          possible for a TSR to take control while InDOS is set and in that
+          case, it should call MRCI services with <span class="c2">CX</span>=0001H.
+
+          You may obtain the address of the InDOS flag via DOS fn <a href="425-dos_fn_34h__get_indos_address__dos_reentrancy_status_.html">34H</a>.
+
+   Notes: ■ Check <span class="c2">AX</span> for a returned error code.  And check the <span class="c1">wDestLen</span>
+            field of the <a href="823-mrcrequestrec.html">MRCRequestRec</a> structure.
+
+            In order to decompress later, you must save the value returned
+            in <span class="c1">wDestLen</span>.
+
+          ■ The MRCI server will compress the data only if it can save at
+            least one MRCRequestRec.<span class="c1">wChunkLen</span> unit.  If compression fails,
+            remember to record this fact and save the source data and its
+            length in order to &quot;decompress&quot; it (i.e., copy it verbatim)
+            correctly later.
+
+          ■ The result data begins with '<span class="c2">MD</span>0<span class="c2">☻</span>' (4DH, 44H, 00H, 02H) -- a
+            value that's different from either of the 4-byte signatures
+            seen in DoubleSpace compressed clusters (see <a href="812-cvf_region__sector_heap.html">Sector Heap</a>).
+
+See Also: <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

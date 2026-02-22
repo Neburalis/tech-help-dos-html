@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 0fH: Query Current Video Info - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 0fH: Query Current Video Info</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    0fH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    current <a href="114-video_modes.html">video mode</a>
+          <span class="c2">AH</span>    width of screen, in character columns
+          <span class="c2">BH</span>    current active video page (0-based)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains a certain data regarding the current video mode.
+
+          Use <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">INT 10H 12H</a> (special fns) and
+          see <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a> to get info on EGA modes.
+
+          Use  <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">INT 10H 1bH</a> (get functionality/state info) for VGA modes.
+
+          Use <a href="940-int_10h_4f03h___query_current_supervga_video_mode.html">INT 10H 4f03H</a> (get SVGA info) to get info on VESA modes
+
+See Also: <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

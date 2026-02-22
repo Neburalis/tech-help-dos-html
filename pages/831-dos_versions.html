@@ -1,0 +1,332 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Versions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Versions</h1><pre>
+ TECH Help! indicates variations and incompatibilities between DOS versions
+ by displaying a highlighted version number as a warning flag.
+
+ Where <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a> or <a href="558-dos_interrupts.html">DOS Interrupts</a> changed significantly between
+ versions, these flags are used to let you see them at a glance; e.g.:
+
+     <span class="c2">2.0+</span> .............. or (none) applies to DOS version 2.0 and higher
+      <span class="c2">2.x</span> .............. applies to DOS 2.0 or 2.1 or 2.11, etc.
+     <span class="c2">3.0+</span> .............. applies to DOS versions starting at DOS 3.0
+
+   <span class="c2">MS-DOS</span> and <span class="c2">PC-DOS</span> ... identifies differences between generic DOS and
+                         IBM's customized (OEM) version
+
+ This topic summarizes changes from version to version of DOS.  For a
+ programmer's-eye view of version differences, see:
+
+                    <a href="24-dos_function_index___by_dos_version.html">DOS Function Index - by DOS Version</a>
+
+<span class="c2">█▌Version Summaries▐█</span>
+  The fundamental DOS services were roughed out with DOS 1.0 and stabilized
+  (read: debugged) with version 1.1.  If your program must be able to run
+  under DOS 1.1, you must use only <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a> lower than 2fH.
+
+  When IBM introduced a hard disk PC (the XT), it released DOS version
+  2.0 -- a significant upgrade, including:
+
+  ■ Multiple directories to enhance access to large capacity media.
+  ■ <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>  superseded the hard-to-use <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a> to
+    simplify file/device access.
+  ■ <a href="828-standard_i_o_and_i_o_redirection.html">Standard I/O</a>  Redirection for generalized UNIX-like device
+    independence.
+  ■ <a href="298-installable_device_drivers.html">Installable Device Drivers</a>  to interface non-standard equipment &amp; RAM
+    disks and included the <a href="50-ansi_console_escape_sequences.html">ANSI.SYS</a> console driver
+
+  <span class="c1">DOS 2.1</span> fixed a few bugs and added support for the PCjr diskette drives.
+
+  <span class="c1">DOS 3.0</span> came out with the <a href="830-system_compatibility.html">AT</a> and included support its 20M hard disk.  It
+          added support for 16-bit <a href="359-fat__dos_file_allocation_table.html">FAT</a> entries to minimize slack space on
+          hard disks.  Added extended error reporting for DOS functions.
+
+          Significant new DOS commands:  Attrib, Label, VDISK.SYS RAM disk
+
+          Change Summary:
+            Fn <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a>  (open) supports file sharing
+            Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a>  subFns 08H (check removable) and 0bH (set retry count)
+            Fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a>  extended error information
+            Fn <a href="527-dos_fn_5ah__create_unique_temporary_file.html">5aH</a>  create temporary (unique) file
+            Fn <a href="528-dos_fn_5bh__create_new_file.html">5bH</a>  create new file (create only in it doesn't exist)
+            Fn <a href="529-dos_fn_5ch__lock_unlock_file_access.html">5cH</a>  lock/unlock file
+            Fn <a href="542-dos_fn_62h__query_current_psp.html">62H</a>  get <a href="371-psp__program_segment_prefix.html">PSP</a> address
+            <a href="564-int_24h__critical_error_handler.html">INT 24H</a> indicates which of (abort, retry, ignore) are valid.
+
+<span class="c1">  DOS 3.1</span> included some network services (file sharing, locking,
+          redirecting).
+
+          Significant new DOS commands: Join, Subst
+
+          Change Summary:
+            Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a>   SubFns 09H and 0aH were added for network support
+            Fn <a href="533-dos_fn_5eh__network_miscellaneous.html">5eH</a>  (network printer) and <a href="537-dos_fn_5fh__network_device_redirection.html">5fH</a> (network device redirection)
+
+  <span class="c1">DOS 3.2</span> came out with the IBM Convertible PC.  It expanded on the device
+          driver <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">IOCTL Functions</a> to include DOS-blessed disk formatting,
+          etc.
+
+          Significant new DOS commands: Replace, Xcopy, DRIVER.SYS
+
+          Change Summary:
+
+            Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> was extended to support Generic IOCTL and to support
+            logical drives with subFns <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a>, <a href="480-dos_fn_440eh__ioctl_query_logical_drive_map.html">440eH</a>, and <a href="481-dos_fn_440fh__ioctl_set_logical_drive_map.html">440fH</a>.
+
+  <span class="c1">DOS 3.3</span> was released with the PS/2.  It supports the 1.4M 3½&quot; diskettes.
+
+          Significant new DOS commands: Append, Call, Chcp, Fastopen,
+          Nlsfunc
+
+          Change summary:
+            ■ Attrib can work on a tree of subdirectories
+            ■ Backup will format a diskette on the fly if you specify /F
+            ■ batch commands can be truly silent (e.g., @ECHO OFF is not
+              seen) and one batch file can execute another and return to
+              the caller
+            ■ Date and Time modify <a href="60-cmos_storage_layout.html">CMOS Memory</a> for 'permanent' time changes
+            ■ Fdisk supports logical volumes; lets you break a large hard
+              disk ( &gt; 32M ) into two drives.  See <a href="358-extended_dos_partition.html">Extended DOS Partition</a>
+            ■ Additional national language support:
+              • Keyb replaces KEYBxx and uses the KEYBOARD.SYS data file
+              • Nlsfunc installs <a href="340-code_page.html">Code Page</a> font-switching
+              • New command Chcp selects/displays current active code page
+              • New drivers PRINTER.SYS and DISPLAY.SYS support fonts
+              • Mode supports code page selection and switching
+
+            ■ <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a> were added:
+              • Fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> prepare and select code page fonts
+              • Fn <a href="552-dos_fn_66h__set_or_query_active_code_page.html">66H</a>   select code page fonts (when Nlsfunc is resident)
+              • Fn <a href="555-dos_fn_67h__set_file_handle_count.html">67H</a>   increase the max number of file handles
+              • Fn <a href="556-dos_fn_68h__commit_file.html">68H</a>   forced update of a file to disk ('commit' a write)
+
+  <span class="c1">DOS 4.0</span> Adds some support for expanded memory and disk partitions &gt; 32M.
+          It provides a long overdue point-and-shoot DOS shell.
+
+          Significant new DOS commands: Dosshell, Install, Mem, Switches
+
+          Change summary:
+            ■ Append is somewhat smarter; less chance of disasters
+            ■ Backup automatically formats destination disk (/F not needed)
+            ■ BUFFERS= (in <a href="267-the_config_sys_file.html">CONFIG.SYS</a>) can use EMS<a href="925-qmemems.html">▲</a> memory; I/O is faster
+            ■ Del /p pauses to confirm each of a wildcard file delete
+            ■ Fastopen is faster and can use <a href="650-expanded_memory_specification__ems_.html">EMS</a> memory to hold data
+            ■ Format /f:size accepts size in Kbytes; /v:lbl sets volume
+              label
+            ■ Graphics works with EGA/VGA modes; supports more printers
+            ■ Mode sets keyboard repeat rate; number of lines on the screen
+            ■ REM can be used in the <a href="267-the_config_sys_file.html">CONFIG.SYS</a> file (it's about time!)
+            ■ Replace /u overwrites destination files older than source
+            ■ Tree has been brought up to about a 1984 level of
+              sophistication
+            ■ <a href="276-device___config_sys_command_.html">DEVICE=</a> (config cmd) device drivers added/changed:
+              • Ansi.Sys can restore screen layouts other than 80x25
+              • Xma2ems.Sys and Xmaem.Sys supports EMS (expanded memory)
+              • Vdisk.Sys can use EMS memory
+
+            ■ <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a> were added/changed:
+              • Fn <a href="420-dos_fn_33h__set_query_break_check__query_dos_info.html">33H</a> can now return the drive number of the boot disk
+              • Fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (CL=5fH/7fH) provides a means to query/set the
+                screen display mode, number of rows, etc.
+              • Fn <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a> is a new all-purpose file Open/Create tool.
+              • <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> provide access to logical sectors &gt; 65535
+ <span class="c1">DOS 4.01</span> The stable (debugged) version of DOS 4.0.  Accept no substitute.
+
+  <span class="c1">DOS 5.0</span> was released by Microsoft, after it wrested control back from
+          IBM.  This is the most significant upgrade in many years.
+
+          Supports 2.88M diskette drives.
+
+          Significant new DOS commands: DEVICEHIGH=, DOS=, Doskey, Edit,
+          EMM386.EXE, Help, HIMEM.SYS, Loadhigh, Mirror, Qbasic, Setver,
+          Undelete, Unformat
+
+          Change summary:
+            ■ Memory-management for 386+ computers, including access to
+              UMBs via DOS=, DEVICEHIGH= and Loadhigh, and EMM386.EXE.
+            ■ Data recovery via Mirror, Undelete and Unformat
+            ■ Text editor, EDIT.COM (really part of Qbasic)
+            ■ Command-line retriever, Doskey
+            ■ Access to Hidden and System files, via Attrib
+            ■ View sorted directories and other options in Dir command
+            ■ Setver tricks apps into seeing a different DOS version
+            ■ All commands accept /? to mean &quot;show syntax&quot;
+            ■ Numerous small &quot;quality of life&quot; changes
+
+            ■ <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a> were added/changed (note: The DOS 5.0 Tech Ref
+              documents many previously-undocumented services.  This lists
+              only those that are actually new with DOS 5.0.  See
+              <a href="24-dos_function_index___by_dos_version.html">DOS Function Index - by DOS Version</a> for a complete list).
+
+              • Fn <a href="401-dos_fn_1fh__get_drive_parameter_block__current_disk_.html">1fH</a> and <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> (Get Disk Parameter Block) are very useful.
+              • Fn <a href="424-dos_fn_3306h__get_dos_version_info.html">3306H</a> gets the actual DOS version (<a href="417-dos_fn_30h__get_dos_version_number.html">30H</a> only gets the
+                SetVer simulated version number)
+              • IOCTL fns <a href="479-dos_fn_440dh_cl_68h__ioctl_sense_media_type.html">440dH 68H</a> (sense media type)
+              • IOCTL fns <a href="482-dos_fn_4410h__ioctl_query_ioctl_support_for_handle.html">4410H</a>, and <a href="483-dos_fn_4411h__ioctl_query_ioctl_support_for_device.html">4411H</a> obtain info about IOCTL support
+              • Fn <a href="507-dos_fn_4b05h__set_execution_state.html">4b05H</a> is a rarely-needed variation of EXEC services.
+              • Fn <a href="524-dos_fn_5802h__query_upper_memory_link_state.html">5802H</a> and <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> are memory-support services.
+              • <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a>: Several add-on APIs are now documented.
+
+  <span class="c1">DOS 6.0</span> is basically DOS 5.0 with an armful of bundled utility programs
+          and a few minor changes to DOS itself.
+
+          Significant new DOS commands: Choice, Dblspace, Defrag, Deltree,
+          Help, InterLnk, InterSvr, Memmaker, Move, Msav, Msbackup, Msd,
+          Power, Truename, VSafe.
+
+          Change summary:
+            ■ Disk compression via <a href="787-doublespace_overview.html">DoubleSpace</a> and <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>.
+            ■ File defragmenter, Defrag, speeds up some disk I/O
+            ■ Laptop tools: Power (see <a href="29-advance_power_management__apm__functions.html">APM API</a>) and InterLink
+            ■ Memory-usage optimizer, MemMaker.
+            ■ CONFIG.SYS handling changes:
+              <a href="269-clean_boot.html">Clean Boot</a> (press F5 to skip CONFIG.SYS and AUTOEXEC.BAT)
+              <a href="270-interactive_boot.html">Interactive Boot</a> (press F8 to verify each CONFIG.SYS command)
+              <a href="271-multiconfig_menus.html">MultiConfig Menus</a> let you define sets of config options
+
+            ■ DOS services were added/changed:
+              • <span class="c1">No</span> new INT 21H fns defined.
+              • <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a> (via <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a>)
+              • <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a> (via INT 2fH)
+              • <a href="29-advance_power_management__apm__functions.html">APM API</a> (via INT 2fH)
+              • <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH</a> Windows 386Enh-Mode services
+              • <a href="751-int_2fh_17xxh__windows_clipboard_functions.html">INT 2fH 17xxH</a> Windows Clipboard access
+              • <a href="778-int_2fh_40xxh__virtual_display_driver_functions.html">INT 2fH 40xxH</a> Windows VDD fns for VM-aware apps
+
+  <span class="c1">DOS 6.2</span> is a mildly-aerobic exercise in butt-covering.  It was released
+          after the media began playing up problems with DOS 6.0,
+          especially the DoubleSpace feature.  Microsoft's jump to &quot;6.2&quot;
+          was probably prompted to make this look better than IBM's 6.1.
+
+          Significant new DOS commands: ScanDisk
+
+          Change summary:
+            ■ DoubleSpace can automount floppy diskettes
+            ■ &quot;DoubleGuard&quot; halts the system if it finds that a program has
+              overwritten any of the DoubleSpace memory area.
+            ■ DoubleSpace can uncompress a disk.
+            ■ DoubleSpace can use part of the HMA<a href="926-qmemhma.html">▲</a> (if you set BUFFERS=
+              small enough).
+            ■ SmartDrive now caches CD-ROMs.  Very handy.
+            ■ <span class="c2">Command /Y /C</span><span class="c1">batName</span> single-steps through a batch file.
+            ■ <a href="269-clean_boot.html">Clean Boot</a> lets you bypass the normal loading of DBLSPACE.BIN
+            ■ <a href="270-interactive_boot.html">Interactive Boot</a> steps through AUTOEXEC.BAT
+            ■ ScanDisk checks the disk for bad sectors and marks them as
+              bad in the <a href="359-fat__dos_file_allocation_table.html">FAT</a>, thereby avoiding many potential problems with
+              DoubleSpace, Defrag, at al.  It's about time.
+            ■ <span class="c2">Dir</span>, <span class="c2">Mem</span>, <span class="c2">Chkdsk</span>, et al. display large numbers with commas.
+            ■ <span class="c2">Copy</span>, <span class="c2">Move</span>, and <span class="c2">Xcopy</span> now prompt before overwriting a file.
+              The predefined e-var <a href="369-predefined_environment_variables.html">COPYCMD</a> sets the default action and
+              command line options <span class="c2">/Y</span> or <span class="c2">/-Y</span> can override.
+
+            ■ DOS interrupts and functions were added/changed:
+              <a href="704-int_2fh_4axxh__hma_suballocations.html">INT 2fH 4axxH</a>       HMA Suballocations
+              <a href="799-int_2fh_4a11h_bx_000ah__set_automount_drives.html">INT 2fH 4a11H 000aH</a> select which drives are automount-enabled
+              <a href="800-int_2fh_4a11h_bx_000bh__query_automount_drives.html">INT 2fH 4a11H 000bH</a> query which drives are automount-enabled
+              <a href="804-doublespace_ioctl_fn__s___get_drivespace_pointers.html">DS IOCTL 'S'</a> Improved way to get actual fres space on
+                           compressed drives
+              (perhaps others; I don't have the full info right now)
+
+<span class="c2">█▌Compatibility▐█</span>
+  In general, higher numbered versions are compatible with lower-numbered
+  versions.  Most software is written to work with DOS 2.x since that is
+  still a common incarnation.  The added features of DOS 3.x and even 4.x
+  are relatively insignificant, so there is little reason to develop
+  software that relies on these &quot;new&quot; features (with the exception of
+  networking applications).
+
+  One common compatibility problem is seen on PCs with a limited amount of
+  memory.  Higher numbered DOS versions often take up more RAM from the
+  available pool and thus leave less room for application programs.
+
+   Version    Date    On Disk  In Memory
+   ▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀
+   DOS 1.0  08-04-81   11,551   12,144  <span class="c1">On Disk</span> is the size of COMMAND.COM
+   DOS 1.1  05-07-82   13,279   12,400                        +IO.SYS
+   DOS 2.0  03-08-83   39,424   24,800                        +MSDOS.SYS
+   DOS 2.1  10-20-83   39,551   24,800
+   DOS 3.0  08-14-84   58,926   37,024  <span class="c1">In Memory</span> as reported by CHKDSK.
+   DOS 3.1  03-07-85   60,534   37,040  More RAM used with SHARE, MODE, etc.
+   DOS 3.2  12-30-85   68,637   44,704  and some CONFIG.SYS directives.
+   DOS 3.3  03-17-87   77,566   46,048
+   DOS 4.0  06-17-88  106,431   90,736
+   DOS 5.0  08-15-90  112,478   varies<span class="c2">*</span>
+   DOS 6.0  03-10-93  131,433   varies<span class="c2">§</span>
+   DOS 6.2  09-30-93  133,323   varies<span class="c2">§</span>
+
+    <span class="c2">*</span> Starting with DOS 5.0, it is possible to load much of DOS into upper
+      memory blocks<a href="927-qmemumb.html">▲</a>, so its use of conventional memory can be as little as
+      about 20K.
+
+    <span class="c2">§</span> With DOS 6.0+, most configurations will include 43K of RAM used by
+      <a href="787-doublespace_overview.html">DoubleSpace</a> and <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI</a>.  It may be in upper memory.
+
+      Also, the <span class="c1">On Disk</span> size should include the 50-65K of DBLSPACE.BIN
+      (though optional, the majority of systems use it).
+
+<span class="c2">█▌MS-DOS vs PC-DOS vs OEM Versions▐█</span>
+  In many respects, these variation of DOS are identical.  For programmers,
+  there are no differences in using the <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a> or other facets of the
+  programming interface.  OEM versions may have additional &quot;external
+  commands&quot; (add-on utility programs), including custom hardware support,
+  such as in Compaq's TAPE command.
+
+  Other differences: MS-DOS usually includes RAMDRIVE.SYS, while PC-DOS
+  supplies VDISK.SYS.  MS-DOS includes SMARTDRV.SYS (or SMARTDRV.EXE), while
+  older versions of PC-DOS supply an undocumented disk cache driver named
+  IBMCACHE.SYS.
+
+  One thing to watch for is the naming convention used for the two system
+  files which get executed at boot time.  IBM's file names are <span class="c1">IbmBio.Com</span>
+  and <span class="c1">IbmDos.Com</span>.  Generic MS-DOS uses <span class="c1">Io.Sys</span> and <span class="c1">MsDos.Sys</span>.  This causes
+  problems when you try to convert from MS-DOS to PC-DOS or vice versa
+  manually (an old version of the DOS Sys command may have trouble when it
+  doesn't find the filenames it expects).
+
+  The bundled utilities diverged considerably, starting with DOS 5.
+
+<span class="c2">█▌Traps and Pitfalls▐█</span>
+  Most DOS system-level functions are upwardly-compatible with older
+  versions, but there are several places you can't take that for granted.
+  Most of the items in the following list are <span class="c1">relatively unimportant</span>, but it
+  might save you several hours of debugging time.
+
+  ■ DOS Fn <a href="399-dos_fn_1bh__get_drive_info__current_disk_.html">1bH</a> stopped returning a pointer to the actual <a href="359-fat__dos_file_allocation_table.html">FAT</a> in DOS 2.0 and
+    just returns a pointer to a <a href="370-media_descriptor.html">media descriptor</a> byte.
+
+  ■ DOS Fn <a href="511-dos_fn_4fh__find_next_matching_file.html">4fH</a> (Find Next File) had a subtle change between DOS version 2.x
+    and 3.x.  You are now required to keep DS:DX pointing to the
+    information from a <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> (Find First File) call.  DOS 2.x just assumed it
+    was in the <a href="351-dta__disk_transfer_address.html">DTA</a>.
+
+  ■ DOS Fn <a href="417-dos_fn_30h__get_dos_version_number.html">30H</a> modifies BX and CX in DOS 3.0+
+
+  ■ DOS Fn <a href="431-dos_fn_38h__get_set_country_dependent_info.html">38H</a> (Country Info) returns an incompatible <a href="343-country_info_block.html">Country Info Block</a>.
+
+  ■ The three 16-bit words at the end of the <a href="338-bpb__bios_parameter_block.html">BPB</a> (used in device drivers)
+    switched from being &quot;optional&quot; to &quot;mandatory&quot; with DOS 3.0.  Also, be
+    aware that some non-IBM installed device drivers do NOT store the BPB
+    in the boot sector of the hard disk (this only applies to hard disks
+    which are not installed with <a href="266-rom_scan.html">ROM-Scan</a> and thus need not have a
+    <a href="345-disk_partition_table.html">partition table</a> and are not self-booting).
+
+  ■ Under DOS 4.0, the <a href="338-bpb__bios_parameter_block.html">BPB</a> is enlarged and the <a href="337-boot_sector_layout.html">boot sector</a> contains data
+    including the volume label and a quasi-unique serial number.
+
+  ■ Under DOS 5.0+, the SmartDrive disk cache may begin writing to disk
+    asynchronously (screwing up your highly-optimized communications
+    program).  Force a cache flush via fn <a href="386-dos_fn_0dh__reset_disk.html">0dH</a> and/or <a href="802-doublespace_ioctl_fn__f___flush_doublespace_cache.html">DS IOCTL 'F'</a>.
+
+  As of 1993, there are very few users of DOS <span class="c2">2.x</span>, but you will still run
+  into some DOS <span class="c2">3.x</span> systems.  Most programmers feel safe writing for the
+  3.0+ API, letting users with older systems fend for themselves.
+
+  In my opinion, you should NOT employ and rely on fns that are new for
+  DOS <span class="c2">4.0+</span> unless you state that on the outside of your package.  In my
+  experience, there are very few DOS services that are really needed (for
+  standard application programs) that have not been available since DOS 2.1.
+
+  Exceptions: Add-on APIs, such as <a href="787-doublespace_overview.html">DoubleSpace</a> or <a href="701-int_2fh_48xxh__doskey_com_functions.html">INT 2fH 48xxH</a> (Doskey
+  services), which you can test for and work-around when not present.
+
+See Also: <a href="24-dos_function_index___by_dos_version.html">DOS Function Index - by DOS Version</a>
+          <a href="830-system_compatibility.html">System Compatibility</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

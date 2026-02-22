@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Superseded DOS Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Superseded DOS Functions</h1><pre>
+ This index lists DOS version 1.0 services which have been superseded by
+ services available with DOS 2.0+.  The newer services are typically much
+ easier to use.
+
+   <span class="c2">Old Function</span>                   <span class="c2">New Function</span>
+   <span class="c2">─────────────────────────────</span>  <span class="c2">──────────────────────────────────────</span>
+   <a href="372-dos_fn_00h__terminate_a_program.html">00H</a> Terminate Program          <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> End Program
+   <a href="374-dos_fn_01h__keyboard_input.html">01H</a> Read Keyboard with Echo    <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> Read File or Device  (BX=0)
+   <a href="375-dos_fn_02h__display_output.html">02H</a> Display Character          <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> Write File or Device (BX=1 or 2)
+   <a href="376-dos_fn_03h__auxiliary_input.html">03H</a> Auxiliary Input            <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> Read File or Device  (BX=3)
+   <a href="377-dos_fn_04h__auxiliary_output.html">04H</a> Auxiliary Output           <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> Write File or Device (BX=3)
+   <a href="378-dos_fn_05h__printer_output.html">05H</a> Print Character            <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> Write File or Device (BX=4)
+   <a href="382-dos_fn_09h__display_string.html">09H</a> Display String             <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> Write File or Device (BX=1 or 2)
+   <a href="383-dos_fn_0ah__buffered_string_input.html">0aH</a> Buffered Keyboard Input    <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> Read File or Device  (BX=0)
+   <a href="388-dos_fn_0fh__open_file_via_fcb.html">0fH</a> Open File with FCB         <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a> Open File with Handle
+   <a href="389-dos_fn_10h__close_file_via_fcb.html">10H</a> Close File with FCB        <a href="437-dos_fn_3eh__close_a_file_handle.html">3eH</a> Close File with Handle
+   <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">11H</a> Find First File with FCB   <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> Find First File
+   <a href="391-dos_fn_12h__find_next_matching_file_via_fcb.html">12H</a> Find Next File with FCB    <a href="511-dos_fn_4fh__find_next_matching_file.html">4fH</a> Find Next File
+   <a href="392-dos_fn_13h__delete_file_via_fcb.html">13H</a> Delete File with FCB       <a href="440-dos_fn_41h__delete_file.html">41H</a> Delete File
+   <a href="393-dos_fn_14h__read_sequential_file_via_fcb.html">14H</a> Sequential Read            <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> Read File or Device
+   <a href="394-dos_fn_15h__write_sequential_file_via_fcb.html">15H</a> Sequential Write           <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> Write File or Device
+   <a href="395-dos_fn_16h__create_file_via_fcb.html">16H</a> Create File with FCB       <a href="435-dos_fn_3ch__create_a_file_via_handle.html">3cH</a> Create File with Handle
+   <a href="396-dos_fn_17h__rename_file_via_fcb.html">17H</a> Rename File with FCB       <a href="517-dos_fn_56h__rename_move_a_file.html">56H</a> Rename File
+   <a href="399-dos_fn_1bh__get_drive_info__current_disk_.html">1bH</a> Get Default Drive Data     <a href="427-dos_fn_36h__get_disk_free_space.html">36H</a> Get Disk Free Space
+   <a href="400-dos_fn_1ch__get_drive_info__any_disk_.html">1cH</a> Get Drive Data             <a href="427-dos_fn_36h__get_disk_free_space.html">36H</a> Get Disk Free Space
+   <a href="402-dos_fn_21h__read_random_file_record.html">21H</a> Random Read                <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> Read File or Device
+   <a href="403-dos_fn_22h__write_random_file_record.html">22H</a> Random Write               <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> Write File or Device
+   <a href="404-dos_fn_23h__query_file_size_via_fcb.html">23H</a> Get File Size              <a href="441-dos_fn_42h__set_file_pointer.html">42H</a> Move File Pointer
+   <a href="405-dos_fn_24h__set_random_file_block_address.html">24H</a> Set Random Record Number   <a href="441-dos_fn_42h__set_file_pointer.html">42H</a> Move File Pointer
+   <a href="407-dos_fn_26h__create_program_segment_prefix.html">26H</a> Create New PSP             <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> Load and Execute Program
+   <a href="408-dos_fn_27h__read_random_file_block.html">27H</a> Random Block Read          <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> Read File + <a href="441-dos_fn_42h__set_file_pointer.html">42H</a> Move File Pointer
+   <a href="409-dos_fn_28h__write_random_file_block.html">28H</a> Random Block Write         <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> Write File + <a href="441-dos_fn_42h__set_file_pointer.html">42H</a> Move File Pointer
+
+   <a href="559-int_20h__program_terminate.html">INT 20H</a> Terminate Program      <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> End Program
+   <a href="566-int_27h__terminate_but_stay_resident.html">INT 27H</a> Terminate &amp; Stay Res   <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a> Terminate &amp; Stay Resident
+   <span class="c2">─────────────────────────────</span>  <span class="c2">──────────────────────────────────────</span>
+   Notes: ■ Fns <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a> continue to be needed by TSRs when <a href="365-indos_flag.html">InDOS</a> is set.
+          ■ Fn <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">11H</a> is still useful when you need to access a CVF<a href="919-qcvf.html">▲</a> directly
+            (it returns a starting cluster; see <a href="814-mapping_dos_fat_to_mdfat.html">Mapping DOS FAT to MDFAT</a>).
+
+See Also: <a href="22-obsolete_dos_functions.html">Obsolete DOS Functions</a>
+          <a href="24-dos_function_index___by_dos_version.html">DOS Function Index - by DOS Version</a>
+          <a href="831-dos_versions.html">DOS Versions</a> (summary of differences from version to version)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a></pre></body></html>

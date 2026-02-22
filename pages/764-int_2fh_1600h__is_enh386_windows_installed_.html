@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1600H: Is Enh386 Windows Installed? - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1600H: Is Enh386 Windows Installed?</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    1600H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    if Enhanced-Mode Windows is <span class="c1">not</span> running, <span class="c2">AL=00H</span> or <span class="c2">AL=80H</span>.
+                if Enh386 Win 3.x+ is installed: <span class="c2">AL</span> = major version number
+                                                 <span class="c2">AH</span> = minor version number
+                if Win/386 2.x is installed <span class="c2">AL</span>=01H or ffH
+          ──────────────────────────────────────────────────────────────────
+    Info: You may use this service to see if you are running is a DOS
+          session under Enhanced-Mode Windows.
+
+See Also: <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

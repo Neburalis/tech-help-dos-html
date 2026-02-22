@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Switcher API Overview - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Switcher API Overview</h1><pre><span class="c2">█▌Overview▐█</span>
+  Starting with DOS 5.0, Microsoft published information on coexisting with
+  the DOS task-switcher.  <span class="c2">For most applications, actions of a task switcher</span>
+  <span class="c2">are transparent</span>, but a few programs need to avoid the potential pitfalls
+  possible when they are turned off and on by an external program.
+
+<span class="c2">█▌Who Needs the Switcher API?▐█</span>
+  Some programs need to take special precautions when running under a task
+  switcher.  For instance, <span class="c1">modem programs</span> will be in big trouble if they get
+  switched-out while online with a remote computer.  These programs can
+  process <a href="716-swntfy_fn_0001h__can_switcher_suspend_your_session_.html">SwNtfyFn 0001H</a> and indicate when switching-out would be bad news.
+
+  Some <span class="c1">TSR programs installed before the switcher</span> can provide different
+  context for each DOS session.  For instance, the <span class="c2">Doskey</span> TSR maintains a
+  separate &quot;command history&quot; and &quot;macro set&quot; for each DOS session.  All
+  sessions share the same code space, but a separate data area is maintained
+  for each session.
+
+  Some programs need to take precautions about the use of <span class="c1">global resources</span>
+  that may be destroyed without proper handling.  For instance, a word
+  processor may create temporary files.  Each session of the program should
+  maintain separate files to avoid problems.
+
+    Note: Much of the <a href="708-switcher_api.html">Switcher API</a> is concerned with a situation in which
+          two or more switchers are active simultaneously and having them
+          coexist peacefully.  Unless you are writing a task switcher, you
+          may ignore most of the API.
+
+<span class="c2">█▌Using the Switcher API▐█</span>
+  If you need to be switcher-aware, follow these steps:
+
+   1) Use <a href="711-int_2fh_4b02h__is_switcher_installed____get_service_addr.html">INT 2fH 4B02H</a> to see if a task-switcher is active.  This also
+      returns the <span class="c1">service entry address</span>.
+
+   2) Use <a href="714-int_2fh_4b05h__identify_instance_data.html">INT 2fH 4B05H</a> to identify regions of your memory which must be
+      maintained for each session.  The switcher will automatically save
+      and restore these areas for each session when tasks are switched.
+
+   3) If you need to be notified of a pending task-switch (in order to
+      clean up before the switch or to block the switch altogether), call
+      the <span class="c1">service entry address</span> with AX=0004H to &quot;hook&quot; the notification
+      chain (see <a href="727-swsrvc_fn_0004h__hook_notification_chain.html">SwSrvcFn 0004H</a>).  Thereafter, the switcher will call a
+      designated procedure in your code before switching you out.
+
+      And remember to use <a href="728-swsrvc_fn_0005h__unhook_notification_chain.html">SwSrvcFn 0005H</a> later, to unhook yourself before
+      you terminate.
+
+See Also: <a href="708-switcher_api.html">Switcher API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a>
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

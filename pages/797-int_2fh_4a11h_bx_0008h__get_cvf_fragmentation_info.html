@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a11H BX=0008H: Get CVF Fragmentation Info - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a11H BX=0008H: Get CVF Fragmentation Info</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    4a11H (mux number)
+          <span class="c2">BX</span>    0008H (DoubleSpace fn code)
+          <span class="c2">DL</span>    any compressed drive number (0=A, 1=B, etc.)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (0000H=success)
+          <span class="c2">BX</span>    maximum entries in file fragment heap
+          <span class="c2">CX</span>    available entries in file fragment heap
+          ──────────────────────────────────────────────────────────────────
+    Info: DoubleSpace maintains an internal list of information that
+          describes the fragmentation of CVFs<a href="919-qcvf.html">▲</a>.  This fn obtains
+          information about that list.
+
+       <span class="c2">DL</span> <span class="c2">on entry</span>, is any valid compressed drive number.  A single
+          fragment heap is used for all CVFs.
+
+       <span class="c2">CX</span> <span class="c2">on return</span>, is the total size of the fragment heap.  It is the
+          value of the <span class="c1">MaxFileFragments</span> setting in <a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a>.
+
+       <span class="c2">BX</span> <span class="c2">on return</span>, is the number of unused fragment entries in the file
+          fragment heap.
+
+   Notes: ■ By tracking CVF fragments internally, DoubleSpace avoids
+            needing to reread the FAT of the host drive.
+
+          ■ A CVF will be very fragmented if, during initial compression,
+            there was very little free space on the disk.  By default,
+            MaxFileFragments is initially set to a whopping 2600.  But
+            DBLSPACE.EXE adjusts it downward (to the actual needs plus a
+            fudge factor of 110) to avoid forcing DBLSPACE.BIN to allocate
+            a lot of memory each time DOS boots.
+
+          ■ You can save some memory by defragmenting your CVFs with the
+            DOS 6 <span class="c2">Defrag</span> command; however, Defrag won't modify a mounted
+            CVF.  Before defragmenting a CVF, you must unmount it (which is
+            awkward for your boot drive) and change its file attributes to
+            clear the hidden, system, and read-only bits.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

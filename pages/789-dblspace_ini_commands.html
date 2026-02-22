@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DBLSPACE.INI Commands - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DBLSPACE.INI Commands</h1><pre><span class="c2">█▌Overview▐█</span>
+  The <a href="787-doublespace_overview.html">DoubleSpace</a> support driver (<span class="c2">DBLSPACE.BIN</span>) reads the text file<a href="916-qstdtextfile.html">▲</a>,
+  <span class="c2">DBLSPACE.INI</span>, in order to decide which CVFs<a href="919-qcvf.html">▲</a> to access and what drive
+  IDs to use.  This topic describes the contents of DBLSPACE.INI.
+
+  DBLSPACE.INI is in the root of the <span class="c1">physical boot disk</span> (it is typically
+  swapped to an ID such as H: or I: by the time you look for it).  It has
+  read-only, hidden, and system file attributes; use <span class="c2">Dir /A</span> to see it
+  listed.
+
+  You can edit the file with any text editor, such as the DOS <span class="c2">Edit</span> command.
+  You must clear its attributes first (<span class="c2">Attrib H:\Dblspace.ini -H -S -R</span>).
+
+  Before making changes, I recommend that you prepare a boot diskette with
+  an editor and other tools.  Oh, yeah -- make a copy of DBLSPACE.INI, too.
+
+<span class="c2">█▌DBLSPACE.INI Commands▐█</span>
+
+  <span class="c2">MaxRemovableDrives=</span><span class="c1">n</span>
+   DoubleSpace maintains a series of structures to keep track of mounted
+   drives.  At boot time, DoubleSpace allocates memory for one structure
+   for each drive which was activated plus an extra <span class="c1">n</span> such structures.
+   See <a href="798-int_2fh_4a11h_bx_0009h__get_count_of_disk_unit_structures.html">INT 2fH 4a11H 0009H</a> (Count DISK_UNIT structures).
+
+   A normal setting: <span class="c2">MaxRemovableDrives=2</span>
+
+   To change: Choose Options in the Tools menu.
+
+  <span class="c2">FirstDrive=</span><span class="c1">drvLtr</span>
+   Specifies the lowest drive letter available for a host or compressed
+   drive.  DoubleSpace ignores <span class="c2">FirstDrive</span> and simply takes control of
+   all drive IDs starting from the original ID of the disk that contains
+   the first CVF mounted (see <span class="c2">ActivateDrive</span>, below).
+
+  <span class="c2">LastDrive=</span><span class="c1">drvLtr</span>
+   Specifies the highest drive letter available for a host or compressed
+   drive.
+
+   Notes: ■ DoubleSpace assigns drive IDs starting at <span class="c2">LastDrive</span> and working
+            down toward <span class="c2">FirstDrive</span>.
+
+            DoubleSpace will increase <span class="c2">LastDrive</span> automatically when
+            necessary.  For instance, if you mount a volume from a high-
+            lettered drive, DoubleSpace will need to consume drive letters
+            up to and including that drive's original ID.
+
+          ■ See <a href="792-int_2fh_4a11h_bx_0001h__get_dblspace_drive_mapping.html">INT 2fH 4a11H 0001H</a> (get drive map).
+
+  <span class="c2">MaxFileFragments=</span><span class="c1">nnnn</span>
+   When a CVF is fragmented, DoubleSpace must maintain an internal
+   structure to keep track of each fragment (this avoids having to hit
+   the <a href="359-fat__dos_file_allocation_table.html">FAT</a> of the host).  This command determines how much memory to
+   allocate.  See <a href="797-int_2fh_4a11h_bx_0008h__get_cvf_fragmentation_info.html">INT 2fH 4a11H 0008H</a> (get CVF Fragmentation Info).
+
+   During installation, <span class="c1">nnnn</span> is set to a whopping 2600.  That's because
+   a CVF may need to be created in multiple, discontiguous sections when
+   the host disk is large and has little free space.
+
+   But 2600 is a worst-case scenario.  After the initial installation,
+   <span class="c2">MaxFileFragments</span> is adjusted automatically to reflect the actual
+   memory needs.  It is set to the actual number of file fragments on
+   all CVFs plus a fudge factor of 110.
+
+   To see how fragmented your CVFs ended up, subtract 110 from the
+   current setting.
+
+  <span class="c2">ActivateDrive=</span><span class="c1">d</span><span class="c2">,</span><span class="c1">dn</span>
+                <span class="c3">│</span> <span class="c3">│└──────</span> CVF number (0-9)
+         <span class="c1">drv1</span> <span class="c3">──┘</span> <span class="c3">└───────</span> <span class="c1">drv2</span>
+
+   One or more of these <span class="c2">ActivateDrive=</span> commands appear at the end of
+   DBLSPACE.INI.  Each command identifies the locations of a hard disk
+   volume to mount automatically at system startup, and the drive ID to
+   use for it and its host.
+
+   <span class="c1">n</span> specifies which CVF<a href="919-qcvf.html">▲</a> to mount.  It is a digit, 0 to 9--the last
+   digit of the CVF file extension.
+
+     See <a href="794-int_2fh_4a11h_bx_0005h__mount_dblspace_drive.html">INT 2fH 4a11H 0005H</a> (mount volume) and
+     See <a href="793-int_2fh_4a11h_bx_0002h__dblspace_swap_drive.html">INT 2fH 4a11H 0002H</a> (swap drive IDs)
+
+  <span class="c2">If </span><span class="c1">n</span><span class="c2"> is 0</span>
+    The volume was <span class="c2">created by compressing existing files</span>.  The compressed
+    volume ID will be swapped with the host ID, so...
+
+    <span class="c1">drv1</span> is the drive letter to be used for the host.
+    <span class="c1">drv2</span> is the drive letter to be used for the compressed volume.  It also
+    identifies the original (unswapped) ID of the drive on which the CVF is
+    stored.
+
+    Example: <span class="c2">ActivateDrive=H,C0</span>
+    The file <span class="c1">C</span>:\DBLSPACE.00<span class="c1">0</span> is mounted and IDs are swapped.  The host ID
+    will be <span class="c2">H:</span> and the compressed volume will be called <span class="c2">C:</span>.
+
+  <span class="c2">If </span><span class="c1">n</span><span class="c2"> is not 0</span>
+    The volume was <span class="c2">created by compressing free space</span>.  The compressed
+    volume ID will not be swapped, so...
+
+    <span class="c1">drv1</span> is the drive letter to be used for the compressed volume.
+    <span class="c1">drv2</span> is the original drive letter of the host.
+
+  Example: <span class="c2">ActivateDrive=G,C1</span>
+     Mounts <span class="c1">C</span>:\DBLSPACE.00<span class="c1">1</span> as drive <span class="c2">G:</span>.  No swapping occurs.
+
+  Example: <span class="c2">ActivateDrive=H,C0</span>
+           <span class="c2">ActivateDrive=D,C1</span>
+    <span class="c1">C</span>:\DBLSPACE.00<span class="c1">0</span> is mounted as drive <span class="c2">C:</span> and the host ID is swapped and
+    can be accessed as drive <span class="c2">H:</span>.
+
+    <span class="c1">C</span>:\DBLSPACE.00<span class="c1">1</span> is mounted for access as drive <span class="c2">D:</span>.  The host ID was
+    swapped in the first line, so DBLSPACE.001 will be on drive H.
+
+    <span class="c2">Note:</span> When changing these settings, be sure to assign drive letters
+          that are within the range of <span class="c2">FirstDrive=</span> and <span class="c2">LastDrive=</span>.
+
+  <span class="c2">Enable386=</span><span class="c1">?</span>
+  <span class="c2">Debug=</span><span class="c1">?</span>
+   These two commands are recognized by Dblspace.Exe, but are
+   undocumented in any source I could find.  I would guess, that
+   Enable386= lets DoubleSpace support use 32-bit optimized compression
+   code and would only be needed on a machine that appears to be a 286
+   but is really a 386+.  The Debug= line may be an undeleted remnant
+   from beta tests; DBLSPACE.BIN does not recognize it.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace</a> (overview)
+                                    <span class="c3">-♦-</span></pre></body></html>

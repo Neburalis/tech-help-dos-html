@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4aH: Shrink or Expand a Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4aH: Shrink or Expand a Memory Block</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    4aH
+          <span class="c2">ES</span>    segment of an allocated memory block
+          <span class="c2">BX</span>    desired size for the block, in paragraphs (16-byte chunks)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">BX</span>    largest block available (if a &quot;grow&quot; request fails)
+          ──────────────────────────────────────────────────────────────────
+    Info: Changes the size of an existing memory block.
+
+          When a program receives control, the <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> EXEC function has
+          allocated a memory block starting at the <a href="371-psp__program_segment_prefix.html">PSP</a> that contains all of
+          available memory.  To make memory available to EXEC a child
+          process, shrink the block starting at your PSP paragraph.
+
+   Notes: ■ DOS Fn <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a> and <a href="566-int_27h__terminate_but_stay_resident.html">INT 27H</a> shrink the block at the <a href="371-psp__program_segment_prefix.html">PSP</a>.
+
+          ■ .COM programs: Move your stack down <span class="c1">BEFORE</span> shrinking your
+            block!
+
+See Also: <a href="13-memory_management_functions.html">Memory Control Functions</a>
+          <a href="368-mcb__memory_control_block.html">Memory Control Block</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

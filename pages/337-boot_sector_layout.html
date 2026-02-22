@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Boot Sector Layout - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Boot Sector Layout</h1><pre>
+ The DOS boot sector of a floppy disk or a hard disk <a href="345-disk_partition_table.html">partition</a> is expected
+ to be in this format.  Prior to DOS 4.0, a smaller structure was used (see
+ notes, below).
+
+<span class="c2">BootSectorRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      3  <span class="c1">abJmpCode</span>    JMP opcode to start of boot code
+   +3      8  <span class="c1">abOem</span>        e.g., &quot;MSDOS6.0&quot; or &quot;IBM  4.0&quot;
+  +0bH     2  <span class="c1">wSectSize</span>    bytes per sector (usually 512; 200H)
+  +0dH     1  <span class="c1">bClustSects</span>  sectors per allocation unit (cluster)
+  +0eH     2  <span class="c1">wResSects</span>    boot and reserved sectors
+  +10H     1  <span class="c1">bFatCnt</span>      number of File Allocation Tables.  See <a href="359-fat__dos_file_allocation_table.html">FAT</a>.
+  +11H     2  <span class="c1">wRootEntries</span> max number of 32-byte <a href="344-directory_entry_layout.html">DirEntryRec</a>s in root
+  +13H     2  <span class="c1">wTotSects</span>    total number of sectors in media
+                           0000H means &gt;32 MB, so use <span class="c1">lBigTotSects</span>
+ +15H      1  <span class="c1">bMedia</span>       <a href="370-media_descriptor.html">media descriptor</a> (same as 1st byte in FAT)
+ +16H      2  <span class="c1">wFatSects</span>    number of sectors in one <a href="359-fat__dos_file_allocation_table.html">FAT</a>
+ +18H      2  <span class="c1">wSectsPerTrk</span> sectors per track
+ +1aH      2  <span class="c1">wHeads</span>       number of read/write heads
+ +1cH      4  <span class="c1">lHidSects</span>    hidden sectors (ignore hiword in pre-DOS 4.0)
+ +20H      4  <span class="c1">lBigTotSects</span> 32-bit TotSects in volume (partitions &gt; 32M)
+
+ +24H      1  <span class="c1">bDrvNo</span>       80H=first hard disk (used internally by DOS)
+ +25H      1  <span class="c1">res1</span>         (reserved)
+ +26H      1  <span class="c1">bExtBootSig</span>  Extended boot record signature (always 29H)
+ +27H      4  <span class="c1">lSerNo</span>       Volume Serial Number (based on when formatted)
+ +2bH     11  <span class="c1">abVolLabel</span>   Volume Label (11-character, blank padded)
+ +36H      8  <span class="c1">abFileSysID</span>  contains 'FAT12   ' or 'FAT16   ')
+          62               length of formatted portion of BootSectorRec
+
+ +3eH      ?  <span class="c1">abBootCode</span>   code and data that performs disk bootstrap
++2ffH                      end of boot sector
+
+ See <a href="338-bpb__bios_parameter_block.html">BPBRec</a> for a description of most of these fields.  Fields unique to
+ the BootSectorRec include:
+
+   <span class="c1">abJmpCode</span>  Since the Boot Sector is used as program code during system
+              startup, the first bytes in the sector are a JMP opcode to get
+              past the data area.  It usually jumps to <span class="c1">abBootCode</span>.
+
+       <span class="c1">abOem</span>  This is an 8-character text field that is supposed to contain
+              the signature of the version of DOS which formatted the disk
+              (or otherwise laid down the boot sector).  It is not used by
+              DOS.
+
+      <span class="c1">bDrvNo</span>  On the first hard disk in a system, this field contains 80H.
+              Otherwise it should be 00H.  Used internally by DOS.
+
+ <span class="c1">bExtBootSig</span>  Prior to DOS 4.0, the formatted portion of the Boot Sector
+              ended at offset 1eH and that variation is still supported.
+              Boot Sectors which contain <span class="c2">29H</span> in this field (offset 26H) are
+              expected to contain the entire 3eH-byte record.
+
+      <span class="c1">lSerNo</span>  a 32-bit volume serial number.  It is based on the time and
+              date when formatted, making the disk unique for the system
+              which formatted it.  This field is used by block device
+              drivers which support Removable Media and Change Line
+              functions (see <a href="300-device_requests.html">Device Requests</a> and fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a>).
+
+              On disks formatted by DOS versions prior to 4.0, there is no
+              <span class="c1">lSerNo</span> or <span class="c1">abVolLabel</span> fields.  On pre-formatted diskettes,
+              these fields are often non-unique.  In either case, DOS might
+              not be able to detect a disk swap.
+
+  <span class="c1">abVolLabel</span>  the 11-character, blank-padded, volume label.  DOS lays this
+              down when the disk is formatted AND DOS updates it (along with
+              the volume label entry in the root directory) when you use the
+              <span class="c2">Label</span> command.
+
+ <span class="c1">abFileSysID</span>  this 8-character, blank-padded text field identifies the file
+              system.  It can be 'FAT12   ' (12-bit FAT entries) or
+              'FAT16   ' (16-bit FAT entries).  See <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>.
+
+  <span class="c1">abBootCode</span>  this is the start of the unformatted portion of the boot
+              sector.  It contains data and code that is executed when the
+              disk is booted.
+
+Versions: ■ <span class="c2">DOS 2.x</span>: the formatted part of the record ended at offset 18H.
+          ■ <span class="c2">DOS 3.x</span>: the formatted part of the record ended at offset 1eH.
+          ■ <span class="c2">DOS 4.0+</span>: <span class="c1">bExtBootSig</span> contains 29H and all fields through
+            offset 3eH are used.
+
+   Notes: ■ Use absolute disk read <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a> (DX=0) to read this sector OR
+            • <span class="c2">floppy disks:</span> The boot sector is at BIOS <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a>  head 0,
+              track 0, sector 1
+            • <span class="c2">hard disks:</span> read the <a href="345-disk_partition_table.html">Partition Table</a> to determine BIOS Head,
+              Track, Sector to seek before using INT 13H.
+
+          ■ To convert a cluster number (as read from the <span class="c1">wClustNo</span> field of
+            a <a href="344-directory_entry_layout.html">Directory Entry</a> or a <a href="359-fat__dos_file_allocation_table.html">FAT</a> chain) into a absolute sector number
+            (as used in INT 25H/26H calls), you may use DOS Fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> or read
+            the Boot Sector and apply the formulae:
+
+              wRootSects = (<span class="c1">wRootEntries</span> * 32) / <span class="c1">wSectSize</span>
+              wFirstData = <span class="c1">wResSects</span> + (<span class="c1">wFatSects</span> * <span class="c1">bFatCnt</span>) + wRootSects
+              lAbsSector = wFirstData + ((lAnyClusterNo - 2) * <span class="c1">bClustects</span>)
+
+            Use the calculated value (lAbsSector) in <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a> or <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 26H</a>
+            calls.
+
+          ■ Very old hard disks which require an installed device driver
+            (non-bootable hard disks) may contain garbage in the boot
+            sector.  When possible, use DOS fns such as <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> to obtain
+            information about the device.
+
+See Also: <a href="345-disk_partition_table.html">Partition Table</a>
+          <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

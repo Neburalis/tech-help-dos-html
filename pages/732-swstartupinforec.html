@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwStartupInfoRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwStartupInfoRec</h1><pre><span class="c2">SwStartupInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       2  <span class="c1">wVersion</span>     ignored; not used
+  +2       4  <span class="c1">pfrNext</span>      addr of previous handler's <span class="c2">SwStartupInfoRec</span>
+  +6       4  <span class="c1">res1</span>         ignored; not used
+ +0aH      4  <span class="c1">res2</span>         ignored; not used
+ +0eH      4  <span class="c1">pfarInst</span>     address of list of <a href="733-swinstanceitemrec.html">SwInstanceItemRec</a> structures.
+          18               size of an SwStartupInfoRec structure
+
+     <span class="c1">pfrNext</span>  this is the address of the next SwStartupInfoRec in the chain;
+              it is stored by programs which intercept <a href="714-int_2fh_4b05h__identify_instance_data.html">INT 2fH 4b05H</a>
+              (identify instance data).
+
+    <span class="c1">pfarInst</span>  the FAR address of a series of <a href="733-swinstanceitemrec.html">SwInstanceItemRec</a> structures
+              that identify memory regions which must be kept unique for
+              each session.  The structures are sequential in memory, and
+              the list ends when the first field if the SwInstanceItemRec is
+              0000:0000.
+
+ This structure is used in <a href="714-int_2fh_4b05h__identify_instance_data.html">INT 2fH 4b05H</a> (identify instance data).  It is
+ part of the system that allows programs to be reentrant across multiple
+ tasks by reserving memory areas for buffers and variables.  The task
+ switcher will save and restore the correct data for each task.
+
+ Programs that need to maintain instance data typically have the switcher
+ save and restore their stack, along with a specially-defined portion of
+ their data segment (including some or all program variables).
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

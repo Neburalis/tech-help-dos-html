@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1dH: Video Initialization Table Pointer - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1dH: Video Initialization Table Pointer</h1><pre>
+ This vector (0:0074) is a pointer to a bunch of video parameters that
+ are used by <a href="113-int_10h__video_services.html">INT 10H</a> to set the video controller registers and some
+ <a href="93-rom_bios_variables.html">BIOS Data Area</a> values when the video mode is initialized.
+
+ It is possible to create a RAM-resident version of this table, and modify
+ parameters in order to change the way some screen modes work.  For
+ instance, that is how the DOS <span class="c2">Mode</span> command shifts the screen left or
+ right.
+
+ See <a href="90-video_initialization_table.html">Video Initialization Table</a> for a layout of the table.
+
+See Also: <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="115-int_10h_00h__set_video_mode.html">INT 10H 00H</a>
+          <a href="114-video_modes.html">Video Modes</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 3eH: Close a File Handle - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 3eH: Close a File Handle</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    3eH
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Closes an open file.
+
+       <span class="c2">BX</span> contains a file handle returned from an Open operation.  The file
+          represented by that handle is closed, its buffers are flushed,
+          and the directory is updated with the correct size, time, and
+          date.
+
+          Because of the potential shortage of file handles (default=8,
+          max=20 with DOS &lt; <span class="c2">3.3</span>), you may want to close one or more of the
+          default handles, such as handle 3 (Standard AUX).
+
+   Notes: ■ <span class="c2">Smartdrv</span> may decide not to flush its cache for up to several
+            seconds.  To force &quot;commit&quot; to disk, use Fn <a href="386-dos_fn_0dh__reset_disk.html">0dH</a> (reset disk)
+            after closing the file.
+
+          ■ With DOS 3.3+, you can force a &quot;commit to disk&quot; without closing
+            the file.  See Fn <a href="556-dos_fn_68h__commit_file.html">68H</a> (commit file).
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4406H: IOCTL Query Handle Input Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4406H: IOCTL Query Handle Input Status</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AX</span>    4406H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device or disk file)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          <span class="c2">AL</span>    input status code (if no error)
+                00H: End of file or device not ready
+                ffH: not EOF     or device ready
+          ──────────────────────────────────────────────────────────────────
+    Info: This function checks to see if a device or file is ready for
+          input; i.e, has data waiting to be read.
+
+          <span class="c2">If the handle is a disk file:</span>
+            AL=00H file pointer has reached the end of file
+            AL=ffH file pointer is at EOF (next read will return 0 bytes)
+
+          <span class="c2">If the handle is a device:</span>
+            AL=00H the device is not ready (no input available)
+            AL=ffH the device is ready (input is available)
+
+   Notes: ■ This fn makes for a simple way to determine EOF or to see if a
+            device, such as a COM port, has any input to be read.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="453-dos_fn_4407h__ioctl_query_handle_output_status.html">4407H</a> (Query Handle Output Status)
+          <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

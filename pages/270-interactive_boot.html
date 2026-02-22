@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Interactive Boot - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Interactive Boot</h1><pre>                                   <span class="c2">┌───╖</span>
+                                   <span class="c2">│F8 ║</span>
+                                   <span class="c2">╘═══╝</span>
+                          and <span class="c1">(cmd)</span><span class="c2">?=</span> processing.
+                                        <span class="c2"> </span>
+  These features of DOS 6.0+ provide interactive control over execution of
+  individual CONFIG.SYS commands.  <span class="c2">DOS 6.2:</span> <span class="c1">Ctrl+F8</span> lets you control
+  execution of individual commands in AUTOEXEC.BAT.
+
+  During the <a href="263-system_startup_sequence.html">System Startup Sequence</a>, the message...
+
+     <span class="c2">Starting MS-DOS...</span>
+
+  ...appears and the system pauses for 2 seconds.  If you press F8 at this
+  point, DOS displays...
+
+     <span class="c2">MS-DOS will prompt you to confirm each CONFIG.SYS command.</span>
+
+  ...and then prompts with...
+
+     <span class="c1">(command)</span> <span class="c2">[Y,N]?</span>
+
+  ...before executing each command.  Press Y to execute it or N to skip it.
+  After the last command in CONFIG.SYS, DOS prompts with...
+
+     <span class="c2">Process AUTOEXEC.BAT [Y,N]?</span>
+
+  ...and you can skip AUTOEXEC.BAT by pressing Y.
+
+    Note: With <span class="c2">DOS 6.2+</span>, if you start with <span class="c1">Ctrl+F8</span>, you will be prompted
+          for action on each command in AUTOEXEC.BAT as well as CONFIG.SYS.
+
+          This step-by-step batch processing can also be used with any
+          batch file using the new COMMAND.COM syntax:
+
+              <span class="c2">Command /Y /C</span> <span class="c1">myBat.Bat</span>
+
+<span class="c3">█▌Skipping individual commands▐█</span>
+  You can place a question mark (<span class="c2">?</span>) after any CONFIG.SYS command to force
+  DOS to verify whether you want to execute the command.  For instance...
+
+     DEVICE<span class="c2">?</span>=RAMDRIVE.SYS 512
+
+ ...will cause DOS to display...
+
+     <span class="c2">DEVICE=RAMDRIVE.SYS 512 [Y,N]?</span>
+
+ ...and you can press Y to execute it or N to skip it.
+
+See Also: <a href="269-clean_boot.html">Clean Boot</a>
+          <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+          <a href="294-switches___config_sys_command_.html">SWITCHES=</a> (/N disables Clean Boot; /F skips the 2-second delay)
+                                    <span class="c3">-♦-</span></pre></body></html>

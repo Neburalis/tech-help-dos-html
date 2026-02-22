@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 04H: Query Light Pen - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 04H: Query Light Pen</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    04H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    0=not triggered (ignore other registers)
+                1=is triggered (other regs have valid info)
+          <span class="c2">DH</span>,<span class="c2">DL</span> text mode row,column at which pen was triggered
+          <span class="c2">CX</span>,<span class="c2">BX</span> graphics mode row,column (in pixels)
+                (on oldest BIOSes, row returned in CL and <span class="c2">CH</span> not used)
+          ──────────────────────────────────────────────────────────────────
+    Info: Checks to see if the light pen has been triggered and returns the
+          screen location at which the pen was pointing when it was
+          triggered.
+
+   Notes: Old CGA cards always included a light pen connector, but later
+          EGA/VGA cards often do not.
+
+See Also: <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                         <span class="c3">-♦-</span></pre></body></html>

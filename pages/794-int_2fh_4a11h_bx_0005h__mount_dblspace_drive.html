@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a11H BX=0005H: Mount Dblspace Drive - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a11H BX=0005H: Mount Dblspace Drive</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    4a11H (mux number)
+          <span class="c2">BX</span>    0005H (DoubleSpace fn code)
+          <span class="c2">DL</span>    drive number to assign to CVF (0=A, 1=B, etc)
+          <span class="c2">ES:SI</span> addr of <span class="c2">DsActivateRec</span> (undocumented; see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:SI</span> <span class="c1">bErrCode</span> field is <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (00H=success)
+          ──────────────────────────────────────────────────────────────────
+    Info: The documentation for this fn is incomplete--Microsoft explains
+          that it is &quot;very, very complicated.&quot;  It involves constructing a
+          file fragment list, recomputing the BitFAT, and checking for
+          MDFAT crosslinks.
+
+          We are told that the best way to mount a drive is to spawn a copy
+          of DBLSPACE.EXE, using a command line with the following syntax:
+
+             DBLSPACE.EXE /MOUNT[=<span class="c1">seq</span>] <span class="c1">host_drv</span> [/NEWDRIVE=<span class="c1">new_drv</span>]
+
+          For instance...
+
+             DBLSPACE.EXE /MOUNT=1 C: /NEWDRIVE=H
+
+          ...will mount the CVF named <span class="c2">C:\DBLSPACE.001</span> as drive H.  Keep in
+          mind the exception Dblspace makes when mounting a <span class="c2">.000</span> volume; in
+          that case, it automatically swaps the host ID with the compressed
+          volume ID.
+
+    <span class="c2">ES:DI</span> on entry, ES:DI must point to a local activation record.  The
+          available documentation describes only the first few fields of
+          this structure, as follows:
+
+          <span class="c2">DsActivateRec</span>
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      2  <span class="c1">abSig</span>       must be 444dH ('M','D')
+             +2      1  <span class="c1">bCmdCode</span>    must be 4dH ('<span class="c2">M</span>') Mount command
+             +3      1  <span class="c1">bResult</span>     returns a <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a>
+             +4      1  <span class="c1">bHostDrvNo</span>  host drive number (0=A, 1=B, etc.)
+             +5      ?  <span class="c1">rDiskUnit</span>   undocumented structure goes here
+                                    (different for DOS 6.0 and DOS 6.2)
+                    5+?             length of DsActivateRec (undocumented)
+
+          We don't have documentation on the <span class="c1">rDiskUnit</span> structure (and we
+          are told it is complicated and changed with DOS 6.2), so we can't
+          use this call.  We do know that DBLSPACE.BIN allocates a number
+          of them, depending upon the MaxRemovableDrives setting in
+          <a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a> (see <a href="798-int_2fh_4a11h_bx_0009h__get_count_of_disk_unit_structures.html">INT 2fH 4a11H 0009H</a>).
+
+          <span class="c2">On entry</span>, the <span class="c1">bHostDrvNo</span> field contains the drive number of the
+          host drive and (presumably), something in <span class="c1">rDiskUnit</span> identifies
+          the CVF<a href="919-qcvf.html">▲</a> name (or sequence number).
+
+          <span class="c2">On return</span>, the <span class="c1">bResult</span> field contains 00H if the operation was
+          successful or a <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> if the volume could
+          not be mounted.
+
+    Note: This looks like a wrapper for an undocumented IOCTL call.
+          Compare to <a href="802-doublespace_ioctl_fn__f___flush_doublespace_cache.html">DS IOCTL 'F'</a> and <a href="803-doublespace_ioctl_fn__i___flush_and_invalidate_cache.html">DS IOCTL 'I'</a>.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

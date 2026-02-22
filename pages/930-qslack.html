@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Slack - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Slack</h1><pre>                           file slack space
+──────────────────────────────────────────────────────────────────────
+DOS allocates disk space in multiple-sector chunks called &quot;clusters&quot;.
+Clusters typically hold 2K, 4K, or 8K of data.
+
+When DOS creates a file, it must allocate at least one cluster for
+that file.  Since file sizes vary, some portion of the last cluster is
+wasted (it contains no file data).
+
+┌─½K┬─½K┬─½K┬─½K┬─½K┬─½K┬─½K┬─½K┐ In this figure, a 2-byte file
+│hi │   │   │   │   │   │   │   │ (just the word &quot;hi&quot;) is stored in
+└┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┘ a 4096-byte cluster, so 4094 bytes
+└──────────────┬────────────────┘ of storage are &quot;wasted&quot; -- that's
+          4K cluster              the &quot;file slack&quot;.
+──────────────────────────────────────────────────────────────────────
+■ DoubleSpace's allocation scheme that minimizes slack space; a 1-byte
+  file occupies only 512 bytes of physical storage.</pre></body></html>

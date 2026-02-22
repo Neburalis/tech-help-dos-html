@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 13H: Delete File via FCB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 13H: Delete File via FCB</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    13H
+          <span class="c2">DS:DX</span> address of an unopened <a href="360-fcb__file_control_block.html">FCB</a> (filespec may contain '?'s)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0    if the file was deleted successfully
+                0ffH if file not found or access denied
+          ──────────────────────────────────────────────────────────────────
+    Info: All matching filespecs in the current default directory on the
+          drive specified in the <a href="360-fcb__file_control_block.html">FCB</a> are deleted.
+
+          If no matching filespecs are found, or if access is denied (as
+          when attempting to delete a file with a <a href="361-file_attribute.html">file attribute</a> of
+          Read-Only), AL returns 0ffH.
+
+See Also: Fn <a href="440-dos_fn_41h__delete_file.html">41h</a> (delete file)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

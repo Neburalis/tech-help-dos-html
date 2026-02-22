@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH b700H: Is APPEND.EXE Installed? - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH b700H: Is APPEND.EXE Installed?</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    b700H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    status: 00H = APPEND is not installed
+                        <span class="c2">ffH</span> = APPEND <span class="c1">is</span> installed
+          ──────────────────────────────────────────────────────────────────
+    Info: Checks to see if the DOS <span class="c2">APPEND.EXE</span> data-search-path utility has
+          been installed and is resident in memory.
+
+          Append changes its behavior significantly, depending upon the
+          current option settings.  See <a href="748-int_2fh_b706h__query_append_exe_option_settings.html">INT 2fH b706H</a> (query APPEND option
+          settings) before assuming that APPEND will take a particular
+          action.
+
+See Also: <a href="744-int_2fh_b7xxh__append_exe_functions.html">INT 2fH b7xxH: APPEND.EXE Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

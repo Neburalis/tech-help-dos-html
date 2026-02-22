@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4405H: IOCTL Send Control Data to Block Device - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4405H: IOCTL Send Control Data to Block Device</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AX</span>    4405H
+          <span class="c2">BL</span>    drive number (0=default, 1=A, 2=B, etc.)
+          <span class="c2">CX</span>    byte count (amount of data to send)
+          <span class="c2">DS:DX</span> Address of buffer containing data to send
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+                Number of bytes actually sent (if no error)
+          ──────────────────────────────────────────────────────────────────
+    Info: Some block device drivers support this method of communicating
+          with a device driver to select special features.  The layout and
+          contents of the control data varies from device to device.
+
+   Notes: ■ This fn is supported only if <span class="c1">bit 14</span> of the <a href="323-device_attribute.html">Device Attribute</a>
+            (the <span class="c1">rDevAttr</span> field of the driver's <a href="322-device_header_layout.html">DevHdrRec</a> structure) is
+            set.  Use Fn <a href="446-dos_fn_4400h__ioctl_query_device_file_flags.html">4400H</a> to check this bit.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="449-dos_fn_4403h__ioctl_send_control_data_to_character_device.html">4403H</a> (Send Control Data to Character Device)
+          Fn <a href="450-dos_fn_4404h__ioctl_receive_control_data_from_block_device.html">4404H</a> (Receive Control Data from Block Device)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

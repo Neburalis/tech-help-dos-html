@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1681H: Begin Critical Section - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1681H: Begin Critical Section</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    1681H
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: DOS programs (including TSRs and device drivers), when running
+          under Virtual-8086 mode (as when Enh386-Mode Windows is running)
+          can use this call to prevent a task-switch from occurring.
+
+          While in a critical section no other tasks, except hardware
+          interrupt handlers, are allowed to run.  Use <a href="773-int_2fh_1682h__end_critical_section.html">INT 2fH 1682H</a> (end
+          critical section) as soon as possible.
+
+See Also: <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

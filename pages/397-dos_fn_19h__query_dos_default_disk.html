@@ -1,0 +1,14 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 19H: Query DOS Default Disk - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 19H: Query DOS Default Disk</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    19H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    DOS current default drive number (0=A, 1=B, etc.)
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the drive number of the current DOS default disk.
+
+   Notes: ■ Add 'A' (65H) to AL to obtain a drive letter suitable for use
+            in handle-oriented file operations.
+
+See Also: Fn <a href="387-dos_fn_0eh__select_dos_default_disk.html">0eH</a> (set default disk)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

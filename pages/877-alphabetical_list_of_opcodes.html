@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Alphabetical List of Opcodes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Alphabetical List of Opcodes</h1><pre>
+ This table lists all 80x86 opcodes except <a href="876-80x87_floating_point_opcodes.html">80x87 Floating Point Opcodes</a>.
+ Additional descriptions are available in the the <a href="866-8088_286_386_486_pentium_instruction_set.html">Opcode Functional Groups</a>.
+
+AAA               adjust after ASCII addition
+AAD               adjust before ASCII division
+AAM               adjust after ASCII multiply
+AAS               adjust for ASCII subtraction
+ADC  dest,src     add two operands, using carry from previous ADD
+ADD  dest,src     add two operands, placing result in <span class="c1">dest</span>
+ADDRSIZ           <span class="c1">(prefix; 67H)</span> next address ref is non-default size   <span class="c2">386+</span>
+AND  dest,src     logical AND (mask; reset <span class="c1">dest</span> bits which are 0 in <span class="c1">src</span>)
+ARPL lvl          Adjust Requested Priv. Level to higher of cur or <span class="c1">lvl</span> <span class="c2">286+</span>
+BOUND reg16,lmts  perform limit-check on reg16
+BSF reg,src       Bit Scan Forward; <span class="c1">reg</span>←(index of next 1-bit of <span class="c1">src</span>)   <span class="c2">386+</span>
+BSF reg,src       Bit Scan Reverse; <span class="c1">reg</span>←(index of prev 1-bit of <span class="c1">src</span>)   <span class="c2">386+</span>
+BSWAP reg32       Swap low-to-high order of <span class="c1">reg32</span> to high-to-low       <span class="c2">486+</span>
+BT r/m,im8/reg    Test bit; put bit <span class="c1">im8</span> (or <span class="c1">reg</span>) of reg/mem into CF    <span class="c2">386+</span>
+BTC r/m,im8/reg   Test bit <span class="c1">im8</span> (or <span class="c1">reg</span>) of r/m &amp; complement that bit   <span class="c2">386+</span>
+BTR r/m,im8/reg   Test bit <span class="c1">im8</span> (or <span class="c1">reg</span>) of reg/mem and reset that bit  <span class="c2">386+</span>
+BTS r/m,im8/reg   Test bit <span class="c1">im8</span> (or <span class="c1">reg</span>) of reg/mem and set that bit    <span class="c2">386+</span>
+CBW               convert byte to word (sign-extend AL into AH)
+CLC               clear the carry flag to NC                        (CF←0)
+CLD               clear direction flag to UP (DF←UP←0) set to auto-<span class="c2">increment</span>
+CLI               disable maskable hardware interrupts              (IF←0)
+CMC               complement (reverse the value of) the carry flag  (CF←~CF)
+CMP  dest,src     compare (non-destructive subtract)
+CMPSB             compare byte strings; flags←(rslt of CMP DS:[SI],ES:[DI]);
+                    DI+=1; SI+=1
+CMPSW             like CMPSB but for words (opSize is 2 or 4 bytes)
+CMPXCHG r/m,reg   Compare and Exchange                                 <span class="c2">486+</span>
+CMPXCHG8B         Compare and Exchange 8 bytes                      <span class="c2">Pentium</span>
+CPUID             Get info into EBX,ECX,EBX (mode is 0 or 1 in EAX) <span class="c2">Pentium</span>
+CTS/CLTS          clear task switch flag                        (TF←1) <span class="c2">286+</span>
+CWD               convert word to dword (sign-extend AX into DX)
+DAA               adjust after BCD<a href="914-qbcd.html">▲</a> addition
+DAS               adjust for BCD<a href="914-qbcd.html">▲</a> subtraction
+DEC  dest         subtract 1 from <span class="c1">dest</span> (reg or r/m)
+DIV  src          divide accumulator by unsigned value <span class="c1">src</span> (reg/mem)
+ENTER frmsiz,cnt  set high-level language stack frame
+FWAIT             wait for TEST line active (synchronize with coprocessor)
+F<span class="c1">xxxxxx</span>           See <a href="876-80x87_floating_point_opcodes.html">80x87 Floating Point Opcodes</a>
+HLT               halt processing (perform NOPs until an interrupt occurs)
+IDIV src          divide accumulator by unsigned value <span class="c1">src</span> (reg/mem)
+IMUL r16,r/m,im16 multiply reg/mem by 16-bit immediate signed value    <span class="c2">286+</span>
+IMUL src          multiply AL(AX) by signed integer <span class="c1">src </span>(reg/mem)
+IN   AL/AX,DX     input to AL(or AX) from I/O port DX
+IN   AL/AX,port8  input to AL(or AX) from I/O port
+INC  dest         add 1 to <span class="c1">dest</span> (reg or r/m)
+INSB              port input byte into string; ←byte at port DX) DI+=1 <span class="c2">286+</span>
+INSW              like INSB but fetches 16-bit words; DI+=2            <span class="c2">286+</span>
+INT  type         perform a software interrupt (call a system function)
+INTO type         if OF==OV==1, then perform INT type
+INVD              Invalidate Data Cache                                <span class="c2">486+</span>
+INVLPG mem        Invalidate Translation Lookaside Buffer (TLB) entry  <span class="c2">486+</span>
+IRET              return from interrupt
+JA   shortLbl     jump if Above ((CF &amp; ZF)==0 after unsigned math)
+JAE  shortLbl     jump if Above or Equal (CF==NC==0 after unsigned math)
+JB   shortLbl     jump if Below/Jump if Carry set (CF==CY==1)
+JC   shortLbl     jump if Below/Jump if Carry set (CF==CY==1)
+JCXZ shortLbl     jump if CX==0
+JE   shortLbl     jump if Equal (ZF==ZR==1)
+JECXZ target      Jump to <span class="c1">target</span> if ECX is 0                           <span class="c2">386+</span>
+JG   shortLbl     jump if Greater (SF==(OF &amp; ZF) after signed math)
+JGE  shortLbl     jump if Greater or Equal (SF==OF after signed math)
+JL   shortLbl     jump if Less (ZF != OF after signed math)
+JLE  shortLbl     jump if Less or Equal (SF!=OF || ZF==0 after signed math)
+JMP  target       unconditionally transfer control to target
+JNB  shortLbl     jump if Above or Equal (CF==NC==0 after unsigned math)
+JNBE shortLbl     jump if Above ((CF &amp; ZF)==0 after unsigned math)
+JNC  shortLbl     jump if carry not set (CF==NC==0) (same as JAE/JNB)
+JNE  shortLbl     jump if Not Equal (ZF==NZ==0)
+JNG  shortLbl     jump if Less or Equal (SF!=OF || ZF==0 after signed math)
+JNGE shortLbl     jump if Greater (SF==(OF &amp; ZF) after signed math)
+JNGE shortLbl     jump if Less (ZF != OF after signed math)
+JNL  shortLbl     jump if Greater or Equal (SF==OF after signed math)
+JNO  shortLbl     jump if Not Overflow (OF==NO==0)
+JNP  shortLbl     jump if Parity Odd (PF==PO==0: cnt of 1-bits is ODD)
+JNS  shortLbl     jump if Not Sign (SF==PL==0: same as high-bit of dest)
+JNZ  shortLbl     jump if Not Equal (ZF==NZ==0)
+JO   shortLbl     jump if Overflow (OF==OV==1)
+JP   shortLbl     jump if Parity Even (PF==PE==1 cnt of 1-bits is even)
+JPE  shortLbl     jump if Parity Even (PF==PE==1 cnt of 1-bits is even)
+JPO  shortLbl     jump if Parity Odd (PF==PO==0: cnt of 1-bits is ODD)
+JS   shortLbl     jump if Sign (SF==NG==1: same as high-bit of dest)
+JZ   shortLbl     jump if Equal (ZF==ZR==1)
+LAHF              load/convert flags into AH
+LAR  dest,<span class="c1">src</span>     load high-byte of dest with Access Rights of <span class="c1">src</span> dsc <span class="c2">286+</span>
+LDS  r16,mem      load DS and <span class="c1">reg16</span> from memory variable
+LEA  r16,addr     load address into a register
+LEAVE             undo the effect of ENTER.  Use just before RET.
+LES  r16,mem      load ES and <span class="c1">reg16</span> from memory variable
+LFS reg,mem       Load FS and reg from memory                          <span class="c2">386+</span>
+LGDT src          load Global Descr. Table from 6-byte table at <span class="c1">src</span>    <span class="c2">286+</span>
+LGS reg,mem       Load GS and reg from memory                          <span class="c2">386+</span>
+LIDT src          load Int. Descriptor Table from 6-byte table at <span class="c1">src</span>  <span class="c2">286+</span>
+LLDT src          load Local Descr. Tbl (GDT selector) from reg/mem16  <span class="c2">286+</span>
+LMSW src          load Machine Status Word (use to enter prot. mode)   <span class="c2">286+</span>
+LOCK              <span class="c1">(prefix)</span> prevent coproc. bus access on next opcode   <span class="c2">386+</span>
+LODSB             copy string byte into AL; AL ← DS:[SI]; SI+=1
+LODSW             copy string word into (E)AX; (E)AX←DS:[SI]; SI+=(2 or 4)
+LOOP shortLbl     CX←(CX-1) jump if CX!=0
+LOOPE  shortLbl   CX←(CX-1) jump if CX!=0 &amp;&amp; ZF==ZR==1
+LOOPNE shortLbl   CX←(CX-1) jump if CX!=0 &amp;&amp; ZF==NZ==0
+LOOPNZ shortLbl   CX←(CX-1) jump if CX!=0 &amp;&amp; ZF==NZ==0
+LOOPZ  shortLbl   CX←(CX-1) jump if CX!=0 &amp;&amp; ZF==ZR==1
+LSL  dest,<span class="c1">src</span>     load dest with Segment Limit of descr. named by <span class="c1">src</span>  <span class="c2">286+</span>
+LSS  reg,mem      Load SS and reg from memory                          <span class="c2">386+</span>
+LTR  src          load Task Register (GDT selector) from reg/mem16     <span class="c2">286+</span>
+MOV  dest,src     transfer (copy) data to/from register, to/from memory
+MOV  CR<span class="c1">n</span>,src32    Load <span class="c1">src32</span> data into Control Register <span class="c1">n</span> (0,2,or 3)   <span class="c2">386+</span>
+MOV  dest,CR<span class="c1">n</span>     Load Control Register <span class="c1">n</span> into dest (reg/mem32)        <span class="c2">386+</span>
+MOV  dest,DR<span class="c1">n</span>     Load Debug Register <span class="c1">n</span> into dest (reg/mem32)          <span class="c2">386+</span>
+MOV  dest,TR<span class="c1">n</span>     Load Test Register <span class="c1">n</span> into dest (reg/mem32)           <span class="c2">386+</span>
+MOV  DR<span class="c1">n</span>,src32    Load <span class="c1">src32</span> data into Debug Register <span class="c1">n</span> (0-3,6,or 7)   <span class="c2">386+</span>
+MOV  TR<span class="c1">n</span>,src32    Load <span class="c1">src32</span> data into Test Register <span class="c1">n</span> (3-7)           <span class="c2">386+</span>
+MOVSB             copy byte string; ES:[DI]←DS:[SI]; DI+=1; SI+=1
+MOVSW             copy word string; ES:[DI]←DS:[SI]; DI+=▲; SI+=▲ (▲=2 or 4)
+MOVSXB            MOVSB with SF (sign) extension                       <span class="c2">386+</span>
+MOVSXW            MOVSW with ZF (zero) extension                       <span class="c2">386+</span>
+MUL  src          multiply AL(AX) by unsigned value <span class="c1">src</span> (reg/mem)
+NEG  dest         change sign of an operand
+NOT  dest         form 1's complement (toggle every bit in <span class="c1">dest</span>)
+OR   dest,src     inclusive OR (set <span class="c1">dest</span> bits which are 1s in <span class="c1">src</span>)
+OUT  DX,AL/AX     output from AL (or AX) to I/O port DX
+OUT  port8,AL/AX  output from AL (or AX) to I/O port
+OUTS              like OUTSB but outputs 16-bit words; SI+=2           <span class="c2">286+</span>
+OUTSB             port output byte from string; [prtDX]←DS:[SI]; SI+=1 <span class="c2">286+</span>
+POP  dest         transfer from stack to <span class="c1">dest</span> (reg16, r/m16, or segreg)
+POPA              POP All: copy general registers from stack.          <span class="c2">286+</span>
+POPF              POP Flags: transfer from stack to flags register
+PUSH immed        transfer immed16 (or sign-extended immed8) to stack.
+PUSH src          transfer reg16 or r/m16 to stack
+PUSHA             PUSH ALL: copy general registers to stack.           <span class="c2">286+</span>
+PUSHF             PUSH Flags: transfer flags register to stack
+RCL  dest[,cnt]   rotate <span class="c1">dest</span> left through Carry by 1, CL, or <span class="c1">cnt</span>
+RCR  dest[,cnt]   rotate <span class="c1">dest</span> right through Carry by 1, CL, or <span class="c1">cnt</span>
+RDMSR reg/mem     Read from model-specific register in ECX          <span class="c2">Pentium</span>
+RDTSC             Read timestamp counter                            <span class="c2">Pentium</span>
+REP/REPE/REPZ     <span class="c1">(prefix)</span> repeat: perform string operation repeatedly
+                    CX←(CX-1); string op repeats until CX==0
+REPNE/REPNZ       <span class="c1">(prefix)</span> repeat: useful for string ops CMPS and SCAS
+                    ZF←0; CX←(CX-1); StrOp repeats while (CX!=0 and ZF==0)
+ROL  dest[,cnt]   rotate <span class="c1">dest</span> left by 1, CL, or <span class="c1">cnt</span>
+ROR  dest[,cnt]   rotate <span class="c1">dest</span> right by 1, CL, or <span class="c1">cnt</span>
+SAHF              store/convert AH into flags
+SAL  dest         shift left (multiply by 2) by 1, CL, or <span class="c1">cnt</span>
+SAR  dest         shift arithmetic right (retain high bit) by 1, CL, or <span class="c1">cnt</span>
+SBB  dest,src     subtract using borrow (carry flag) from previous SUB
+SCASB             find byte in string; flags←(rslt of CMP DS:[DI],AL); DI+=1
+SCASW             like SCASB but for words (opSize is mem16 or mem32; DI+=▲)
+SEG  segreg       <span class="c1">(prefix)</span> override default <span class="c1">segreg</span> for next EA calc
+SET<span class="c1">ccc</span> dest       If condition <span class="c1">ccc</span> is true, set the byte at <span class="c1">dest</span> to 1  <span class="c2">386+</span>
+SGDT dest         store 6-byte Global Desc. Table to memory at <span class="c1">dest</span>    <span class="c2">286+</span>
+SHL  dest[,cnt]   shift left (multiply by 2) by 1, CL, or <span class="c1">cnt</span>
+SHLD r/m,reg,im8  shift left <span class="c1">r/m</span> (16- or 32-bit) by <span class="c1">im8</span> (or CL) bits,
+     r/m,reg,CL    inserting data from <span class="c1">reg</span> into the vacated positions  <span class="c2">386+</span>
+SHR  dest[,cnt]   shift right (divide by 2) by 1, CL, or <span class="c1">cnt</span>
+SHRD r/m,reg,im8  shift right <span class="c1">r/m</span> (16- or 32-bit) by <span class="c1">im8</span> (or CL) bits,
+     r/m,reg,CL     inserting data from <span class="c1">reg</span> into the vacated positions <span class="c2">386+</span>
+SIDT dest         store 6-byte Int. Descriptor Table to memory at <span class="c1">dest</span> <span class="c2">286+</span>
+SIZ               <span class="c1">(prefix; 66H)</span> next data ref is non-default size      <span class="c2">386+</span>
+SLDT dest         store Local Descr. Table register into <span class="c1">dest</span> (r/m16)  <span class="c2">286+</span>
+SMSW src          store Machine Status Word to reg/mem16               <span class="c2">286+</span>
+STC               set the carry flag to CY                          (CF←1)
+STD               set direction flag to DN (DF←DN←1)  set to auto-<span class="c2">decrement</span>
+STD               set direction flag to DN (string ops decrement)   (DF←1)
+STI               enable maskable hardware interrupts               (IF←1)
+STOSB             store byte into string; ES:[DI]←AL; DI+=1
+STOSW             store word into string; ES:[DI]←(E)AX; DI+=▲ (▲=2 or 4)
+STR  dest         store Task Register to reg/mem16                     <span class="c2">286+</span>
+SUB  dest,src     subtract <span class="c1">src</span> from <span class="c1">dest</span>, leaving result in <span class="c1">dest</span>
+TEST dest,src     non-destructive AND (bit test; <span class="c2">JZ</span> jumps if no match)
+VERR seg          Sets ZF to ZR if task has read privileges for <span class="c1">seg</span>    <span class="c2">286+</span>
+VERW seg          Sets ZF to ZR if task has write privileges for <span class="c1">seg</span>   <span class="c2">286+</span>
+WAIT              wait for TEST line active (synchronize with coprocessor)
+WBINVD            Write-Back and Invalidate Data Cache                 <span class="c2">486+</span>
+WRMSR reg/mem     Write to model-specific register in ECX           <span class="c2">Pentium</span>
+XADD r/m,reg      Exchange and Add                                     <span class="c2">486+</span>
+XCHG dest,src     exchange values of two registers or register and r/m
+XLAT              translate AL into a value in a translation table at BX
+XOR  dest,src     exclusive OR (toggle <span class="c1">dest</span> bits which are 1s in <span class="c1">src</span>)
+────────────────────────────────────────────────────────────────────────────
+                                                            <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

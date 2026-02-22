@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 4100H: Get Frame Segment Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 4100H: Get Frame Segment Address</h1><pre>
+ Expects: <span class="c2">AX</span>    4100H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">BX</span>    segment of EMS frame
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the segment at which the EMS frame is mapped.
+
+          The EMS frame is a 64K area, often starting at d000:0.  Depending
+          upon switches used when the driver is installed, the frame may
+          actually start at any segment address from 8000H to 9000H (seen
+          rarely) and c000H through e000H in increments of 400H.
+
+          When you read or write to EMS memory, you will use <a href="652-int_67h_4000h__get_emm_status.html">INT 67H 4000H</a>
+          to map part of the EMS into this frame, then read or write to the
+          64K starting at the segment returned in <span class="c2">BX</span>.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

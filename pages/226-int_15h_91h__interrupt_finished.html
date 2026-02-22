@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 91H: Interrupt Finished - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 91H: Interrupt Finished</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    91H
+          <span class="c2">AL</span>    device type:  00H fixed disk time-out
+                              01H diskette time-out
+                              02H keyboard
+                              03H pointed device time-out
+                              21H waiting foe keyboard input
+                              80H network
+                              fcH fixed-disk reset time-out
+                              fdH diskette drive motor start
+                              feH pointing device time-out
+          <span class="c2">ES:BX</span> addr of network control block (if <span class="c2">AL</span> = 80H or higher)
+          <span class="c2">CF</span>    must be NC (0) before calling
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This service is designed to be intercepted by a multitasking
+          operating system.  It could be used by disk or other hardware
+          handlers so the handler can be notified when I/O is completed.
+          This fn could also be used by an operating system to learn when
+          I/O is completed so the requesting task could be reactivated.
+
+          When unintercepted, the BIOS simply sets AH to 0 and clears CF.
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

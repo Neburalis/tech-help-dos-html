@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4eH: Find 1st Matching File - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4eH: Find 1st Matching File</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    4eH
+          <span class="c2">DS:DX</span> address of ASCIIZ<a href="913-qasciiz.html">▲</a> filespec to find (wildcards<a href="935-qwildcard.html">▲</a> OK)
+          <span class="c2">CX</span>    <a href="361-file_attribute.html">file attribute</a> to match
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <a href="351-dta__disk_transfer_address.html">DTA</a>   is filled with a <a href="364-fileinforec.html">FileInfoRec</a> (if no error)
+          ──────────────────────────────────────────────────────────────────
+    Info: Searches a single directory for a file matching a specific
+          wildcard<a href="935-qwildcard.html">▲</a> filespec with a given <a href="361-file_attribute.html">file attribute</a> and returns file
+          information into the current <a href="351-dta__disk_transfer_address.html">DTA</a>.
+
+          You may use this to <span class="c2">obtain a file's size</span>, time, date, etc.
+          without needing to open the file.
+
+    <span class="c2">DS:DX</span> points to an ASCIIZ string in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">0</span>
+          If the drive or path is omitted, defaults are assumed.
+
+          DOS finds the name of the first file on the drive and directory
+          that matches the filespec and attribute, and places that name and
+          other information into the <a href="351-dta__disk_transfer_address.html">DTA</a>, in the form of a <a href="364-fileinforec.html">FileInfoRec</a>.
+
+   Notes: The <a href="361-file_attribute.html">file attribute</a> is generally used in an <span class="c1">inclusive</span> search.
+          For instance, if you want to look for directories as well as
+          filenames, attribute bit 4 should be set (attr | 10H).  See
+          <a href="361-file_attribute.html">File Attributes</a> for full information.
+
+          A typical sequence used to find all matching files in a
+          directory:
+
+            ■ Use Fn <a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">1aH</a> to set the <a href="351-dta__disk_transfer_address.html">DTA</a> to a local buffer (or use the
+              default DTA at <a href="371-psp__program_segment_prefix.html">PSP</a> offset 80H)
+            ■ Set CX=attribute, DS:DX =&gt; ASCIIZ wildcard d:\path\filespec
+            ■ Invoke Fn 4eH (Find First)
+            ■ If CF indicates error, you're all done (no matches)
+            ■ Set DS:DX =&gt; DTA (or to data you've copied from the DTA after
+              using Fn 4eH)
+            ■ Repeat:
+                Process the filespec and data at DS:DX
+                Invoke Fn <a href="511-dos_fn_4fh__find_next_matching_file.html">4fH</a> (Find Next)
+              Until error return indicates no match (Carry Flag is set)
+
+See Also: Fn <a href="511-dos_fn_4fh__find_next_matching_file.html">4fH</a> (find next file)
+          Fn <a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">1aH</a> (set DTA)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

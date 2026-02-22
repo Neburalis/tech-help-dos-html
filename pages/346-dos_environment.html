@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Environment - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Environment</h1><pre><span class="c2">█▌Overview▐█</span>
+  DOS maintains an area of memory that holds a set of ASCIIZ<a href="913-qasciiz.html">▲</a> strings that
+  can be used to obtain certain system-level information and to pass data to
+  other programs.
+
+  ■ The environment is a series of strings in the form: <span class="c1">name</span>=<span class="c1">value</span>.
+  ■ The <span class="c2">Set</span> command is a general purpose interface to the environment.  The
+    <span class="c2">Path</span> and <span class="c2">Prompt</span> commands also affect its contents.
+  ■ In DOS 3.0+, you can obtain the name by which your program was started
+    (and therefore, your startup directory) by examining the end of the
+    environment.
+  ■ In DOS 3.3+ batch files, any text surrounded by percent marks is
+    replaced with the environment <span class="c1">value</span> that matches the <span class="c1">name</span>.  Examples:
+    ┌─────────────────────────────────────────
+    │  Path c:\my_dir;<span class="c1">%PATH%</span>
+    │  If (<span class="c1">%USER%</span>) == (dan) GOTO dan_label
+    │  Echo <span class="c1">%SET_CMPRS%</span> &gt; <span class="c1">%CUR_LPT%</span>
+
+  ■ In DOS 6.0+, you can use SET in <a href="267-the_config_sys_file.html">CONFIG.SYS</a>.
+
+  The environment is limited to an arbitrary size, but a larger DOS
+  environment can be created with the <a href="292-shell___config_sys_command_.html">SHELL=</a> directive in the <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+  file or the command 'COMMAND /e:<span class="c1">nnnn</span>' which starts a secondary copy of the
+  command interpreter, providing <span class="c1">nnnn</span> bytes of environment space.
+
+     Layout:                       Example using ASM mnemonics:
+     ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀             ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+     <span class="c1">name_1</span>=<span class="c1">value_1</span><span class="c2">0</span>               db  'COMSPEC=c:\command.com',0
+     <span class="c1">name_2</span>=<span class="c1">value_2</span><span class="c2">0</span>               db  'PROMPT=$p$g',0
+          :                        db  'WP=c:\wordproc',0
+     <span class="c1">name_N</span>=<span class="c1">value_N</span><span class="c2">0</span>               db  'PATH=d:\;c:\dos;c:\utils',0
+     <span class="c2">0</span>                             db  0
+  ┌─ <span class="c2">xxxx</span> ───────────┐   DOS    ┌─ dw  1  ───────────────────────┐
+  │  EXEC_string_1<span class="c2">0</span>  ╞═► <span class="c2">3.0+</span> ◄═╡  db  'C:\ACCTNG\AR001.EXE',0   │
+  │    :             │   only   └─ db  0  ───────────────────────┘
+  │  EXEC_string_NN<span class="c2">0</span> │
+  └─ <span class="c2">0</span> ──────────────┘
+
+  where <span class="c2">0</span>    is the ASCII NUL character (00H)
+        <span class="c2">xxxx</span> is a 16-bit binary value (usually 0001H)
+
+<span class="c2">█▌Using the Environment▐█</span>
+  The environment is less than 32K bytes and it starts on a paragraph
+  boundary.  Offset 2cH of the <a href="371-psp__program_segment_prefix.html">PSP</a> of the current program contains the
+  paragraph number of the environment for the active program.
+
+  Alas, there are no DOS services to help access the environment.  You can
+  find a selected <span class="c1">name</span> by using a series of ASCIIZ string comparisons, until
+  you come to a null string (zero length), indicating the end of the
+  environment.  Normally, the <span class="c1">name</span> portion of each string in the environment
+  is in uppercase, but this is not enforced.
+
+  One typical operation with the environment is used by shell-type programs
+  which execute a secondary copy of COMMAND.COM.  Shells typically search
+  for the <span class="c1">name</span> of &quot;COMSPEC&quot; and use the <span class="c1">value</span> as the drive, path, and
+  filespec of the DOS command interpreter--the program to EXEC via fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a>
+
+  Some programs (including some DOS commands) request the operator to store
+  application-specific information in the environment via the SET command.
+  The application can use that information each time it is executed.  For
+  instance, a word processor may search the environment for a <span class="c1">name</span> of
+  &quot;DICTIONARY&quot; and use the text of the <span class="c1">value</span> as the filespec for a
+  dictionary data file.
+
+  See <a href="369-predefined_environment_variables.html">Predefined Environment Variables</a> for related info.
+
+<span class="c2">█▌Locating Your Load Path▐█</span>
+  Starting with DOS 3.0, DOS stores an additional string after the end of
+  the formal environment that can be used to locate the drive and directory
+  from which a program was loaded.  Applications can use this to help locate
+  program overlays and data files.
+
+  This becaem important with DOS 3.0, when DOS began allowing an operator to
+  invoke a program by prefixing a pathname before the program filename.
+
+  Following the final string of the environment is a byte of 0, indicating
+  the end of the formal environment.  The next two bytes are a 16-bit binary
+  count of additional strings (this value is normally 0001H).  Following
+  this binary value, you can expect to find an ASCIIZ string of the filespec
+  (including the drive, path, and extension) which was used by DOS Fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a>
+  (EXEC) to load and execute the program.
+
+  Even if the program file was not in the default directory and DOS or
+  Windows needed to use the command search path to locate the program file,
+  the correct full filespec (d:\path\filename.ext,0) will be stored after
+  the end of the environment.
+
+<span class="c2">█▌The &quot;Master&quot; Environment▐█</span>
+  Each program receives a static copy of the initial environment.  Thus,
+  any changes you make to an environment will be in effect for all your
+  child processes (if any), but will be lost when control is returned to
+  your parent process.  See <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>.
+
+  The DOS <span class="c2">Set</span> command affects the master environment of the active copy of
+  COMMAND.COM, but there is no simple or documented way to do so in your own
+  programs.  The <a href="912-_undocumented_.html">undocumented</a> way to locate the &quot;root&quot; or &quot;master&quot;
+  environment is:
+
+    ■ Examine the word at offset 16H of your <a href="371-psp__program_segment_prefix.html">PSP</a>; that's the PSP of your
+      parent (undocumented).
+
+    ■ Examine the same offset in that &quot;parent PSP&quot;.  Keep working backward
+      up the chain until the &quot;parent PSP&quot; is the same as the PSP
+      itself--that will be the PSP of COMMAND.COM.
+
+    ■ The word at offset 2cH in that PSP is the segment of the environment
+      for COMMAND.COM (that's the &quot;master&quot; environment).
+
+    ■ The size of the master environment can be obtained by examining the
+      <a href="368-mcb__memory_control_block.html">Memory Control Block</a> (MCB) which is in the paragraph just before the
+      environment.  The word at offset 03H is the size of the memory block,
+      in 16-byte paragraphs.
+
+  If you want to change anything in the master environment, you'll need to
+  be careful to avoid overwriting the end and to leave it in good shape.
+  Also remember that when running multiple DOS sessions (e.g., under
+  Windows), this will affect the environment of ONLY the current session.
+
+See Also: <a href="369-predefined_environment_variables.html">Predefined Environment Variables</a>
+          <a href="371-psp__program_segment_prefix.html">PSP</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

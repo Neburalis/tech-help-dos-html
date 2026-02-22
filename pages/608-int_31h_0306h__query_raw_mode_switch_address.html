@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0306H: Query Raw Mode-Switch Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0306H: Query Raw Mode-Switch Address</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0306H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (this fn always succeeds)
+          <span class="c2">BX:CX</span> real-mode address of routine to switch to protected mode
+          <span class="c2">SI:DI</span> (or SI:EDI) prot mode addr of routine to switch to real mode
+          ──────────────────────────────────────────────────────────────────
+    Info: This is used by applications which perform low-level mode
+          switching.  It obtains the addresses of the DPMI routine which
+          switches into or out of real mode.
+
+          See <a href="607-int_31h_0305h__query_state_save_restore_addresses.html">INT 31H 0305H</a> for a way to save and restore the state of a
+          task when you perform raw mode-switching.
+
+    <span class="c2">BX:CX</span> this address can be called by real-mode applications to switch to
+          protected mode.
+
+ <span class="c2">SI:(E)DI</span> this address can be called by protected-mode applications to
+          switch to real mode.
+
+          Both of these routines are accessed via FAR JMP and expect:
+
+               <span class="c2">AX</span> = new DS
+               <span class="c2">CX</span> = new ES
+               <span class="c2">DX</span> = new SS
+            <span class="c2">(E)BX</span> = new (E)SP
+               <span class="c2">SI</span> = new CS
+            <span class="c2">(E)DI</span> = new (E)IP
+
+          The host switches modes, and sets DS, ES, SS, and (E)SP, and
+          jumps to <span class="c2">SI:(E)DI</span>.
+
+   Notes: ■ It is your responsibility to save and restore the CPU state
+            (see <a href="607-int_31h_0305h__query_state_save_restore_addresses.html">INT 31H 0305H</a>) when switching modes.
+
+          ■ You will find it easier to use fns such as <a href="602-int_31h_0300h__simulate_real_mode_interrupt.html">INT 31H 0300H</a> to
+            force mode switching, since they handle the overhead.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

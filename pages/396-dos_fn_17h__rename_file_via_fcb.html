@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 17H: Rename File via FCB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 17H: Rename File via FCB</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    17H
+          <span class="c2">DS:DX</span> address of a special-format <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0    if the file was renamed successfully
+                0ffH file not found, new name already exists, other error
+          ──────────────────────────────────────────────────────────────────
+    Info: Renames a file in the current default directory.  Use the
+          following layout for renaming files with this function:
+
+              ╔══► 0=default, 1=A, 2=B, etc.
+offset  len ┌─╨─┬───────────────────────────────┬───────────┐
+ +0     0cH │<span class="c1">drv</span>│ F   I   L   E   N   A   M   E │ E   X   T │ ◄════ <span class="c1">oldname</span>
+            ├───┴───┴───┴───┴───┴───┼───┴───┴───┴───┴───┴───┘
+ +0cH    6  │       reserved        │
+            ├───┴───┴───┴───┴───┴───┴───────┬────────────┐
+ +11H   0bH │ F   I   L   E   N   A   M   E │ E   X   T  │  ◄══════ <span class="c1">newname</span>
+            └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴────┘
+
+          Either name may contain <span class="c1">?</span> wildcard<a href="935-qwildcard.html">▲</a> characters:
+          ■ In the <span class="c1">oldname</span> a wildcard causes a search for all matches in
+            the default directory and renames each matching filespec.
+          ■ In the <span class="c1">newname</span> it means: use the same character as found in
+            that position in the <span class="c1">oldname</span>.
+
+   Notes: ■ This function allows you to rename a directory by using an
+            <a href="360-fcb__file_control_block.html">Extended FCB</a> with the proper <a href="361-file_attribute.html">file attribute</a> for the <span class="c1">oldname</span>.
+
+See Also: Fn <a href="517-dos_fn_56h__rename_move_a_file.html">56H</a> (rename/move file)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 3cH: Create a File via Handle - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 3cH: Create a File via Handle</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    3cH
+          <span class="c2">DS:DX</span> address of an ASCIIZ<a href="913-qasciiz.html">▲</a> string of a filespec<a href="922-qfilespec.html">▲</a>
+          <span class="c2">CX</span>    <a href="361-file_attribute.html">file attribute</a>  (can't be a volume label)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+                <a href="362-file_handle.html">file handle</a> if no error
+          ──────────────────────────────────────────────────────────────────
+    Info: Creates an empty file, or deletes all data from an existing file.
+          The file is open for read/write operations.
+
+    <span class="c2">DS:DX</span> points to an ASCIIZ string in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">◄0►</span>
+          ...which identifies the location and name of the file to create.
+          If drive and/or path are omitted, defaults are assumed.
+
+          If CF is set on return, an error code is in AX and no action was
+          taken.
+
+   Notes: ■ The file is opened with an <a href="336-access_mode___open_mode.html">Access Mode</a> of read/write.
+
+          ■ if the file already exists:
+            • When opened, it is truncated to a length of 0.
+            • If its <a href="361-file_attribute.html">file attribute</a> is read-only, the open fails
+              (its attribute may be changed via Fn <a href="444-dos_fn_4301h__set_file_attribute.html">4301H</a>).
+
+          ■ Fn <a href="528-dos_fn_5bh__create_new_file.html">5bH</a> (create new file) is similar, but fails if the file
+            already exists.
+
+          ■ Fn <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a> has additional options, such as disabling critical
+            errors and forcing automatic write-through to disk.
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Request 0cH: IOCTL Output - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Request 0cH: IOCTL Output</h1><pre>                                                          <a href="328-_blk_.html">◄Blk►</a> <a href="327-_chr_.html">◄Chr►</a> <a href="329-_irw_.html">◄IRW►</a>
+ This tells driver to accept and act upon IOCTL commands or data.
+
+<span class="c2">DevReq0cRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bLen</span>         14H (length of this request packet)
+   +1      1  <span class="c1">bUnitNo</span>      (not used)
+   +2      1  <span class="c1">bCmd</span>         <span class="c2">0cH</span> (command code)
+   +3      2  <span class="c1">rStatus</span>      OUTPUT: <a href="325-device_status_word.html">Device Status Word</a> must fill before exit
+   +5H     8  <span class="c1">res</span>          (reserved)
+  +0dH     1  <span class="c1">bRes2</span>        (not used)
+  +0eH     4  <span class="c1">pfBuffer</span>     INPUT: buffer address
+  +12H     2  <span class="c1">wSize</span>        INPUT: size of IOCTL data
+                           OUTPUT: number of bytes actually processed
+          20               size of this structure
+
+     <span class="c1">rStatus</span>  On exit, the driver must place a <a href="325-device_status_word.html">DevStatusWord</a> here.  Always
+              set the Done bit (<span class="c1">bit 8</span>).  On an error, set the Done bit and
+              the Error bit (<span class="c1">bit 15</span>) and put a <a href="326-device_driver_errors.html">Device Error Code</a> in the low
+              byte.
+
+    <span class="c1">pfBuffer</span>  on entry, this is the address of the IOCTL data.  It is the
+              address passed in <span class="c2">DS:DX</span> from DOS fn <a href="449-dos_fn_4403h__ioctl_send_control_data_to_character_device.html">4403H</a> or <a href="451-dos_fn_4405h__ioctl_send_control_data_to_block_device.html">4405H</a>.
+
+       <span class="c1">wSize</span>  on entry, this is the size of the IOCTL data being passed from
+              DOS.  It is the value passed in <span class="c2">CX</span> from DOS fn <a href="449-dos_fn_4403h__ioctl_send_control_data_to_character_device.html">4403H</a> or <a href="451-dos_fn_4405h__ioctl_send_control_data_to_block_device.html">4405H</a>.
+
+              On return, if you were unable to process all of the data, you
+              should indicate an error and set this to amount of data that
+              was actually processed.
+
+   Notes: ■ This is the device driver &quot;catch point&quot; for:
+             DOS Fn <a href="449-dos_fn_4403h__ioctl_send_control_data_to_character_device.html">4403H</a> (IOCTL send control data to character device) and
+             DOS Fn <a href="451-dos_fn_4405h__ioctl_send_control_data_to_block_device.html">4405H</a> (IOCTL send control data to block device)
+
+          ■ The layout of the data at <span class="c1">pfBuffer</span> is device-specific.
+
+          ■ Only drivers capable of IOCTL-processing need support this
+            request (see <a href="323-device_attribute.html">Device Attribute</a>).
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">DevRequestHdrRec</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

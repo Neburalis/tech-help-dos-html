@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1607H: Device Call Out - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1607H: Device Call Out</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+  Expect: <span class="c2">AX</span>    1607H
+          <span class="c2">BX</span>    Device ID (see <a href="762-some_published_vxd_ids.html">VxD IDs</a>)
+          <span class="c2">??</span>    other regs, as defined per device
+          ──────────────────────────────────────────────────────────────────
+  Return: <span class="c2">??</span>    varies per device
+          ──────────────────────────────────────────────────────────────────
+    Info: TSRs and DOS-level device drivers may intercept this function as
+          a way to receive communication from a Windows device driver.
+
+          This is normally used by a TSR which has loaded a windows virtual
+          device (and therefore knows its ID) or to access APIs published
+          for existing Windows Virtual Device drivers (VxD).  The virtual
+          device invokes this fn to request specific actions.  You may
+          return information in registers.
+
+          The <a href="775-int_2fh_1684h__get_device_entry_point_address__for_vxds_.html">INT 2fH 1684H</a> (get device entry-point) service provides
+          another means of communication.
+
+See Also: <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

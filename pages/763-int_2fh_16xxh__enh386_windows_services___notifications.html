@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</h1><pre>                                                     Compatibility: <span class="c2">Win 3.0+</span>
+     See: <a href="764-int_2fh_1600h__is_enh386_windows_installed_.html">1600H</a> (srvc: is enh386 windows installed?)
+          <a href="765-int_2fh_1602h__get_enh386_windows_entry_point_address.html">1602H</a> (srvc: get enh386 windows entry-point address)
+          <a href="766-int_2fh_1605h__windows_is_about_to_startup.html">1605H</a> (ntfy: windows is about to startup)
+          <a href="767-int_2fh_1606h__windows_is_about_to_terminate.html">1606H</a> (ntfy: windows is about to terminate)
+          <a href="768-int_2fh_1607h__device_call_out.html">1607H</a> (ntfy: device call out)
+          <a href="769-int_2fh_1608h__windows_initialization_is_complete.html">1608H</a> (ntfy: windows initialization is finished)
+          <a href="770-int_2fh_1609h__windows_is_terminating.html">1609H</a> (ntfy: windows is terminating)
+
+          <a href="771-int_2fh_1680h__program_idle__release_timeslice_.html">1680H</a> (srvc: release time-slice)
+          <a href="772-int_2fh_1681h__begin_critical_section.html">1681H</a> (srvc: begin critical section)
+          <a href="773-int_2fh_1682h__end_critical_section.html">1682H</a> (srvc: end critical section)
+          <a href="774-int_2fh_1683h__get_current_virtual_machine_id.html">1683H</a> (srvc: get current VM ID)
+          <a href="775-int_2fh_1684h__get_device_entry_point_address__for_vxds_.html">1684H</a> (srvc: get VxD device API entry-point address)
+          <a href="776-int_2fh_1685h__switch_vms_and_callback.html">1685H</a> (srvc: switch VMs and callback)
+          <a href="777-int_2fh_1686h__detect_int_31h_dpmi_services.html">1686H</a> (srvc: detect INT 31h DPMI services)
+
+   Notes: ■ These functions relate to Enhanced-Mode Windows.  They are
+            fully-documented in the <span class="c2">Windows Device Driver Kit (DDK)</span> since
+            they are usually used as means for a DOS-level device driver to
+            communicate with Windows and Windows device drivers.
+
+          ■ The <span class="c1">services</span> are tools that can be called by utilities, <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>s,
+            and device drivers to access services provided by Windows.
+
+          ■ The <span class="c1">notifications</span> represent INT 2fH fns that are invoked by
+            Windows.  To receive these notifications, you are expected to
+            chain into INT 2fH and watch for <span class="c2">AX</span>=16xxH.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="571-dpmi_services.html">DPMI Services</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

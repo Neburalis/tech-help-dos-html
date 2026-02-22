@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 0dH: Read Graphics Pixel - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 0dH: Read Graphics Pixel</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    0dH
+          <span class="c2">BH</span>    video page (0-based)
+          <span class="c2">CX</span>    graphics column
+          <span class="c2">DX</span>    graphics row
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    color value of dot at specified position
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the color value of the dot at the specified graphics
+          screen location.
+
+          The BIOS provides very little graphics drawing support.  To use
+          graphics with reasonable speed, you must access video memory
+          directly.  See <a href="89-video_memory_layouts.html">Video Memory Layouts</a>.
+
+See Also: <a href="127-int_10h_0ch__write_graphics_pixel.html">INT 10H 0cH</a> (write graphics pixel)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

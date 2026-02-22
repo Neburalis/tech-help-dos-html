@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 13H: BIOS Disk I/O - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 13H: BIOS Disk I/O</h1><pre>
+         <span class="c2">AH</span>  BIOS Service                 <span class="c2">AH</span>  BIOS Service
+         ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀         ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      ┌─ <a href="186-int_13h_00h__reset_drive.html">00H</a> reset controller          :  <a href="196-int_13h_0ch__seek_cylinder.html">0cH</a> seek cylinder
+   PC │  <a href="187-int_13h_01h__query_disk_error_status.html">01H</a> get status                │  <a href="197-int_13h_0dh__alternate_reset_drive.html">0dH</a> alternate reset
+   XT ┤  <a href="188-int_13h_02h__read_sectors.html">02H</a> read sectors              │  0eH (reserved)
+   AT │  <a href="189-int_13h_03h__write_sectors.html">03H</a> write sectors          XT ┤  0fH (reserved)
+      │  <a href="190-int_13h_04h__verify_sectors.html">04H</a> verify sectors         AT │  <a href="198-int_13h_10h__test_drive_ready.html">10H</a> test drive ready
+      └─ <a href="191-int_13h_05h__format_track.html">05H</a> format track              │  <a href="199-int_13h_11h__recalibrate_drive.html">11H</a> recalibrate
+         06H (reserved)                │  12H (reserved)
+         07H (reserved)                │  13H (reserved)
+      ┌─ <a href="192-int_13h_08h__get_drive_parameters.html">08H</a> get drive parms           └─ <a href="200-int_13h_14h__controller_self_test.html">14H</a> controller diagnostics
+   XT │  <a href="193-int_13h_09h__initialize_drive_parameter_table.html">09H</a> init drive parm tbls      ┌─ <a href="201-int_13h_15h__get_diskette_type_or_check_hard_drive_installed.html">15H</a> get disk/diskette type
+   AT ┤  <a href="194-int_13h_0ah__read_sector_plus_ecc.html">0aH</a> read long              AT ┤  <a href="202-int_13h_16h__detect_media_change.html">16H</a> disk change status
+      :  <a href="195-int_13h_0bh__write_sector_plus_ecc.html">0bH</a> write long                └─ <a href="203-int_13h_17h__set_media_transfer_rate.html">17H</a> and <a href="203-int_13h_17h__set_media_transfer_rate.html">18H</a>: Set media type
+
+ Use these service for direct access to the diskette or hard disk adapters.
+ It is advisable to use DOS functions (dropping down to <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> when
+ needed for low-level access), to let the DOS device drivers do all the
+ work.  Of course, for very low-level access, including reading sectors on
+ a non-DOS disk, INT 13H may be the only alternative.
+
+ And don't overlook DOS fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (IOCTL for block devices) as a way to
+ format diskettes and access entire tracks of data.
+
+<span class="c2">█▌Diskette vs. Hard Disk Access▐█</span>
+  The BIOS in the oldest PCs support access to diskette drives only.  It
+  supported only fns 00H-05H.
+
+  Later, the XT and AT hard disk adapter cards patched-in additional
+  <a href="266-rom_scan.html">ROM-Scan</a> code to intercept INT 13H and watch for a drive number (in <span class="c2">DL</span>)
+  that is 80H or higher. With these later systems, the original INT 13H
+  vector is stored as the <a href="258-int_40h__diskette_bios_revector.html">INT 40H</a> vector.  The hard-disk logic checks DL
+  and passes control to INT 40H when DL is less than 80H.  Note that the
+  <a href="205-bios_disk_error_codes.html">BIOS disk error code</a> returned in AH will vary, depending on whether the
+  function was for a diskette or a hard disk.
+
+  Nowadays, most systems support all disk I/O as part of the ROM-BIOS.  Also
+  operating systems such a Windows may replace the BIOS code altogether to
+  obtain faster response--especially for read/write operations to RAM above
+  1 MB.
+
+  The most significant difference between diskette access and hard disk
+  access is that on multi-sector reads and writes to a hard disk, the BIOS
+  will automatically advance to the next head/cylinder.  All diskette access
+  is limited to a single head/track.
+
+  Another thing to watch for is the diskette spin-up time.  If you get an
+  error accessing a diskette drive, reset the controller and try at least
+  three times before giving up.
+
+See Also: <a href="892-i_o_port_map.html">I/O Port Map</a> and <a href="896-diskette_controller_ports.html">Diskette Controller Ports</a>
+          <a href="9-disk_drive_functions.html">Disk Drive Functions</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a>  (DOS absolute sector access)
+          DOS fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (IOCTL for block devices)
+                                    <span class="c3">-♦-</span></pre></body></html>

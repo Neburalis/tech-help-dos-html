@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CVF Region: &quot;MD Stamps&quot; - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CVF Region: &quot;MD Stamps&quot;</h1><pre>
+ DoubleSpace places special signatures at two places in the CVF.  These are
+ used in verifying the integrity of the volume and would come in handy in
+ recovering a CVF<a href="919-qcvf.html">▲</a>.
+
+ <span class="c2">MdStamp1</span> is located in first four bytes of a reserved sector that is
+          directly after the <a href="809-cvf_region__bootsect.html">BootSect</a>.  It is:
+
+             '<span class="c2">°DR</span>0' (f8H, 44H, 52H, 00H).
+
+ <span class="c2">MdStamp2</span> is located in first four bytes of the last <span class="c1">complete</span> sector in the
+          CVF.  It is:
+
+             '<span class="c2">MDR</span>0' (4dH, 44H, 52H, 00H)
+
+          For instance, if the CVF is an exact multiple of 512 bytes long,
+          then it is in the last sector.  Otherwise, it is in the sector
+          just before the last (partial) sector.
+
+   Notes: The <span class="c2">MdStamp1</span> was undoubtedly '<span class="c2">MDR</span>0' originally, but a Microsoft
+          source code file claims Mentions that the first byte was changed
+          to f8H to make DoubleSpace drives compatible with Colorado Memory
+          Systems tape backup software.
+
+          F8H is a standard <a href="370-media_descriptor.html">media descriptor</a> byte that one might find in
+          the first sector following the boot sector on a hard disk (it is
+          normally the first byte of a standard <a href="359-fat__dos_file_allocation_table.html">FAT</a>).
+
+See Also: <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

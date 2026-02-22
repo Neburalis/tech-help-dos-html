@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 13H 08H: Get Drive Parameters - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 13H 08H: Get Drive Parameters</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    08H
+          <span class="c2">DL</span>    drive: 0-3=diskette; 80H-81H=hard disk
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="205-bios_disk_error_codes.html">BIOS disk error code</a> if CF is set to CY
+          <span class="c2">CX</span>    maximum value for cylinder and sector (see below)
+          <span class="c2">DL</span>    number of hard disks on first controller
+          <span class="c2">DH</span>    maximum value for head
+          <span class="c2">ES:DI</span> address of <a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns information about a drive.  These values are initially
+          set from a table in ROM, determined by the disk-type code stored
+          in <a href="60-cmos_storage_layout.html">CMOS Memory</a>.
+
+       <span class="c2">CX</span> Bits 6-7 of <span class="c2">CL</span> are the high two bits of the 10-bit value whose
+          low 8 bits are in <span class="c2">CH</span>.  See <a href="188-int_13h_02h__read_sectors.html">INT 13H 02H</a> for details.
+
+See Also: DOS Fn <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">440dH 60H</a> (IOCTL get block device parameters)
+          <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

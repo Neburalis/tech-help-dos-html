@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TECH Help!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="spa-shell">
+
+  <!-- Loading progress bar (fixed, top of screen) -->
+  <div class="loading-bar" id="loading-bar"></div>
+
+  <!-- ── Header ──────────────────────────────────────────────── -->
+  <header class="shell-header">
+    <span class="site-name" id="home-name" role="link" tabindex="0"
+          aria-label="Go to main menu">TECH Help!</span>
+    <span class="site-tagline">The Electronic Technical Reference Manual</span>
+
+    <!-- ── Search ────────────────────────────────────────────── -->
+    <div class="search-wrap" id="search-wrap" role="search">
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        placeholder="Indexing…"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search documentation"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        disabled
+      />
+      <div class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></div>
+    </div>
+  </header>
+
+  <!-- ── Top navigation bar ──────────────────────────────────── -->
+  <nav class="shell-nav top" aria-label="Page navigation">
+    <button class="nav-btn nav-prev" id="prev-top"
+            aria-label="Go back" disabled>← Back</button>
+    <span class="nav-title" aria-live="polite"></span>
+    <button class="nav-btn nav-next" id="next-top"
+            aria-label="Go forward" disabled>Forward →</button>
+  </nav>
+
+  <!-- ── Content area ────────────────────────────────────────── -->
+  <main class="shell-content" id="content-area">
+    <h1 id="page-h1">Loading…</h1>
+    <pre id="page-pre"></pre>
+  </main>
+
+  <!-- ── Bottom navigation bar ───────────────────────────────── -->
+  <nav class="shell-nav bottom" aria-label="Page navigation">
+    <button class="nav-btn nav-prev" id="prev-bottom"
+            aria-label="Go back" disabled>← Back</button>
+    <span class="nav-title" aria-live="polite"></span>
+    <button class="nav-btn nav-next" id="next-bottom"
+            aria-label="Go forward" disabled>Forward →</button>
+  </nav>
+
+  <script src="https://unpkg.com/lunr/lunr.min.js"></script>
+  <script src="tehhelp.js"></script>
+</body>
+</html>

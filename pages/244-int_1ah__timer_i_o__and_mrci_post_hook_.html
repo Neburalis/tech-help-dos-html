@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1aH: Timer I/O (and MRCI POST Hook) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1aH: Timer I/O (and MRCI POST Hook)</h1><pre>
+ INT 1aH services provide access to the system clock.  Also INT 1aH may be
+ intercepted by a hardware-based <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI</a> compression system.
+          <span class="c2">AX</span>    Service
+          ▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+          <a href="824-int_1ah_b001h__query_rom_hardware_based_mrci_support.html">b001H</a> Query MRCI hardware support
+
+          <span class="c2">AH</span>  BIOS Service              Supported by
+          ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+          <a href="245-int_1ah_00h__read_system_clock__ticks_.html">00H</a> read the clock (ticks)    [PC] [XT] [AT]
+          <a href="246-int_1ah_01h__set_system_clock__ticks_.html">01H</a> set the clock (ticks)     [PC] [XT] [AT]
+
+          <a href="247-int_1ah_02h__read_time_from_real_time_clock.html">02H</a> read time from CMOS RTC             [AT]
+          <a href="248-int_1ah_03h__set_time_on_real_time_clock.html">03H</a> set the time on CMOS RTC            [AT]
+
+          <a href="249-int_1ah_04h__read_date_from_real_time_clock.html">04H</a> read date from CMOS RTC             [AT]
+          <a href="250-int_1ah_05h__set_date_on_real_time_clock.html">05H</a> set the date on CMOS RTC            [AT]
+
+          <a href="251-int_1ah_06h__set_real_time_clock_alarm.html">06H</a> set alarm on CMOS RTC               [AT]
+          <a href="252-int_1ah_07h__cancel_real_time_clock_alarm.html">07H</a> cancel alarm on CMOS RTC            [AT]
+
+ The PC BIOS works with a &quot;tick count&quot; of the number of 55ms intervals
+ which have occurred since the PC was turned on or reset.  The <a href="830-system_compatibility.html">AT</a> BIOS also
+ provides access to the real-time clock values which are updated constantly
+ without CPU action, and are stored in the AT's <a href="60-cmos_storage_layout.html">CMOS Memory</a>.
+
+ On AT-compatible machines, most short-interval timer/alarm operations are
+ perfomed via <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a>.
+
+See Also: <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="19-system_information_functions.html">System Information Functions</a> (DOS fns)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a> (0040:006c)
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Media Descriptor - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Media Descriptor</h1><pre>
+ DOS defines a 1-byte code that (sometimes) can be used to identify the
+ type of media that is being used by a disk device.  <span class="c2">The Media Descriptor</span>
+ (also called the <span class="c2">FAT ID byte</span>) will be seen:
+
+ ■ as a value obtained from DOS Fns <a href="399-dos_fn_1bh__get_drive_info__current_disk_.html">1bH</a>, <a href="400-dos_fn_1ch__get_drive_info__any_disk_.html">1cH</a>, and <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a>
+ ■ as the first byte of the <a href="359-fat__dos_file_allocation_table.html">FAT</a> (DOS logical sector 1)
+ ■ at offset 0aH of a <a href="338-bpb__bios_parameter_block.html">BPBRec</a>
+ ■ at offset 15H of a <a href="337-boot_sector_layout.html">BootSectorRec</a> (in DOS logical sector 0)
+ ■ in the data block used by DOS Fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (Generic IOCTL)
+
+ Value  Media Types Defined as of DOS 5.0
+ ▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  f0H   3½&quot; (1.44 MB) 2 sides, 18 sectors
+        3½&quot; (2.88 MB  2 sides, 36 sectors
+        5¼&quot; (1.2 MB)  2 sides, 15 sectors
+        (also used for other media types)
+
+  f8H   fixed disk, any capacity
+
+  f9H   3½&quot; (720K)    2 sides,  9 sectors, 80 tracks
+        5¼&quot; (1.2 MB)  2 sides, 15 sectors, 80 tracks
+  faH   5¼&quot; (320K)    1 side,   8 sectors, 80 tracks
+  fbH   3½&quot; (640K)    2 sides,  8 sectors, 80 tracks
+
+  fcH   5¼&quot; (180K)    1 side,   9 sectors, 40 tracks
+  fdH   5¼&quot; (360K)    2 sides,  9 sectors, 40 tracks; also used on 8&quot; disks
+  feH   5¼&quot; (160K)    1 side,   8 sectors, 40 tracks; also used on 8&quot; disks
+  ffH   5¼&quot; (320K)    2 sides,  8 sectors, 40 tracks
+
+ The media descriptor byte is not a particularly reliable way to ascertain
+ media type.  Refer to other fields of the <a href="338-bpb__bios_parameter_block.html">BPBRec</a> or <a href="337-boot_sector_layout.html">BootSectorRec</a> to
+ obtain track, sector, and head information.
+
+ For instance, the boot sector of a RAM disk may show it to be a hard disk
+ (f8H) or even some other value.
+
+See Also: fn <a href="399-dos_fn_1bh__get_drive_info__current_disk_.html">1bH</a> and fn <a href="400-dos_fn_1ch__get_drive_info__any_disk_.html">1cH</a> (get FAT info)
+          fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> (get drive parameter block)
+          <a href="338-bpb__bios_parameter_block.html">BPBRec</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>  (see <a href="302-device_request_01h__media_check.html">DvRq 01H</a> and <a href="303-device_request_02h__build_bpb.html">DvRq 02H</a>)
+                                    <span class="c3">-♦-</span></pre></body></html>

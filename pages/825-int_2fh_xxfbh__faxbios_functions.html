@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH xxfbH: FaxBIOS Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH xxfbH: FaxBIOS Functions</h1><pre>
+ The FaxBIOS is a specification created by the FaxBios Association in 1991.
+ It describes an API that can be used by programs that work with fax/modem
+ adaptors to send and receive faxes.
+
+ The FaxBIOS API is not universally-accepted, but it is used by some major
+ OEMs.  It describes several hundred services -- too many and too esoteric
+ to be covered by TECH Help!.  To get a copy of the printed specification:
+                COMPUSERVE:  Go FAXBIOS
+               Fax request:  (510) 540-5835
+              Mail request:  FaxBios Association
+                             2625 Alcatraz Ave Suite 275
+                             Berkeley CA 94705
+
+<span class="c2">█▌Check FaxBIOS Installed State▐█</span>
+  The FaxBIOS uses a &quot;universal&quot; technique for installing the server and
+  for clients to check for installation.  It installs a MUX service (see
+  <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a>) but rather than picking a hard-coded MUX-ID, it uses an
+  algorithmic technique that avoid the possibility of other MUX processes
+  taking the same MUX number.
+
+  To test for the presence of FaxBIOS, your program should:
+
+   1) Start with a <span class="c1">candiateMuxID</span> of 80H.
+
+   2) if <span class="c1">candiateMuxID</span> &gt;= ffH, FaxBIOS is not present; exit.
+
+   3) Invoke INT 2fH, with <span class="c2">AH</span>=<span class="c1">candiateMuxID</span>.
+
+   4) On return, if <span class="c2">AL</span>=ffH, check the string at <span class="c2">DX:DI</span> to see if it is an
+      exact match with &quot;<span class="c2">FaxBiosjpc</span>&quot; if so you've found the MUX-ID and
+      FaxBios services are installed.  Go to step <span class="c2">6</span>.
+
+   5) If AL was not ffH or the string at DX:DI did not match, then
+      increment <span class="c1">candiateMuxID</span> and loop to step <span class="c2">2</span>.
+
+   6) Try the Sys_Login service (for instance):
+         Set <span class="c2">AH</span>=muxID, <span class="c2">AL</span>=fbH
+             <span class="c2">BX</span>=0001H (the fn number for Sys_Login), and
+             <span class="c2">DX:DI</span>=addr of a 23-byte LOGIN_CANONICAL_REC structure
+         Invoke INT 2fH.  On return:
+             <span class="c2">AL</span> will contain ffH if FaxBIOS is still present and
+             <span class="c2">CX</span> will contains a FaxBIOS status code and
+             the structure at <span class="c2">DX:DI</span> will contain lots of data.
+
+   Notes: ■ The FaxBIOS provides lots of capabilities that would take
+            thousands of programming hours to reproduce.  For instance, it
+            converts a text file directly into a FAX.  It also provides
+            structures and file standards for phonebooks, activity logs, a
+            scheduling system, etc. (along with easy-to-use APIs to access
+            these data).
+
+          ■ When you examine existing fax/modem control programs, you will
+            often find a one-to-one comparison between features of the
+            control program and the features of the FaxBIOS API.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

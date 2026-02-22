@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 30H: Get DOS Version Number - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 30H: Get DOS Version Number</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    30H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    major version number
+          <span class="c2">AH</span>    minor version number (note: binary value -- x.20 is 14H)
+          <span class="c2">BX</span>,<span class="c2">CX</span> (OEM info, see below) <span class="c2">DOS 2.0+</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns AX with the value of the current DOS version.  For
+          instance, if DOS 3.20 is active, AL returns 3 and AH returns 14H
+          (20 decimal).
+
+          Use this function early in your program to find out what
+          capabilities are present.
+
+Versions: ■ <span class="c2">5.0+</span>
+            <span class="c2">Setver</span> intercepts this call and may return a cooked value if
+            the caller is on its hit list.  Use Fn <a href="424-dos_fn_3306h__get_dos_version_info.html">3306H</a> to obtain the
+            actual DOS version number.
+          ■ <span class="c2">1.x</span>
+            Since this function does not exist with DOS 1.x, you should set
+            AL to 0 before calling it.  If AL then returns with 0, then you
+            can assume that you are running DOS 1.x.
+          ■ <span class="c2">2.0+</span>
+            Values returned in BX and CX may vary from OEM to OEM.  <span class="c2">BH</span> may
+            return holding an OEM ID number and BL:CX may be set to a
+            24-bit value used by the OEM to identify sub-versions.
+
+See Also: Fn <a href="424-dos_fn_3306h__get_dos_version_info.html">3306H</a> (get DOS version info)
+          <a href="24-dos_function_index___by_dos_version.html">DOS Function Index - by DOS Version</a>
+          <a href="831-dos_versions.html">DOS Versions</a> (overview and history)
+          <a href="19-system_information_functions.html">System Information Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

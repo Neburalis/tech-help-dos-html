@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 4f03H - Query Current SuperVGA Video Mode - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 4f03H - Query Current SuperVGA Video Mode</h1><pre>
+ Expects: <span class="c2">AX</span>    4f03H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    VESA status: AH=0 means successful (else failed)
+                             AL=4fH means function supported
+          <span class="c2">BX</span>    <a href="85-vesa_svga_video_modes.html">VESA/SVGA Video Mode</a> number currently active
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the number of the current video mode.
+
+   Notes: ■ Unlike <a href="130-int_10h_0fh__query_current_video_info.html">INT 10H 0fH</a>, this does NOT return the state of &quot;clear
+            video memory bit&quot; that was used when the mode was initialized;
+            that is, only the high bit of BX always comes back as 0.
+
+See Also: <a href="69-supervga_display_adapters__svga_.html">SVGA</a>
+          <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

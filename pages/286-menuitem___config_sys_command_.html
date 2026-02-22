@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MENUITEM= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MENUITEM= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 6.0+</span>
+ Purpose: Defines a selectable item in a <a href="271-multiconfig_menus.html">MultiConfig Menu</a>.
+
+  Syntax: MENUITEM=<span class="c1">blockName</span> [,<span class="c1">text</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+ <span class="c1">blockName</span> is the name of a block of CONFIG.SYS commands.  If the user
+          selects this menu item, that block of commands will be executed
+          and a <a href="369-predefined_environment_variables.html">CONFIG</a> e-var will be created (CONFIG=<span class="c1">blockName</span>).
+
+          <span class="c1">blockName</span> can be up to 70 characters long.  It may contain most
+                characters except for:
+            <span class="c2">\</span>   backslashes
+            <span class="c2">/</span>   slashes
+            <span class="c2">,</span>   commas
+            <span class="c2">;</span>   semicolons
+            <span class="c2">=</span>   equal signs
+            <span class="c2">[ ]</span> square brackets
+
+          [<span class="c1">blockName</span>] (the same text, enclosed in square brackets, on a line
+                by itself) must appear elsewhere in the CONFIG.SYS file.  If
+                it cannot be found, the menu item will not be shown in the
+                menu.
+
+     <span class="c1">text</span> is some text to be displayed as a menu choice.  If omitted,
+          <span class="c1">blockName</span> itself is displayed.
+
+          <span class="c1">text</span> can be up to 70 characters long; however, <a href="45-ascii.html">ASCII</a> characters in
+                the range 0-32 can cause DOS to ignore some or all of the
+                text.
+
+See Also: <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

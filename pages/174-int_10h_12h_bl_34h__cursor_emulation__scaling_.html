@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 12H BL=34H: Cursor Emulation (Scaling) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 12H BL=34H: Cursor Emulation (Scaling)</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AH</span>    12H
+          <span class="c2">BL</span>    34H
+          <span class="c2">AL</span>    setting: 00H enable cursor emulation
+                         01H disable cursor emulation
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    12H if a valid value was passed in AL
+          ──────────────────────────────────────────────────────────────────
+    Info: This updates <span class="c1">bit 0</span> of the <a href="72-egamiscinforec.html">EgaMiscInfoRec</a> (at 0040:0087).
+
+          When cursor emulation is in effect, the BIOS assumes that input
+          to <a href="116-int_10h_01h__set_cursor_shape___size.html">INT 10H 01H</a> (set cursor size) is meant to be relative to a
+          CGA-style 8x8 character matrix and it automatically adjusts
+          (scales) the input values to match the true character matrix.
+
+See Also: <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">INT 10H 12H</a> (EGA/VGA Special Functions/Alternate Select)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

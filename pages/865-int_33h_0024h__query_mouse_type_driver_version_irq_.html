@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0024H: Query Mouse Type/Driver Version/IRQ# - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0024H: Query Mouse Type/Driver Version/IRQ#</h1><pre>
+ Expects: <span class="c2">AX</span>    0024H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">BH</span>    major version number
+          <span class="c2">BL</span>    minor version number (i.e., left of decimal)
+          <span class="c2">CH</span>    mouse type:  1 = bus mouse
+                             2 = serial mouse
+                             3 = Inport mouse
+                             4 = PS/2 mouse
+                             5 = HP mouse
+          <span class="c2">CL</span>    <a href="96-irqs__hardware_interrupts.html">IRQ</a> number:
+                  0 = PS/2
+                  2,3,4,5, or 7 = PC IRQ number
+          ──────────────────────────────────────────────────────────────────
+    Info: If you need to use new functions of a recent version of the mouse
+          support, use this function and inspect the return values in <span class="c2">BH</span>
+          and <span class="c2">BL</span>.
+
+          The value in <span class="c2">CH</span> can be used to see if calls to <a href="859-int_33h_001ch__set_inport_mouse_interrupt_rate.html">INT 33H 001cH</a> are
+          meaningful.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

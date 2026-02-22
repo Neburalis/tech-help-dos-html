@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MRCInfoRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MRCInfoRec</h1><pre>
+     This structure is maintained by the MRCI server.  Calls to
+     <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a> and <a href="824-int_1ah_b001h__query_rom_hardware_based_mrci_support.html">INT 1aH b001H</a> obtain the address of one of these
+     and all <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a> compression and decompression fns require that <span class="c2">ES:BX</span>
+     point to this structure on entry.
+
+<span class="c2">MRCInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      4  <span class="c1">lVendor</span>      e.g., Microsoft is '<span class="c2">MSFT</span>' 4dH, 53H, 46H, 54H
+   +4      2  <span class="c1">wVenVer</span>      vender version number
+   +6      2  <span class="c1">wMrciVer</span>     MRCI spec. version number
+   +8      4  <span class="c1">pfpEntry</span>     FAR address of MRCI API handler
+  +0cH     2  <span class="c1">wCaps</span>        Server capabilities bit flags (see below)
+  +0eH     2  <span class="c1">wHWCaps</span>      same as <span class="c1">wCaps</span>, but for hardware assist (if any)
+  +10H     2  <span class="c1">wMaxDataLen</span>  maximum size of data that can be compressed or
+                           decompressed
+           18              size of a MRCInfoRec structure
+
+     <span class="c1">lVendor</span>  is a four-byte string identifying the vender that produced the
+              currently-active MRCI server.
+
+     <span class="c1">wVenVer</span>  is the vendor's internal version number and...
+    <span class="c1">wMrciVer</span>  is the version of the MRCI specification that this server
+              supports.
+
+              The high byte is the major version number and the low byte is
+              the minor; e.g., 010aH would be version 1.10.
+
+    <span class="c1">pfpEntry</span>  is the entry address used to access MRCI API services.  Set up
+              the registers with a fn code in AX, etc. and then call this
+              address using a FAR CALL.
+
+              Beware of the <span class="c2">IMPORTANT constraints</span> before calling this
+              address.  See <a href="817-mrci_fn_0001h__compress_data.html">MRCI fn 0001H</a> for calling sequence.  Failure to
+              check <a href="365-indos_flag.html">InDOS</a> and set a Windows Critical Section will result in
+              a system crash and loss of data.
+
+       <span class="c1">wCaps</span>  is a set of bit flags that indicates which MRCI capabilities
+              are supported by this server:
+               1 1
+              ┌5┬4───6┬5┬4┬3┬2┬1┬0┐
+              │<span class="c1">r</span>│0...0│<span class="c1">i</span>│0 0 0│<span class="c1">d</span>│<span class="c1">c</span>│
+              └╥┴─────┴╥┴─┴─┴─┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+               ║       ║       ║ ╚═► 0: 0001H can &quot;standard&quot; compress
+               ║       ║       ╚═══► 1: 0002H can &quot;standard&quot; decompress
+               ║       ╚═══════════► 5: 0020H can incremental decompress
+               ╚═══════════════════►15: 8000H this MRCInfoRec is Read-Only
+
+              Note that bits 3,4, and 5 are explicitly reserved.  They may
+              relate to the &quot;max-compress&quot; idea that surfaces in the early
+              DOS 6 beta dox, but appears to have been squashed by the
+              Stacker lawsuit.
+
+     <span class="c1">wHWCaps</span>  is a bit-packed flag with each bit identical in meaning to
+              that of <span class="c1">wCaps</span>, but representing capabilities of a hardware-
+              assisted, ROM-based MRCI server.  This is 0000H with software-
+              based MRCI servers.
+
+ <span class="c1">wMaxDataLen</span>  The maximum amount of data that can be compressed or
+              decompressed in one block.  Microsoft's MRCI server version
+              1.0 supports 32769-byte blocks.
+
+              All MRCI servers are required to support at least 8192.
+
+   Notes: Since this is maintained inside the data area owned by the MRCI
+          server, it's probably not wise to muck around in it.
+
+          However, Microsoft source code examples modify the <span class="c1">pfpEntry</span> field
+          of the old MRCI server when installing a new one.
+
+See Also: <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

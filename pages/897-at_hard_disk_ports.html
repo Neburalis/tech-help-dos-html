@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>AT Hard Disk Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>AT Hard Disk Ports</h1><pre>
+ The AT hard disk controller is incorporated onto the same adapter card as
+ its diskette controller.  Its I/O ports, commands, and status signals are
+ different from those of the XT controller.  See  <a href="898-xt_hard_disk_ports.html">XT Hard Disk Ports</a> for
+ details.
+
+   ■ AT Hard disk controller #1 decodes ports <span class="c2">1f0H</span> through 1f7H
+   ■ AT Hard disk controller #2 decodes ports <span class="c2">170H</span> through 177H
+
+ The controller generates interrupt level 14 (<a href="96-irqs__hardware_interrupts.html">IRQ</a> 14) after every operation
+ (read, write, seek, etc.).  IRQ 14 is vectored to INT 76H where an action
+ flag bit is set at address 0:048e.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+1f0H  Data register. Read/write data from/to controller sector buffer
+──── ───────────────────────────────────────────────────────────────────────
+1f1H  Write: Write Precompensation register.  Turn on write precompensation.
+      Read: Error register.  Contains bits for last error.
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │0│ │0│ │ │ ║
+      ╙╥┴╥┴─┴╥┴─┴╥┴╥┴╥╜ bit
+       ║ ║   ║   ║ ║ ╚═► 0: Data Address Mark not found
+       ║ ║   ║   ║ ╚═══► 1: Track 0 Error
+       ║ ║   ║   ╚═════► 2: Command was aborted
+       ║ ║   ╚═════════► 4: Sector ID not found
+       ║ ╚═════════════► 6: ECC Error: Uncorrectable data error
+       ╚═══════════════► 7: Bad block
+──── ───────────────────────────────────────────────────────────────────────
+1f2H  Sector count.  Read/Write count of sectors for operation
+──── ───────────────────────────────────────────────────────────────────────
+1f3H  Sector number.  Read/Write current/starting logical sector number
+──── ───────────────────────────────────────────────────────────────────────
+1f4H  Cylinder high (bits 0-1 are bits 8-9 of 10-bit cylinder number)
+1f5H  Cylinder low (bits 0-7 of 10-bit cylinder number)
+──── ───────────────────────────────────────────────────────────────────────
+1f6H  Drive &amp; Head.  Read/Write: bits indicate head, drive for operation
+──── ───────────────────────────────────────────────────────────────────────
+1f7H  Write: command register (Summary: see Tech Ref for full details)
+             1xH = Restore to cylinder 0 (low nibble is step rate)
+             7xH = Seek to cylinder (low nibble is step rate)
+             2xH = Read sector (low nibble indicates retry and ECC-read)
+             3xH = Write sector (low nibble indicates retry and ECC-read)
+             50H = Format track
+             4xH = verify read (low nibble indicates retry)
+             90H = diagnose
+             91H = set parameters (max heads,sectors) for selected drive
+
+1f7H  Read:  status register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │ │ │ │ ║
+      ╙╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜ bit
+       ║ ║ ║ ║ ║ ║ ║ ╚═► 0: 1=previous command ended in an error.
+       ║ ║ ║ ║ ║ ║ ╚═══► 1: Index: set to 1 while index hole is detected
+       ║ ║ ║ ║ ║ ╚═════► 2: Corrected data.  Error found, but ECC fixed it.
+       ║ ║ ║ ║ ╚═══════► 3: Data Request.  Buffer is waiting for data (busy)
+       ║ ║ ║ ╚═════════► 4: Seek completed
+       ║ ║ ╚═══════════► 5: Write fault
+       ║ ╚═════════════► 6: Drive ready for read/write/seek (unless bit 4=0)
+       ╚═══════════════► 7: Busy. 1=executing cmd (other bits are invalid)
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> (disk I/O)
+          <a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="896-diskette_controller_ports.html">Diskette Controller Ports</a>
+          <a href="898-xt_hard_disk_ports.html">XT Hard Disk Ports</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

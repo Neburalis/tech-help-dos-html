@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4408H: IOCTL Does Drive Use Removable Media - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4408H: IOCTL Does Drive Use Removable Media</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    4408H
+          <span class="c2">BL</span>    drive number (0=default, 1=A, 2=B, etc.)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+                0000H if drive contains removable media
+                0001H if drive does NOT contain removable media
+          ──────────────────────────────────────────────────────────────────
+    Info: Determines whether a device uses removable media; for instance,
+          to see if a drive is a hard disk or a floppy diskette).
+
+   Notes: ■ This fn cannot be used to query a network drive.
+
+          ■ Block device drivers need not support this function.  In that
+            case, on return CY is set and AX contains an <a href="347-dos_error_codes.html">error code</a> of
+            0001H (invalid function).
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

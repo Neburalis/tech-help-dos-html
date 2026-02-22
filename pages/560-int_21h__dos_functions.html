@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 21H: DOS Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 21H: DOS Functions</h1><pre>
+                INT 21H is the portal to most DOS functions.
+
+              See <a href="23-dos_function_index___by_number.html">DOS Function Index</a> for a complete list.
+              See <a href="5-dos_function_index___quick_reference_subset.html">DOS Fns QuickRef</a> for an often-used subset list.
+              See <a href="24-dos_function_index___by_dos_version.html">DOS Fns by Version</a> for DOS version compatibility.
+              See <a href="6-system_service_groups.html">DOS Fns by Category</a> for functional groupings.
+
+              See <a href="561-about_dos_functions.html">About DOS Functions</a> for related information.
+
+ Programs requesting a DOS service must prepare all registers and set
+ <span class="c2">AH</span> (or <span class="c2">AX</span>) to the desired DOS function number, then issue an INT 21H.
+ ──────────────────────────────────────────────────────────────────────────
+ The following are some DOS services that are <span class="c1">NOT</span> called via INT 21H:
+
+          <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a> Absolute Disk Read
+          <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 26H</a> Absolute Disk Write
+
+          <a href="567-int_28h__dos_idle.html">INT 28H</a> DOS Idle
+          <a href="568-int_29h__fast_putchar.html">INT 29H</a> DOS Internal Fast Screen Write <a href="912-_undocumented_.html">◄undocumented►</a>
+
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a> Multiplex Interrupt is the portal to:
+                  <a href="697-int_2fh_1a00h__is_ansi_sys_installed_.html">ANSI.SYS installed state</a>
+                  <a href="744-int_2fh_b7xxh__append_exe_functions.html">Append Command API</a>
+                  <a href="701-int_2fh_48xxh__doskey_com_functions.html">Doskey Services</a>
+                  <a href="707-int_2fh_4bxxh__task_switcher_functions.html">Dosshell Task-Switcher API</a>
+                  <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+                  <a href="698-int_2fh_43xxh__himem_sys__extended_memory_manager__services.html">HIMEM.SYS / XMS API</a>
+                  <a href="15-national_language_support_functions.html">National Language Support</a> services
+                  <a href="16-network_and_file_sharing_functions.html">Network</a> services
+                  <a href="682-int_2fh_01xxh__dos_print_spooler_functions.html">Print Command API</a>
+                  Other Microsoft and after-market services
+
+          <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> APM Advanced Power Management (APM)
+          <a href="571-dpmi_services.html">INT 31H</a> DPMI Services
+          <a href="832-int_33h__mouse_support.html">INT 33H</a> Mouse Services
+          <a href="651-emm_functions.html">INT 67H</a> EMS Services
+
+See Also: <a href="25-api_index.html">API Index</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

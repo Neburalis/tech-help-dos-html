@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 27H: Terminate but Stay Resident - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 27H: Terminate but Stay Resident</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">DX</span>    last addr+1 to keep resident
+                (note: <span class="c2">DX</span> is an offset from the <a href="371-psp__program_segment_prefix.html">PSP</a> segment)
+          ──────────────────────────────────────────────────────────────────
+ Returns: none  (not applicable)
+          ──────────────────────────────────────────────────────────────────
+    Info: This service terminates the caller, leaving a portion of memory
+          allocated and resident in memory.  Subsequent programs will not
+          overwrite the code or data left in memory.  See <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> for a list of
+          related topics.
+
+          INT 27H is the traditional method used to install interrupt
+          service routines and user-definable data tables, but it is
+          <a href="910-_superseded_.html">◄superseded►</a> by DOS Fn <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a> (KEEP).  That fn provides a way to
+          leave more than 64K resident and it allows you to set an exit
+          code when you terminate.
+
+          INT 27H (and all DOS exit services) restore the vectors for INTs
+          22H-24H from the exiting program's <a href="371-psp__program_segment_prefix.html">PSP</a>.  Therefore this service
+          cannot be used to install a permanent Critical Error or
+          Ctrl-Break handler.
+
+See Also: fn <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a> (terminate and stay resident)
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR/Popup Functions</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+          <a href="558-dos_interrupts.html">DOS Interrupts</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

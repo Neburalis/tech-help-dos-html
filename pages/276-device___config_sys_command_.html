@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DEVICE= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DEVICE= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 2.0+</span>
+ Purpose: Adds DOS support for a physical (hardware) device.  Use to
+          install a <a href="298-installable_device_drivers.html">device driver</a> in conventional<a href="924-qmemconv.html">▲</a> memory.
+
+          Use <a href="277-devicehigh___config_sys_command_.html">DEVICEHIGH=</a> to install drivers into upper<a href="927-qmemumb.html">▲</a> memory.
+
+  Syntax: DEVICE=[<span class="c1">d:</span>][<span class="c1">path</span>]<span class="c1">filename.ext</span> [<span class="c1">drvrParms</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+<span class="c1">d:\path\filename.ext</span> is the drive, path, filename and extension of the file
+          that contains the program code of the device.  If you omit the
+          drive and/or path, the file must be in the root of the boot disk.
+          The file usually has an extension of <span class="c1">.SYS</span>, <span class="c1">.BIN</span>, or <span class="c1">.EXE</span> and the
+          extension must be specified.
+
+<span class="c1">drvrParms</span> are switches and options needed by the device driver.  They vary
+          from driver to driver.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ See <a href="299-device_driver_basics.html">Device Driver Basics</a> for background info on device drivers.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="277-devicehigh___config_sys_command_.html">DEVICEHIGH=</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

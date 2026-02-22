@@ -1,0 +1,12 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 17H 02H: Query Printer Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 17H 02H: Query Printer Status</h1><pre>
+ Expects: <span class="c2">AH</span>    02H
+          <span class="c2">DX</span>    port number (0=LPT1, 1=LPT2, 2=LPT3)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    Bits set as in <a href="241-bios_printer_status_flags.html">PrinterStatusRec</a> (bit 0 set on time-out
+                error)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the current status of the specified printer port.
+
+See Also: <a href="237-int_17h__printer_support.html">INT 17H</a> (BIOS printer support)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

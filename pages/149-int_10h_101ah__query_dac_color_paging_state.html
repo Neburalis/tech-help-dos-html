@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 101aH: Query DAC Color Paging State - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 101aH: Query DAC Color Paging State</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    101aH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">BH</span>    current active DAC color page
+          <span class="c2">BL</span>    current active DAC paging mode
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the current settings in use for DAC color paging.  On
+          return:
+
+       <span class="c2">BL</span> 00H = mode 0 (4 blocks of 64 registers)
+          01H = mode 1 (16 blocks of 16 registers
+
+       <span class="c2">BH</span> active page number (0-3 in mode 0 or 0-15 in mode 1)
+
+          See <a href="146-int_10h_1013h__dac_color_paging_functions.html">INT 10H 1013H</a> (DAC color paging fns) for related info.
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0004H: Set Mouse Pointer Position - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0004H: Set Mouse Pointer Position</h1><pre>
+ Expects: <span class="c2">AX</span>    0004H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CX</span>    X coordinate (horizontal)    multiply text clm by 8
+          <span class="c2">DX</span>    Y coordinate (vertical)      multiply text line by 8
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets the driver's internal pointer coordinates.
+
+          The pointer moves there, even if it is currently hidden (see
+          <a href="835-int_33h_0002h__hide_mouse_pointer.html">INT 33H 0002H</a>) or if X,Y is in the exclusion area (see
+          <a href="849-int_33h_0010h__set_exclusion_area.html">INT 33H 0010H</a>).
+
+          If X,Y is outside the range set by <a href="840-int_33h_0007h__set_horizontal_range.html">INT 33H 0007H</a> and
+          <a href="841-int_33h_0008h__set_vertical_range.html">INT 33H 0008H</a>, then the pointer is &quot;pinned&quot; within the range
+          rectangle (it will be set to the nearest valid limit).
+
+          It is rare to need to move the pointer; the best policy is to let
+          the user do the driving.
+
+   Notes: All X,Y coordinates are <span class="c1">virtual</span> coordinates and when working with
+          text mode, you must divide each value by 8 to get a character
+          clm,row.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

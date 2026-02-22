@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 6601H: Query Active Code Page - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 6601H: Query Active Code Page</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AX</span>    6601H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">BX</span>    current active <a href="340-code_page.html">code page</a> (as set by the user)
+          <span class="c2">DX</span>    system code page (a setup at boot time)
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the code page ID for the current active code page and the
+          default system code page, as set during system startup.
+
+   Notes: ■ The system code page is set via the COUNTRY= command in
+            CONFIG.SYS.
+
+See Also: fn <a href="554-dos_fn_6602h__activate_code_page.html">6602H</a> (activate code page)
+          <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

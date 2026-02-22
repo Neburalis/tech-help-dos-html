@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 13H 15H: Get Diskette Type or Check Hard Drive Installed - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 13H 15H: Get Diskette Type or Check Hard Drive Installed</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    15H
+          <span class="c2">DL</span>    drive: 00H thru 03H = diskette drive
+                       80H or 81H   = hard disk
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    00H = not installed
+                01H = diskette drive: can't detect disk change
+                02H = diskette drive: CAN detect disk change
+                03H = it's a hard disk
+                else= <a href="205-bios_disk_error_codes.html">BIOS disk error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This checks to see if a hard drive or diskette drive is
+          installed.
+
+          For diskette drives, this also finds if the drive is capable of
+          detecting change-line status (that is, will it be able to sense
+          when the drive door has been opened).
+
+   Notes: ■ On diskette drives which detect change-line status, you can use
+            <a href="202-int_13h_16h__detect_media_change.html">INT 13H 16H</a> to learn if the disk has been swapped.
+
+See Also: DOS fn <a href="479-dos_fn_440dh_cl_68h__ioctl_sense_media_type.html">440dH 68H</a> (IOCTL sense media type)
+          <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

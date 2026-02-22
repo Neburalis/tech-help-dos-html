@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 001fH: Deactivate Mouse Driver - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 001fH: Deactivate Mouse Driver</h1><pre>
+ Expects: <span class="c2">AX</span>    001fH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 001fH=deactivated OK
+                        ffffH=can't deactivate
+          <span class="c2">ES:DX</span> address of previous INT 33H handler
+          ──────────────────────────────────────────────────────────────────
+    Info: This deactivates the mouse driver.  All interrupts used by the
+          mouse support are disabled, effectively eliminating all mouse
+          support.
+
+          Use <a href="864-int_33h_0021h__reset_mouse_driver.html">INT 33H 0021H</a> to re-enable all interrupts used by the mouse
+          support.
+
+          Note that the <a href="832-int_33h__mouse_support.html">INT 33H</a> vector remains in place, but the only
+          function it can perform is <a href="864-int_33h_0021h__reset_mouse_driver.html">INT 33H 0021H</a> (to re-enable).
+
+          You might call this just before replacing the mouse support with
+          your own system of interrupts and kludges.  Then use the return
+          value in ES:DX to reinstall the previous <a href="832-int_33h__mouse_support.html">INT 33H</a> code at some
+          later time (i.e., when you exit to DOS).
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

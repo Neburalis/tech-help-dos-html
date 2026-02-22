@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Processor Control Instructions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Processor Control Instructions</h1><pre>
+CLC         clear the carry flag to NC                             (CF←0)
+CMC         complement (reverse the value of) the carry flag       (CF←~CF)
+STC         set the carry flag to CY                               (CF←1)
+CLD         clear direction flag to UP (string ops auto-increment) (DF←0)
+STD         set direction flag to DN (string ops auto-decrement)   (DF←1)
+CLI         disable maskable hardware interrupts                   (IF←0)
+STI         enable maskable hardware interrupts                    (IF←1)
+
+CTS/CLTS    clear task switch flag.                           (TF←1)   <span class="c2">286+</span>
+
+HLT         halt processing (perform NOPs until an interrupt occurs)
+
+WAIT/FWAIT  wait for TEST line active (synchronize with coprocessor)
+LOCK        <span class="c1">(prefix)</span> prevent coprocessor bus access for the next instruction
+              prevents access only to mem affected by next opcode      <span class="c2">386+</span>
+
+SEG segreg  <span class="c1">(prefix)</span> override default <span class="c1">segreg</span> for next EA calculation
+
+────────────────────────────────────────────────────────────────────────────
+                                                            <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

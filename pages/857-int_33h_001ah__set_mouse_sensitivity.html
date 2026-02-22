@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 001aH: Set Mouse Sensitivity - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 001aH: Set Mouse Sensitivity</h1><pre>
+ Expects: <span class="c2">AX</span>    001aH
+          <span class="c2">BX</span>    horizontal speed, in mickeys-per-pixel
+          <span class="c2">CX</span>    vertical speed, in mickeys-per-pixel
+          <span class="c2">DX</span>    speed-doubling threshold, in mickeys-per-second
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This combines the functionality of <a href="848-int_33h_000fh__set_pointer_speed.html">INT 33H 000fH</a> (set speed) and
+          <a href="850-int_33h_0013h__set_speed_doubling_threshold.html">INT 33H 0013H</a> (set doubling threshold).
+
+          Use <a href="858-int_33h_001bh__query_mouse_sensitivity.html">INT 33H 001bH</a> to obtain the current values of these
+          variables.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

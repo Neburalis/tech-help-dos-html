@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS Functions</h1><pre>
+ TECH Help! describes all services of the <span class="c1">Extended Memory Specification</span>
+ version <span class="c2">2.0</span>.  Version 2.0 has been standard since October, 1992 and is
+ usually available on 286+ computers running DOS 4.0+.
+
+ There are two parts to the XMS API.  The first uses <a href="698-int_2fh_43xxh__himem_sys__extended_memory_manager__services.html">INT 2fH 43xxH</a> as a way
+ to test for installation and to obtain the entry address for the other
+ services.  After obtaining that address, you call it directly.  See
+ <a href="700-int_2fh_4310h__get_himem_sys__xmm__entry_address.html">INT 2fH 4310H</a> for an example.
+
+     See: <a href="699-int_2fh_4300h__is_himem_sys__xms_support__installed_.html">INT 2fH 4300H</a> (is HIMEM.SYS installed?)
+          <a href="700-int_2fh_4310h__get_himem_sys__xmm__entry_address.html">INT 2fH 4310H</a> (get XMM entry address)
+  AH
+  ▀▀▀  ────────────────────────────────────────────────── <span class="c2">General Functions</span>
+  <a href="945-xms_00h__get_xms_version_number.html">00H</a>  Get XMS version number
+  ────────────────────────────────────────────────────── <span class="c2">Standard Functions</span>
+  <a href="946-xms_01h__request_high_memory_area.html">01H</a>  Request high memory area
+  <a href="947-xms_02h__release_high_memory_area.html">02H</a>  Release high memory area
+  <a href="948-xms_03h__global_enable_a20.html">03H</a>  Global enable A20
+  <a href="949-xms_04h__global_disable_a20.html">04H</a>  Global disable A20
+  <a href="950-xms_05h__local_enable_a20.html">05H</a>  Local enable A20
+  <a href="951-xms_06h__local_disable_a20.html">06H</a>  Local disable A20
+  <a href="952-xms_07h__query_a20_state.html">07H</a>  Query A20 state
+  ──────────────────────────────────────────────────── <span class="c2">XMS Memory Functions</span>
+  <a href="953-xms_08h__query_free_extended_memory.html">08H</a>  Query free extended memory
+  <a href="954-xms_09h__allocate_extended_memory_block.html">09H</a>  Allocate extended memory block
+  <a href="955-xms_0ah__free_extended_memory_block.html">0aH</a>  Free extended memory block
+  <a href="956-xms_0bh__move_extended_memory_block.html">0bH</a>  Move extended memory block
+  <a href="957-xms_0ch__lock_extended_memory_block.html">0cH</a>  Lock extended memory block
+  <a href="958-xms_0dh__unlock_extended_memory_block.html">0dH</a>  Unlock extended memory block
+  <a href="959-xms_0eh__get_handle_information.html">0eH</a>  Get handle information
+  <a href="960-xms_0fh__resize_extended_memory_block.html">0fH</a>  Resize extended memory block
+  ─────────────────────────────────────────────────────────── <span class="c2">UMB Functions</span>
+  <a href="961-xms_10h__request_upper_memory_block.html">10H</a>  Request upper memory block
+  <a href="962-xms_11h__release_upper_memory_block.html">11H</a>  Release upper memory block
+
+See Also: <a href="943-extended_memory_specification__xms_.html">XMS</a>
+          <a href="963-xms_error_codes.html">XMS Error Codes</a>
+          <a href="650-expanded_memory_specification__ems_.html">Expanded Memory Specification (EMS)</a>
+          <a href="558-dos_interrupts.html">DOS Interrupts</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

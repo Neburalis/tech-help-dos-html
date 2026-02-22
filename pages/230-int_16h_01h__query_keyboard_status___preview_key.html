@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 16H 01H: Query Keyboard Status / Preview Key - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 16H 01H: Query Keyboard Status / Preview Key</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    01H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ZF</span>    ZR = no keys in buffer
+                NZ = key is ready
+          <span class="c2">AH</span>    (if ZR) scan code
+          <span class="c2">AL</span>    (if ZR) <a href="45-ascii.html">ASCII</a> character code or <a href="55-extended_ascii_keystrokes.html">extended ASCII</a> keystroke
+          ──────────────────────────────────────────────────────────────────
+    Info: Checks to see if a key is available in the keyboard buffer, and
+          if so, returns its keycode in AX.  It DOES NOT remove the
+          keystroke from the buffer.
+
+          This can be used to avoid dropping into a BIOS loop while waiting
+          for a keystroke.  For instance:
+
+            waitForKey: mov   ah,01H
+                        int   16H
+                        jnz   gotKey       ;jmp if key is ready
+                        call  doSomething  ;do processing while waiting
+                        jmp   waitForKey   ;loop back and check for a key
+
+            gotKey:     mov ah, 00H        ;key is ready, get it
+                        int 16H            ;now process the key
+                         .
+                         :
+
+   Notes: ■ <span class="c2">Extended key filtering:</span>  For compatibility with older 83-key
+            'boards, this converts duplicated keys into their older
+            equivalent keys.  Use <a href="235-int_16h_11h__query_extended_keyboard_status___preview_key.html">INT 16H 11H</a> to get unfiltered key codes.
+
+See Also: <a href="228-int_16h__keyboard_services.html">INT 16H</a> (BIOS keyboard services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1000H: Is Share.Exe Installed? - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1000H: Is Share.Exe Installed?</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    1000H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    status: 00H = is not installed
+                        ffH = is installed
+          ──────────────────────────────────────────────────────────────────
+    Info: Checks to see if the DOS <span class="c2">SHARE.EXE</span> program (which provides file-
+          locking functions) has been executed and is resident in memory.
+
+   Notes: Windows (and maybe others) intercept this vector and always
+          return a non-zero.
+
+          To really check to see if file-sharing support is installed, try
+          locking a file via DOS fn <a href="529-dos_fn_5ch__lock_unlock_file_access.html">5cH</a> and check the error/return code.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

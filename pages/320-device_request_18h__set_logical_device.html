@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Request 18H: Set Logical Device - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Request 18H: Set Logical Device</h1><pre>                                                                <a href="328-_blk_.html">◄Blk►</a> <a href="331-_gen_.html">◄Gen►</a>
+ Tells the block-device driver that a particular unit number will be
+ referred to by a particular drive ID number.  This is in support for DOS's
+ &quot;phantom floppy&quot; feature.
+
+<span class="c2">DevReq18Rec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bLen</span>         0dH (length of this request packet)
+   +1      1  <span class="c1">bUnitNo</span>      unit number
+   +2      1  <span class="c1">bCmd</span>         <span class="c2">17H</span> (command code)
+   +3      2  <span class="c1">rStatus</span>      OUTPUT: <a href="325-device_status_word.html">Device Status Word</a> must fill before exit
+   +5H     8  <span class="c1">res</span>          (reserved)
+          13               size of this structure
+
+     <span class="c1">bUnitNo</span>  On entry, this identifies how DOS will refer to this unit at
+              the user-interface level.
+
+              It is zero-based, relative to the number of logical drives
+              supported by the driver.  For instance, if the driver supports
+              two diskette drives (A and B) but only one physical diskette
+              drive is present, then a call with <span class="c1">bUnitNo</span>=1 means that the
+              physical drive will be referred to as drive B.
+
+     <span class="c1">rStatus</span>  On exit, the driver must place a <a href="325-device_status_word.html">DevStatusWord</a> here.  Always
+              set the Done bit (<span class="c1">bit 8</span>).  On an error, set the Done bit and
+              the Error bit (<span class="c1">bit 15</span>) and put a <a href="326-device_driver_errors.html">Device Error Code</a> in the low
+              byte.
+
+   Notes: ■ Only device drivers capable of handling Get/Set Logical drive
+            requests need support this (see <a href="323-device_attribute.html">Device Attribute</a> <span class="c1">bit 6</span>).
+
+          ■ The &quot;phantom floppy&quot; concept lets DOS pretend (for instance)
+            that a one-diskette-drive system actually has a drive A and a
+            drive B.  For instance, if the user types: <span class="c2">Dir B:</span>, then DOS
+            prompts the user to &quot;<span class="c2">Insert diskette for drive B:</span>&quot; and sends
+            <a href="320-device_request_18h__set_logical_device.html">DvRq 18H</a> (set logical device) to the driver.
+
+          ■ This is the device driver &quot;catch point&quot; for DOS fn <a href="481-dos_fn_440fh__ioctl_set_logical_drive_map.html">440fH</a> (IOCTL
+            set logical drive).
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">DevRequestHdrRec</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

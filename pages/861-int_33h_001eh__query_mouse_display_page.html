@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 001eH: Query Mouse Display Page - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 001eH: Query Mouse Display Page</h1><pre>
+ Expects: <span class="c2">AX</span>    001eH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">BX</span>    video page upon which the mouse is displayed
+          ──────────────────────────────────────────────────────────────────
+    Info: This returns the video page number upon which the mouse support
+          is currently displaying the mouse pointer.
+
+          This <span class="c1">does not</span> tell you which video page is currently active.  Use
+          <a href="130-int_10h_0fh__query_current_video_info.html">INT 10H 0fH</a> to learn that.  Use <a href="120-int_10h_05h__select_video_page.html">INT 10H 05H</a> to activate a
+          particular video page.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

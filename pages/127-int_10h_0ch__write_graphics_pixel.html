@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 0cH: Write Graphics Pixel - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 0cH: Write Graphics Pixel</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    0cH
+          <span class="c2">AL</span>    color number (+80H means XOR with current value)
+          <span class="c2">BH</span>    video page (0-based)
+          <span class="c2">CX</span>    graphics column
+          <span class="c2">DX</span>    graphics row
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: Even on the FASTEST computers, <span class="c2">this fn is WAY TOO SLOW</span> to expect
+          to get any reasonable amount of drawing done.
+
+          The BIOS does not support line-drawing or other standard graphics
+          primitives.  To draw graphics with reasonable speed, you must
+          access video memory directly.  See <a href="89-video_memory_layouts.html">Video Memory Layouts</a>.
+
+   Notes: When you add 80H to the color value in <span class="c2">AL</span>, the specified color is
+          XORed with the color that is currently at that position.  That is
+          a useful graphics operation since XORing the same value twice
+          ends up with the original value.
+
+See Also: <a href="128-int_10h_0dh__read_graphics_pixel.html">INT 10H 0dH</a> (read graphics pixel)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

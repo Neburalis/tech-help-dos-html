@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CMOS Storage Layout - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CMOS Storage Layout</h1><pre>
+ AT-class PCs contain a battery-powered real-time clock (RTC) and 64-bytes
+ of low-power non-volatile CMOS memory.
+
+ This memory contains a variety of information, including the current time
+ and date, along with hardware configuration and a shut-down status byte
+ (the shutdown byte is used in the mechanism which permits the AT to
+ restart where it left off after issuing a processor reset to exit from
+ protected mode).
+
+ When you see the &quot;Run Setup&quot; prompt during <a href="264-power_on_self_test.html">POST</a> it is usually because some
+ hardware did not match the configuration record or because of some other
+ problem with the CMOS RAM.
+
+ Address Summary (detailed information follows)
+ ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 00H-0dH used by real-time clock
+ 0eH     <a href="264-power_on_self_test.html">POST</a> diagnostics status byte
+ 0fH     shutdown status byte
+ 10H     diskette drive type      ─────┐
+ 11H     (reserved)                    │
+ 12H     hard disk types (if &lt; 15)     │
+ 13H     (reserved)                    ╞═► checksum-protected
+ 14H     equipment byte                │   configuration record
+ 15H-16H Base memory size              │   (addresses 10H-20H)
+ 17H-18H extended memory above 1M      │
+ 19H     hard disk C type (if &gt; 15)    │
+ 1aH     hard disk D type (if &gt; 15)    │
+ 1bH-20H (reserved)               ─────┘
+ 21H-2dH (reserved)
+ 2eH-2fH storage for  checksum of CMOS addresses 10H through 20H
+ 30H-31H extended memory above 1M
+ 32H     current century in BCD (e.g., 19H)
+ 33H     miscellaneous info.
+ 34H-3fH (reserved)
+
+<span class="c2">█▌Using CMOS Data▐█</span>
+  To read a byte from CMOS, do an OUT 70H,<span class="c1">addr</span> followed by IN 71H.  To
+  write a byte to CMOS, do an OUT 70H,<span class="c1">addr</span> followed by OUT 71H,<span class="c1">value</span>.
+
+  Example: ;---------------- read what type of hard disk is installed
+           mov     al,12H
+           out     70H,al   ;select CMOS address 12H
+           jmp     $+2      ;this forces a slight delay to settle things
+           in      al,71H   ;AL now has drive type (0-15)
+
+  Addresses 10H through 20H are protected by a checksum to be able to detect
+  when the battery has died or invalid information has been written into the
+  configuration record.  This a simple 16-bit sum of the protected bytes.
+
+<span class="c2">█▌CMOS Memory Layout Detail▐█</span>
+  This layout applies to AT-class PC only.  <a href="830-system_compatibility.html">PS/2</a> machines define some fields
+  differently.
+
+Addr Description
+▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ <span class="c2">0</span>   current second (real-time clock)╔═════════════════════════════════════╗
+ <span class="c2">1</span>   alarm second                    ║ All RTC quantities are stored in    ║
+ <span class="c2">2</span>   current minute                  ║ BCD-format as two decimal nibbles;  ║
+ <span class="c2">3</span>   alarm minute                    ║ e.g., 31 (decimal) is stored as 31H.║
+ <span class="c2">4</span>   current hour                    ╚═════════════════════════════════════╝
+ <span class="c2">5</span>   alarm hour                               ┌────────────────────────────┐
+ <span class="c2">6</span>   current day of week (1=Sunday)           │ Note: For more info on the │
+ <span class="c2">7</span>   current date of month                    │ real-time clock, refer to  │
+ <span class="c2">8</span>   current month                            │ Motorolla MC146818 specs.  │
+ <span class="c2">9</span>   current year  (final two digits; eg, 94) └────────────────────────────┘
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">0aH</span>  RTC status register A
+     ╓7┬6┬5┬4┬3┬2┬1┬0╖
+     ║ │     │       ║
+     ╙╥┴─┴─┴─┴─┴─┴─┴─╜
+      ║ ╚═╦═╝ ╚═════╩═► rate selector (set to 0110)
+      ║   ╚═══════════► 22-stage divider (set to 010)
+      ╚═══════════════► Update in progress (UIP) flag.  0 means OK to read.
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">0bH</span>  RTC status register B
+     ╓7┬6┬5┬4┬3┬2┬1┬0╖
+     ║ │ │ │ │ │ │ │ ║
+     ╙╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜
+      ║ ║ ║ ║ ║ ║ ║ ╚═► daylight savings enable.  0=standard time (set to 0)
+      ║ ║ ║ ║ ║ ║ ╚═══► 12 or 24-hr mode.  0=12-hr mode (is set to 1)
+      ║ ║ ║ ║ ║ ╚═════► BCD date mode. 1=binary, 0=BCD.  (is set to 0)
+      ║ ║ ║ ║ ╚═══════► enable square wave. 1=turn on sqr wave. (set to 0)
+      ║ ║ ║ ╚═════════► enable update-ended interrupt.0 disables. (set to 0)
+      ║ ║ ╚═══════════► enable alarm int. 0 disables (set to 0) See <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH</a>
+      ║ ╚═════════════► enable periodic interrupt 0 disables (set to 0)
+      ╚═══════════════► Update in progress (UIP) flag.  0 = OK to read CMOS.
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">0cH</span>  RTC status register C.  Read-only interrupt status bits.
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">0dH</span>  RTC status register D. Bit 7=1 when a CMOS-RAM is receiving power
+                                 =0 to indicate a dead battery.
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">0eH</span>  <a href="264-power_on_self_test.html">POST</a> diagnostics status byte
+     ╓7┬6┬5┬4┬3┬2┬1┬0╖
+     ║ │ │ │ │ │ │0 0║
+     ╙╥┴╥┴╥┴╥┴╥┴╥┴─┴─╜
+      ║ ║ ║ ║ ║ ╚═════► Time is valid (After POST, 1 means it's not Feb 30)
+      ║ ║ ║ ║ ╚═══════► Hard disk bad.  1 = can't boot from hard disk
+      ║ ║ ║ ╚═════════► RAM size error. 1 = POST found different RAM size
+      ║ ║ ╚═══════════► Configuration record error.  1=different equipment
+      ║ ╚═════════════► Checksum invalid.  1 = bad checksum in CMOS RAM
+      ╚═══════════════► Power Lost.  1 = real-time clock battery died
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">0fH</span>  shutdown status byte
+     This byte is read upon startup after CPU reset in order to determine if
+     the reset was used as a way to get out of 80286 protected mode.
+         0 = soft reset (Ctrl-Alt-Del) or unexpected shutdown.  Skip <a href="264-power_on_self_test.html">POST</a>
+         1 = shutdown after memory size is determined
+         2 = shutdown after memory test is performed
+         3 = shutdown after memory error (parity check 1 or 2)
+         4 = shutdown with bootstrap loader request
+         5 = shutdown with FAR JMP (restart int ctrlr and jmp to 0:[0467H])
+     6,7,8 = shutdown after passing a protected mode test
+         9 = shutdown after performing block move.  See <a href="222-int_15h_87h__move_memory_block.html">INT 15H 87H</a>
+       0aH = shutdown with FAR JMP (immediate jmp to address at 0:[0467H])
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">10H</span>  diskette drive types
+     ╓7┬6┬5┬4┬3┬2┬1┬0╖
+     ║       │       ║
+     ╙─┴─┴─┴─┴─┴─┴─┴─╜
+      ╚══╦══╝ ╚═════╩═►second diskette drive ═╦═► 0000 = 0 = not installed
+         ╚════════════► first diskette drive ═╝   0001 = 1 = 360K drive
+                                                  0010 = 2 = 1.2M drive
+   For instance, 24H means drive A is 1.2M        0011 = 3 = 720K drive
+                           drive B is 1.44M       0100 = 4 = 1.44M drive
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">11H</span>  reserved on ▌AT▐
+     <a href="830-system_compatibility.html">PS/2</a> uses addresses 11H and 12H to identify the <a href="54-at_bios_hard_disk_types.html">Hard Disk Types</a> for
+     the first and second hard disks (drives C: and D:), respectively.
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">12H</span>  hard disk drive type  (for drives C: and D:, when between 1 and 14)
+     ╓7┬6┬5┬4┬3┬2┬1┬0╖
+     ║       │       ║
+     ╙─┴─┴─┴─┴─┴─┴─┴─╜
+      ╚══╦══╝ ╚═════╩═►second hard disk (drive D) ═╦═►0000 =not present
+         ╚════════════► first hard disk (drive C) ═╝  else =type ID (below)
+                                                      1111 =use addr 19H/1aH
+
+     See <a href="54-at_bios_hard_disk_types.html">AT BIOS Hard Disk Types</a> for a list of IBM BIOS-supported drives.
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">13H</span>  reserved
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">14H</span>  Equipment byte
+     ╓7┬6┬5┬4┬3┬2┬1┬0╖
+     ║drv│dsp│0 0│7│d║
+     ╙─┴─┴─┴─┴─┴─┴╥┴─╜
+      ╚╦╝ ╚╦╝     ║ ╚═► 1 = diskette drive(s) installed
+       ║   ║      ╚═══► 1 = 80287 math co-processor installed
+       ║   ╚══════════► primary display 00 = none or EGA<a href="932-qvidega.html">▲</a>
+       ║                                01 = 40-clm CGA, EGA or VGA
+       ║                                10 = 80-clm CGA, EGA or VGA
+       ║                                11 = Monochrome
+       ╚══════════════► diskette drives-1 (00=1, 01=2, 10=3, 11=4)
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">15H</span>  Base memory (low byte)  ══╦═► 0100H=256K, 0200H=512K, 0280H=640K
+<span class="c2">16H</span>  Base memory (high byte)  ═╝
+<span class="c2">17H</span>  extended memory above 1M (low byte)  ══╦═► (in K bytes; 0-3c00H)
+<span class="c2">18H</span>  extended memory (high byte)  ══════════╝   See <a href="223-int_15h_88h__get_extended_memory_size.html">INT 15H 88H</a>.
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">19H</span>  disk 0 (drive C:) hard disk type if (CMOS addr 12H &amp; 0fH) is 0fH
+<span class="c2">1aH</span>  disk 1 (drive D:) hard disk type if (CMOS addr 12H &amp; f0H) is f0H
+     (reserved on PS/2)
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">1bH</span>-2dH reserved
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">2eH</span>  checksum of CMOS addresses 10H through 20H  (high byte)
+<span class="c2">2fH</span>                                              (low byte)
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">30H</span>  extended memory above 1M (low byte)  ══╦═► (in K bytes; 0-3c00H)
+<span class="c2">31H</span>  extended memory (high byte)  ══════════╝   See <a href="223-int_15h_88h__get_extended_memory_size.html">INT 15H 88H</a>.
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">32H</span>  century in BCD (e.g., 19H)
+     <a href="830-system_compatibility.html">PS/2</a> addresses 32H and 33H contain a CRC-style checksum of bytes 10H
+          through 31H.  32H is the high byte, 33H is the low byte.
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">33H</span>  miscellaneous info.  Bit 7=IBM 128K memory option installed
+                          Bit 6=used by &quot;Setup&quot; utility
+───  ───────────────────────────────────────────────────────────────────────
+<span class="c2">34H</span>-3fH reserved.  Put your name here for everlasting amusement.
+     <a href="830-system_compatibility.html">PS/2</a> Date Century byte is at address 37H.
+     <a href="830-system_compatibility.html">PS/2</a> Password is contained in bytes 38H-3fH on Model 50.  To read or
+          modify the password, trick IBM by using addresses 78H-7fH (these
+          invalid address &quot;wrap around&quot; and map to 38h-3fh).
+
+See Also: <a href="264-power_on_self_test.html">POST</a>
+          <a href="183-int_11h__equipment_check.html">INT 11H</a> (get equipment list)
+          <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="54-at_bios_hard_disk_types.html">AT BIOS Hard Disk Types</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

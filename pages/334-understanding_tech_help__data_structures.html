@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Understanding TECH Help! Data Structures - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Understanding TECH Help! Data Structures</h1><pre>
+  In TECH Help!, data structure layouts are described using easy-to-use
+  conventions.  Structure and field names in DOS and BIOS data structures
+  are arbitrary, so we have used some conventions that make them more
+  meaningful.  The name of each field is started with a few letters which
+  describe the size and type of the data it represents:
+
+          <span class="c1">b</span>    = byte
+          <span class="c1">w</span>    = word (16-bit, unsigned)
+          <span class="c1">l</span>    = long (dword)
+          <span class="c1">r</span>    = multi-byte record (structure or bit field)
+          <span class="c1">sz</span>   = ASCIIZ<a href="913-qasciiz.html">▲</a> string
+
+  To indicate that a field is a pointer (an address), the field name begins
+  with a <span class="c1">p</span>.  To indicate a far pointer (a 32-bit segment:offset address),
+  the field name begins with <span class="c1">pf</span>.  For instance,:
+
+          <span class="c1">p</span>    = pointer
+          <span class="c1">pf</span>   = <span class="c1">far</span> pointer (32-bit, segment:offset address)
+          <span class="c1">pf</span>r  = far pointer to a structure
+          <span class="c1">pf</span>sz = far pointer to an ASCIIZ string
+
+  When an <span class="c1">a</span> is used as a leading qualifier, the field is an array, or list
+  of identical elements.  For instance:
+
+          <span class="c1">a</span>b   = multiple-element <span class="c1">array</span> of bytes
+          <span class="c1">a</span>w   = <span class="c1">array</span> of 16-bit words
+
+  Finally, the field name itself is given, starting with an uppercase
+  letter.
+
+<span class="c2">█▌Sample Structure▐█</span>
+  Here's an example of a multiple-byte data area:
+
+<span class="c2">SampleDataRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       1  <span class="c1">bFieldByte</span>   an 8-bit (BYTE) field
+  +1       2  <span class="c1">wFieldWord</span>   a 16-bit (WORD) field
+  +3       4  <span class="c1">lFieldDword</span>  a 32-bit (DWORD) field
+  +7       9  <span class="c1">abTextField</span>  a 9-byte array of bytes
+ +10H      4  <span class="c1">pfrNext</span>      a 32-bit far pointer to a structure
+ +14H     12  <span class="c1">szTextField</span>  a 12-byte field containing an ASCIIZ<a href="913-qasciiz.html">▲</a> string
+          32               size of a SampleDataRec structure
+
+ The offset and size are the most important; the field names are arbitrary.
+ Offsets are given in <a href="923-qhex.html">hex▲</a>, with an <span class="c2">H</span> suffixed where relevant.
+ Sizes are given in decimal.
+
+ As the last line, the total size of the structure is given in bytes.
+
+ When deemed important, additional information about each field is
+ described in the topic.  For instance,
+
+  <span class="c1">bFieldByte</span>  a one byte field
+  <span class="c1">wFieldWord</span>  a two-byte field.  As with all 16-bit values, the first byte
+              is the low byte and the next is the high byte of the value.
+ <span class="c1">lFieldDword</span>  a 4-byte field, used as a 32-bit (long) value
+ <span class="c1">abTextField</span>  a multi-byte field.  Words such as &quot;blank-padded&quot; mean that
+              any unused part of the field contains spaces.
+     <span class="c1">pfrNext</span>  a 32-bit address of a structure.  As with all 32-bit
+              addresses, the first two bytes are the offset and the next two
+              bytes are the segment.
+ <span class="c1">szTextField</span>  an ASCIIZ string.  The string is terminated with a NUL (00H)
+              and bytes following that NUL are not used.
+
+<span class="c2">█▌Sample Bit Record▐█</span>
+  Here's an example of a one-byte record that contains bit-fields:
+
+<span class="c2">SampleBitRec</span>
+╓7┬6┬5┬4┬3┬2┬1┬0╖
+║<span class="c1">c</span>│0 0│<span class="c1">drv</span>│0│<span class="c1">d</span>│<span class="c1">v</span>║
+╙╥┴─┴─┴─┴─┴─┴╥┴╥╜  <span class="c1">bit</span> <span class="c1">mask</span>
+ ║     ╚╦╝   ║ ╚═►  0:  01H perform verification
+ ║      ║    ╚═══►  1:  02H &quot;dirty&quot; (has been modified)
+ ║      ╚════════►3-4:  18H drive ID: 00=A, 01=B, 10=C, 11=D
+ ╚═══════════════►  7:  80H calibration needed
+
+   Notes: ■ Where a 0 appears in the diagram, that bit is reserved and has
+            no (documented) meaning.
+
+          ■ Other bits may contain a letter or short word in <span class="c1">this color</span>.
+            That is simply a mnemonic to help you see at a glance what the
+            bits mean.
+
+          ■ The <span class="c1">mask</span> value is the digital value of that bit.  For instance,
+            assuming the above record is in AL, your program could use...
+
+              AND AL,80H
+              CMP AL,80H
+              JE  BitWasSet
+
+            ...or perhaps...
+
+              TEST AL,80H
+              JNZ  BitWasSet
+
+            ...to test the &quot;calibration needed&quot; bit (bit 7).  To set that
+            bit, use...
+
+              OR   AL,80H
+
+See Also: (fns that use the structure are listed here)
+          <a href="964-using_tech_help_.html">Using TECH Help!</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

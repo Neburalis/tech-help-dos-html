@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4dH: Get Program Exit Code - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4dH: Get Program Exit Code</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    4dH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    <a href="920-qexitcode.html">exit code▲</a> of last process to terminate
+          <span class="c2">AH</span>    Exit method: 0 = normal termination
+                             1 = Ctrl-Break termination  <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a>
+                             2 = termination via critical error  <a href="564-int_24h__critical_error_handler.html">INT 24H</a>
+                             3 = termination via Fn <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a> KEEP
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the <span class="c1">exit code</span> of the most-recently terminated process.
+          The exit code is set when a program calls DOS Fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> or <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a>.
+
+          This function returns valid information only once for each
+          terminating process.
+
+See Also: <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

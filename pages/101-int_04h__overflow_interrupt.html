@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 04H: Overflow Interrupt - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 04H: Overflow Interrupt</h1><pre>
+ The INT 04H vector can be used as one way to minimize the size of programs
+ that perform a lot of arithmetic operations.
+
+ After any arithmetic operation, the INTO instruction will test for
+ arithmetic overflow, and if the CPU flag is set (OF=OV=1), then INT 04H
+ is executed.
+
+ You might see code such as:
+
+          mov     ax,var_1
+          add     ax,var_2
+          into              ;2-byte test for arithmetic overflow
+      ... etc. ...          ;either no overflow or it has been handled
+                            ; by the interrupt handler
+
+See Also: <a href="97-int_00h__division_overflow.html">INT 00H</a> (division by 0)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

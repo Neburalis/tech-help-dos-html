@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>BIOS Disk Error Codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>BIOS Disk Error Codes</h1><pre>
+  <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> services return with the Carry Flag set (<span class="c2">CF</span>=CY=1) when the
+  requested service failed and it places one of the following error codes
+  in <span class="c2">AH</span>.  These are also the values returned when disk status is requested
+  (<a href="186-int_13h_00h__reset_drive.html">INT 13H 00H</a>) and can be found at 0040:0041 (diskette errors) and
+  0040:0074 (hard disk errors) in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>.
+
+    Note: On any error, you should reset with subfn 00H and retry 3 times.
+
+<span class="c2">█▌Diskette I/O Errors▐█</span>
+  These errors may be returned when <span class="c2">DL</span> &lt; 81H (i.e., on diskette service
+  requests).
+
+  Err#  Error/status Description
+  ▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   00H  no error on last operation
+   01H  bad command: invalid request to controller
+   02H  bad address mark
+   03H  write protect: attempted to write on write-protected diskette
+   04H  sector ID bad or not found
+
+   06H  diskette change line is active
+
+   08H  DMA failure
+   09H  DMA overrun: attempted to write across a 64K-byte boundary.
+
+   0cH  Media type not available
+   10H  bad CRC: Cyclical Redundancy Code does not agree with data
+   20H  diskette controller failure
+   40H  bad seek; requested track not found
+   80H  time-out
+
+<span class="c2">█▌Hard Disk I/O Errors▐█</span>
+  These errors may be returned when <span class="c2">DL</span> &gt; 7fH (i.e., on hard disk service
+  requests).
+
+  Err#  Error/status Description
+  ▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   00H  no error on last operation
+   01H  bad command: invalid request to controller
+   02H  bad address mark
+   03H  write protect: attempted to write on write-protected diskette
+   04H  sector ID bad or not found
+   05H  reset failed
+
+   07H  drive parameter activity failed
+   08H  DMA failure
+   09H  DMA overrun: attempted to write across a 64K-byte boundary.
+   0aH  bad sector flag detected
+   0bH  bad cylinder detected
+
+   0dH  invalid umber of sectors in format
+   0eH  control data address mark detected
+   0fH  DMA arbitration level out of range
+   10H  uncorrectable ECC or CRC
+   11H  ECC corrected data error
+   20H  hard disk controller failure
+   40H  bad seek; requested track not found
+   80H  time-out
+   aaH  drive not ready
+   bbH  undefined error
+   ccH  write fault on selected drive
+   e0H  status error/error register 0
+   ffH  sense operation failed
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

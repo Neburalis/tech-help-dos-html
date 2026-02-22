@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1103H: Activate Font Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1103H: Activate Font Block</h1><pre>                                                      Compatibility: <span class="c2">EGA</span> <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1101H
+          <span class="c2">BL</span>    font block selector code (see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn lets you activate any of the EGAs four font blocks or any
+          of the VGAs 8 font blocks.
+
+          It also makes it possible to create a 512-element character set.
+          Use it to identify which (previously-loaded) font block is to be
+          displayed when <span class="c1">bit 3</span> of the <a href="87-screen_attributes.html">Video Attribute</a> is clear and which to
+          be displayed when bit 3 of the attribute is set.
+
+          Attribute <span class="c1">bit 3</span> normally selects the intensity of the foreground
+          color.  After using this fn, you will have only 8 possible
+          foreground colors, but you can display up to 512 characters
+          simultaneously (for instance, you can display italic characters
+          along with upright characters).
+
+       <span class="c2">BL</span> is a set of bit-fields which identify which font block to use
+          when video attribute bit 3 is 1 or 0.
+
+          <span class="c2">EGAFontBlockRec</span>  (for EGAs)
+          ╓7┬6┬5┬4┬3┬2┬1┬0╖
+          ║0 0 0 0│<span class="c3">cs1</span>│<span class="c1">cs0</span>║
+          ╙─┴─┴─┴─┴─┴─┴─┴─╜  bits mask
+                   <span class="c3">╚╦╝</span> ╚═╩═► 0-1: 03H (0-3) font when attr bit 3=0
+                    <span class="c3">╚══════►</span> 2-3: 0cH (0-3) font when attr bit 3=1
+
+          <span class="c2">VGAFontBlockRec</span>  (for VGAs)
+          ╓7┬6┬5┬4┬3┬2┬1┬0╖
+          ║0 0│<span class="c3">a</span>│<span class="c1">b</span>│<span class="c3">cs1</span>│<span class="c1">cs0</span>║
+          ╙─┴─┴<span class="c3">╥</span>┴┬┴<span class="c3">╥</span>┴<span class="c3">╥</span>┴┬┴┬╜  bits  mask
+               <span class="c3">║</span> └─<span class="c3">║</span>-<span class="c3">║</span>─┴─┴─► 0,1,4: 13H (0-7) font when attr bit 3=0
+               <span class="c3">╚═══╩═╩═════►</span> 2,3,5: 2cH (0-7) font when attr bit 3=1
+
+          In the VGA version, bits 4 and 5 are used in an upwardly-
+          compatible way to extend the possible selections to 8.
+
+          When both selections are the same (for instance, <span class="c2">BL</span>=00H selects
+          both characters sets to be font block 0), then BIOS disables the
+          512-character set handling and enables normal use of the video
+          attribute.
+
+          For instance, to enable font block 2 only, use <span class="c2">BL</span>=82H.  You would
+          first need to prepare the font block via <a href="153-int_10h_1101h__load_rom_8x14_character_set.html">INT 10H 1101H</a> (or 1102H
+          or 1104H).
+
+   Notes: When using a 512-character set, you need not give up high-
+          intensity characters.  Just use <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H</a> functions to program
+          the color palette.
+
+See Also: <a href="151-int_10h_11h__ega_vga_character_generator_functions.html">INT 10H 11H: EGA/VGA Character Generator Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

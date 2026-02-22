@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440aH: IOCTL Is File/Device Remote - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440aH: IOCTL Is File/Device Remote</h1><pre>                                                         Compatibility: <span class="c2">3.1+</span>
+ Expects: <span class="c2">AX</span>    440AH
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device or disk file)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          <span class="c2">DX</span>    <a href="486-ioctlhandleinforec.html">IoctlHandleInfoRec</a> (Bit 15 is 1 if file/device is remote)
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains information about a file or device represented by a
+          <a href="362-file_handle.html">file handle</a>, including whether or not it is local (on this
+          computer) or remote (on a network server).  It also tells whether
+          the handle represents a file or a device.
+
+          On return, <span class="c2">DX bit 15</span> (DX &amp; 8000H) is 1 if the file or device is
+          remote (i.e., on a network server).  See <a href="486-ioctlhandleinforec.html">IoctlHandleInfoRec</a> for a
+          full layout of the rest of the returned information.
+
+   Notes: ■ In general, you should treat local and remote files the same.
+            One exception might be if you want to avoid overwriting
+            configuration files when they are shared on the network.
+
+          ■ If the network is not started, CF is set and AX contains and
+            <a href="347-dos_error_codes.html">error code</a> of 0001H (invalid function).
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="455-dos_fn_4409h__ioctl_is_drive_remote_or_subst.html">4409H</a> (Is Drive Remote)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

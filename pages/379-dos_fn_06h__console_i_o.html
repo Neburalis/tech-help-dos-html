@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 06H: Console I/O - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 06H: Console I/O</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    06H
+          <span class="c2">DL</span>    0 to 0feH   character to send to the <a href="828-standard_i_o_and_i_o_redirection.html">Standard Output</a>
+                0ffH        request for input from the <a href="828-standard_i_o_and_i_o_redirection.html">Standard Input</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ZF</span>    clear (NZ) if character is ready <span class="c3">══╦═► on input requests</span>
+          <span class="c2">AL</span>    character read, if ZF is clear <span class="c3">════╝   (when DL=0ffH)</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: If DL is 0ffH, this performs a &quot;no wait&quot; console input, returning
+          the Zero Flag (ZF) set (ZR) if there is no character ready.  If a
+          character is ready, returns ZF cleared (NZ) with the character
+          that was read in AL.
+
+          If DL is anything but 0ffH, DL is sent to the Standard Output.
+
+   Notes: ■ Does not check for Ctrl-Break.
+          ■ Call twice for <a href="55-extended_ascii_keystrokes.html">Extended ASCII</a>.
+
+See Also: <a href="7-character_i_o_functions.html">Character I/O Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

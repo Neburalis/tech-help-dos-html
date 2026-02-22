@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Handle-Oriented File I/O - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Handle-Oriented File I/O</h1><pre>
+ These functions are preferred over the superseded <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a> functions
+ unless you must maintain compatibility with DOS 1.0.
+
+ <a href="435-dos_fn_3ch__create_a_file_via_handle.html">3cH</a> create file                       <a href="528-dos_fn_5bh__create_new_file.html">5bH</a> create new file (must not exist)
+ <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a> open file                         <a href="527-dos_fn_5ah__create_unique_temporary_file.html">5aH</a> create unique/temporary file
+ <a href="437-dos_fn_3eh__close_a_file_handle.html">3eH</a> close file                        <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a> extended create and open
+ <a href="440-dos_fn_41h__delete_file.html">41H</a> delete file
+
+ <a href="441-dos_fn_42h__set_file_pointer.html">42H</a> move read/write pointer (also use to get file size)
+ <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> read from file or device
+ <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> write to file or device
+ <a href="556-dos_fn_68h__commit_file.html">68H</a> commit file data (flush buffers to disk)
+
+ <a href="452-dos_fn_4406h__ioctl_query_handle_input_status.html">4406H</a> check for EOF (input status)    <a href="446-dos_fn_4400h__ioctl_query_device_file_flags.html">4400H</a> see if handle is device or file
+ <a href="453-dos_fn_4407h__ioctl_query_handle_output_status.html">4407H</a> check for busy (output status)  <a href="456-dos_fn_440ah__ioctl_is_file_device_remote.html">440aH</a> see if file is on network drv
+
+ <a href="497-dos_fn_45h__duplicate_a_file_handle.html">45H</a> duplicate file handle             <a href="555-dos_fn_67h__set_file_handle_count.html">67H</a> set (increase) maximum handles
+ <a href="498-dos_fn_46h__redirect_a_handle.html">46H</a> redirect file handle I/O
+──────────────────────────────────────────────────────────────────────────────
+ <a href="6-system_service_groups.html">Service Groups</a>   <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>   <a href="362-file_handle.html">File Handles</a>   <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>     <a href="25-api_index.html">API Index</a></pre></body></html>

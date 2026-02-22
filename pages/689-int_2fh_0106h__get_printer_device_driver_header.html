@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 0106H: Get Printer Device Driver Header - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 0106H: Get Printer Device Driver Header</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    0106H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000H and CF=NC=0 if the queue is currently empty
+                or <a href="347-dos_error_codes.html">error code</a> (if CF=CY)
+          <span class="c2">DS:SI</span> the address of the <a href="322-device_header_layout.html">DevHdrRec</a> of the device driver that is
+                currently in use by Print.Exe for print spooling.
+          ──────────────────────────────────────────────────────────────────
+    Info: This provides a way to ascertain the name and other attributes of
+          the device that is in use for print spooling.
+
+See Also: <a href="682-int_2fh_01xxh__dos_print_spooler_functions.html">INT 2fH 01xxH: DOS Print Spooler Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

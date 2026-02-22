@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwVersionRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwVersionRec</h1><pre><span class="c2">SwVersionRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       2  <span class="c1">wApiMajor</span>    task-switching protocol version (major)
+  +2       2  <span class="c1">wApiMinor</span>    task-switching protocol version (minor)
+  +4       2  <span class="c1">wProgMajor</span>   task-switcher program version (major)
+  +6       2  <span class="c1">wProgMinor</span>   task-switcher program version (minor)
+  +8       2  <span class="c1">wSwitcherID</span>  ID number of this task switcher
+ +0aH      2  <span class="c1">wFlags</span>       operation flags
+ +0cH      4  <span class="c1">pfszName</span>     addr of ASCIIZ<a href="913-qasciiz.html">▲</a> name of switcher program
+ +10H      4  <span class="c1">pfPrevSwchr</span>  entry address of next task switcher in chain (or
+                           0000:0000 if last in chain)
+           20              size of an SwVersionRec structure
+
+   <span class="c1">wApiMajor</span>  and...
+   <span class="c1">wApiMinor</span>  identify the highest version of task-switching protocol
+              supported by this switcher.  For instance, 3.10 would have
+              <span class="c1">wApiMajor</span>=0003H and <span class="c1">wApiMinor</span>=000aH.
+  <span class="c1">wProgMajor</span>  and...
+  <span class="c1">wProgMinor</span>  identify the version of the task switcher program; using the
+              same format as the API fields.
+
+ <span class="c1">wSwitcherID</span>  is the ID number of this switcher, as obtained via an
+              <a href="712-int_2fh_4b03h__allocate_switcher_id.html">INT 2fH 4b03H</a> (allocate switcher ID) call.
+
+      <span class="c1">wFlags</span>  Only bit 0 has meaning.  When bit 0 is 1, then this switcher
+              is currently disabled.  All other bits must be 0.
+
+    <span class="c1">pfszName</span>  Is the far address of an ASCIIZ<a href="913-qasciiz.html">▲</a> string of the name of this
+              switcher.
+
+ <span class="c1">pfPrevSwchr</span>  Is the entry address of another task switcher.  When this
+              field is 0000:0000, it's the end of the line.  Otherwise, you
+              can get info about that switcher by using <a href="723-swsrvc_fn_0000h__get_switcher_version.html">SwSrvcFn 0000H</a> (get
+              version) via a call to this address.
+
+ This structure is obtained via <a href="723-swsrvc_fn_0000h__get_switcher_version.html">SwSrvcFn 0000H</a> which could be called after
+ using <a href="711-int_2fh_4b02h__is_switcher_installed____get_service_addr.html">INT 2fH 4b02H</a> (detect switcher).
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 44H: Device I/O Control -- IOCTL - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 44H: Device I/O Control -- IOCTL</h1><pre>
+     See: Fn <a href="446-dos_fn_4400h__ioctl_query_device_file_flags.html">4400H</a> (query device/file type)              2.0+
+          Fn <a href="447-dos_fn_4401h__ioctl_set_device_file_flags.html">4401H</a> (set file/device flags)               2.0+
+          Fn <a href="448-dos_fn_4402h__ioctl_receive_control_data_from_char_device.html">4402H</a> (get control data from char device)   2.0+
+          Fn <a href="449-dos_fn_4403h__ioctl_send_control_data_to_character_device.html">4403H</a> (send control data to char device)    2.0+
+          Fn <a href="450-dos_fn_4404h__ioctl_receive_control_data_from_block_device.html">4404H</a> (get control data from block device)  2.0+
+          Fn <a href="451-dos_fn_4405h__ioctl_send_control_data_to_block_device.html">4405H</a> (send control data to block device)   2.0+
+          Fn <a href="452-dos_fn_4406h__ioctl_query_handle_input_status.html">4406H</a> (get input status)                    2.0+
+          Fn <a href="453-dos_fn_4407h__ioctl_query_handle_output_status.html">4407H</a> (get output status)                   2.0+
+          Fn <a href="454-dos_fn_4408h__ioctl_does_drive_use_removable_media.html">4408H</a> (removable media query)               3.0+
+          Fn <a href="455-dos_fn_4409h__ioctl_is_drive_remote_or_subst.html">4409H</a> (remote device or SUBST drive query)  3.1+
+          Fn <a href="456-dos_fn_440ah__ioctl_is_file_device_remote.html">440aH</a> (remote handle query)                 3.1+
+          Fn <a href="457-dos_fn_440bh__ioctl_set_sharing_retry_count.html">440bH</a> (sharing retry count)                 3.0+
+
+          Fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a>     (Generic IOCTL: <span class="c2">character devices</span>)
+          Fn <a href="459-dos_fn_440ch_cl_45h__ioctl_set_retry_iteration_count.html">440cH 45H</a> (set iteration count)             3.3+
+          Fn <a href="460-dos_fn_440ch_cl_4ah__ioctl_select_code_page.html">440cH 4aH</a> (select a prepared code page)     3.3+
+          Fn <a href="461-dos_fn_440ch_cl_4ch__ioctl_start_code_page_prepare.html">440cH 4cH</a> (begin preparing a code page)     3.3+
+          Fn <a href="462-dos_fn_440ch_cl_4dh__ioctl_end_code_page_prepare.html">440cH 4dH</a> (done preparing a code page)      3.3+
+          Fn <a href="463-dos_fn_440ch_cl_5fh__ioctl_set_display_mode.html">440cH 5fH</a> (set display information)         <span class="c2">4.0+</span>
+          Fn <a href="464-dos_fn_440ch_cl_65h__ioctl_query_retry_iteration_count.html">440cH 65H</a> (query retry iteration count)     3.3+
+          Fn <a href="465-dos_fn_440ch_cl_6ah__ioctl_query_current_code_page.html">440cH 6aH</a> (query active code page)          3.3+
+          Fn <a href="466-dos_fn_440ch_cl_6bh__ioctl_query_code_page_list.html">440cH 6bH</a> (get list of prepared code pages) 3.3+
+          Fn <a href="467-dos_fn_440ch_cl_7fh__ioctl_query_display_mode.html">440cH 7fH</a> (query display information)       <span class="c2">4.0+</span>
+
+          Fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a>     (generic IOCTL: <span class="c2">block devices</span>)
+          Fn <a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">440dH 40H</a> (set device parameters)           3.2+
+          Fn <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a> (write track)                     3.2+
+          Fn <a href="471-dos_fn_440dh_cl_42h__ioctl_format_track_on_logical_drive.html">440dH 42H</a> (format and verify track)         3.2+
+          Fn <a href="472-dos_fn_440dh_cl_46h__ioctl_set_media_id.html">440dH 46H</a> (set media ID)                    <span class="c2">4.0+</span>
+          Fn <a href="473-dos_fn_440dh_cl_47h__ioctl_set_access_flag.html">440dH 47H</a> (set disk access flag)            <span class="c2">4.0 only</span>
+          Fn <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">440dH 60H</a> (get device parameters)           3.2+
+          Fn <a href="475-dos_fn_440dh_cl_61h__ioctl_read_track_on_logical_drive.html">440dH 61H</a> (read track)                      3.2+
+          Fn <a href="476-dos_fn_440dh_cl_62h__ioctl_verify_track_on_logical_drive.html">440dH 62H</a> (verify track)                    3.2+
+          Fn <a href="477-dos_fn_440dh_cl_66h__ioctl_query_media_id.html">440dH 66H</a> (query media ID)                  <span class="c2">4.0+</span>
+          Fn <a href="478-dos_fn_440dh_cl_67h__ioctl_query_access_flag.html">440dH 67H</a> (query disk access flag)          <span class="c2">4.0 only</span>
+          Fn <a href="479-dos_fn_440dh_cl_68h__ioctl_sense_media_type.html">440dH 68H</a> (sense media type)                <span class="c2">5.0+</span>
+
+          Fn <a href="480-dos_fn_440eh__ioctl_query_logical_drive_map.html">440eH</a> (get logical drive)                   3.2+
+          Fn <a href="481-dos_fn_440fh__ioctl_set_logical_drive_map.html">440fH</a> (set logical drive)                   3.2+
+          Fn <a href="482-dos_fn_4410h__ioctl_query_ioctl_support_for_handle.html">4410H</a> (query IOCTL handle)                  <span class="c2">5.0+</span>
+          Fn <a href="483-dos_fn_4411h__ioctl_query_ioctl_support_for_device.html">4411H</a> (query IOCTL device)                  <span class="c2">5.0+</span>
+
+    Note: IOCTL is handled by device drivers and therefore the level of
+          support is controlled by the version of the driver as opposed to
+          the version of DOS.
+
+See Also: <a href="484-ioctl_device_or_file_info.html">IOCTL device info</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

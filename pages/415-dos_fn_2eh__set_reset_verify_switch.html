@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 2eH: Set/Reset Verify Switch - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 2eH: Set/Reset Verify Switch</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    2eH
+          <span class="c2">AL</span>    0 to turn verify OFF
+                1 to turn verify ON
+          <span class="c2">DL</span>    0 (need for DOS 1.x and 2.x only)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Selects whether DOS should verify (check the CRC<a href="918-qcrc.html">▲</a> on) each sector
+          after it is written to disk.
+
+          This slows down disk write operations, but it ensures maximum
+          data integrity.
+
+          DOS Fn <a href="516-dos_fn_54h__get_dos_verify_state.html">54H</a> returns the current DOS verify status.
+
+   Notes: ■ The Verify flag is a system-global setting.  If you change it,
+            you should restore the original value before exiting.
+
+See Also: Fn <a href="516-dos_fn_54h__get_dos_verify_state.html">54H</a> (get verify
+          <a href="9-disk_drive_functions.html">Disk Drive Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

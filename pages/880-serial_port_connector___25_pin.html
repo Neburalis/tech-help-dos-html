@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Serial Port Connector - 25-pin - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Serial Port Connector - 25-pin</h1><pre>
+                         1 1 1 1
+                         3 2 1 0 9 8 7 6 5 4 3 2 1
+                     ┌───────────────────────────────┐
+                      \  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  /
+                        \ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ /
+                         └───────────────────────┘
+                          2 2 2 2 2 2 1 1 1 1 1 1
+                          5 4 3 2 1 0 9 8 7 6 5 4
+
+          Pin In/Out Signal Name         Pin In/Out Signal Name
+          ─── ────── ─────────────       ─── ────── ─────────────
+           1    na   not connected       14   na   not connected
+           2    O    Transmit Data       15   na   not connected
+           3    I    Receive Data        16   na   not connected
+           4    O    Request to Send     17   na   not connected
+           5    I    Clear to Send       18   na   not connected
+           6    I    Data Set Ready      19   na   not connected
+           7    na   Signal Ground       20    O   Data Terminal Ready
+           8    I    Data Carrier Detect 21   na   not connected
+           9    na   not connected       22    I   Ring Indicate
+          10    na   not connected       23   na   not connected
+          11    na   not connected       24   na   not connected
+          12    na   not connected       25   na   not connected
+          13    na   not connected
+
+   Notes: ■ The signals on pins 5, 6, 8, and 22 are represented at port
+            <span class="c1">n</span>+6 (where <span class="c1">n</span> is the base port; e.g., at port 3feH on COM1).
+            See <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>.
+
+          ■ A serial port cable for normal data transfer with the DOS
+            <span class="c2">InterLink</span> utility uses only three wires.  For remote copy
+            operations, you need a 7-wire <span class="c1">null-modem</span> cable.  See
+            <a href="882-interlink_cables.html">InterLink Cables</a>.
+
+See Also: <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+          <a href="881-serial_port_connector___9_pin.html">Serial Port Connector - 9-pin</a>
+          <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

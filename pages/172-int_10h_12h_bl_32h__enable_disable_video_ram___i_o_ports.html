@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 12H BL=32H: Enable/Disable Video RAM &amp; I/O Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 12H BL=32H: Enable/Disable Video RAM &amp; I/O Ports</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AH</span>    12H
+          <span class="c2">BL</span>    32H
+          <span class="c2">AL</span>    setting: 00H enable access
+                         01H disable access
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    12H if a valid value was passed in AL
+          ──────────────────────────────────────────────────────────────────
+    Info: You can use this to suppress CPU access to video RAM and I/O
+          ports on VGA-compatible displays.  It updates <span class="c1">bit 0</span> of the
+          <a href="73-vgaflagsrec.html">VgaFlagsRec</a> (at 0040:0089).
+
+   Notes: You can disable an EGA card via <span class="c1">bit 1</span> of <a href="899-enhanced_graphics_adapter_i_o_ports.html">port 3c2H</a>.
+
+See Also: <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">INT 10H 12H</a> (EGA/VGA Special Functions/Alternate Select)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

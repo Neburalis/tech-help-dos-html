@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS 0bH: Move Extended Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS 0bH: Move Extended Memory Block</h1><pre>                                                     Compatibility: <span class="c2">XMS 2.0+</span>
+ Expects: <span class="c2">AH</span>    0bH
+          <span class="c2">DS:SI</span> address of a filled-in <span class="c2">XmsMoveInfoRec</span> (see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0000H = successful
+                        0001H = error and <span class="c2">BL</span>=<a href="963-xms_error_codes.html">XMS error code</a> (if BL &gt;= 80H)
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn copies a block of data from one location to another.  Use
+          it to transfer data into and out of extended memory.  It can also
+          copy data from place to place in conventional memory or between
+          extended memory blocks.
+
+    <span class="c2">DS:SI</span> points to a structure that describes the data to be moved.  It is
+          formatted as:
+
+          <span class="c2">XmsMoveInfoRec</span>
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      4  <span class="c1">lRgnLength</span>   DWORD size, in bytes to move
+                                     (must be an even number)
+            +4      2  <span class="c1">wSrcHandle</span>   src XMB handle or 0=conventional mem
+            +6      4  <span class="c1">lSrcOffset</span>   DWORD offset in src XMB block
+                                     or segment:offset in conventional mem
+           +0aH     2  <span class="c1">wDestHandle</span>  dest XMB handle or 0=conventional mem
+           +0cH     4  <span class="c1">lDestOffset</span>  DWORD offset in dest XMB block
+                                      or segment:offset in conventional mem
+                    16              size of an XmsMoveInfoRec
+
+          When <span class="c1">wSrcHandle</span> or <span class="c1">wDestHandle</span> is 0000H, the source or
+          destination is in conventional memory.  In that case, the
+          <span class="c1">lSrcOffset</span> (or <span class="c1">lDestOffset</span>) must be a 32-bit segment:offset in
+          conventional memory.
+
+   Notes: ■ If source and destination overlap, the source must be less than
+            the destination.
+
+          ■ The <span class="c1">lRgnLength</span> must be even.
+
+          ■ The move is faster when both source and destination begin on
+            WORD boundaries and faster still when aligned on DWORD
+            boundaries (on 386+ CPUs).
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

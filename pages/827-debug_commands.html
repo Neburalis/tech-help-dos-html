@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Debug Commands - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Debug Commands</h1><pre>
+In the summary below: <span class="c1">addr</span>  is XXXX  -OR-  XXXX:XXXX -OR- segreg:XXXX
+                      <span class="c1">range</span> is <span class="c1">addr</span>,<span class="c1">addr</span>  -OR-  <span class="c1">addr</span> L <span class="c1">byte_count</span>
+                      <span class="c1">value</span> is XXXX
+                      <span class="c1">port</span>  is XX
+All numbers, values, counts, and addresses must be in <a href="923-qhex.html">hexadecimal</a> notation.
+
+Command               Function
+────────────────────  ──────────────────────────────────────────────────────
+?                     <span class="c2">Help</span>.  List command syntax
+
+A [<span class="c1">addr</span>]              <span class="c2">Assemble</span>.  Enter assembly language mnemonics; press
+                      &lt;Enter&gt; on a blank line to stop entering code
+
+C <span class="c1">range</span> <span class="c1">addr</span>          <span class="c2">Compare</span> blocks of memory
+
+D [<span class="c1">addr</span>]              <span class="c2">Display</span> (dump) memory in hex and ASCII
+
+E <span class="c1">addr</span> [<span class="c1">bytes</span>]        <span class="c2">Enter</span> (edit) bytes and strings into memory
+
+F <span class="c1">range</span> <span class="c1">bytes</span>         <span class="c2">Fill</span> memory with pattern of bytes
+
+G [=<span class="c1">addr</span>] [[<span class="c1">addr</span>]...] <span class="c2">Go</span>.  Execute code at CS:IP (or at =<span class="c1">addr</span>) with
+                      optional breakpoints at indicated addresses
+
+H <span class="c1">value1</span> <span class="c1">value2</span>       <span class="c2">Hexarithmetic</span>. Display <span class="c1">value1</span>+<span class="c1">value2</span> and <span class="c1">value1</span>-<span class="c1">value2</span>
+
+I <span class="c1">port</span>                <span class="c2">Input</span>.  Display value of an INP for indicated <span class="c1">port</span>
+
+L [<span class="c1">addr</span>]              <span class="c2">Load</span>.  Load file of Name at indicated addr or CS:100
+  or
+L [<span class="c1">addr</span>] <span class="c1">drv</span> <span class="c1">sec</span> <span class="c1">cnt</span>  Load <span class="c1">cnt</span> absolute disk sectors from drive <span class="c1">drv</span>, sector
+                      <span class="c1">sec</span> into memory starting at address <span class="c1">addr</span> (or CS:100)
+
+M <span class="c1">range</span> <span class="c1">addr</span>          <span class="c2">Move</span> block of memory to <span class="c1">addr</span>
+
+N <span class="c1">d:file</span> [<span class="c1">parms</span>]      <span class="c2">Name</span>.  Set up for Load or Write with <span class="c1">file</span> and <span class="c1">parms</span>
+
+O <span class="c1">port</span> <span class="c1">byte</span>           <span class="c2">Output</span> a <span class="c1">byte</span> to a <span class="c1">port</span>
+
+P [=<span class="c1">addr</span>][<span class="c1">count</span>]      <span class="c2">Proceed</span>.  Single-step execute a CALL, LOOP, INT, etc.
+
+Q                     <span class="c2">Quit</span>.  Exit from Debug
+
+R [<span class="c1">register</span>]          <span class="c2">Registers</span>.  Displays current values.  Allows input
+                      of values to a register or Flags.  It also sets for
+                      next Unassemble to start at CS:IP.
+
+S <span class="c1">range</span> <span class="c1">bytes</span>         <span class="c2">Search</span> memory.  Show addrs that contain the <span class="c1">bytes</span>
+
+T [=<span class="c1">addr</span>][<span class="c1">count</span>]      <span class="c2">Trace</span>.  Single-step execute <span class="c1">count</span> opcodes (or 1)
+
+U [<span class="c1">addr</span>] or [<span class="c1">range</span>]   <span class="c2">Unassemble</span>.  Display opcode mnemonics at <span class="c1">addr</span> (or 128
+                      bytes starting at last <span class="c1">addr</span> Unassembled)
+
+W [<span class="c1">addr</span>]              <span class="c2">Write</span> from memory to file named in previous Name
+                      command or the initial file).  Writes starting from
+                      <span class="c1">addr</span> (or CS:100) for size in BX:CX
+
+W [<span class="c1">addr</span>] <span class="c1">drv</span> <span class="c1">sec</span> <span class="c1">cnt</span>  Write <span class="c1">cnt</span> absolute disk sectors from memory starting
+                      at <span class="c1">addr</span>.  Start writing at sector <span class="c1">sec</span> of drive <span class="c1">drv</span>
+
+XA <span class="c1">count</span>              <span class="c2">eXpanded mem Allocate</span> <span class="c1">count</span> 16K pages of EMS<a href="925-qmemems.html">▲</a> memory
+XD <span class="c1">handle</span>             <span class="c2">eXpanded mem Deallocate</span> EMS pages of <span class="c1">handle</span>
+XM <span class="c1">lpage</span> <span class="c1">ppage</span> <span class="c1">handle</span> <span class="c2">eXpanded mem Map</span> logical EMS page to physical page
+XS                    <span class="c2">eXpanded mem Status</span>.  Display status of EMS memory
+
+See Also: <a href="866-8088_286_386_486_pentium_instruction_set.html">80x86/87 Opcodes</a>
+          <a href="650-expanded_memory_specification__ems_.html">EMS</a>
+          <a href="3-tech_topics.html">TECH Topics</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

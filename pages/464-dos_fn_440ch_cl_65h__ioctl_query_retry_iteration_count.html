@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440cH CL=65H: IOCTL Query Retry Iteration Count - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440cH CL=65H: IOCTL Query Retry Iteration Count</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AX</span>    440cH
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device or disk file)
+          <span class="c2">CL</span>    65H
+          <span class="c2">CH</span>    device category: 00H=unknown
+                                 01H=COMn (DOS <span class="c2">3.3+</span>)
+                                 03H=console (screen + keyboard) (DOS <span class="c2">3.3+</span>)
+                                 05H=parallel printer (DOS <span class="c2">3.2+</span>)
+          <span class="c2">DS:DX</span> Addr of a 16-bit word to receive the current retry count.
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          <span class="c2">DS:DX</span> buffer contains the retry count (if no error)
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the number of times the device driver should try to send
+          output to the device before assuming that the device is busy.
+
+          DS:DX points to a 2-byte buffer.  Upon return, the buffer
+          contains the current 16-bit retry count.
+
+   Notes: ■ This is used only for printer drivers that support &quot;Output
+            until Busy&quot;.  See <a href="300-device_requests.html">Device Requests</a>.
+
+          ■ This setting is global.  Before changing it (via, <a href="464-dos_fn_440ch_cl_65h__ioctl_query_retry_iteration_count.html">440CH 65H</a>),
+            you should use this fn to obtain the current value.  Change it
+            back before exiting.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (generic IOCTL for character devices)
+          Fn <a href="459-dos_fn_440ch_cl_45h__ioctl_set_retry_iteration_count.html">440cH 45H</a> (set retry iteration count)
+          <a href="487-generic_ioctl_data_packets.html">Generic IOCTL Data Packets</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Process Control Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Process Control Functions</h1><pre> <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> load and execute program                <a href="407-dos_fn_26h__create_program_segment_prefix.html">26H</a> Build PSP    <a href="910-_superseded_.html">◄superseded►</a>
+ <a href="505-dos_fn_4b01h__load_program.html">4b01H</a> load program
+ <a href="506-dos_fn_4b03h__load_overlay.html">4b03H</a> load overlay
+ <a href="507-dos_fn_4b05h__set_execution_state.html">4b05H</a> set execution state (<span class="c2">SetVer</span> version info)
+
+ <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> terminate                                 <a href="372-dos_fn_00h__terminate_a_program.html">00H</a> and <a href="559-int_20h__program_terminate.html">INT 20H</a>  <a href="910-_superseded_.html">◄superseded►</a>
+ <a href="509-dos_fn_4dh__get_program_exit_code.html">4dH</a> get exit code of child process
+
+ <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a> terminate and keep memory (TSR)           <a href="566-int_27h__terminate_but_stay_resident.html">INT 27H</a>          <a href="910-_superseded_.html">◄superseded►</a>
+ <a href="513-dos_fn_51h__query_current_psp.html">51H</a> get PSP of current process      See also: <a href="20-terminate_and_stay_resident__tsr_.html">TSR/Popup Functions</a>
+ <a href="512-dos_fn_50h__set_psp.html">50H</a> set current PSP                           <a href="371-psp__program_segment_prefix.html">Program Segment Prefix</a>
+ <a href="425-dos_fn_34h__get_indos_address__dos_reentrancy_status_.html">34H</a> get <a href="365-indos_flag.html">InDOS</a> and <a href="353-errormode_flag.html">ErrorMode</a> addresses
+
+ <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> Ctrl+Break handler vector (default handler terminates program)
+ <a href="564-int_24h__critical_error_handler.html">INT 24H</a> Critical Error handler vector (default handler may terminate you)
+ <a href="740-int_2fh_aexxh__command_processor_command_line_hook.html">INT 2fH aexxH</a> Control execution of DOS commands
+
+ <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>  conditions when a program starts
+ <a href="571-dpmi_services.html">DPMI Services</a>           <a href="354-exe_file_header_layout.html">EXE File Header</a>   <a href="346-dos_environment.html">DOS Environment</a>   <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+──────────────────────────────────────────────────────────────────────────────
+ <a href="20-terminate_and_stay_resident__tsr_.html">TSR/Popup Functions</a>  <a href="13-memory_management_functions.html">Memory Functions</a>        <a href="6-system_service_groups.html">Service Groups</a>   <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a></pre></body></html>

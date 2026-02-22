@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DoubleSpace Compressed Volume File Layout - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DoubleSpace Compressed Volume File Layout</h1><pre><span class="c2">█▌Overview▐█</span>
+  <a href="787-doublespace_overview.html">DoubleSpace</a> maintains all information structures and compressed data for a
+  DoubleSpace volume within a Compressed Volume File (<span class="c2">CVF</span>).  This topic
+  describes the layout of CVF.  CVF region summary:
+
+    <a href="806-cvf_region__mdbpb.html">MDBPB</a>     All kinds of info, including addresses of other regions
+    <a href="807-cvf_region__bitfat.html">BitFAT</a>    Sector allocation tables; one bit represents one sector
+    Res1      (1 reserved sector)
+    <a href="808-cvf_region__mdfat.html">MDFAT</a>     Information describing each compressed cluster
+    Res2      (31 reserved sectors)
+    <a href="809-cvf_region__bootsect.html">BootSect</a>  a standard Boot Sector (sans boot program code)
+    Res3      (variable number of reserved sectors) contains <a href="813-cvf_region___md_stamps_.html">MdStamp1</a>
+    <a href="810-cvf_region__fat.html">FAT</a>       The familiar File Allocation Table for the volume
+    <a href="811-cvf_region__rootdir.html">RootDir</a>   The root directory for the volume
+    Res4      (2 reserved sectors)
+    <a href="812-cvf_region__sector_heap.html">SectHeap</a>  the compressed data
+    <a href="813-cvf_region___md_stamps_.html">MdStamp2</a>  marks the end of the CVF
+
+<span class="c2">█▌Details▐█</span>
+              Size
+ Name    (sectors) Description
+▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ <a href="806-cvf_region__mdbpb.html">MDBPB</a>          1  This is a standard <a href="338-bpb__bios_parameter_block.html">BPBRec</a> (BIOS Parameter Block),
+                   followed by additional fields describing the CVF.  Very
+                   important.
+
+ <a href="807-cvf_region__bitfat.html">BitFAT</a>    varies  One bit for each sector in the <a href="812-cvf_region__sector_heap.html">SectHeap</a>.  A <span class="c2">1</span> means the
+                   sector is in use and <span class="c2">0</span> means it's free.  The BitFAT may
+                   be as large as 256 sectors (128K).
+
+ Res1           1  (reserved for future use by DoubleSpace)
+
+ <a href="808-cvf_region__mdfat.html">MDFAT</a>     varies  A table of 4-byte bit-packed <a href="808-cvf_region__mdfat.html">MdFatEntryRec</a> structures.
+                   Each entry describes one cluster in the <a href="810-cvf_region__fat.html">FAT</a>; thereby
+                   mapping each cluster to its actual data in the CVF.  The
+                   MDFAT may be as large as 512 sectors (256K).
+
+ Res2          31  (reserved for future use by DoubleSpace)
+
+ <a href="809-cvf_region__bootsect.html">BootSect</a>       1  Although a CVF is never booted, this is formatted as
+                   a standard <a href="337-boot_sector_layout.html">BootSectorRec</a> which simulates an uncompressed
+                   disk of the estimated size.
+
+ Res3      varies  (reserved) One or more sectors are left empty in order
+                   to position the FAT at a favorable sector-multiple from
+                   the start of the CVF.
+
+                   The first four bytes of the first sector in this region
+                   contain the first DoubleSpace stamp (<a href="813-cvf_region___md_stamps_.html">MdStamp1</a>): '<span class="c2">°DR</span>0'
+                   (f8H, 44H, 52H, 00H).
+
+ <a href="810-cvf_region__fat.html">FAT</a>       varies  This is a standard <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>.  It may be
+                   a 12-bit FAT (for volumes &lt; 4086 clusters) or a 16-bit
+                   FAT for larger volumes.
+                   Note that there is only one FAT.
+
+ <a href="811-cvf_region__rootdir.html">RootDir</a>       32  The root directory for the volume; it is
+                   512 <a href="344-directory_entry_layout.html">DirEntryRec</a>s of 32 bytes each (exactly 32 sectors in
+                   all cases, even small CVFs).
+
+ Res4           2  (reserved)
+
+ <a href="812-cvf_region__sector_heap.html">SectHeap</a>  varies  The sectors containing the compressed data.  Each sector
+                   is represented in the BitFAT.  When all sectors are
+                   filled, the volume is full (even though DOS may think
+                   there is free space because of unused FAT entries).
+
+ <a href="813-cvf_region___md_stamps_.html">MdStamp2</a>      1+  Marks the end of a CVF; the first four bytes of the last
+                   full sector contain '<span class="c2">MDR</span>0' (4dH, 44H, 52H, 00H).
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

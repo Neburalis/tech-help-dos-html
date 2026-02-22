@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 12H BL=10H: Get EGA Information - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 12H BL=10H: Get EGA Information</h1><pre>                                                      Compatibility: <span class="c2">EGA</span> <span class="c2">VGA</span>
+ Expects: <span class="c2">AH</span>    12H
+          <span class="c2">BL</span>    10H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">BH</span>    default BIOS setup (0=color; 1=monochrome)
+          <span class="c2">BL</span>    mem size code (0=64K; 1=128K; 2=192K; 3=256K)
+                (Note: if <span class="c2">BL</span>&gt;4, then this is not an EGA BIOS)
+          <span class="c2">CH</span>    feature bits (values of those RCA connectors)
+          <span class="c2">CL</span>    switch settings
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains miscellaneous information about the EGA switch
+          settings and the current values of the &quot;feature bits&quot; as read
+          through those rarely-used RCA connectors on some EGA cards.
+
+          If upon return from this call, <span class="c2">BL</span>&gt;4, then you must be running on
+          a CGA or MDA (not an EGA or VGA).
+
+See Also: <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">INT 10H 12H</a> (EGA/VGA Special Functions/Alternate Select)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

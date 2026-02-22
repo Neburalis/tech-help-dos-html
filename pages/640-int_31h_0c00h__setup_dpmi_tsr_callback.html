@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0c00H: Setup DPMI TSR Callback - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0c00H: Setup DPMI TSR Callback</h1><pre>                                                    Compatibility: <span class="c2">DPMI 1.0+</span>
+ Expects: <span class="c2">AX</span>    0c00H
+          <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>) address of 40-byte buffer (see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets up for a DPMI client to provide memory-resident
+          protected-mode services to other protected-mode clients.
+
+          After using this fn and <a href="640-int_31h_0c00h__setup_dpmi_tsr_callback.html">INT 31H 0c00H</a>, you will be notified
+          whenever another DPMI program in the same VM is loaded or
+          terminated.
+
+ <span class="c2">DS:</span>(<span class="c2">E</span>)<span class="c2">DI</span> this points to a structure formatted as follows:
+
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      8  <span class="c1">lDesc16Data</span>  descriptor for 16-bit data segment
+             +8      8  <span class="c1">lDesc16Code</span>  descriptor for 16-bit code segment
+            +10H     2  <span class="c1">lOff16Proc</span>   offset of 16-bit callback procedure
+            +12H     2  <span class="c1">res</span>          reserved
+            +14H     8  <span class="c1">lDesc32Data</span>  descriptor for 32-bit data segment
+            +1cH     8  <span class="c1">lDesc32Code</span>  descriptor for 32-bit code segment
+            +24H     4  <span class="c1">lOff32Proc</span>   offset of 32-bit callback procedure
+                    40               size of this structure
+
+          You may use <a href="584-int_31h_000bh__query_descriptor.html">INT 31H 000bH</a> (query descriptor) to obtain info to
+          fill some of the above fields.  If you will support only 16-bit
+          or only 32-bit applications, put zeros in the structure members
+          you don't need.
+
+   Notes: ■ If you only need to provide services to real-mode applications
+            in the current VM, then you should use <a href="602-int_31h_0300h__simulate_real_mode_interrupt.html">INT 31H 0300H</a> to use DOS
+            services to intercept interrupt vectors and make yourself RAM-
+            resident.
+
+          ■ After calling this fn, use <a href="571-dpmi_services.html">INT 31H</a> 02xxH services to intercept
+            interrupts and use <a href="641-int_31h_0c01h__protected_mode_terminate_and_stay_resident.html">INT 31H 0c01H</a> to make your code RAM-
+            resident.
+
+            When a DPMI client gets loaded, your callback address will be
+            called via a FAR CALL with <span class="c2">AX</span>=0 when a program is loading or
+            <span class="c2">AX</span>=1 when a program is terminating.  On program loads, you will
+            typically intercept one or more interrupts to supply services
+            in the current VM.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

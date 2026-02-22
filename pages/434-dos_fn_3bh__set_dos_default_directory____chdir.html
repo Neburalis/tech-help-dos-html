@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 3bH: Set DOS Default Directory -- CHDIR - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 3bH: Set DOS Default Directory -- CHDIR</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    3bH
+          <span class="c2">DS:DX</span> address of an ASCIIZ<a href="913-qasciiz.html">▲</a> string of a directory name
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Selects a default directory for a drive.
+
+          DS:DX points to an ASCIIZ string in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">dirname</span><span class="c2">◄0►</span>
+          ...which identifies the directory to become the default.  If the
+          <span class="c1">d:</span> portion is missing, the <span class="c1">\path\dirname</span> is assumed to be on the
+          current default drive; see Fn <a href="387-dos_fn_0eh__select_dos_default_disk.html">0EH</a> (set default drive).
+
+          If CF is set on return, an error code is in AX and no action was
+          taken.
+
+   Notes: ■ This selects the default directory for the specified or current
+            drive.  it DOES NOT select a default drive.
+          ■ If drive and/or leading path are omitted, defaults are assumed.
+          ■ The maximum length of the ASCIIZ string is 64 bytes.
+
+See Also: <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

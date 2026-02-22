@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 12H BL=30H: Select Scan Lines for Text Modes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 12H BL=30H: Select Scan Lines for Text Modes</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AH</span>    12H
+          <span class="c2">BL</span>    03H
+          <span class="c2">AL</span>    scan-lines code: 00H = 200 scan lines (EGA/VGA)
+                                 01H = 350 scan lines (EGA/VGA)
+                                 02H = 400 scan lines (VGA only)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    12H if a VGA is active
+          ──────────────────────────────────────────────────────────────────
+    Info: This updates <span class="c1">bits 0-3</span> in the <a href="72-egamiscinforec.html">EgaMiscInfo2Rec</a> (at 0040:0088) and
+          bits <span class="c1">4</span> and <span class="c1">7</span> of the <a href="73-vgaflagsrec.html">VgaFlagsRec</a> (at 0040:0089).
+
+          Then, on the next <a href="115-int_10h_00h__set_video_mode.html">INT 10H 00H</a> call to switch to a text mode, the
+          specified resolution will be in effect.
+
+See Also: <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">INT 10H 12H</a> (EGA/VGA Special Functions/Alternate Select)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

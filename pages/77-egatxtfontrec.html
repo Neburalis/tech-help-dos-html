@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>EgaTxtFontRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>EgaTxtFontRec</h1><pre>
+ One field of the <a href="74-egasaveptrrec.html">EgaSavePtrRec</a> points to an <span class="c2">EgaTxtFontRec</span>.  Initially,
+ this structure does not exist, but it may be installed by DOS national
+ language support or other TSR code.
+
+<span class="c2">EgaTxtFontRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bLenOneChar</span>  size, in bytes, of one character definition
+   +1      1  <span class="c1">bRamBank</span>     character generator RAM bank
+   +2      2  <span class="c1">wCharCnt</span>     number of characters defined
+   +4      2  <span class="c1">wFirstChar</span>   ASCII code of first character defined
+   +6      4  <span class="c1">pfabDefTbl</span>   far address of the <a href="91-video_font_definition.html">Font Definition Data</a> table.
+                           The table is a set of <span class="c1">wCharCnt</span> bitmaps, each
+                           containing <span class="c1">bLenOneChar</span> bytes (usually 8 or 14).
+                           See <a href="257-int_1fh__cga_graphics_character_font_pointer.html">INT 1FH</a> for related info.
+  +0aH     1  <span class="c1">bAplcblRows</span>  applies when video mode has this many text lines
+  +0bH     n  <span class="c1">abModes</span>      use for these <a href="114-video_modes.html">video modes</a> (variable-length table)
+  +n+0bH   1  ffH          ffH indicates end of <span class="c1">abModes</span> table
+        n+0cH              size of an EgaTxtFontRec
+
+ On VGA systems, a second 256-character font may be setup by initializing
+ the <a href="74-egasaveptrrec.html">EgaSavePtrRec</a>.<span class="c1">pfSavePtr2</span> to a <a href="79-vgasaveptr2rec.html">VgaSavePtr2Rec</a> and setting its
+ <span class="c1">pfTxtAuxFont</span> field to point to another EgaTxtFontRec structure.  This
+ secondary character set would be activated according to the mode values
+ in the <span class="c1">abModes</span> field.
+
+See Also: <a href="91-video_font_definition.html">Font Definition Data</a>
+          <a href="71-ega_vga_data_areas.html">EGA Data Areas</a>
+          <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+          <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

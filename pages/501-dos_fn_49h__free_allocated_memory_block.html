@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 49H: Free Allocated Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 49H: Free Allocated Memory Block</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    49H
+          <span class="c2">ES</span>    segment address (paragraph) of allocated memory to release
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Deallocates (frees) the block of memory starting at ES:0000.
+          This block will become available for other system resources.
+
+          DOS prevents a process from freeing blocks of memory that were
+          allocated by another process (the <a href="929-qpid.html">PID▲</a> of the owner is saved
+          in the <a href="368-mcb__memory_control_block.html">MCB</a>).  The undocumented DOS Fn <a href="512-dos_fn_50h__set_psp.html">50H</a> lets you become the
+          &quot;current process&quot; and thus free blocks you don't really own.
+
+          It is recommended that a <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> program free its <a href="346-dos_environment.html">environment</a> block
+          during installation (that is, if it won't need it again!).  This
+          allows the next program to reuse that block.
+
+See Also: <a href="13-memory_management_functions.html">Memory Control Functions</a>
+          <a href="368-mcb__memory_control_block.html">Memory Control Block</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

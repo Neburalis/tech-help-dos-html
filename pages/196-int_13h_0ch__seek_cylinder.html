@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 13H 0cH: Seek Cylinder - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 13H 0cH: Seek Cylinder</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    0cH
+          <span class="c2">CX</span>    track (cylinder) number; see below
+          <span class="c2">DL</span>    drive: 80H-81H=hard disk 0-1
+          <span class="c2">DH</span>    head number
+          ──────────────────────────────────────────────────────────────────
+ Returns: AH    <a href="205-bios_disk_error_codes.html">BIOS disk error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This moves the read/write head directly to a specified track.
+
+       <span class="c2">CX</span> Bits 6-7 of <span class="c2">CL</span> are the high two bits of the 10-bit value whose
+          low 8 bits are in <span class="c2">CH</span>.  See <a href="188-int_13h_02h__read_sectors.html">INT 13H 02H</a> for details.
+
+   Notes: ■ It is not necessary to use this seek function before any other
+            functions (such as read, write, format or verify).
+
+          ■ This is used mainly in benchmark tests and diagnostic programs.
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

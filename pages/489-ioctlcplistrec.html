@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IoctlCpListRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IoctlCpListRec</h1><pre>
+ This structure is used in the following IOCTL fns:
+    <a href="466-dos_fn_440ch_cl_6bh__ioctl_query_code_page_list.html">440cH 6bH</a> (query code page prepared list)
+    <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>  (generic IOCTL for character devices)
+
+<span class="c2">IoctlCpListRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +2     2  <span class="c1">wLength</span>      length of the rest of this structure;
+                              (<span class="c1">wHdwrIdCnt</span>*2)+2 + (<span class="c1">wPrpdIdCnt</span>*2)+2
+    +4     2  <span class="c1">wHdwrIdCnt</span>   the number of items in <span class="c1">awHdwrIdList</span> array
+    +6   2*n  <span class="c1">awHdwrIdList</span> variable-length series of <a href="340-code_page.html">code page</a> IDs which are
+                           defined internally by the hardware
+ 6+(2*n)   2  <span class="c1">wPrpdIdCnt</span>   the number of items in <span class="c1">awPrpdIdList</span> array
+ 8+(2*n) 2*m  <span class="c1">awPrpdIdList</span> variable-length series if <a href="340-code_page.html">code page</a> IDs which
+                           have been prepared (e.g., downloaded)
+        8+(2*m)+(2*n)      length of an IoctlCpListRec structure
+
+ The return packet may be up to 56 bytes long.
+
+ There may be up to 12 items in the <span class="c1">awCpIdList</span> field in the structure,
+ depending on the parameters specified when the driver was installed.
+
+See Also: fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (Generic IOCTL for character devices)
+          <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Filespec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Filespec</h1><pre>                     filespec
+──────────────────────────────────────────────────
+Identifies a file.  It contains a 1-to-8-character
+filename (with optional extension), optionally
+preceded by a drive ID and directory path.
+
+              fully-qualified filespec
+          ┌─────────────┴─────────────────┐
+ Example:  C:\WORDPROC\MYBOOK\CHAPTER1.TXT
+          └┬┘└───────┬───────┘└─────┬─────┘
+    drive ID     directory    filename.ext
+──────────────────────────────────────────────────
+■ All DOS API services will apply the current
+  default drive and directory, if omitted.
+■ DOS ignores character case in filespecs.
+■ The d:\path string should not exceed 63 bytes.</pre></body></html>

@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440cH CL=6AH: IOCTL Query Current Code Page - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440cH CL=6AH: IOCTL Query Current Code Page</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AX</span>    440cH
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device or disk file)
+          <span class="c2">CL</span>    6aH
+          <span class="c2">CH</span>    device category: 00H=unknown
+                                 01H=COMn (DOS <span class="c2">3.3+</span>)
+                                 03H=console (screen + keyboard) (DOS <span class="c2">3.3+</span>)
+                                 05H=parallel printer (DOS <span class="c2">3.2+</span>)
+          <span class="c2">DS:DX</span> Addr of buffer to hold an <a href="488-ioctlcpidrec.html">IoctlCpIdRec</a> structure.
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          <span class="c2">DS:DX</span> buffer is filled with <a href="488-ioctlcpidrec.html">IoctlCpIdRec</a> identifying current cp
+          ──────────────────────────────────────────────────────────────────
+    Info: Query a driver to see what code page is currently active for that
+          device.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (generic IOCTL for character devices)
+          Fn <a href="460-dos_fn_440ch_cl_4ah__ioctl_select_code_page.html">440cH 4aH</a> (select code page)
+          <a href="487-generic_ioctl_data_packets.html">Generic IOCTL Data Packets</a>
+          <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

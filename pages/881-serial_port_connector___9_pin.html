@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Serial Port Connector - 9-pin - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Serial Port Connector - 9-pin</h1><pre>
+                                 5 4 3 2 1
+                             ┌───────────────┐
+                              \  ■ ■ ■ ■ ■  /
+                                \ ■ ■ ■ ■ /
+                                 └───────┘
+                                  9 8 7 6
+
+                         Pin In/Out Signal Name
+                         ─── ────── ─────────────
+                          1    I    Data Carrier Detect
+                          2    I    Receive Data
+                          3    O    Transmit Data
+                          4    O    Data Terminal Ready
+                          5    na   Signal Ground
+                          6    I    Data Set Ready
+                          7    O    Request to Send
+                          8    I    Clear to Send
+                          9    I    Ring Indicate
+
+   Notes: ■ The signals on pins 1, 6, 8, and 9 are represented at port
+            <span class="c1">n</span>+6 (where <span class="c1">n</span> is the base port; e.g., at port 3feH on COM1).
+            See <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>.
+
+          ■ A serial port cable for normal data transfer with the DOS
+            <span class="c2">InterLink</span> utility uses only three wires.  For remote copy
+            operations, you need a 7-wire <span class="c1">null-modem</span> cable.  See
+            <a href="882-interlink_cables.html">InterLink Cables</a>.
+
+See Also: <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+          <a href="880-serial_port_connector___25_pin.html">Serial Port Connector - 25-pin</a>
+          <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

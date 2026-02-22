@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Enhanced CONFIG.SYS Options - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Enhanced CONFIG.SYS Options</h1><pre>
+<span class="c2">DOS 6</span> provides the following enhanced configuration options:
+
+       <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+       New CONFIG.SYS commands make it possible to display an interactive
+       menu of configuration options.  Different sets of commands can be
+       executed depending upon the user input.  DOS provides a way to
+       specify a timed default selection and a way to continue along a
+       particular boot path in the AUTOEXEC.BAT file.
+  <span class="c2">┌──╖</span>
+  <span class="c2">│F5║</span> <a href="269-clean_boot.html">Clean Boot</a>
+  <span class="c2">╘══╝</span> At system startup, you can press F5 (<span class="c1">or press and hold SHIFT</span>) to
+       bypass the commands in CONFIG.SYS and AUTOEXEC.BAT.  This can get
+       you out of a tough situation in which a configuration problem is
+       causing a system lockup.  <span class="c2">DOS 6.2</span>: <span class="c1">Ctrl+F5</span> also bypasses loading
+       of DBLSPACE.BIN.
+  <span class="c2">┌──╖</span>
+  <span class="c2">│F8║</span> <a href="270-interactive_boot.html">Interactive Boot</a>
+  <span class="c2">╘══╝</span> If you press F8 during system startup, you will get a chance to
+       step through the commands in CONFIG.SYS one-by-one, skipping any
+       commands that are causing a problem.  This option also lets you
+       bypass execution of AUTOEXEC.BAT.  <span class="c2">DOS 6.2</span>: <span class="c1">Ctrl+F8</span> lets you
+       process individual commands in AUTOEXEC.BAT.
+
+<a href="270-interactive_boot.html">cmd?=</a>  Place a question mark (e.g., DEVICE?=RAMDRIVE.SYS) in any
+       CONFIG.SYS command to be prompted whether to execute that command.
+
+<a href="271-multiconfig_menus.html">;(rem)</a> Semicolon at the start of a line indicates a remark.
+
+<a href="291-set__config_sys_command_.html">SET</a>    With DOS 6.0+, you can create environment variables in CONFIG.SYS.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="263-system_startup_sequence.html">System Startup Sequence</a>
+          <a href="294-switches___config_sys_command_.html">SWITCHES=</a> (/N disables Clean Boot and Interactive Boot)
+                                    <span class="c3">-♦-</span></pre></body></html>

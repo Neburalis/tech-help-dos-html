@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Extended Memory Specification (XMS) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Extended Memory Specification (XMS)</h1><pre>
+ This topic describes the <span class="c2">Extended Memory Specification</span>, which provides a
+ way for applications and operating systems to access Ex<span class="c1">tend</span>ed<a href="928-qmemxms.html">▲</a> Memory on
+ 286+ CPUs, without the complications of running in protected mode.  XMS
+ also describes how to access the HMA<a href="926-qmemhma.html">▲</a> (though it is nearly always best to
+ let MS-DOS use the HMA).
+
+           See <a href="944-xms_functions.html">XMS Functions</a> for descriptions of services.
+
+ XMS is an industry standard proposed jointly by Microsoft, Lotus, Intel,
+ and AST.  The version 2.0 spec has been in effect since 1992.
+
+ Virtually every AT-class or better computer has some XMS memory and nearly
+ all users install the device driver that enables access to XMS.
+
+    Note: Extended Memory is not available on pre-AT (8088-based) PCs.
+          However, some of these older machines are equipped with LIM-EMS
+          boards.  The <a href="650-expanded_memory_specification__ems_.html">Expanded Memory Specification (EMS)</a> offers access to
+          additional memory on such computers.
+
+<span class="c2">█▌Determining if XMS is Installed▐█</span>
+  XMS memory is managed by an installable <a href="298-installable_device_drivers.html">device driver</a>.  The one that
+  comes with MS-DOS is named <span class="c2">HIMEM.SYS</span>, but other names may be used by
+  other vendors.
+
+  When the driver is installed, it hooks <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a>, and watches for calls in
+  which <span class="c2">AH</span>=43H.  Use <a href="699-int_2fh_4300h__is_himem_sys__xms_support__installed_.html">INT 2fH 4300H</a> (get installed state) to see if its
+  support is available.
+
+<span class="c2">█▌Accessing XMS Services▐█</span>
+  Use <a href="700-int_2fh_4310h__get_himem_sys__xmm__entry_address.html">INT 2fH 4310H</a> (get XMS entry address) to learn the address at which
+  the XMS service dispatcher resides.
+
+  Load <span class="c2">AH</span> with a service number (and other registers as needed), and use a
+  FAR CALL to call the entry address.  Check <span class="c2">AX</span> upon return.  If AX=0, then
+  the request succeeded; otherwise and <a href="963-xms_error_codes.html">XMS error code</a> is returned in <span class="c2">BL</span>.
+  See <a href="700-int_2fh_4310h__get_himem_sys__xmm__entry_address.html">INT 2fH 4310H</a> for an example.
+
+  See <a href="944-xms_functions.html">XMS Functions</a> for parameters required for each service.
+
+<span class="c2">█▌DOS Support▐█</span>
+  Starting with version 5.0, DOS comes with an XMS support driver
+  (HIMEM.SYS) for 286-based and better computers.  A few DOS device
+  drivers and TSRs will take advantage of XMS if it is present:
+
+  ■ DOS <span class="c2">5.0+</span> loads most of COMMAND.COM into the HMA<a href="926-qmemhma.html">▲</a>, and places disk I/O
+    buffers there and otherwise makes good use of the area.
+
+  ■ DOS <span class="c2">5.0+</span> RAMDISK.SYS can use XMS (DEVICE=RAMDISK.SYS <span class="c1">nnn</span> /E).
+
+  ■ DOS <span class="c2">5.x</span> SMARTDRV.EXE disk cache will use XMS automatically (unless /A
+    is used to specify EMS<a href="925-qmemems.html">▲</a>).  The DOS <span class="c2">6.0</span> cache can use XMS ONLY.
+
+  ■ DOS <span class="c2">6.0</span> programs and TSRs: <span class="c2">Defrag</span>, <span class="c2">Dosshell</span>, <span class="c2">Msbackup</span>, <span class="c2">Mscdex</span>, and
+    <span class="c2">Vsafe</span> use XMS memory when it is available.
+
+  ■ DOS <span class="c2">6.2</span> <a href="787-doublespace_overview.html">DoubleSpace</a> support will place part of itself into the HMA<a href="926-qmemhma.html">▲</a>
+    when BUFFERS= is small.
+
+
+<span class="c2">█▌What about UMBs?▐█</span>
+  Although the XMS describes two fns for accessing UMBs<a href="927-qmemumb.html">▲</a>, it does not supply
+  the upper memory; that is, it appears to be able to track areas of memory
+  that happen to exist between 640K and 1MB, but most computers don't have
+  any available memory there.
+
+  Support for the <span class="c2">DEVICEHIGH=</span> and <span class="c2">Loadhigh</span> commands is supplied only on 386+
+  CPUs by the MS-DOS device driver <span class="c2">Emm386.Exe</span> (or other compatible system
+  software such as 386Max, or NetRoom, etc.)
+
+  The memory that is mapped into the upper memory blocks is subtracted from
+  the pool above 1 MB, so an XMS provider (such as HIMEM.SYS) must be
+  present for UMB support to be present.
+
+  See <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a> for related info.
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="963-xms_error_codes.html">XMS Error Codes</a>
+          <a href="650-expanded_memory_specification__ems_.html">Expanded Memory Specification (EMS)</a>
+          <a href="558-dos_interrupts.html">DOS Interrupts</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

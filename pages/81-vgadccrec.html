@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>VgaDccRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>VgaDccRec</h1><pre>
+ One field of the <a href="79-vgasaveptr2rec.html">VgaSavePtr2Rec</a> points to a <span class="c2">VgaDccRec</span>.  This structure is
+ initialized by the <a href="70-video_graphics_array__vga_.html">VGA</a> video system BIOS to point to a table in ROM.
+
+ Information in this structure identifies valid combinations of video
+ subsystems which are supported by your <a href="113-int_10h__video_services.html">VGA BIOS</a>.  For instance, your VGA
+ BIOS may support both an EGA and a VGA while mine won't.
+
+ See <a href="177-int_10h_1ah__set_or_query_display_combination_code.html">INT 10H 1aH</a> for info on querying valid combinations and switching back
+ and forth between monitors.
+
+<span class="c2">VgaDccRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bEntries</span>     entries in <span class="c1">wCombos</span>
+   +1      1  <span class="c1">bVersion</span>     DCC table version number
+   +2      1  <span class="c1">bMaxTypeCode</span> maximum display type code
+   +3      1  <span class="c1">res</span>          (reserved)
+   +4      2  <span class="c1">wCombos</span>      a variable-length list of byte-pairs identifying
+                           valid display combinations.  For instance, 0108H
+                           means supports a monochrome adapter and a color
+                           VGA adapter.  See <a href="177-int_10h_1ah__set_or_query_display_combination_code.html">INT 10H 1aH</a> for codes.
+      4+(2*n)              size of a VgaDccRec structure
+
+See Also: <a href="71-ega_vga_data_areas.html">VGA Data Areas</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

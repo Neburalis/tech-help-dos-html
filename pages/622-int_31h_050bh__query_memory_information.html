@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 050bH: Query Memory Information - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 050bH: Query Memory Information</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    050bH
+          <span class="c2">ES:DI</span> (or ES:EDI) sel:off of 128-byte buffer to receive info
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (this fn always succeeds)
+          <span class="c2">ES:DI</span> buffer contains returned info
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains information about available physical and virtual
+          memory, etc.
+
+ <span class="c2">ES:</span>(<span class="c2">E</span>)<span class="c2">DI</span> on entry, must point to a 128-byte buffer.  On return, it
+          contains:
+
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      4  <span class="c1">lAlcPhys</span>     allocated bytes of physical memory
+             +4      4  <span class="c1">lAlcVirt</span>     allocated bytes of virtual memory
+             +8      4  <span class="c1">lAvlVirt</span>     available bytes of virtual memory
+            +0cH     4  <span class="c1">lAlcVirtTask</span> allocd virtual mem for this virt mach
+            +10H     4  <span class="c1">lAvlVirtTask</span> available virt mem for this virt mach
+            +14H     4  <span class="c1">lAlcVirtClnt</span> allocated virtual mem for this client
+            +18H     4  <span class="c1">lAvlVirtClnt</span> available virtual mem for this client
+            +1cH     4  <span class="c1">lTotLokdClnt</span> total locked bytes for this client
+            +20H     4  <span class="c1">lMaxLokdClnt</span> maximum locked bytes for this client
+            +24H     4  <span class="c1">lMaxLinAddr</span>  highest linear addr avail to client
+            +28H     4  <span class="c1">lLargestFree</span> size of largest free block (bytes)
+            +2cH     4  <span class="c1">lMinAlloc</span>    minimum allocation unit (bytes)
+            +30H     4  <span class="c1">lAlignment</span>   allocation unit size (bytes)
+            +34H    76  <span class="c1">res</span>          (reserved)
+                   128               size of this structure
+
+   Notes: ■ In multi-tasking environments, these values may change at any
+            time, so they should be considered as &quot;advisory.&quot;
+
+          ■ Use <a href="627-int_31h_0604h__query_page_size.html">INT 31H 0604H</a> to learn the size of the virtual-memory pages
+            used by the host.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

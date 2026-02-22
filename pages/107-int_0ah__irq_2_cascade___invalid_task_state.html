@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 0aH: IRQ 2 Cascade / Invalid Task State - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 0aH: IRQ 2 Cascade / Invalid Task State</h1><pre>
+  On ATs, INT 0aH is a hardware-generated interrupt (<a href="96-irqs__hardware_interrupts.html">IRQ</a> 2) forced by any
+  occurrence of <span class="c2">IRQ 7</span> through <span class="c2">IRQ 15</span>.  These are cascaded into the secondary
+  interrupt controller.
+
+  The actual handler for IRQ 2 is <span class="c2">IRQ 9</span>, handled by <span class="c2">INT 71H</span>.  Normally, no
+  device uses IRQ 2, but an EGA or VGA may be programmed to use it to
+  interrupt at the start of vertical retrace (see <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>).
+
+<span class="c2">█▌CPU Exception Interrupt▐█</span>
+  286+ computer execute INT 0aH when the CPU is in protected mode and it
+  detects an Invalid Task Segment State during a JMP, CALL, IRET, or INT
+  <a href="866-8088_286_386_486_pentium_instruction_set.html">opcode</a>.
+
+See Also: <a href="96-irqs__hardware_interrupts.html">IRQs: Hardware Interrupts</a>
+          <a href="896-diskette_controller_ports.html">FDC I/O Ports</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

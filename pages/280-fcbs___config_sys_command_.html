@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>FCBS= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>FCBS= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 2.0+</span>
+ Purpose: Sets the number of File Control Blocks (FCBs) that may be opened
+          at the same time.
+
+    Uses: You may need to increase this setting when running some <span class="c1">very</span>
+          <span class="c1">old programs</span> that open a lot of files simultaneously and which
+          occasionally fail when attempting to open a file.
+
+  Syntax: FCBS=<span class="c1">n</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+        <span class="c1">n</span> is the maximum number of File Control Blocks that can be open at
+          one time.  <span class="c1">n</span> can range from 1 to 255.  The default is 4.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ It's sort of interesting to note that DOS itself uses FCB calls now and
+    then.  In the command <span class="c2">Dir /C</span> (to display <a href="787-doublespace_overview.html">DoubleSpace</a> compression
+    ratios), DOS uses fn <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">11H</a> to obtain file info in order to get a complete
+    <a href="344-directory_entry_layout.html">directory entry</a>, so that it can trace the <a href="359-fat__dos_file_allocation_table.html">FAT</a> chain, access the <a href="808-cvf_region__mdfat.html">MDFAT</a>,
+    and thereby learn the current compression ratio.
+
+    See <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a> for related info.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="281-files___config_sys_command_.html">FILES=</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

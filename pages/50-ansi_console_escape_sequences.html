@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>ANSI Console Escape Sequences - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>ANSI Console Escape Sequences</h1><pre>
+ ANSI Escape codes have no effect unless <span class="c2">ANSI.SYS</span> has been installed via a
+ <a href="276-device___config_sys_command_.html">DEVICE=</a> command in <a href="267-the_config_sys_file.html">CONFIG.SYS</a>.  Use <a href="697-int_2fh_1a00h__is_ansi_sys_installed_.html">INT 2fH 1a00H</a> to see if it is
+ installed.  Just output the codes to the CON device (see <a href="7-character_i_o_functions.html">Character I/O</a>).
+ Several examples are included at the end of this topic.
+
+    Note: Since you can't be certain that all computers have ANSI.SYS
+          installed, most programmers do not rely on using these codes in
+          commercial applications.
+
+ In the following list, items in <span class="c1">this color </span>are parameters (usually numeric
+ values in decimal) and the <span class="c2">←</span> character is an ESC (ASCII 27 or 1bH).
+
+Sequence (<span class="c2">←</span> is ESC) Function
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                    <span class="c2">█▌Cursor Motion▐█</span>
+ ←[<span class="c1">row</span>;<span class="c1">clm</span>H         positions the cursor. Default is 1;1 (top left corner)
+
+ ←[<span class="c1">row</span>;<span class="c1">clm</span>f         (same as above)
+
+ ←[<span class="c1">rows</span>A            moves the cursor up.  Default: 1.  Won't go above top.
+
+ ←[<span class="c1">rows</span>B            moves cursor down.  Default: 1. Won't go below bottom.
+
+ ←[<span class="c1">clms</span>C            moves the cursor forward (to the right) Default: 1
+
+ ←[<span class="c1">clms</span>D            moves the cursor backward (to the left) Default: 1
+
+                    <span class="c2">█▌Erase Operations▐█</span>
+ ←[2J               erases the screen and homes the cursor
+
+ ←[K                erases to the end of the current line
+
+                    <span class="c2">█▌Miscellaneous▐█</span>
+ ←[6n               outputs the current line and column in the form:
+                      ←[<span class="c1">row</span>;<span class="c1">clm</span>R
+
+ ←[s                saves the current cursor position (see ←[u)
+
+ ←[u                restores cursor to last position saved by ←[s
+
+                    <span class="c2">█▌Screen Control▐█</span>
+ ←[<span class="c1">attr</span>;...;<span class="c1">attr</span>m   sets display attributes. <span class="c1">attr</span> values are:
+                       0  normal     (white on black)
+                       1  bold       (character colors are high-intensity)
+                       4  underline  (IBM Monochrome monitor only)
+                       5  blink      (foreground blinks)
+                       7  reverse    (black on white)
+                       8  no display (foreground = background)
+                       30  BLACK foreground     40  BLACK background
+                       31  RED foreground       41  RED background
+                       32  GREEN foreground     42  GREEN background
+                       33  YELLOW foreground    43  YELLOW background
+                       34  BLUE foreground      44  BLUE background
+                       35  MAGENTA foreground   45  MAGENTA background
+                       36  CYAN foreground      46  CYAN background
+                       37  WHITE foreground     47  WHITE background
+
+ ←[=<span class="c1">mode</span>h           sets screen width and mode where <span class="c1">mode</span> values are:
+                       0  40x25 text mode black and white
+                       1  40x25 text mode color
+                       2  80x25 text mode black and white
+                       3  80x25 text mode color
+                       4  320x200 graphics mode color
+                       5  320x200 graphics mode black and white
+                       6  640x200 graphics mode black and white
+                       7  Causes cursor to wrap to new line at end of line.
+
+ ←[=7l              stops cursor from wrapping at end of line
+
+                    <span class="c2">█▌Keyboard Redefinition▐█</span>
+ ←[<span class="c1">num</span>;<span class="c1">num</span>...<span class="c1">num</span>p   redefines a keystroke so it yields different values.
+   or               The first <span class="c1">num</span> (or first character of <span class="c1">string</span>) is
+ ←[&quot;<span class="c1">string</span>&quot;p        the key being redefined.  The following values are the
+   or               new value for the key.
+ ←[<span class="c1">num</span>;&quot;<span class="c1">string</span>&quot;p    The following redefines Ctrl-D key to be: DIR C:[Enter]
+  or                  <span class="c2">←[4;&quot;DIR C:&quot;;13p</span>
+various
+ combinations       Certain keystrokes must be defined with two <span class="c1">num</span>s.
+                    For example, [F1] is:  <span class="c2">0;59;</span> and [Home] is:  <span class="c2">0;71;</span>
+                    The following redefines the F10 key to be: DIR [Enter]
+                      <span class="c2">←[0;68;&quot;DIR&quot;;13p</span>
+
+                    See <a href="55-extended_ascii_keystrokes.html">Extended ASCII Keystrokes</a> for a full listing.
+
+                    Note: To reset a key to its original value, use its
+                          <span class="c1">num</span> code(s) twice. The following resets [F10].
+                               <span class="c2">←[0;68;0;68p</span>
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+
+ One way to find if ANSI.SYS is installed, is to display the ←[6n function
+ and immediately read <a href="828-standard_i_o_and_i_o_redirection.html">standard input</a>.  It should yield a value in the form:
+ <span class="c2">←[</span><span class="c1">row</span><span class="c2">;</span><span class="c1">clm</span><span class="c2">R.</span>
+
+ Another way is to use <a href="697-int_2fh_1a00h__is_ansi_sys_installed_.html">INT 2fH 1a00H</a> (get ANSI.SYS state) <span class="c2">DOS 3.0+</span>
+
+────────────────────────────────────────────────────────────────────────────
+ Here are some examples usages in two programming languages:
+
+ ;============================= ASM example =========================
+ data_seg  segment
+ ColorMode db  1bH,'=3h','$'
+ SetF10    db  1bH,'0;68;&quot;F10 was pressed&quot;p','$'
+ data_seg  ends
+
+ code_seg segment
+          mov  dx,offset ColorMode  ;set screen to 80x25 color mode
+          mov  ah,9                 ;DOS display string function
+          int  21H
+          mov  dx,offset SetF10     ;redefine F10 key to a string of text
+          mov  ah,9
+          int  21H
+ code_seg ends
+
+ /* ====================== C function example ======================= */
+ set_cursor(row,clm)
+ int row,clm;
+ {
+    printf(&quot;%c[%d;%dH&quot;,27,row,clm)
+ }
+────────────────────────────────────────────────────────────────────────────
+ It is difficult to experiment with ANSI sequences from the DOS command
+ line since DOS does not allow direct keyboard input of the ESC character.
+ Here are three ways to experiment:
+
+   • Use DOS's <span class="c2">Edit</span> command (DOS 5.0+) to create a batch file:
+     ┌────────────────────────────────────── (BLUEIT.BAT)
+     │@ECHO OFF
+     │REM -- clears screen to yellow on blue
+     │ECHO ←[0;33;44m←[2J
+     └───────────────────────────────────────────────────
+    Note: To make the <span class="c2">←</span> character in <span class="c2">Edit</span>, press <span class="c2">Ctrl+P</span> then press <span class="c2">Esc</span>.
+
+   • Use the PROMPT command to output an ESC to the console. For instance:
+     ┌─────────────────── (SETANSI.BAT)
+     │ECHO ON
+     │PROMPT $e[7m                     <span class="c1">sets up to display in reverse video</span>
+     │PROMPT $e[0;68;&quot;DIR&quot;;13p         <span class="c1">redefines the F10 key</span>
+     │PROMPT $p$g                      <span class="c1">sets the prompt back to normal</span>
+     └────────────────────────────────
+
+   • Create a disk file with BASIC and then TYPE it from DOS:
+      OPEN &quot;ansitest.txt&quot; FOR OUTPUT AS #1
+      PRINT #1,CHR$(27);&quot;[7m&quot;             '** display reverse video
+      PRINT #1,CHR$(27);&quot;[0;68;'DIR';13p&quot; '** define F10 key as DIR&lt;Enter&gt;
+      SYSTEM
+      TYPE ansitest.txt
+
+See Also: <a href="55-extended_ascii_keystrokes.html">Extended ASCII Keystrokes</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+          <a href="48-ascii_control_codes.html">ASCII Control Codes</a>
+          <a href="47-character_set_matrix.html">Character Set Matrix</a>
+          <a href="45-ascii.html">ASCII</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

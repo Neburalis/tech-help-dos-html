@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 44xxH: Map Memory into Page Frame - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 44xxH: Map Memory into Page Frame</h1><pre>                                                     Compatibility: <span class="c2">EMS 3.2+</span>
+ Expects: <span class="c2">AH</span>    44H
+          <span class="c2">AL</span>    physical page number (0 to <span class="c1">n</span>; usually 0 to 3)
+          <span class="c2">BX</span>    logical page number to map in or ffffH (see below)
+          <span class="c2">DX</span>    EMM Handle
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          ──────────────────────────────────────────────────────────────────
+    Info: This moves the data associated with a particular 16K page of EMS
+          memory into the physical frame (making that memory accessible).
+
+          For instance, assuming that the page frame starts at d000:0, then
+          calling this with <span class="c2">AX</span>=4401H will put the <span class="c2">BX</span>th page of your
+          allocation into d000:0400.
+
+       <span class="c2">BX</span> is the desired page of EMS memory.  It can range from 0 to <span class="c1">n</span>-1,
+          where <span class="c1">n</span> is the size of the allocation (as used in <a href="655-int_67h_4300h__open_emm_handle_and_allocate_memory.html">INT 67H 4300H</a>).
+
+          With EMS spec 4.0, you can set <span class="c2">BX</span>=ffffH to <span class="c1">unmap</span> a 16K portion of
+          the EMS frame.  For instance, if <span class="c2">AX</span>=4401H and <span class="c2">BX</span>=ffffH, then the
+          data from <span class="c1">EmsSeg</span>:0400 through <span class="c1">EmsSeg</span>:07ff will be locked into
+          place and cannot be read or written.  To <span class="c1">remap</span> a page, use the
+          same parameters, specifying a valid logical page number in <span class="c2">BX</span>.
+
+   Notes: You may remap only one 16K page at a time with this fn.  You may
+          prefer <a href="666-int_67h_50xxh__map_unmap_multiple_pages.html">INT 67H 50xxH</a> to map multiple pages.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

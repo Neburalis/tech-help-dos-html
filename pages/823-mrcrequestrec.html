@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MRCRequestRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MRCRequestRec</h1><pre>
+     The <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a> compression and decompression services require the
+     address of this structure in <span class="c2">DS:SI</span> on entry.  It describes what data
+     to be processed and where to put the result.
+
+<span class="c2">MRCRequestRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      4  <span class="c1">pfbSrc</span>       far address of source buffer
+   +4      2  <span class="c1">wSrcLen</span>      size of source buffer, in bytes
+   +6      2  <span class="c1">wRes</span>         reserved
+   +8      4  <span class="c1">pfbDest</span>      address of destination buffer
+  +0cH     2  <span class="c1">wDestLen</span>     size of destination data or buffer, in bytes
+  +0eH     2  <span class="c1">wChunkLen</span>    &quot;early-out&quot; chunk size, in bytes
+  +10H     4  <span class="c1">lIncInfo</span>     used in incremental decompression
+           20              size of a MRCRequestRec structure
+
+      <span class="c1">pfbSrc</span>  FAR address of source data:
+              <span class="c2">Compress</span>: Address of data to compress
+              <span class="c2">Decompress</span>: Address of data to decompress
+              <span class="c2">Inc. Decompress</span>: FIRST CALL: start of compressed block
+                              OTHER CALLS: updated automatically
+
+     <span class="c1">wSrcLen</span>  length, in bytes, of source data:
+              <span class="c2">Compress</span>: Amount of data to compress
+              <span class="c2">Decompress</span>: ignored (data length is given by <span class="c1">wDestLen</span>)
+              <span class="c2">Inc. Decompress</span>: ignored
+
+     <span class="c1">pfbDest</span>  FAR address of destination buffer:
+              <span class="c2">Compress</span>: Address of buffer to receive compressed data
+              <span class="c2">Decompress</span>: address if buffer to receive decompressed data
+              <span class="c2">Inc. Decompress</span>: FIRST CALL: start of dest buffer
+                              OTHER CALLS: updated automatically
+
+    <span class="c1">wDestLen</span>  length, in bytes, of destination data:
+              <span class="c2">Compress</span>:  ENTRY: Size of the destination buffer
+                        RETURN: Size of the compressed data
+              <span class="c2">Decompress</span>: Exact size of the <span class="c3">uncompressed</span> data (MRCI
+                          uses this to know when to stop decompressing)
+              <span class="c2">Inc. Decompress</span>: FIRST CALL: must be <span class="c2">0</span>
+                              OTHER CALLS: desired bytes of <span class="c3">uncompressed</span>
+                               data.  Take care to avoid asking for more
+                               data than was originally compressed!
+
+   <span class="c1">wChunkLen</span>  Use for compression performance.  If the MRCI server cannot
+              save at least <span class="c1">wChunkLen</span> bytes across the length specified in
+              <span class="c1">wSrcLen</span>, then MRCI returns an <a href="821-mrci_api_error_return_codes.html">MRCI API Error Code</a> of 0004H
+              (incompressible data).
+
+              It also provides a means for the server to provide a speed
+              optimization:  After compressing for a while, it may notice
+              that the remaining uncompressed data will fit within an even-
+              multiple of <span class="c1">wChunkLen</span>.  In that case, it can store the data
+              verbatim or use a simplified compression technique on the
+              remaining data.
+
+              <a href="787-doublespace_overview.html">DoubleSpace</a> uses a chunk size of 512 (since it allocates disk
+              space in sectors).  The Flash File system uses 1-byte chunks
+              to minimize sector slack.
+
+    <span class="c1">lIncInfo</span>  is used only during <span class="c2">Incremental Compression</span> (<a href="819-mrci_fn_0020h__incrementally_decompress_data.html">MRCI Fn 0020H</a>).
+               FIRST CALL: set this DWORD to 0.
+              OTHER CALLS: this is updated by MRCI; leave it alone.
+
+See Also: <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

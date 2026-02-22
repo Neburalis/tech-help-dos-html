@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 87H: Move Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 87H: Move Memory Block</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    87H
+          <span class="c2">CX</span>    amount of memory to move, in 2-byte words (max 8000H words)
+          <span class="c2">ES:SI</span> address of 30-byte structure describing the operation
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    00H = successful move
+                01H = RAM parity error occurred
+                02H = other exception interrupt error occurred
+          CF    NC (0) no error
+                CY (1) some sort of error
+          ZF    NZ (0) error; unsuccessful move
+                ZR (1) successful move
+          ──────────────────────────────────────────────────────────────────
+    Info: You can use this to move chunks of memory around, even when you
+          are running in real mode (access to RAM above 1MB is normally
+          accessible only when in 80286 protected mode).
+
+    Note: Only old programs use this BIOS interface.  It is much better to
+          use <a href="944-xms_functions.html">XMS Functions</a> or the <a href="571-dpmi_services.html">DPMI API</a> to access RAM above 1MB.
+
+    <span class="c2">ES:BX</span> The caller must supply a 30-byte data record which will be used
+          as a GDT (Global Descriptor Table).  This is used to translate
+          between 32-bit addresses and 24-bit addresses.  It is laid out as
+          follows:
+
+          <span class="c2">MoveMemGdtRec</span>
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      8  <span class="c1">res1</span>      8 bytes of 0
+             +8      8  <span class="c1">res2</span>      this GDT (filled-in by BIOS)
+            +10H     2  <span class="c1">wLimits</span>   source block limits (filled-in by BIOS)
+            +12H     3  <span class="c1">p24Source</span> 24-bit physical address of block to copy
+            +15H     5  <span class="c1">res3</span>      (filled-in by BIOS)
+            +1aH     3  <span class="c1">p24Dest</span>   24-bit physical address of destination
+            +1dH    19  <span class="c1">res4</span>      (filled-in by BIOS)
+                    30            size of buffer
+
+          You need only fill-in the <span class="c1">p24Source</span> and <span class="c1">p24Dest</span> with 24-bit
+          physical memory addresses.  Physical memory addresses are linear
+          and can range from 000000H to ffffffH (i.e., up to 16 MB).
+
+   Notes: Interrupts are disabled during block moves.  Therefore, use of
+          this fn can interfere with serial I/O or other interrupt-driven
+          tasks.
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

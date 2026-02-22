@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IoctlDriveInfoRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IoctlDriveInfoRec</h1><pre>
+ DOS Fn <a href="455-dos_fn_4409h__ioctl_is_drive_remote_or_subst.html">4409H</a> (is drive remote) returns this layout in DX.
+
+<span class="c2">IoctlDriveInfoRec</span> ─── layout when describing a local drive
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║s│i│f│0│r│0│l│0║q│g│0 0 0 0 0│a║
+╙╥┴╥┴╥┴─┴╥┴─┴╥┴─╨╥┴╥┴─┴─┴─┴─┴─┴╥╜ <span class="c1">bit</span>  <span class="c1">mask</span>
+ ║ ║ ║   ║   ║   ║ ║           ╚═► 0: 0001H uses 32-bit addressing
+ ║ ║ ║   ║   ║   ║ ╚═════════════► 6: 0040H suprts generic Blk IOCTL  <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a>
+ ║ ║ ║   ║   ║   ║                          and get logical drive map <a href="480-dos_fn_440eh__ioctl_query_logical_drive_map.html">440eH</a>
+ ║ ║ ║   ║   ║   ║                          and set logical drive map <a href="481-dos_fn_440fh__ioctl_set_logical_drive_map.html">440fH</a>
+ ║ ║ ║   ║   ║   ╚═══════════════► 7: 0080H suprts query IOCTL suprt  <a href="483-dos_fn_4411h__ioctl_query_ioctl_support_for_device.html">4411H</a>
+ ║ ║ ║   ║   ╚═══════════════════► 9: 0100H this local drive is shared
+ ║ ║ ║   ╚═══════════════════════►11: 0800H supports Is Media Rmvbl   <a href="454-dos_fn_4408h__ioctl_does_drive_use_removable_media.html">4408H</a>
+ ║ ║ ╚═══════════════════════════►13: 2000H Needs FAT with BPB     <a href="303-device_request_02h__build_bpb.html">DvRq 02H</a>
+ ║ ╚═════════════════════════════►14: 4000H supports IOCTL Read       <a href="450-dos_fn_4404h__ioctl_receive_control_data_from_block_device.html">4404H</a>
+ ║                                          and IOCTL Write           <a href="451-dos_fn_4405h__ioctl_send_control_data_to_block_device.html">4405H</a>
+ ╚═══════════════════════════════►15: 8000H 1=this is a <span class="c2">Subst</span> drive
+
+See Also: fn <a href="455-dos_fn_4409h__ioctl_is_drive_remote_or_subst.html">4409H</a> (IOCTL is drive remote)
+          <a href="323-device_attribute.html">Device Attribute</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>FileInfoRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>FileInfoRec</h1><pre>
+ This structure is used in DOS fns <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> and <a href="511-dos_fn_4fh__find_next_matching_file.html">4fH</a> (find file) and
+ fn <a href="518-dos_fn_57h__set_or_query_file_time_date.html">57H</a> (query/set file time/date).
+
+<span class="c2">FileInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0     21  <span class="c1">reserved</span>     used by DOS in subsequent fn <a href="511-dos_fn_4fh__find_next_matching_file.html">4fH</a> (find next)
+  +15H     1  <span class="c1">bAttr</span>        <a href="361-file_attribute.html">file attribute</a> of file that was found
+  +16H     2  <span class="c1">rTime</span>        time created/modified in <a href="363-file_time_date_format.html">FileTimeRec</a> format
+  +18H     2  <span class="c1">rDate</span>        date created/modified in <a href="363-file_time_date_format.html">FileDateRec</a> format
+  +1aH     4  <span class="c1">lSize</span>        DWORD file size, in bytes
+  +1eH    13  <span class="c1">szFilespec</span>   13-byte max ASCIIZ<a href="913-qasciiz.html">▲</a> filespec: &quot;filename.ext&quot;,0
+                             (not blank-padded; e.g., MYFILE.BAT<span class="c1">0</span>____)
+          43               size of a FileInfoRec structure
+
+See Also: <a href="361-file_attribute.html">File Attribute</a>
+          <a href="363-file_time_date_format.html">File Time/Date Format</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

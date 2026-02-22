@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4AxxH: HMA Suballocations - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4AxxH: HMA Suballocations</h1><pre>                                                 Compatibility: <a href="912-_undocumented_.html">◄Undoc►</a> <span class="c2">5.0+</span>
+
+     See: <a href="705-int_2fh_4a01h__query_hma_free_space_and_address.html">4a01H</a> (Get HMA Free Space)
+
+          <a href="706-int_2fh_4a02h__suballocate_hma_memory.html">4a02H</a> (Allocate HMA Space)
+
+          <a href="950-xms_05h__local_enable_a20.html">XMS 05H</a>  Local enable A20
+          <a href="951-xms_06h__local_disable_a20.html">XMS 06H</a>  Local disable A20
+          <a href="952-xms_07h__query_a20_state.html">XMS 07H</a>  Query A20 state
+
+          <a href="424-dos_fn_3306h__get_dos_version_info.html">3306H</a>    DOS function to see if DOS is loaded in the HMA.
+
+ The <span class="c2">INT 2Fh 4axxH</span> functions are undocumented through DOS 6.2 but have
+ been available since DOS 5.0 added the <a href="278-dos___config_sys_command_.html">DOS=HIGH</a> command to CONFIG.SYS.
+ They provide a means to allocate memory in the HMA<a href="926-qmemhma.html">▲</a>, but only when DOS is
+ loaded high and it is not using the entire 64K of the HMA.
+
+ The <a href="273-buffers___config_sys_command_.html">BUFFERS=</a> setting the CONFIG.SYS soaks up the free space.  If BUFFER=
+ is small, there may be as much as 16K of HMA available.
+
+ The DOS 6.2 version of <a href="787-doublespace_overview.html">DoubleSpace</a> will automatically use about 12K of the
+ space (if that much is available).  The <span class="c2">DBLSPACE.SYS</span> &quot;driver&quot; moves the
+ <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI</a> engine there by (when you don't use the /NOHMA option).
+
+ <span class="c2">The One Owner Rule</span>
+ HIMEM.SYS allocates the entire 64K-16 bytes of the HMA in one block (see
+ <a href="946-xms_01h__request_high_memory_area.html">XMS 01H</a>), so it is said that the HMA can have only one owner.  These
+ suballocations do not violate this rule -- DOS owns the entire HMA, it
+ just leases out the part that it doesn't need to whoever requests it.
+
+ <span class="c2">No Deallocation Service</span>
+ DOS does not provide a means to free up the part of the HMA that you
+ allocate.  There appears to be no &quot;allocation chain&quot; or &quot;memory control
+ blocks&quot;.  It simply maintains an internal pointer to the first free byte,
+ and allocates from that point upward.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

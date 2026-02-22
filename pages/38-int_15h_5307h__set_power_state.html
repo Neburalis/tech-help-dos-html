@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 5307H: Set Power State - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 5307H: Set Power State</h1><pre>
+ Expects: <span class="c2">AX</span>    5307H
+          <span class="c2">BX</span>    <a href="44-apm_device_id.html">power device ID</a> (0000H = entire system)
+          <span class="c2">CX</span>    desired state: 0000H = Ready (not supported for BX=0001H)
+                               0001H = Stand-by
+                               0002H = Suspend
+                               0003H = Off (not supported for BX=0001H)
+                               else  = (reserved)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="43-apm_api_error_return_codes.html">APM error code</a> (if CF=CY)
+          ──────────────────────────────────────────────────────────────────
+    Info: This places a device or the system into a desired power-
+          conservation state.
+
+          You may access this service via <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> or by using the APM entry
+          address obtained via <a href="33-int_15h_5302h__interface_connect__prot__mode_16_bit_.html">INT 15H 5302H</a> or <a href="34-int_15h_5303h__interface_connect__prot__mode_32_bit_.html">INT 15H 5303H</a> (protected
+          mode connect).
+
+       <span class="c2">BX</span> is a <a href="44-apm_device_id.html">Power Device ID</a>.  For instance, 0100H is the display.
+
+       <span class="c2">CX</span> options are:
+
+    0000H <span class="c2">Ready</span> - the system or device is fully powered and ready for
+          action.  This does not differentiate between active and idle
+          states.
+
+          You cannot specify a device ID of 0001H (all devices) with this
+          setting.
+
+    0001H <span class="c2">Stand-by</span> - the system or device is in an intermediate state which
+          attempts to conserve power while maintaining operational data and
+          parameters.  The BIOS automatically enters this state when the
+          CPU is idle and no device activity has occurred within a machine-
+          defined period or time.  The system or device will remain in
+          stand-by until a device raises an interrupt or any controlled
+          device is accessed.
+
+    0002H <span class="c2">Suspend</span> - the system or device is at its lowest level of
+          operation which still maintains operational data and parameters.
+          Computations are halted.  Resumption of activity will not occur
+          until signaled by an external event such as a button press, timer
+          alarm, etc.
+
+    0003H <span class="c2">Off</span> - the system or device is powered-down and inactive.
+          Operational data and parameters may or may not be preserved.
+
+          You cannot specify a device ID of 0001H (all devices) with this
+          setting.
+
+   Notes: Two combinations of <span class="c2">BX</span> and <span class="c2">CX</span> have important meanings:
+
+          ■ <span class="c2">BX</span>=0001H and <span class="c2">CX</span>=0001H
+            specifies to put the entire system into <span class="c2">stand-by</span> mode.
+
+          ■ <span class="c2">BX</span>=0001H and <span class="c2">CX</span>=0002H
+            specifies to put the entire system into <span class="c2">suspend</span> mode.  In this
+            case, the call does not return until an external event re-
+            awakens the BIOS.
+
+          These two options are normally used after a Notification Event
+          (see <a href="42-int_15h_530bh__get_power_management_event.html">INT 15H 530bH</a>) tells you that the system is about to go into
+          stand-by or suspend mode.  However, an application can initiate
+          this if it detects some idle time.
+
+See Also: <a href="29-advance_power_management__apm__functions.html">APM API</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

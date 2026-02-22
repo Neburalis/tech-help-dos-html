@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a11H BX=0007H: Get Dblspace Disk Size / Free Space - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a11H BX=0007H: Get Dblspace Disk Size / Free Space</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    4a11H (mux number)
+          <span class="c2">BX</span>    0007H (DoubleSpace fn code)
+          <span class="c2">DL</span>    compressed drive to query
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (0000H = success)
+          <span class="c2">DS:SI</span> address of <span class="c2">DsSpaceInfoRec</span> (see below)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the <span class="c1">true</span> total space and free space available in the
+          specified volume.
+
+          Note: the newer (6.2) <a href="804-doublespace_ioctl_fn__s___get_drivespace_pointers.html">DS IOCTL 'S'</a> function is the preferred
+          method of obtaining this information.
+
+    <span class="c2">DS:SI</span> <span class="c2">on return</span>, DS:SI points to the following data structure:
+
+          <span class="c2">DsSpaceInfoRec</span>
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      4  <span class="c1">lTotSects</span>   total data sectors in the disk
+             +4      4  <span class="c1">lFreeSects</span>  available sectors in the disk
+                     8              size of a DsSpaceInfoRec (undocumented)
+
+   Notes: ■ This changes <span class="c2">DS</span>, pointing it into DBLSPACE.BIN local data area.
+            So take notice (and change it back to point to your local data
+            area after this call).
+
+          ■ The return values in <span class="c1">lTotSects</span> and <span class="c1">lFreeSects</span> are expressed in
+            512-byte sectors.
+
+          ■ The maximum physical size of a DoubleSpace compressed volume
+            is 512 MB.  Thus, the largest value you can expect returned in
+            <span class="c1">lTotSects</span> is 1,048,576 (0010 0000H) sectors.
+
+          ■ Use DOS fn <a href="427-dos_fn_36h__get_disk_free_space.html">36H</a> to obtain the <span class="c1">estimated</span> storage for the drive.
+
+          ■ The documented API does not provide an estimated compression
+            ratio, but you can derive it by comparing <span class="c1">lTotSects</span> to the
+            value obtained from DOS fn <a href="427-dos_fn_36h__get_disk_free_space.html">36H</a>.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="804-doublespace_ioctl_fn__s___get_drivespace_pointers.html">DS IOCTL 'S'</a> (Get DriveSpace Pointers)
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Request 09H: Output (Write/Verify Data to Device) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Request 09H: Output (Write/Verify Data to Device)</h1><pre>                                                                <a href="328-_blk_.html">◄Blk►</a> <a href="327-_chr_.html">◄Chr►</a>
+ This tells the driver to write data to the device and, if possible, to
+ verify that the data was written accurately.
+
+ The parameters for this request are identical to:
+
+          <a href="309-device_request_08h__output__write_data_to_device_.html">Device Request 08H: Output (Write Data to Device)</a>
+
+   Notes: ■ This is the device driver &quot;catch-point&quot; for DOS write fns such
+            as <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> (write to file or device) when DOS is in VERIFY mode
+            (see fns <a href="415-dos_fn_2eh__set_reset_verify_switch.html">2eH</a> and <a href="516-dos_fn_54h__get_dos_verify_state.html">54H</a>).
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">DevRequestHdrRec</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

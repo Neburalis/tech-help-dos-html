@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Video Modes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Video Modes</h1><pre>
+     <span class="c2">AL</span>  Type     Format   Cell  Colors        Adapter  Addr  Monitor
+     ═══ ═══════  ═══════  ════  ═════════════ ═══════  ════  ═════════════
+      0  text     40x25     8x8<span class="c2">*</span> 16/8 (shades) CGA,EGA  b800  Composite
+      1  text     40x25     8x8<span class="c2">*</span> 16/8          CGA,EGA  b800  Comp,RGB,Enh
+      2  text     80x25     8x8<span class="c2">*</span> 16/8 (shades) CGA,EGA  b800  Composite
+      3  text     80x25     8x8<span class="c2">*</span> 16/8          CGA,EGA  b800  Comp,RGB,Enh
+      4  graphic  320x200   8x8  4             CGA,EGA  b800  Comp,RGB,Enh
+      5  graphic  320x200   8x8  4 (shades)    CGA,EGA  b800  Composite
+      6  graphic  640x200   8x8  2             CGA,EGA  b800  Comp,RGB,Enh
+      7  text     80x25    9x14<span class="c2">*</span> 3 (b/w/bold)  MDA,EGA  b000  TTL Mono
+ 8,9,0aH  PCjr modes
+ 0bH,0cH  (reserved; internal to EGA BIOS)
+     0dH graphic  320x200   8x8  16            EGA,VGA  a000  Enh,Anlg
+     0eH graphic  640x200   8x8  16            EGA,VGA  a000  Enh,Anlg
+     0fH graphic  640x350  8x14  3 (b/w/bold)  EGA,VGA  a000  Enh,Anlg,Mono
+     10H graphic  640x350  8x14  4 or 16       EGA,VGA  a000  Enh,Anlg
+     11H graphic  640x480  8x16  2             VGA      a000  Anlg
+     12H graphic  640x480  8x16  16            VGA      a000  Anlg
+     13H graphic  640x480  8x16  256           VGA      a000  Anlg
+
+   Notes: With <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>, <a href="70-video_graphics_array__vga_.html">VGA</a>, and <a href="830-system_compatibility.html">PCjr</a> you can add 80H to AL to initialize a
+          video mode without clearing the screen.
+
+        <span class="c2">*</span> The character cell size for modes 0-3 and 7 varies, depending on
+          the hardware.  On modes 0-3: CGA=8x8, EGA=8x14, and VGA=9x16.
+          For mode 7, MDPA and EGA=9x14, VGA=9x16, LCD=8x8.
+
+See Also: <a href="85-vesa_svga_video_modes.html">SVGA Video Modes</a>
+          <a href="89-video_memory_layouts.html">Video Memory Layouts</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

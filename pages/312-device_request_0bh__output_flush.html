@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Request 0bH: Output Flush - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Request 0bH: Output Flush</h1><pre>                                                                      <a href="327-_chr_.html">◄Chr►</a>
+ This tells the driver to terminate any write operation in progress and to
+ empty the device output buffer.
+
+<span class="c2">DevReq0bRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bLen</span>         0dH (length of this request packet)
+   +1      1  <span class="c1">bUnitNo</span>      (not used)
+   +2      1  <span class="c1">bCmd</span>         <span class="c2">0bH</span> (command code)
+   +3      2  <span class="c1">rStatus</span>      OUTPUT: <a href="325-device_status_word.html">Device Status Word</a> must fill before exit
+   +5H     8  <span class="c1">res</span>          (reserved)
+          13               size of this structure
+
+     <span class="c1">rStatus</span>  On exit, the driver must place a <a href="325-device_status_word.html">DevStatusWord</a> here.  Always
+              set the Done bit (<span class="c1">bit 8</span>).  On an error, set the Done bit and
+              the Error bit (<span class="c1">bit 15</span>) and put a <a href="326-device_driver_errors.html">Device Error Code</a> in the low
+              byte.
+
+   Notes: ■ This is the device driver &quot;catch-point&quot; when a device file such
+            as PRN is closed via fn <a href="437-dos_fn_3eh__close_a_file_handle.html">3eH</a> (close file).
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">DevRequestHdrRec</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

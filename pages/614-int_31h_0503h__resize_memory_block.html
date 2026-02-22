@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0503H: Resize Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0503H: Resize Memory Block</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0503H
+          <span class="c2">BX:CX</span> new size of block, in bytes (must not be 0)
+          <span class="c2">SI:DI</span> handle of memory block to resize
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          <span class="c2">BX:CX</span> new linear address of allocated block
+          <span class="c2">SI:DI</span> new handle used to resize and free this block
+          ──────────────────────────────────────────────────────────────────
+    Info: Resizes a block of memory that was previously allocated via
+          <a href="612-int_31h_0501h__allocate_memory_block.html">INT 31H 0501H</a> or <a href="615-int_31h_0504h__allocate_linear_memory_block.html">INT 31H 0504H</a>.
+
+          It is the client's responsibility to update descriptors that map
+          this memory.  See, for instance, <a href="580-int_31h_0007h__set_segment_base_address.html">INT 31H 0007H</a> (set segment base
+          address) and <a href="581-int_31h_0008h__set_segment_limit.html">INT 31H 0008H</a> (set segment limit).
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

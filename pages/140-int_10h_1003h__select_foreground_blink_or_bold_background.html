@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1003H: Select Foreground Blink or Bold Background - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1003H: Select Foreground Blink or Bold Background</h1><pre>                                                      Compatibility: <span class="c2">EGA</span> <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1003H
+          <span class="c2">BL</span>    00H = enable bold backgrounds (16 background colors)
+                01H = enable blinking foreground (8 background colors)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This enables or disables blinking foreground colors in EGA/VGA
+          text modes.  By default, the BIOS enables blinking foregrounds
+          (characters blink when bit 7 of the <a href="87-screen_attributes.html">Video Attribute</a> is set).
+
+          When foreground blink is disabled (<span class="c2">BL</span>=00H), all 16 colors are
+          available for use as background colors.
+
+   Notes: This fn is not available on CGAs<a href="931-qvidcga.html">▲</a> and MDAs<a href="933-qvidmda.html">▲</a>.  To use this
+          attractive and often-seen effect, you must program the CGA Mode
+          Select Register, manually clearing bit 5.  See <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>.
+          For instance:
+            mov ax,40H
+            mov es,ax
+            mov dx,es:[063H]  ;get port address of the card
+            add dx,4
+            mov al,es:[065H]  ;get current value of Mode Select Register
+            and al,0dfH       ;mask value by 1101 1111 (to clear bit 5)
+            out dx,al         ;disable blink (set for bold background)
+            mov es:[065H],al  ;save the new setting
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

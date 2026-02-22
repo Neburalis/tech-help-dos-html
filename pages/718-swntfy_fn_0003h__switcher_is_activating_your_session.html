@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwNtfy Fn 0003H: Switcher Is Activating Your Session - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwNtfy Fn 0003H: Switcher Is Activating Your Session</h1><pre>
+  Expect: <span class="c2">AX</span>    0003H
+          <span class="c2">BX</span>    ID of the session that is about to be activated
+          <span class="c2">CX</span>    flags: 0001H=this is a new session
+                       0000H=resuming a previously-suspended session
+          <span class="c2">ES:DI</span> addr of switcher's service-entry address
+          ──────────────────────────────────────────────────────────────────
+  Return: <span class="c2">AX</span>    0000H (you must return 0 in all cases)
+          ──────────────────────────────────────────────────────────────────
+    Info: Task switchers call this to let you know that a new session is
+          about to be started or that a suspended session is about to be
+          resumed.  When a session is resumed, this is called only after
+          all instance data and the session's interrupt table has been
+          reinstalled.
+
+          When called, interrupts are <span class="c1">disabled</span> you should <span class="c1">NOT</span> enable
+          interrupts or use any DOS fns.
+
+       <span class="c2">BX</span> will contain the session ID of the session that is about to be
+          activated.  Global TSRs may wish to keep track of new sessions if
+          they take special actions for each session.  You can identify a
+          new session by bit 0 of the value in <span class="c2">CX</span>.
+
+    <span class="c2">ES:SI</span> will contain the task switcher's service entry address.  Use this
+          address if you need to call any task-switcher service fns.
+
+  Return: <span class="c2">AX</span>=0000H (must be 0)
+
+   Notes: For new sessions, this will be preceded by a <a href="720-swntfy_fn_0005h__switcher_is_creating_a_session.html">SwNtfyFn 0005H</a>
+          (create session).
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

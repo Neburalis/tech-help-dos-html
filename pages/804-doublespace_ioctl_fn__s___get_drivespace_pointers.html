@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DoubleSpace IOCTL fn 'S': Get DriveSpace Pointers - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DoubleSpace IOCTL fn 'S': Get DriveSpace Pointers</h1><pre>                                                         Compatibility: <span class="c2">6.2+</span>
+ Expects: <span class="c2">AX</span>    <a href="450-dos_fn_4404h__ioctl_receive_control_data_from_block_device.html">4404H</a> (INT 21H IOCTL Read service number)
+          <span class="c2">BL</span>    any compressed drive number (1=A, 2=B, etc)
+          <span class="c2">CX</span>    13 (size of an <span class="c2">DsSpcIoctlRec</span>; see below)
+          <span class="c2">DS:DX</span> address of a DsSpcIoctlRec with an '<span class="c2">S</span>' (ASCII 53H) in
+                the <span class="c1">bCmdCode</span> field)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DS:DX</span> <span class="c1">bResult</span> contains a <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (00H=success)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the <span class="c1">true</span> (incompressible) total space and free space
+          available in the specified volume.
+
+          <span class="c2">Note:</span> This fn is new for <span class="c2">DOS 6.2</span>; the <a href="796-int_2fh_4a11h_bx_0007h__get_dblspace_disk_size___free_space.html">INT 2fH 4a11H 0007H</a> fn
+          returns similar info for pre-6.2 systems, but is unreliable in
+          that the specified drive may have been unmounted.
+
+    <span class="c2">DS:DX</span> points to a DsSpcIoctlRec as follows:
+
+          <span class="c2">DsSpcIoctlRec</span>
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      2  <span class="c1">abSig</span>       must be 444dH ('M','D')
+             +2      1  <span class="c1">bCmdCode</span>    must be 46H ('<span class="c2">S</span>') Space command
+             +3      2  <span class="c1">bResult</span>     returns a <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a>
+             +5      4  <span class="c1">plSects</span>     returns addr of 8 bytes of info
+                                     decsribing total &amp; free space in heap
+             +9      4  <span class="c1">plClusts</span>    returns addr of a 4-byte value holding
+                                     the heap free space, in clusters
+                    13              size of a DsSpcIoctlRec structure
+
+          To use this fn, set up the packet and the registers, and call
+          <a href="560-int_21h__dos_functions.html">INT 21H</a>.  See DOS fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (device I/O Control) for related DOS
+          functions.
+
+<span class="c2">On return</span> check <span class="c1">bResult</span> for an error code.  The value 4f4bH ('OK')
+          indicates success.
+
+  <span class="c1">plSects</span> will contain a 4-byte pointer.  At that address will be two
+          4-byte values.  The first will contains the size of the
+          <a href="812-cvf_region__sector_heap.html">sector heap</a> for the specified drive, in sectors.  The second
+          value will contain the current free space in the sector heap, in
+          sectors.
+
+ <span class="c1">plClusts</span> will contain a 4-byte pointer.  At that address is a single
+          4-byte value containing the maximum number of incompressible
+          clusters that can be stored on the specified drive.
+
+          This is the &quot;worst case&quot; free space for the drive.
+
+          The high byte should be examined before using the value.  If this
+          byte is <span class="c2">ffH</span>, then the rest of the value is invalid and should be
+          treated as 0.
+
+   Notes: ■ The returned information is valid as long as the drive is
+            mounted.
+
+          ■ To ensure that this obtains up-to-the-minute information, you
+            should use DOS fn <a href="386-dos_fn_0dh__reset_disk.html">0dH</a> (reset disk), followed by  <a href="803-doublespace_ioctl_fn__i___flush_and_invalidate_cache.html">DS IOCTL 'I'</a>
+            (flush and invalidate cache) before making the call.
+
+          ■ &quot;Install&quot; programs should use this fn when checking to see if
+            there is enough disk space, especially if you are about to copy
+            incompressable files (such as .ZIP files of PKLITE-style
+            compressed executables) to the target drive.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

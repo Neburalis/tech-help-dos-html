@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XT Hard Disk Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XT Hard Disk Ports</h1><pre>
+ This describes the XT hard disk controller.  It is similar to most of the
+ non-IBM hard disk controllers which are used in PCs.  However, there is no
+ guarantee, especially considering that the <span class="c1">AT uses a different setup all</span>
+ <span class="c1">together</span>.  It is safest to let the system firmware mask the differences.
+
+   ■ The XT hard disk controller decodes ports <span class="c2">320H</span> through 327H
+
+ The controller generates interrupt level 5 (IRQ 5) after every operation
+ (read, write, seek, etc.).  IRQ 5 is vectored to INT 0dH (which is also
+ assigned as the seldom-used IRQ for LPT2).  INT 0dH disables the Hard Disk
+ DMA and returns.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+320H  Data register.  Write commands, read status.
+      Write: Always a series of bytes, written sequentially to this port.
+             The first byte is a controller command and the following bytes
+             (up to 5) describe head, cylinder, sector, and a control byte
+             which has a variety of definitions, too numerous for this
+             discussion.
+      Read:  When an error is sensed (port 321H, bit 1), you can write a
+             Sense_Cmd sequence to this register, then read it four times to
+             obtain everything the controller has to say.  The first byte
+             indicates the error.  Better check the Tech Ref for this stuff.
+──── ───────────────────────────────────────────────────────────────────────
+321H  Write: controller reset
+             Output a byte of 00H to this port to reset the controller.
+      Read:  controller status register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║   │d│     │e│ ║
+      ╙─┴─┴╥┴─┴─┴─┴╥┴─╜ bit
+           ║       ╚═══► 1: 1=error has occurred
+           ╚═══════════► 5: logical unit number (drive 0 or drive 1)
+──── ───────────────────────────────────────────────────────────────────────
+322H  Write: generate controller select pulse
+             Any OUT to this port enables the controller.  Use before a cmd.
+──── ───────────────────────────────────────────────────────────────────────
+323H  Write: DMA and interrupt mask register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║  not used │i│d║
+      ╙─┴─┴─┴─┴─┴─┴╥┴╥╜ bit
+                   ║ ╚═► 0: 1=enable DMA, 0=don't use DMA
+                   ╚═══► 1: 1=enable interrupt after ctrlr command (IRQ 5)
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> (disk I/O)
+          <a href="897-at_hard_disk_ports.html">AT Hard Disk Ports</a>
+          <a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a>
+          <a href="896-diskette_controller_ports.html">Diskette Controller Ports</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,14 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 07H: Math Coprocessor Not Present - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 07H: Math Coprocessor Not Present</h1><pre>
+  INT 07H is executed automatically when any <a href="876-80x87_floating_point_opcodes.html">80x87 Floating Point Opcodes</a>
+  are executed and no math chip is there to handle it.
+
+  More generally, this takes place when an ESC or WAIT <a href="866-8088_286_386_486_pentium_instruction_set.html">opcode</a> is executed
+  specifying a coprocessor that's not present.
+
+  Math chip emulators intercept this interrupt to provide floating-point
+  support (very slowly, I might add).
+
+See Also: <a href="96-irqs__hardware_interrupts.html">IRQs</a> (hardware interrupts)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

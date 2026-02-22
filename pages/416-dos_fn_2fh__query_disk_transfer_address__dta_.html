@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 2fH: Query Disk Transfer Address (DTA) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 2fH: Query Disk Transfer Address (DTA)</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    2fH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> address of the start of the current <a href="351-dta__disk_transfer_address.html">DTA</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the address of the start of the Disk Transfer Address.
+
+          Since the DTA is a global value for any process, in recursive
+          procedures (as when traversing a directory tree), you may need
+          to use this procedure to save the DTA, then set it back via fn
+          <a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">1aH</a> (set DTA).
+
+          You should also use this when saving the state of the system
+          before popping up as a TSR.
+
+See Also: Fn <a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">1aH</a> (set DTA)
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR/Popup Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

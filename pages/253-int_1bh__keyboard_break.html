@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1bH: Keyboard Break - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1bH: Keyboard Break</h1><pre>
+ This vector (0:006c) is taken by BIOS when it senses a press of the
+ Ctrl-Break key.
+
+ INT 1bH initially points to an IRET, but DOS sets it to point to local
+ code that sets an internal DOS flag.  DOS tests every once in a while and
+ acts upon it, depending upon the state of DOS break-testing.
+
+ See DOS Fn <a href="420-dos_fn_33h__set_query_break_check__query_dos_info.html">33H</a> and <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> for descriptions of how DOS handles Ctrl-Break.
+
+ A flag in the <a href="93-rom_bios_variables.html">BIOS Data Area</a> (0:0471) gets set upon the first occurrence
+ of Ctrl-Break, but it never gets reset unless you do it yourself.  You
+ might use this flag as a way to determine if a child process was aborted
+ via Ctrl-Break.
+
+See Also: <a href="558-dos_interrupts.html">DOS Interrupts</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

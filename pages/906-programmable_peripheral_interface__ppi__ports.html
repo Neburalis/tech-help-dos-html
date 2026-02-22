@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Programmable Peripheral Interface (PPI) Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Programmable Peripheral Interface (PPI) Ports</h1><pre>
+  Ports <span class="c2">60H-63H</span> are decoded by the PC's 8255A Programmable Peripheral
+  Interface chip.  These ports control the keyboard and timers and contain
+  configuration information collected during the <a href="264-power_on_self_test.html">POST</a>.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+060H  Read keyboard:
+      IN   al,60H  ;fetches most recent scan code.   See <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a>
+                                                     See <a href="57-keyboard_scan_codes.html">Scan Code</a>
+      AT keyboard data register.                     See <a href="894-at_keyboard_functions.html">AT Keyboard</a>
+      (Note: AT Keyboard register duplicated at port 64H)
+
+061H  PPI port B.
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │ │0│ │ ║
+      ╙╥┴╥┴╥┴╥┴╥┴─┴╥┴╥╜ bit mask
+       ║ ║ ║ ║ ║   ║ ╚═► 0: 01H gate timer channel 2 to speaker
+       ║ ║ ║ ║ ║   ╚═══► 1: 02H pulse speaker 1=out, 0=in
+       ║ ║ ║ ║ ║            (see <a href="903-pc_sounds___speaker_support.html">Speaker Control</a> for examples)
+       ║ ║ ║ ║ ╚═══════► 3: 04H 1=read high switches;
+       ║ ║ ║ ║                  0=read low ones (see 62H)
+       ║ ║ ║ ╚═════════► 4: 10H 0=enable RAM parity checking; 1=disable
+       ║ ║ ╚═══════════► 5: 20H 0=enable I/O channel check
+       ║ ╚═════════════► 6: 40H 0=hold keyboard clock low
+       ╚═══════════════► 7: 80H 0=enable keyboard; 1=disable keyboard
+
+062H  PPI port C.
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │0│<span class="c1">equipmt</span>║
+      ╙╥┴╥┴╥┴─┴─┴─┴─┴─╜ bit
+       ║ ║ ║   ╚═════╩═► 0-3: DIP switch values.     See <a href="59-equipment_list.html">Equipment List</a>
+       ║ ║ ╚═══════════►   5: 1=Timer 2 channel out
+       ║ ╚═════════════►   6: 1=I/O channel check
+       ╚═══════════════►   7: 1=RAM parity check error occurred.
+
+See Also: <a href="903-pc_sounds___speaker_support.html">Speaker Control</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

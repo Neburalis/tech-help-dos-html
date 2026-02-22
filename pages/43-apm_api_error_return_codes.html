@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>APM API Error/Return Codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>APM API Error/Return Codes</h1><pre>
+ The Intel/Microsoft Advanced Power Management functions indicate failure
+ by setting the Carry Flag and returning one of following error codes in
+ the <span class="c2">AH</span> register:
+
+ <span class="c2">01H</span> APM functionality disabled
+
+ <span class="c2">02H</span> Interface connection already established
+ <span class="c2">03H</span> Interface not connected
+ <span class="c2">04H</span> Real mode connection not established
+ <span class="c2">05H</span> 16-bit protected-mode interface already established
+ <span class="c2">06H</span> 16-bit protected-mode interface not supported
+ <span class="c2">07H</span> 32-bit protected-mode interface already established
+ <span class="c2">08H</span> 32-bit protected-mode interface not supported
+
+ <span class="c2">09H</span> Unrecognized <a href="44-apm_device_id.html">APM Device ID</a>
+ <span class="c2">0aH</span> Parameter in <span class="c2">CX</span> is out of range
+
+ <span class="c2">60H</span> Can't enter requested state
+
+ <span class="c2">80H</span> No power management events pending
+
+ <span class="c2">86H</span> (reserved) no APM present
+
+See Also: <a href="29-advance_power_management__apm__functions.html">APM API</a>
+          <a href="30-about_advanced_power_management.html">About APM</a>
+          <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (Misc AT Services)
+                                    <span class="c3">-♦-</span></pre></body></html>

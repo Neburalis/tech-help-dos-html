@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CVF Region: FAT - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CVF Region: FAT</h1><pre>
+  The <span class="c2">FAT</span> is a variable-length region formatted as a <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>.
+
+  It is located a variable number of sectors after the end of the
+  <a href="809-cvf_region__bootsect.html">BootSect</a> region; its location can be calculated as
+  <a href="806-cvf_region__mdbpb.html">MdBpbRec</a>.<span class="c1">wResSects</span>+<span class="c1">wMdResSects</span> sectors from the start of the CVF.
+
+  It may be formatted as a <span class="c2">12-bit FAT</span> or a <span class="c2">16-bit FAT</span>.
+
+  12-bit: Used for volumes less than 32 MB of uncompressed data (this
+          includes compressed diskettes).  A 12-bit FAT uses 1½-bytes-per-
+          entry and 0ff7h-0fffh have special meaning, so it maxes out at
+          4086 clusters.
+
+  16-bit: Used for volumes greater than 4086 clusters (32 MB).  A 16-bit
+          FAT can handle up 65526 16K clusters or 512K of uncompressed data
+          (same as the DoubleSpace max volume size).
+
+          See <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a> for details.
+
+  The &quot;cluster numbers&quot; contained in this FAT are actually used as indirect
+  pointers into the <a href="808-cvf_region__mdfat.html">MDFAT</a>, rather than actual disk locations.
+
+  See <a href="814-mapping_dos_fat_to_mdfat.html">Mapping DOS FAT to MDFAT</a> for a full discussion.
+
+  One interesting note: COMMAND.COM accesses both the FAT and the MDFAT when
+  you use <span class="c2">Dir /c</span>.  In order to obtain the initial FAT entry, it uses the (I
+  thought) long-obsolete fn <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">11H</a> (find first file via FCB).  The advantage of
+  this over fn <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> is that it returns a raw directory entry, and therefore
+  supplies a pointer into the FAT.
+
+<span class="c2">█▌Virtual 2nd FAT▐█</span>
+  Since the beginning of time, all DOS disks have contained two copies
+  (presumably with the idea of data integrity and recovery).
+
+  However, <a href="787-doublespace_overview.html">DoubleSpace</a> maintains a single FAT for the volume.  Since some
+  disk utilities rely on finding the second copy directly after the first,
+  DoubleSpace simulates or &quot;virtualizes&quot; the second FAT.  Requests to read
+  from those &quot;second FAT&quot; sectors are served up data from the first (only)
+  FAT and attempted writes to the second FAT are sent to the &quot;first&quot; FAT.
+
+<span class="c2">█▌Standard (FAT) Undelete Operations▐█</span>
+  When DOS or a utility writes to the FAT, DoubleSpace compares the old FAT
+  to the modified FAT and, based on the changes (and the <span class="c1">isUsed</span> bit in the
+  <a href="808-cvf_region__mdfat.html">MdFatEntryRec</a>), it can infer one of the following operations:
+
+  DOS allocated a cluster:
+     <span class="c1">isUsed</span>=0 and FAT entry went from 0 to <span class="c1">any</span>
+
+  DOS or utility freed a cluster (e.g., a DoubleSpace-unaware defragger):
+     <span class="c1">isUsed</span>=1 and FAT entry went from <span class="c1">any</span> to 0
+
+  Utility resurrected a cluster (e.g. Undelete):
+     <span class="c1">isUsed</span>=0 and FAT entry went from 0 to <span class="c1">any</span>
+
+  Depending upon the inference, DoubleSpace can then take action to rectify
+  and propagate the changes through the <a href="808-cvf_region__mdfat.html">MDFAT</a> and the <a href="807-cvf_region__bitfat.html">BitFAT</a>.
+
+See Also: <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

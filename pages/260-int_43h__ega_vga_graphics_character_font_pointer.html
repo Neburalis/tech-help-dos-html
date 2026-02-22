@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 43H: EGA/VGA Graphics Character Font Pointer - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 43H: EGA/VGA Graphics Character Font Pointer</h1><pre>
+ This vector (0:010c) is a pointer to a table of <a href="91-video_font_definition.html">Font Definition Data</a> that
+ defines all <a href="45-ascii.html">ASCII</a> characters that will be used to display text (via
+ <a href="129-int_10h_0eh__write_character_as_tty.html">INT 10H 0eH</a> et al.) while in graphics mode on <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> and <a href="70-video_graphics_array__vga_.html">VGA</a> video systems.
+
+ A copy of a font is maintained is easily-accessible memory (usually ROM)
+ to that BIOS fns such as <a href="123-int_10h_08h__read_character_attribute_at_cursor_location.html">INT 10H 08H</a> (read character from screen) can
+ compare sets of graphics pixels against the defined characters in order to
+ return an ASCII value.
+
+ See <a href="91-video_font_definition.html">Font Definition Data</a> for a layout of this data.  The size of the
+ entries (bytes-per-character) varies according to the value in 40:0085
+ (see <a href="93-rom_bios_variables.html">BIOS Data Area</a>).
+
+See Also: <a href="257-int_1fh__cga_graphics_character_font_pointer.html">INT 1fH</a> (CGA Graphics Character Font Pointer)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

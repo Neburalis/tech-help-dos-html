@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0003H: Query Position / Button Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0003H: Query Position / Button Status</h1><pre>
+ Expects: <span class="c2">AX</span>    0003H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">BX</span>    Button status: bit 0 = left button down   (BX &amp; 1) == 1
+                               bit 1 = right button down  (BX &amp; 2) == 2
+                               bit 2 = center button down (BX &amp; 4) == 4
+          <span class="c2">CX</span>    X coordinate (horizontal)    divide by 8 for text clm
+          <span class="c2">DX</span>    Y coordinate (vertical)      divide by 8 for text line
+          ──────────────────────────────────────────────────────────────────
+    Info: This returns the current position of the mouse pointer, and the
+          current status of the mouse buttons.
+
+          Rather than constantly polling this function, many programmers
+          prefer to install a mouse event handler via <a href="845-int_33h_000ch__set_mouse_event_handler.html">INT 33H 000cH</a> or
+          <a href="855-int_33h_0018h__set_alternate_event_handler.html">INT 33H 0018H</a> and maintain global variables for instant access to
+          mouse information.
+
+   Notes: All X,Y coordinates are <span class="c1">virtual</span> coordinates and when working with
+          text mode, you must divide each value by 8 to get a character
+          clm,row.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

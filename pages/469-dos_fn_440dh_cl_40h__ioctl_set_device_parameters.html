@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440dH CL=40H: IOCTL Set Device Parameters - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440dH CL=40H: IOCTL Set Device Parameters</h1><pre>                                                         Compatibility: <span class="c2">3.2+</span>
+ Expects: <span class="c2">AX</span>    440dH
+          <span class="c2">BX</span>    drive (0=default, 1=A, 2=B, etc.)
+          <span class="c2">CL</span>    40H
+          <span class="c2">CH</span>    08H (device category: block device)
+          <span class="c2">DS:DX</span> addr of an <a href="492-ioctldeviceparmsrec.html">IoctlDeviceParmsRec</a> containing desired settings
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets block device parameters (such as number of cylinders, bytes-
+          per-track, etc.) for the specified block device.
+
+   Notes: ■ Use <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">440dH 60H</a> to obtain the current settings, then make
+            changes, then when done, restore the original settings.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (generic IOCTL for block devices)
+          Fn <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">440dH 60H</a> (query device parameters)
+          <a href="487-generic_ioctl_data_packets.html">Generic IOCTL Data Packets</a>
+          <a href="300-device_requests.html">Device Requests</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1aH 01H: Set System Clock (Ticks) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1aH 01H: Set System Clock (Ticks)</h1><pre>                                                              [PC] [XT] [AT]
+ Expects: <span class="c2">AH</span>    01H
+          <span class="c2">CX,DX</span> desired tick-count setting
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    0
+          <span class="c2">CF</span>    NC (0) if no error
+                CY (1) on invalid setting
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the system clock top the specified tick-count.
+
+          Also clears the timer overflow flag at 0040:0070.
+
+See Also: <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH</a> (BIOS Time I/O)
+          DOS fn <a href="413-dos_fn_2ch__query_dos_time.html">2cH</a> (get system time)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

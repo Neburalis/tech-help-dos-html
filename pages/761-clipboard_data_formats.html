@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Clipboard Data Formats - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Clipboard Data Formats</h1><pre>
+ The following data formats are supported by the INT 2fH Windows Clipboard
+ functions:
+
+    <span class="c2">0001H</span> (<span class="c2">CF_TEXT</span>) The data is an array of text characters.  Each line
+          ends with a carriage return/linefeed (0dH,0aH) combination.  A
+          null character (00H) signals the end of the data.
+
+    <span class="c2">0002H</span> (<span class="c2">CF_BITMAP</span>) The data is a bitmap (see <span class="c2">CbBmpRec</span> structure, below).
+
+    <span class="c2">0007H</span> (<span class="c2">CF_OEMTEXT</span>) The data is an array of text characters in the OEM
+          character set.  Each line ends with a carriage return/linefeed
+          (0dH,0aH) combination.  A null character (00H) signals the end of
+          the data.
+
+    <span class="c2">0081H</span> (<span class="c2">CF_DSPTEXT</span>) The data is a textual representation of a private
+          data format (for instance, RTF text with text-formatting codes).
+          The clipboard viewer displays this in text format in lieu of the
+          privately-formatted data.
+
+    <span class="c2">0082H</span> (<span class="c2">CF_DSPBITMAP</span>) The data is a bitmap representation of a private
+          format.  The clipboard viewer displays this in bitmap format in
+          lieu of the privately formatted data (see <span class="c2">CbBmpRec</span>, below).
+
+ Each of the <span class="c2">text</span> formats is composed of one long ASCIIZ<a href="913-qasciiz.html">▲</a> string,
+ optionally broken into lines with CR/LF pairs.
+
+ When <span class="c2">CF_BITMAP</span> or <span class="c2">CF_DSPBITMAP</span> data types are used, the data is prefaced
+ by the following structure; the image data follows it, starting at offset
+ 16H.  When calculating the memory needs to hold this data, add 22 bytes to
+ the total to account for this header.
+
+          <span class="c2">CbBmpRec</span>
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      2  <span class="c1">wType</span>        always 0000H
+             +2      2  <span class="c1">wWidth</span>       bitmap width, in pixels
+             +4      2  <span class="c1">wHeight</span>      bitmap height, in pixels
+             +6      2  <span class="c1">wWideBytes</span>   bytes per raster line
+             +8      1  <span class="c1">bPlanes</span>      color planes in bitmap
+             +9      1  <span class="c1">bBitsPixels</span>  adjacent color bits per pixel
+            +0aH     8  <span class="c1">pfBits</span>       points to <span class="c1">abData</span> (ignore this)
+            +12H     2  <span class="c1">wWidDim</span>      bitmap width in 0.1 mm units
+            +14H     2  <span class="c1">wHighDim</span>     bitmap height in 0.1 mm units
+                    22               size of formatted header
+            +16H     <span class="c1">n</span>  <span class="c1">abData</span>       bitmap data starts here
+
+See Also: <a href="751-int_2fh_17xxh__windows_clipboard_functions.html">INT 2fH 17xxH: Windows Clipboard Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

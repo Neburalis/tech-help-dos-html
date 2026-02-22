@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a01H: Query HMA Free Space and Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a01H: Query HMA Free Space and Address</h1><pre>                                                 Compatibility: <a href="912-_undocumented_.html">◄Undoc►</a> <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    4a01H  <a href="912-_undocumented_.html">◄Undocumented►</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:DI</span> Address of free space in the HMA<a href="926-qmemhma.html">▲</a>
+          <span class="c2">BX</span>    Available HMA space, in bytes
+          ──────────────────────────────────────────────────────────────────
+    Info: Applications, device drivers, and TSRs may use this function as
+          the first step in obtaining a smallish chunk of memory outside of
+          conventional memory without using any UMB<a href="927-qmemumb.html">▲</a> space.
+
+          On return, <span class="c2">BX</span> describes how much available memory there is in the
+          HMA and <span class="c2">ES:DI</span> has its address.
+
+          If DOS is not loaded high (see <a href="278-dos___config_sys_command_.html">DOS=HIGH</a>), then BX returns with
+          <span class="c2">0000H</span> and ES:DI returns with <span class="c2">FFFF:FFFF</span>.
+
+          After determining if there is enough memory for your needs (there
+          may be as much as about 16K or as little as 0, see Notes), use
+          <a href="706-int_2fh_4a02h__suballocate_hma_memory.html">INT 2fH 4a02H</a> to allocate the desired amount.
+
+   Notes: ■ This service is undocumented, but has been available since
+            DOS 5.0.
+
+          ■ The <a href="273-buffers___config_sys_command_.html">BUFFERS=</a> setting eats up the available HMA space, so there
+            may be verry little free by the time you request it.
+
+          ■ The <span class="c2">DBLSPACE.SYS</span> &quot;device driver&quot; for DOS 6.2 uses about 12K of
+            the HMA (unless the /NOHMA option is used).  Thus, on many
+            systems, as little as 2K-4K will be free.
+
+          ■ Before accessing the HMA addreses, be sure that A20 is enabled.
+            See <a href="952-xms_07h__query_a20_state.html">XMS 07H</a>.  It is normally enabled all of the time when DOS
+            is high.
+
+          ■ You may use DOS fn <a href="424-dos_fn_3306h__get_dos_version_info.html">3306H</a> as an independent check to see if
+            DOS is loaded in the HMA.  Some other driver or TSR might
+            own the HMA and intercept INT 2fH 4axxH and provide its own
+            suballocation system.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

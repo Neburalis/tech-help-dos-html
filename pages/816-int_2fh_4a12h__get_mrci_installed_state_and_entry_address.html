@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a12H: Get MRCI Installed State and Entry Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a12H: Get MRCI Installed State and Entry Address</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    4a12H (mux number)
+          <span class="c2">CX</span>    4d52H ('MR' see notes)
+          <span class="c2">DX</span>    4349H ('CI')
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CX</span>    4943h ('IC', if successful)
+          <span class="c2">DX</span>    524dh ('RM')
+          <span class="c2">ES:DI</span> address of an <a href="822-mrcinforec.html">MRCInfoRec</a> describing the MRCI server
+          ──────────────────────────────────────────────────────────────────
+    Info: Use this to learn if a MRCI server is present and available via
+          the INT 2fH interrupt.  If successful, it returns the address of
+          a data structure that describes the capabilities of the MRCI
+          server and supplies the <span class="c1">entry address</span> used for accessing its API.
+
+       <span class="c2">CX</span> and...
+       <span class="c2">DX</span> are used in a weird but respectable technique to detect the
+          presence of a MRCI-compliant server.
+
+          Use <span class="c2">CX</span>=4d52H and <span class="c2">DX</span>=4349H to check for Microsoft's MRCI driver
+          (or one that is simulating it).  And on return, if <span class="c2">CX</span>=4943H and
+          <span class="c2">DX</span>=524dH, then the server is present.
+
+          The algorithm is generic: the CX and DX values are shuffled
+          around in a well-defined manner--they are processed by the
+          following code fragment:
+
+            xchg  ch,cl
+            xchg  dh,dl
+            xchg  cx,dx
+
+          A non-Microsoft MRCI server may take special action when it
+          receives different input values, but it will shuffle them around
+          as shown.  The Microsoft server requires CX and DX as shown.
+
+    <span class="c2">ES:DI</span> If the returned values of CX and DX are as expected, <span class="c2">ES:DI</span> will
+          point to an 18-byte <a href="822-mrcinforec.html">MRCInfoRec</a> structure.
+
+   Notes: ■ MRCI allows for the possibility of a hardware-based compression
+            handler (for instance, one installed via <a href="266-rom_scan.html">ROM-Scan</a>).  In that
+            case, it installs itself as an <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH</a> handler.
+
+            If the INT 2FH service fails to return results, you should try
+            <a href="824-int_1ah_b001h__query_rom_hardware_based_mrci_support.html">INT 1aH b001H</a> to see if a hardware/ROM-based server has been
+            installed.
+
+            Before installing a MRCI server, you should check the INT 1aH
+            version of this fn.  If a hardware assisted MRCI server is
+            installed, it is probably faster than your software-only
+            version.  If you do install a MRCI server, you should intercept
+            both vectors.  Only one MRCI server (the last one installed)
+            can be active.
+
+          ■ Before using INT 2FH or INT 1aH, you should check their
+            interrupt vectors to make sure that they are not 0000:0000.
+
+See Also: <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="824-int_1ah_b001h__query_rom_hardware_based_mrci_support.html">INT 1aH b001H</a> (check for ROM-based MRCI server)
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

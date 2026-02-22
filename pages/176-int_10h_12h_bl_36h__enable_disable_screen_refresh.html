@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 12H BL=36H: Enable/Disable Screen Refresh - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 12H BL=36H: Enable/Disable Screen Refresh</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AH</span>    12H
+          <span class="c2">BL</span>    36H
+          <span class="c2">AL</span>    setting: 00H enable refresh
+                         01H disable refresh
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    12H if a valid value was passed in AL
+          ──────────────────────────────────────────────────────────────────
+    Info: This modifies bit 5 of the VGA's Sequencer Clocking Mode Register
+          (see <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>).
+
+          You can draw complex graphics faster while refresh is disabled
+          (it avoids some enforced wait states).  Be sure to re-enable
+          refresh when finished updating video memory.
+
+See Also: <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">INT 10H 12H</a> (EGA/VGA Special Functions/Alternate Select)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

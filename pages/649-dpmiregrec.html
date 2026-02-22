@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DpmiRegRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DpmiRegRec</h1><pre>
+ This structure is used in the following <a href="571-dpmi_services.html">DPMI API</a> services:
+
+    <a href="602-int_31h_0300h__simulate_real_mode_interrupt.html">INT 31H 0300H</a> (simulate real-mode interrupt)
+    <a href="603-int_31h_0301h__simulate_real_mode_far_call.html">INT 31H 0301H</a> (call real-mode for FAR RET return)
+    <a href="604-int_31h_0302h__simulate_real_mode_call_for_iret.html">INT 31H 0302H</a> (call real-mode for IRET return)
+
+ <span class="c2">DpmiRegRec</span>
+   Offset Size Contents
+   ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0      4  <span class="c1">lRegDI</span>  <span class="c2">DI</span> or EDI
+    +4      4  <span class="c1">lRegSI</span>  <span class="c2">SI</span> or ESI
+    +8      4  <span class="c1">lRegBP</span>  <span class="c2">BP</span> or EBP
+   +0cH     4  <span class="c1">lRes</span>    (reserved, should be 00000000H)
+   +10H     4  <span class="c1">lRegBC</span>  <span class="c2">BX</span> or EBX
+   +14H     4  <span class="c1">lRegDX</span>  <span class="c2">DX</span> or EDX
+   +18H     4  <span class="c1">lRegCX</span>  <span class="c2">CX</span> or ECX
+   +1cH     4  <span class="c1">lRegAX</span>  <span class="c2">AX</span> or EAX
+   +20H     2  <span class="c1">wFlags</span>  <span class="c2">Flags</span> (CPU status flags)
+   +22H     2  <span class="c1">wRegES</span>  <span class="c2">ES</span>
+   +24H     2  <span class="c1">wRegDS</span>  <span class="c2">DS</span>
+   +26H     2  <span class="c1">wRegFS</span>  <span class="c2">FS</span> (not used in 16-bit applications)
+   +28H     2  <span class="c1">wRegGS</span>  <span class="c2">GS</span> (not used in 16-bit applications)
+   +2aH     2  <span class="c1">wRegIP</span>  <span class="c2">IP</span> (not used in fn 0300H)
+   +2cH     2  <span class="c1">wRegCS</span>  <span class="c2">CS</span> (not used in fn 0300H)
+   +2eH     2  <span class="c1">wRegSP</span>  <span class="c2">SP</span> (0000H=host provides real-mode stack)
+   +30H     2  <span class="c1">wRegSS</span>  <span class="c2">SS</span> (0000H=host provides real-mode stack)
+           50          size of a DpmiRegRec
+
+   Notes: ■ When <span class="c1">wRegSS</span> and <span class="c1">wRegSP</span> are 0000H, the DPMI will supply a real-
+            mode stack.
+
+          ■ Values for segment registers must be valid for real mode (don't
+            pass protected-mode selectors).
+
+          ■ 16-bit applications need supply only the first two bytes of the
+            4-byte <span class="c1">lReg</span>XX fields.
+
+            16-bit applications need not supply values for <span class="c2">FS</span> and <span class="c2">GS</span>, even
+            when running on a 80386+ CPU.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

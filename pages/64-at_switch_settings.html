@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>AT Switch Settings - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>AT Switch Settings</h1><pre>
+ The <span class="c2">IBM AT</span> and clones do not have any DIP switch banks.  The equipment
+ configuration is set by the SETUP program which is incorporated into the
+ DIAGNOSTICS diskette or changeable by another method (e.g., pressing
+ Ctrl+Alt+Esc while booting, depending upon the BIOS type).
+
+ See <a href="60-cmos_storage_layout.html">CMOS Memory</a> for related information.
+
+ Older IBM-logoed ATs do have two system board options which are set by
+ physical switches.
+
+ A 3-pin Berg-strip connect is located on the front edge of the system
+ board labeled J18 affects the usage of system board RAM.
+
+  ╔J18╗
+1 ║┌•┐║  ENABLE second bank of 256K (512K on system board)
+2 ║└•┘║
+3 ║ • ║
+  ╚═══╝
+  ╔J18╗
+1 ║ • ║
+2 ║┌•┐║
+3 ║└•┘║  DISABLE second bank of 256K (256K on system board)
+  ╚═══╝
+
+ A single slide switch near the back of the system board, labeled SW1,
+ selects the initial display adapter.  This is used by the <a href="264-power_on_self_test.html">POST</a> but has
+ meaning only when the <a href="60-cmos_storage_layout.html">CMOS Memory</a> (which contains the full equipment list)
+ has lost power or has become invalid for some other reasons.  In other
+ words, this switch indicates the primary display adapter that will be used
+ by the SETUP program.
+
+ ╔SW1╗
+ ║▐█▌║ ON     ON (toward the rear) Color/Graphics Adapter (CGA) is primary
+ ║   ║ OFF
+ ╚═══╝
+ ╔SW1╗
+ ║   ║ ON
+ ║▐█▌║ OFF    OFF (to the front) Monochrome Display Adapter (MDA) is primary
+ ╚═══╝
+
+    Note: The <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> reference contradicts this, saying to use OFF for a CGA
+          alone and ON for any other display adapter or combination of
+          adapters.  You figure it out!
+
+See Also: <a href="59-equipment_list.html">Equipment List</a>
+          <a href="60-cmos_storage_layout.html">CMOS Memory</a>
+          <a href="61-switch_settings.html">Switch Settings</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

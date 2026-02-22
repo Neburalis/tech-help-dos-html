@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Standard I/O and I/O Redirection - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Standard I/O and I/O Redirection</h1><pre><span class="c2">█▌Overview▐█</span>
+  Starting with version 2.0, DOS supports the UNIX-like concept of
+  redirection of the <span class="c1">Standard Input</span> and <span class="c1">Standard Output</span> devices.  It is the
+  basis of a technique which lets one program feed input into or capture
+  output from another program.
+
+  Unless redirected, Standard Input comes from the keyboard and Standard
+  Output goes to screen; both are functions of the CON device.  A parent
+  process (such as COMMAND.COM) can redirect either Standard Input or Output
+  or both before passing control to a child process.  This can be a powerful
+  way to pass information from process to process with a minimum of
+  programming overhead.
+
+  See <a href="362-file_handle.html">File Handles</a> for a list of pre-defined Standard I/O handles.
+
+  Use DOS <a href="7-character_i_o_functions.html">Character I/O</a> functions or Fns <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a>/<a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> to read/write Standard I/O.
+  Use file handle 02H (Standard Error device) with Fn <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> to make sure a
+  message is displayed.
+
+  Use DOS Fn <a href="498-dos_fn_46h__redirect_a_handle.html">46H</a> to redirect the Standard I/O.
+  Use DOS Fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> to execute a child process.
+  Use DOS Fn <a href="446-dos_fn_4400h__ioctl_query_device_file_flags.html">4400H</a> to see if Standard I/O has been redirected.
+
+  The <a href="323-device_attribute.html">Device Attribute</a> of a <a href="298-installable_device_drivers.html">device driver</a> indicates if the device is to be
+  used as the default Standard Input and/or Standard Output device.
+
+<span class="c2">█▌COMMAND.COM &amp; Standard I/O▐█</span>
+  The DOS command processor examines each command line for I/O redirection
+  symbols before it performs an internal command or EXECs a program:
+
+   <span class="c1">process</span> &lt; <span class="c1">filespec</span>   EXEC <span class="c1">process</span>; keyboard input will come from the file
+
+   <span class="c1">process</span> &gt; <span class="c1">filespec</span>   EXEC <span class="c1">process</span>; screen output will go to the file
+
+   <span class="c1">process</span> &gt;&gt; <span class="c1">filespec</span>  EXEC <span class="c1">process</span>; output will be appended to the file
+
+   <span class="c1">process1</span> | <span class="c1">process2</span>  1. EXEC <span class="c1">process1</span>; output goes to temporary file
+                        2. EXEC <span class="c1">process2</span>; keyboard input comes from the
+                           temporary file
+                        3. delete the temporary file
+
+   Notes: ■ Output redirection with '<span class="c2">&gt;</span>' creates the output file, truncating
+            its length to 0 before the first characters are written.
+            Use '<span class="c2">&gt;&gt;</span>' if you want to append text to the end of an existing
+            file.
+
+          ■ You can use the pipe (&quot;<span class="c2">|</span>&quot;) symbol to chain several DOS commands
+            and programs together:
+
+              DIR <span class="c2">|</span> SORT <span class="c2">|</span> FIND /v &quot;i&quot; <span class="c2">&gt;</span>myfile.txt
+
+          ■ Each temporary pipe file will have a unique name formed from
+            hex digits of the current date and time.
+
+            Prior to DOS 3.0, the temporary files are created in the
+            current default directory of the default drive.
+
+            With DOS 3.0+, COMMAND.COM looks for the <a href="369-predefined_environment_variables.html">TEMP</a> directory and
+            puts temporary files there.  By setting TEMP to a RAM disk, I/O
+            piping is much faster.
+
+          ■ Redirection of the ECHO command is handy for several uses:
+              ECHO ^L &gt;PRN                <span class="c1">(force a formfeed on the printer)</span>
+              ECHO y|DEL *.*   <span class="c1">(answer &quot;yes&quot; to the &quot;Are you sure?&quot; prompt)</span>
+              ECHO ATDT 1(213)555-1234 &gt;AUX                <span class="c1">(dial the phone)</span>
+
+          ■ Redirect output to the NUL device to get rid of some DOS
+            messages:
+
+              COPY *.COM d: &gt;NUL     <span class="c1">(avoid the &quot;1 File(s) copied&quot; message)</span>
+
+          ■ COMMAND.COM will ignore redirection symbols enclosed in quotes:
+
+              REM I am using the greater-than sign &quot;&gt;&quot; in this remark
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

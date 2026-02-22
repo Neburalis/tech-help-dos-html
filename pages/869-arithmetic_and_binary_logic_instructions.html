@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Arithmetic and Binary Logic Instructions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Arithmetic and Binary Logic Instructions</h1><pre>
+                     <span class="c2">█▌Integer Math▐█</span>
+ADD  dest,src        add two operands, placing result in <span class="c1">dest</span>
+                      dest←(src + dest)
+ADC  dest,src        add two operands, using carry from previous ADD
+                      dest←(src + dest + CF)
+INC  dest            add 1 to <span class="c1">dest</span> (reg or r/m)
+                      dest←(dest+1)
+
+SUB  dest,src        subtract <span class="c1">src</span> from <span class="c1">dest</span>, leaving result in <span class="c1">dest</span>
+                      dest←(dest - src)
+SBB  dest,src        subtract using borrow (carry flag) from previous SUB
+                      dest←((dest - src) - CF)
+DEC  dest            subtract 1 from <span class="c1">dest</span> (reg or r/m)
+                      dest←(dest - 1)
+
+CMP  dest,src        compare (non-destructive subtract)
+                      flags are set to indicate carry, overflow, etc.
+
+NEG  dest            change sign of an operand
+                      dest←(0 - dest);
+
+AAA                  adjust after ASCII addition
+                      AL←(AL corrected for ASCII addition)
+AAS                  adjust for ASCII subtraction
+                      AL←(AL corrected for ASCII subtraction)
+AAM                  adjust after ASCII multiply
+                      AH:AL←(AH:AL corrected for ASCII multiplication)
+AAD                  adjust before ASCII division
+                      AH:AL←(AH:AL prepared for division of ASCII codes)
+
+DAA                  adjust after BCD addition
+                      AL←(AL corrected for BCD addition)
+DAS                  adjust for BCD subtraction
+                      AL←(AL corrected for BCD subtraction)
+
+MUL src              multiply AL(AX) by unsigned value <span class="c1">src</span> (reg/mem)
+                      AX←(AL * src8)
+                      DX:AX←(AX * src16)
+IMUL src             multiply AL(AX) by signed integer <span class="c1">src </span>(reg/mem)
+                      AX←(AL * immed8)
+                      DX:AX←(AX * immed16)
+IMUL reg16,r/m,im16  multiply reg/mem by 16-bit immediate signed value <span class="c2">286+</span>
+                      reg16←(r/m8 * im16)
+                      reg16←(r/m16 * im16)
+
+DIV  src             divide accumulator by unsigned value <span class="c1">src</span> (reg/mem)
+                     Division by 0 or result too large causes INT 0.
+                      AL←(AX ÷ src8); AH←(AX MOD src8)
+                      AX←(DX:AX ÷ src16); DX←(DX:AX MOD src16)
+IDIV src             divide accumulator by unsigned value <span class="c1">src</span> (reg/mem)
+
+CBW                  convert byte to word (sign-extend AL into AH)
+                      AH←(filled with bit-7 of AL)
+CWD                  convert word to dword (sign-extend AX into DX)
+                      DX←(filled with bit-15 of AX)
+
+                     <span class="c2">█▌Bitwise Logic▐█</span>
+AND dest,src         logical AND (mask; reset <span class="c1">dest</span> bits which are 0 in <span class="c1">src</span>)
+                      dest←(dest &amp; src)
+TEST dest,src        non-destructive AND (bit test; <span class="c2">JZ</span> jumps if no match)
+                      flags←(set as for dest &amp; src)
+
+OR   dest,src        inclusive OR (set <span class="c1">dest</span> bits which are 1s in <span class="c1">src</span>)
+                      dest←(dest | src)
+
+XOR  dest,src        exclusive OR (toggle <span class="c1">dest</span> bits which are 1s in <span class="c1">src</span>)
+                      dest←(dest ^ src)
+
+NOT  dest            form 1's complement (toggle every bit in <span class="c1">dest</span>)
+                      dest←(~dest)
+
+                     <span class="c2">█▌Shifts and Rotates▐█</span>
+RCL  dest            Rotate <span class="c1">dest</span> left through Carry by 1 bit position
+     dest,CL          ...by CL bit positions
+     dest,<span class="c1">cnt</span>         ...by immediate count bit positions (mod 32)     <span class="c2">386+</span>
+
+RCR  dest            Rotate <span class="c1">dest</span> right through Carry by 1 bit position
+     dest,CL          ...by CL bit positions
+     dest,<span class="c1">cnt</span>         ...by immediate count bit positions (mod 32)     <span class="c2">386+</span>
+
+ROL  dest            Rotate <span class="c1">dest</span> left by 1 bit position
+     dest,CL          ...by CL bit positions
+     dest,<span class="c1">cnt</span>         ...by immediate count bit positions (mod 32)     <span class="c2">386+</span>
+
+ROR  dest            Rotate <span class="c1">dest</span> right by 1 bit position
+     dest,CL          ...by CL bit positions
+     dest,<span class="c1">cnt</span>         ...by immediate count bit positions (mod 32)     <span class="c2">386+</span>
+
+SHL/
+ SAL dest            Shift left by 1 bit position (multiply by 2)
+     dest,CL          ...by CL bit positions
+     dest,<span class="c1">cnt</span>         ...by immediate count bit positions (mod 32)     <span class="c2">386+</span>
+
+SHR  dest            Shift right by 1 position (divide by 2)
+     dest,CL          ...by CL bit positions
+     dest,<span class="c1">cnt</span>         ...by immediate count bit positions (mod 32)     <span class="c2">386+</span>
+
+SAR  dest            Shift arithmetic right (retain high bit) by 1 position
+     dest,CL          ...by CL bit positions
+     dest,<span class="c1">cnt</span>         ...by immediate count bit positions (mod 32)     <span class="c2">386+</span>
+────────────────────────────────────────────────────────────────────────────
+                                                            <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

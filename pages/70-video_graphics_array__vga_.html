@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Video Graphics Array (VGA) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Video Graphics Array (VGA)</h1><pre><span class="c2">█▌Overview▐█</span>
+  The VGA is generally upwardly-compatible with the CGA<a href="931-qvidcga.html">▲</a>, EGA<a href="932-qvidega.html">▲</a>, and MDA<a href="933-qvidmda.html">▲</a>,
+  but it has increased graphics resolution and color capabilities.  It was
+  introduced in 1987 with IBM's PS/2 line and is currently the most often
+  seen video standard.  TECH Help! covers the following VGA and general
+  video topics:
+
+    <a href="114-video_modes.html">Video Modes</a> ........... includes VGA modes
+    <a href="113-int_10h__video_services.html">Video Services</a> ........ <a href="113-int_10h__video_services.html">INT 10H</a> video services
+    <a href="89-video_memory_layouts.html">Video Memory Layouts</a> .. accessing VGA video memory
+
+    <a href="71-ega_vga_data_areas.html">VGA Data Areas</a> ........ BIOS data variables specific to EGA
+    <a href="93-rom_bios_variables.html">BIOS Data Area</a> ........ includes video-specific variables in low memory
+
+    <a href="87-screen_attributes.html">Screen Attributes</a> ..... codes determine colors for text mode
+    <a href="88-color_table.html">Color Table</a> ........... exhaustive listing of screen attributes
+
+    <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a> ......... I/O port addresses; video controller registers
+    <a href="886-vga_video_adaptor_pin_outs.html">VGA Pin Outs</a> .......... connectors on VGA cards
+
+    <a href="91-video_font_definition.html">Font Definition Data</a> .. layout of binary data that defines a font
+    <a href="341-code_page_font_files.html">.CPI Font Files</a> ....... the DOS interface for EGA font definition
+
+  It supports 25-, 43-, and 50-line text modes and graphics modes up to
+  640x400 with 256 colors.  You can redefine fonts and remap the color
+  palette.
+
+  In text mode, video memory begins at <span class="c2">b800:0</span>.  In graphics modes 0dH-10H,
+  video memory is at <span class="c2">a000:0</span> (see <a href="89-video_memory_layouts.html">Video Memory Layouts</a>).
+
+<span class="c2">█▌Testing for a VGA▐█</span>
+  To see if you are running on a VGA, use <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">INT 10H 1bH</a>.  If that fails, see
+  <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>, <a href="66-color_graphics_adapter__cga_.html">CGA</a>, or <a href="68-monochrome_display_adapter__mda_.html">MDA</a> for fall-back tests.
+
+See Also: <a href="66-color_graphics_adapter__cga_.html">CGA</a>
+          <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+          <a href="68-monochrome_display_adapter__mda_.html">MDA</a>
+          <a href="69-supervga_display_adapters__svga_.html">SuperVGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

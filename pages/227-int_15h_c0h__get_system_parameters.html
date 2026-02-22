@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H c0H: Get System Parameters - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H c0H: Get System Parameters</h1><pre>
+ Expects: <span class="c2">AH</span>    c0H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    00H (and <span class="c2">CF</span>=NC=0) successful, and ES:BX points to valid data
+                86H (and/or <span class="c2">CF</span>=CY=1) unsuccessful
+          <span class="c2">ES:BX</span> addr of system configuration table
+          ──────────────────────────────────────────────────────────────────
+    Info: This returns a pointer to a table that describes the system.
+
+<span class="c2">BiosSysParmsRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wLen</span>       length of this table, in bytes
+   +2      1  <span class="c1">yModel</span>     PC=ff,XT=fe or fb, PCjr=fd, AT=fc, unknown=ff
+   +3      1  <span class="c1">ySubModel</span>  PC,XT,PCjr,AT=00; AT=01, XT-286=02
+   +4      1  <span class="c1">yRevLvl</span>    BIOS revision level (0=initial release)
+   +5      1  <span class="c1">rFeatures1</span> features bits:
+              ┌7┬6┬5┬4┬3┬2┬1┬0┐
+              │ │ │ │ │ │ │ │0│
+              └╥┴╥┴╥┴╥┴╥┴╥┴╥┴-┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+               ║ ║ ║ ║ ║ ║ ║ ╚══► 0: 01H  (reserved)
+               ║ ║ ║ ║ ║ ║ ╚════► 1: 02H  0=PC-type I/O channel
+               ║ ║ ║ ║ ║ ╚══════► 2: 04H  1=Extended BIOS area allocated
+               ║ ║ ║ ║ ╚════════► 3: 08H  1=wait for ext event supported
+               ║ ║ ║ ╚══════════► 4: 10H  1=<a href="213-int_15h_4fh__keyboard_intercept.html">INT 15H 4fH</a> supported by INT 09H
+               ║ ║ ╚════════════► 5: 20H  1=real-time clock is present
+               ║ ╚══════════════► 6: 40H  second interrupt chip is present
+               ╚════════════════► 7: 80H  hard disk BIOS uses DMA chnl 3
+
+   +6      1  <span class="c1">rFeatures2</span> (reserved)
+   +7      1  <span class="c1">rFeatures3</span> (reserved)
+   +8      1  <span class="c1">rFeatures4</span> (reserved)
+   +9      1  <span class="c1">rFeatures5</span> (reserved)
+          10             size of this structure
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

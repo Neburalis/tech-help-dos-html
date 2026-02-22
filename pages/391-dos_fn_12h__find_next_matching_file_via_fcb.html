@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 12H: Find Next Matching File via FCB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 12H: Find Next Matching File via FCB</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    12H
+          <span class="c2">DS:DX</span> address of an unopened <a href="360-fcb__file_control_block.html">FCB</a> (filespec may contain '?'s)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0    if a matching filename found (and <a href="351-dta__disk_transfer_address.html">DTA</a> is filled)
+                0ffH if no match was found
+          ──────────────────────────────────────────────────────────────────
+    Info: Use this after calling DOS Fn <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">11H</a> Find 1st FCB with a wildcard<a href="935-qwildcard.html">▲</a>
+          filespec.  Each subsequent call fills the <a href="351-dta__disk_transfer_address.html">DTA</a> with the next
+          matching filespec's <a href="344-directory_entry_layout.html">directory entry</a> and returns AL=00H if a match
+          is found or AL=0ffH if no match was found.
+
+          The reserved area of the <a href="360-fcb__file_control_block.html">FCB</a> carries information used in
+          continuing the search, so don't open or alter the FCB between
+          calls to Fns 11H and 12H.
+
+See Also: Fn <a href="511-dos_fn_4fh__find_next_matching_file.html">4fh</a> (find next file)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

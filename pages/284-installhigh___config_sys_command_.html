@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INSTALLHIGH= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INSTALLHIGH= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 5.0+</span>
+ Purpose: Loads a TSR into upper<a href="927-qmemumb.html">▲</a> memory (before starting AUTOEXEC.BAT).
+
+    Uses: Same as <a href="283-install___config_sys_command_.html">INSTALL=</a>, but attempts to load into any available UMB.
+
+  Syntax: INSTALLHIGH=[<span class="c1">d:</span>][<span class="c1">path</span>]<span class="c1">filename.ext</span> [<span class="c1">progParms</span>]
+
+<span class="c3">█▌Notes▐█</span>
+
+  This command is identical to <a href="283-install___config_sys_command_.html">INSTALL=</a>, except that it attempts to load the
+  program into upper memory, if any is available.
+
+  Unlike <a href="277-devicehigh___config_sys_command_.html">DEVICEHIGH=</a> and <span class="c2">Loadhigh</span>, INSTALLHIGH= does not support /L or /S,
+  so there is no way to specify a particular region of memory for the TSR;
+  thus, <span class="c2">Memmaker</span> will not be able to optimize the use of this command.
+
+  Since INSTALLHIGH= commands are executed <span class="c1">after</span> all device drivers are
+  loaded, and since Memmaker cannot optimize it, and since the command is
+  <a href="912-_undocumented_.html">undocumented</a>, it is probably best to load TSRs via <span class="c2">Loadhigh</span> in your
+  AUTOEXEC.BAT file.
+
+See Also: <a href="283-install___config_sys_command_.html">INSTALL=</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

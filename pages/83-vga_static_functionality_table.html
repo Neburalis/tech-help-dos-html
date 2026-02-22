@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>VGA Static Functionality Table - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>VGA Static Functionality Table</h1><pre>
+ A field of the <a href="82-vga_dynamic_state_table.html">VgaDynamicStateRec</a> obtained via <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">INT 10H 1bH</a> points to a
+ data area in ROM that is formatted as a <span class="c2">VgaStaticFnalityRec</span>.
+
+ This structure contains details of the capabilities of the active video
+ system.  You cannot install your own version of this record.
+
+<span class="c2">VgaStaticFnalityRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bModes1</span>      <a href="114-video_modes.html">Video modes</a> supported:
+                             <span class="c1">bit 0</span>=mode 00H∙∙∙<span class="c1">bit 7</span>=mode 07H
+   +1      1  <span class="c1">bModes2</span>        <span class="c1">bit 0</span>=mode 08H∙∙∙<span class="c1">bit 7</span>=mode 0FH
+   +2      1  <span class="c1">bModes3</span>        <span class="c1">bit 0</span>=mode 10H∙∙∙<span class="c1">bit 3</span>=mode 13H
+   +3      4  <span class="c1">res</span>          (reserved could contain modes up to 56)
+   +7      1  <span class="c1">bScanLnsFlgs</span> scan lines available in text modes:
+                             <span class="c1">bit 0</span>=200, <span class="c1">bit 1</span>=350, <span class="c1">bit 2</span>=400
+   +8      1  <span class="c1">bFontBlks</span>    font blocks available in text modes
+                             (4 for EGA, 8 for VGA)
+   +9      1  <span class="c1">bMaxFonts</span>    max active font blocks in text mode
+                             (2 for EGA and VGA)
+  +0aH     1  <span class="c1">rMiscFlags1</span>  miscellaneous capabilities:
+              ┌7┬6┬5┬4┬3┬2┬1┬0┐
+              │<span class="c1">p</span>│<span class="c1">p</span>│<span class="c1">p</span>│<span class="c1">c</span>│<span class="c1">p</span>│<span class="c1">f</span>│<span class="c1">g</span>│<span class="c1">m</span>│
+              └╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+               ║ ║ ║ ║ ║ ║ ║ ╚══► 0: 01H all modes on all displays
+               ║ ║ ║ ║ ║ ║ ╚════► 1: 02H gray-scale summing (<a href="150-int_10h_101bh__convert_dac_colors_to_gray_scale_values.html">INT 10H 101bH</a>)
+               ║ ║ ║ ║ ║ ╚══════► 2: 04H char set loading (<a href="151-int_10h_11h__ega_vga_character_generator_functions.html">INT 10H 11H</a>)
+               ║ ║ ║ ║ ╚════════► 3: 08H default palette loading
+               ║ ║ ║ ╚══════════► 4: 10H cursor emulation
+               ║ ║ ╚════════════► 5: 20H 64-color palette (<a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H</a>)
+               ║ ╚══════════════► 6: 40H video DAC palette loading
+               ╚════════════════► 7: 80H palette loading via ATC
+
+  +0bH     1  <span class="c1">rMiscFlags2</span>  more miscellaneous capabilities:
+              ┌7┬6┬5┬4┬3┬2┬1┬0┐
+              │0 0 0 0│<span class="c1">d</span>│<span class="c1">b</span>│<span class="c1">s</span>│<span class="c1">l</span>│
+              └─┴─┴─┴─┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+                       ║ ║ ║ ╚══► 0: 01H light pen support (<a href="119-int_10h_04h__query_light_pen.html">INT 10H 04H</a>)
+                       ║ ║ ╚════► 1: 02H save/restore state (<a href="179-int_10h_1ch__vga_state_save_restore_functions.html">INT 10H 1cH</a>)
+                       ║ ╚══════► 2: 04H blink/bold mapping (<a href="140-int_10h_1003h__select_foreground_blink_or_bold_background.html">INT 10H 1003H</a>)
+                       ╚════════► 3: 08H DCC control (<a href="177-int_10h_1ah__set_or_query_display_combination_code.html">INT 10H 1aH</a>)
+
+  +0cH     2  <span class="c1">res</span>          (reserved)
+
+  +0eH     1  <span class="c1">rSaveCaps</span>    save area capabilities
+              ┌7┬6┬5┬4┬3┬2┬1┬0┐
+              │0 0│<span class="c1">d</span>│<span class="c1">p</span>│<span class="c1">g</span>│<span class="c1">t</span>│<span class="c1">s</span>│<span class="c1">c</span>│
+              └─┴─┴╥┴╥┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+                   ║ ║ ║ ║ ║ ╚══► 0: 01H  multiple 512-character set
+                   ║ ║ ║ ║ ╚════► 1: 02H  dynamic save area
+                   ║ ║ ║ ╚══════► 2: 04H  text font override
+                   ║ ║ ╚════════► 3: 08H  graphics font override
+                   ║ ╚══════════► 4: 10H  palette override
+                   ╚════════════► 5: 20H  DCC extension
+
+  +0fH     1  <span class="c1">res</span>          (reserved)
+          16               size of a VgaStaticFnalityRec structure
+
+See Also: <a href="177-int_10h_1ah__set_or_query_display_combination_code.html">INT 10H 1aH</a>
+          <a href="82-vga_dynamic_state_table.html">VgaDynamicStateRec</a>
+          <a href="71-ega_vga_data_areas.html">VGA Data Areas</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

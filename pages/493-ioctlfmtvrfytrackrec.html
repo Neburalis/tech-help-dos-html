@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IoctlFmtVrfyTrackRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IoctlFmtVrfyTrackRec</h1><pre>
+ This structure is used in the following IOCTL fns:
+    <a href="471-dos_fn_440dh_cl_42h__ioctl_format_track_on_logical_drive.html">440dH 42H</a> (format track on logical drive)
+    <a href="476-dos_fn_440dh_cl_62h__ioctl_verify_track_on_logical_drive.html">440dH 62H</a> (verify track on logical drive)
+
+    <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>  (generic IOCTL for block devices)
+
+<span class="c2">IoctlFmtVrfyTrackRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0     1  <span class="c1">rSpclFns</span>     must be 0
+    +1     2  <span class="c1">wHead</span>        head to read/write
+    +3     2  <span class="c1">wTrack</span>       track (cylinder) to read/write
+           5               size of an IoctlFmtVrfyTrackRec
+
+   Notes: DOS <a href="298-installable_device_drivers.html">device drivers</a> do not keep a track layout table for each
+          logical device.  Before formatting a track, use a generic IOCTL
+          Set Parameters (<a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">440dH 40H</a>) call to set the interleave etc. for
+          the media in the drive.
+
+See Also: fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (Generic IOCTL for block devices)
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

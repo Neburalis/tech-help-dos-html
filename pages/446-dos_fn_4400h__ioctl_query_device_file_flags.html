@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4400H: IOCTL Query Device/File Flags - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4400H: IOCTL Query Device/File Flags</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AX</span>    4400H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device or disk file)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          <span class="c2">DX</span>    <a href="484-ioctl_device_or_file_info.html">IOCTL device info</a> (if no error)
+          ──────────────────────────────────────────────────────────────────
+    Info: Checks to see if a handle represents a device or a disk file and
+          obtains information about that device or file.
+
+          See <a href="484-ioctl_device_or_file_info.html">IOCTL device info</a> for a layout of the 16-bit return value.
+
+          <span class="c2">If the handle is a disk file:</span>
+            DX bit 7 is clear (0)
+            DX bit 6 is set if the file is &quot;dirty&quot; (has been written to)
+            DX bits 0-5 represent a drive number (0=A, 1=B, etc.)
+
+          <span class="c2">If the handle is a device:</span>
+            DX bit 7 is set (1)
+            DX bits 0-6 are device information flags
+            DX bits 8-15 are the same as bits 8-15 of the <a href="323-device_attribute.html">Device Attribute</a>
+              (the <span class="c1">rDevAttr</span> field of the driver's <a href="322-device_header_layout.html">DevHdrRec</a> structure).
+
+   Notes: ■ This is often used to see if <a href="828-standard_i_o_and_i_o_redirection.html">Standard I/O</a> has been redirected.
+            For instance, if handle 01H (standard output) represents a disk
+            file rather than the CON device, you may wish to output
+            different information and perhaps send some extra messages to
+            handle 02H (Standard Error device).
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="447-dos_fn_4401h__ioctl_set_device_file_flags.html">4401H</a> (Set Device/File Flags)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

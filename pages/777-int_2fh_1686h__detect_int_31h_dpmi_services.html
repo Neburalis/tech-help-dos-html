@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1686H: Detect INT 31h DPMI Services - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1686H: Detect INT 31h DPMI Services</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    1686H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000h = <a href="571-dpmi_services.html">INT 31H</a> (DPMI) services are available
+                else  = not available
+          ──────────────────────────────────────────────────────────────────
+    Info: TSRs and device drivers can use this to detect whether INT 31H
+          (DPMI) protected-mode services are available.
+
+          Protected mode services are used to allocate and manage memory
+          while the CPU is in protected mode.
+
+          See <a href="571-dpmi_services.html">DOS Protected Mode Interface</a> for related information.
+
+    Note: The DPMI spec describes this fn differently.  It says INT 2fH
+          AX=1686H is a way to determine the current CPU operating mode.
+          If <span class="c2">AX</span>=0000H on return, then you can assume protected mode.
+          Otherwise, the CPU is in either Real Mode or Virtual 86 Mode.
+
+          I'm not sure who wins the INT 2fH API war.
+
+See Also: <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

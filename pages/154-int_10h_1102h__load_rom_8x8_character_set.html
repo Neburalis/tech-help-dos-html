@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1102H: Load ROM 8x8 Character Set - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1102H: Load ROM 8x8 Character Set</h1><pre>                                                      Compatibility: <span class="c2">EGA</span> <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1102H
+          <span class="c2">BL</span>    font block to load (EGA: 0-3; VGA: 0-7)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: Redefines the characters on EGA/VGA cards to use the 8-scanline-
+          high text-mode font.
+
+          This is a small font.  On EGAs, this makes it possible to display
+          in a <span class="c2">43-line mode</span> (32*8=344, of a max 350 high screen).  On VGAs,
+          this makes it possible to display in a <span class="c2">50-line mode</span> (50*8=400,
+          the max VGA height).
+
+          This fn does <span class="c1">not</span> program the CRTC or set BIOS variables to make
+          allowances for changes in character height, etc.  Use
+          <a href="159-int_10h_1112h__load_and_activate_rom_8x8_character_set.html">INT 10H 1112H</a> to have the BIOS do that automatically.
+
+       <span class="c2">BL</span> specifies which of the up-to eight tables in EGA/VGA character-
+          definition RAM should be affected.  See <a href="155-int_10h_1103h__activate_font_block.html">INT 10H 1103H</a> (activate
+          font block).  Normally, you will use <span class="c2">BL</span>=0, since block 0 is
+          normally the active font block.
+
+See Also: <a href="151-int_10h_11h__ega_vga_character_generator_functions.html">INT 10H 11H: EGA/VGA Character Generator Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

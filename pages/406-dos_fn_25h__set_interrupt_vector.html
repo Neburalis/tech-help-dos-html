@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 25H: Set Interrupt Vector - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 25H: Set Interrupt Vector</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    25H
+          <span class="c2">AL</span>    interrupt number
+          <span class="c2">DS:DX</span> interrupt vector: address of code to handle an interrupt
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the interrupt vector table entry for interrupt number AL to
+          DS:DX.
+
+          Same as storing a 4-byte address into 0000:(AL*4), but lets DOS
+          know what you're doing, and ensures that no hardware interrupt
+          occurs while the vector change is taking place.
+
+          See <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a> for a list of interrupt numbers.
+
+See Also: Fn <a href="426-dos_fn_35h__get_interrupt_vector.html">35H</a> (get interrupt vector)
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR/Popup Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 00H: Terminate a Program - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 00H: Terminate a Program</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    00H
+          <span class="c2">CS</span>    segment of Program Segment Prefix of terminating process
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Exits to the parent process; passes control to the Terminate
+          Vector in the <a href="371-psp__program_segment_prefix.html">PSP</a>.  Identical to the <a href="559-int_20h__program_terminate.html">INT 20H</a> Terminate.  The CS
+          segment register must be set to the PSP.
+
+          Resets vectors for <a href="558-dos_interrupts.html">DOS interrupts</a> 22H-24H (Terminate, Ctrl-Break,
+          and Critical Error) to values saved from the parent's PSP.
+          Flushes file buffers, but files should be closed if their length
+          has changed.
+
+   Notes: ■ It's easier and cleaner to use DOS fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> (exit).
+
+See Also: <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

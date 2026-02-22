@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 28H: DOS Idle - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 28H: DOS Idle</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: none
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+
+ This interrupt was undocumented prior to DOS 5.0, but it has been
+ supported without change since DOS 2.0.  It lets programs such as the
+ DOS <span class="c2">Print</span> command carry out background tasks while the system awaits
+ keyboard input.
+
+ Programs that are idle (polling for input) can issue INT 28H or call
+ <a href="771-int_2fh_1680h__program_idle__release_timeslice_.html">INT 2FH 1680H</a> to free up a timeslice so that background tasks can operate.
+ DOS itself calls INT 28H during fns 01H through 0cH (DOS I/O services)
+ while it is awaiting user response.
+
+ This interrupt is of interest since it provides a means for <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> programs
+ to gain control at a point when it is safe to use DOS services such as
+ file I/O.
+
+ To use this with a TSR popup program, you must intercept INT 28H.  Before
+ taking action, first call the previous INT 28H owner (that is, let the
+ interrupt propagate down the chain).  Upon return, check to see if your
+ popup has been triggered.  If so, it is safe to take control of the CPU.
+ You must save SS:IP and all registers on entry and provide a local stack.
+ Be sure to restore the stack and registers before returning from INT 28H.
+
+ <span class="c2">Warning!</span> When you gain control via INT 28H, it is <span class="c1">NOT SAFE to call DOS</span>
+          <span class="c1">fns </span><a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a> unless you first set the DOS <a href="353-errormode_flag.html">ErrorMode</a> variable to 1.
+          It IS safe to use all other DOS fns, regardless of <a href="365-indos_flag.html">InDOS</a> or
+          ErrorMode.
+
+See Also: <a href="20-terminate_and_stay_resident__tsr_.html">TSR/Popup Functions</a>
+          <a href="771-int_2fh_1680h__program_idle__release_timeslice_.html">INT 2FH 1680H</a> (give up timeslice)
+          fn <a href="425-dos_fn_34h__get_indos_address__dos_reentrancy_status_.html">34H</a> (get <a href="365-indos_flag.html">InDOS</a> and <a href="353-errormode_flag.html">ErrorMode</a> flag addresses)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+          <a href="558-dos_interrupts.html">DOS Interrupts</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

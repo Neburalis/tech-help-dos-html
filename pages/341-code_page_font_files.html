@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Code Page Font Files - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Code Page Font Files</h1><pre>
+ DOS 3.3+ device drivers which support code page switching (via Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a>
+ IOCTL commands) read specially-formatted data files in order to prepare a
+ device to handle a selected code page font.  These <span class="c1">.CPI</span> files are in the
+ following format:
+
+  <span class="c2">FontLibHdrRec</span>
+    font library name
+    offset of FontInfo
+  <span class="c2">FontInfoHdrRec</span>
+    <span class="c2">CpEntryHdrRec</span>
+       pointer to next CodePageInfo header
+       device type (display or printer) and subtype (EGA, LCD, etc.)
+       CodePage number.  See <a href="340-code_page.html">Code Page</a>
+       offset of FontData Header for this code page
+
+    <span class="c2">FontDataHdrRec</span>        FontData Header
+      number of fonts defined
+      Font 1 data<span class="c2"> </span>(<span class="c2">ScreenFontDataRec</span> or <span class="c2">PrinterFontDataRec</span>)
+      Font 2 data
+       .
+       :
+      Font n
+
+  The following describes the structures used in .CPI files:
+
+<span class="c2">FontLibHdrRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      8  <span class="c1">abSig</span>        font library identifier: ffH,'FONT',20H,20H,20H
+   +8      8  <span class="c1">res</span>          8 bytes reserved; must be 00
+  +10H     2  <span class="c1">wPtrCnt</span>      Count of pointers in hdr (0001 for DOS 3.3-6.0)
+  +12H     1  <span class="c1">bPtrType</span>     Type of info pointer (use 01 for DOS 3.3-6.0)
+  +15H     4  <span class="c1">lOffset</span>      DWORD file offset of a <span class="c2">FontInfoRec</span>
+          23               size of a FontLibHdrRec (designed to be longer,
+                           but DOS 3.3-6.0 define only one font).
+
+<span class="c2">FontInfoHdrRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wCpEntryCnt</span>  number of <span class="c2">CpEntryHdrRecs</span> to follow
+           2               size of a FontInfoHdrRec
+
+<span class="c2">CpEntryHdrRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wCpEntryCnt</span>  number of <span class="c2">CpEntryHdrRecs</span> to follow
+   +2      2  <span class="c1">wLen</span>         size of this structure, in bytes
+   +4      4  <span class="c1">lNextCpEH</span>    DWORD file offset of next <span class="c2">CpEntryHdrRec</span>
+                           (0000 0000 indicates this is the last)
+   +8      2  <span class="c1">wDevType</span>     device type (0001=display, 0002=printer)
+  +0aH     8  <span class="c1">abDevSubType</span> device subtype and font file name;
+                           left-justified, blank-padded.  For instance,
+                           'EGA     ' means <span class="c2">EGA.CPI</span>.
+  +12H     2  <span class="c1">wCpID</span>        code page number (e.g., 01b5H = 437 = US
+                           standard)
+  +14H     6  <span class="c1">res</span>          (6 bytes reserved, 0)
+  +18H     4  <span class="c1">lOffset</span>      file offset of <span class="c2">FontDataHdrRec</span> for this code page
+          24               length of a CpEntryHdrRec
+
+<span class="c2">FontDataHdrRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">res</span>          (reserved: must be 0001)
+   +2      2  <span class="c1">wFontCnt</span>     number of fonts defined for this code page
+   +4      2  <span class="c1">wLen</span>         total length of all following font definitions
+           6               length of a FontDataHdrRec
+
+<span class="c2">ScreenFontDataRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bCharHeight</span>  lines per character (e.g., 0eH=14; 350-line mode)
+   +1      1  <span class="c1">bCharWidth</span>   clms per character (usually 08)
+   +2      1  <span class="c1">bRelHeight</span>   must be 00
+   +3      1  <span class="c1">bRelWidth</span>    must be 00
+   +4      2  <span class="c1">wCharCnt</span>     number of characters defined (e.g., 100H = 256)
+   +6      ?  <span class="c1">abFontData</span>   pixel data.  Each character has (rows * clms)
+                           bits, formatted row by row.  Thus, in a 14-row by
+                           8-clm character, each byte defines one row so a
+                           set of 14 bytes define one character.
+          ?+6              length of a ScreenFontDataRec
+                           (256 chars * 14) = 3584 = 0e00H total bytes.
+
+<span class="c2">PrinterFontDataRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wSelType</span>     <span class="c2">0001</span>=the <span class="c1">rCtrlSeq</span> selects the default (hardware)
+                           font and the data that follows it contains codes
+                           to select a downloaded font followed by down-
+                           laodable data.  See below.
+                           <span class="c2">0002</span>=the <span class="c1">rCtrlSeq</span> consists of a single sequence
+                           of data to select a character set (for instance,
+                           if it is supported in the hardware).
+   +2      2  <span class="c1">wSeqLength</span>   size of the <span class="c1">rCtrlSeq</span> data (31 or less).
+                           For <span class="c1">wSelType</span>=0001, this is the entire length.
+                           For <span class="c1">wSelType</span>=0002, is just the length of the
+                           first escape sequence (that selects the default
+                           hardware font).
+
+   +4      ?  <span class="c1">rCtrlSeq</span>     this data is in the form of a <span class="c2">PrnSelType1Rec</span> or a
+                           <span class="c2">PrnSelType2Rec</span>.
+          ?+4              length of a PrinterFontDataRec
+
+<span class="c2">PrnSelType1Rec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0     1  <span class="c1">bResetLen</span>    the length of the escape sequence which selects
+                           the default (hardware) character set.
+    +1     n  <span class="c1">abResetData</span>  the escape sequence to select the default
+                           character set
+  +n+1     1  <span class="c1">bSelLen</span>      the length of the escape sequence which selects
+                           this character set (once the download has been
+                           performed).
+  +n+2     m  <span class="c1">abSelData</span>    escape codes to select this character set
++m+n+2     1  <span class="c1">bDnldLen</span>     the length of the download data that sets up this
+                           character set.
++m+n+3     ?  <span class="c1">abDnldData</span>   bytes to download
+          +?+m+n+3         length of a PrSelType1Rec structure
+
+<span class="c2">PrnSelType2Rec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0     ?  <span class="c1">abSelData</span>    the escape sequence to select this character set.
+                           The length is in <span class="c2">PrinterFontDataRec</span>.<span class="c1">wSeqLength</span>
+
+See Also: <a href="15-national_language_support_functions.html">National Language Support</a>
+          fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL functions)
+          fn <a href="552-dos_fn_66h__set_or_query_active_code_page.html">66H</a> (code page switching)
+          <a href="340-code_page.html">Code Page</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

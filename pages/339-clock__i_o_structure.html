@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CLOCK$ I/O Structure - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CLOCK$ I/O Structure</h1><pre>
+ Programs can open the CLOCK$ device (via DOS fn <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a>) and use fn <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> (read
+ file) to read the system time or fn <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> (write to file) to change it.
+
+ The format of all reads and writes to this device is a 6-byte (48-bit)
+ binary value indicating the number of milliseconds since January 1, 1980.
+ 1000 milliseconds = 1 second; highest value is (2^48)-1 or 8915.7 years.
+
+<span class="c2">ClockIORec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wLowMs</span>       least significant word (bits 0-15)
+   +2      2  <span class="c1">wMidMs</span>       middle word (bits 16-31)
+   +4      2  <span class="c1">wHighMs</span>      most significant word (bits 32-47)
+           6               Size of ClockIORec
+
+ Writing to CLOCK$ changes all parts of the structure.  It is much more
+ sensible to use DOS fns <a href="412-dos_fn_2bh__set_dos_date.html">2bH</a> (set date) and <a href="414-dos_fn_2dh__set_dos_time.html">2dH</a> (set time), which perform
+ the same task, but without the headaches.
+
+See Also: <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="323-device_attribute.html">Device Attribute</a>
+          <a href="300-device_requests.html">Device Requests</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

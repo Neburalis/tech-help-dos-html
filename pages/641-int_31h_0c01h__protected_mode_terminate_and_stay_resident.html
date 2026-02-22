@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0c01H: Protected-Mode Terminate and Stay Resident - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0c01H: Protected-Mode Terminate and Stay Resident</h1><pre>                                                    Compatibility: <span class="c2">DPMI 1.0+</span>
+ Expects: <span class="c2">AX</span>    0c01H
+          <span class="c2">BL</span>    exit code
+          <span class="c2">DX</span>    DOS memory to reserve, in paragraphs (16-byte blocks)
+          ──────────────────────────────────────────────────────────────────
+ Returns: none  (does not return to caller)
+          ──────────────────────────────────────────────────────────────────
+    Info: This should be used ONLY by DPMI clients which provide protected-
+          mode services to other protected-mode applications.  It should be
+          used only after calling <a href="640-int_31h_0c00h__setup_dpmi_tsr_callback.html">INT 31H 0c00H</a> (setup DPMI TSR callback).
+
+   Notes: ■ If you only need to provide services to real-mode applications
+            in the current VM, then you should use <a href="602-int_31h_0300h__simulate_real_mode_interrupt.html">INT 31H 0300H</a> to use DOS
+            services to intercept interrupt vectors and make yourself RAM-
+            resident.
+
+          ■ If you have not made a previous call to <a href="640-int_31h_0c00h__setup_dpmi_tsr_callback.html">INT 31H 0c00H</a>, you will
+            simply be terminated.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4410H: IOCTL Query IOCTL Support for Handle - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4410H: IOCTL Query IOCTL Support for Handle</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    4410H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device or disk file)
+          <span class="c2">CH</span>    device category: 00H=unknown
+                                 01H=COMn (DOS <span class="c2">3.3+</span>)
+                                 03H=console (screen + keyboard) (DOS <span class="c2">3.3+</span>)
+                                 05H=parallel printer (DOS <span class="c2">3.2+</span>)
+          <span class="c2">CL</span>    subfn number to query:
+                  45H = set retry iteration count  --see fn <a href="459-dos_fn_440ch_cl_45h__ioctl_set_retry_iteration_count.html">440CH 45H</a>
+                  65H = query retry iteration count--see fn <a href="464-dos_fn_440ch_cl_65h__ioctl_query_retry_iteration_count.html">440CH 65H</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This checks to see if certain IOCTL functions are supported for a
+          particular file handle.
+
+          On return, if CF=NC=0, then the specified function IS supported.
+
+          On return, if CF=CY=1, then the error code in AX indicates why
+          the function is not supported:
+               AX=0001 (invalid function): no support for IOCTL fns at all.
+               AX=0005 (access denied): that fn (in CL) is not supported.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (generic IOCTL for character devices)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Interrupts and BIOS Services - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Interrupts and BIOS Services</h1><pre>  Services                 Interrupts             Pointers
+  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  <a href="113-int_10h__video_services.html">10H</a> Video services       <a href="97-int_00h__division_overflow.html">00H</a> Division by 0      <a href="253-int_1bh__keyboard_break.html">1bH</a> Keyboard break
+  <a href="183-int_11h__equipment_check.html">11H</a> Equipment list       <a href="98-int_01h__single_step_interrupt.html">01H</a> Single-step        <a href="254-int_1ch__user_timer_interrupt.html">1cH</a> User timer interrupt
+  <a href="184-int_12h__conventional_memory_size.html">12H</a> Conv. memory size    <a href="99-int_02h__non_maskable_interrupt.html">02H</a> Non-Maskable       <a href="255-int_1dh__video_initialization_table_pointer.html">1dH</a> Video parms
+  <a href="185-int_13h__bios_disk_i_o.html">13H</a> Disk I/O             <a href="100-int_03h__breakpoint_interrupt.html">03H</a> Breakpoint         <a href="256-int_1eh__diskette_parameter_pointer.html">1eH</a> Diskette parms
+  <a href="206-int_14h__serial_port_i_o.html">14H</a> Serial port I/O      <a href="101-int_04h__overflow_interrupt.html">04H</a> Overflow           <a href="257-int_1fh__cga_graphics_character_font_pointer.html">1fH</a> Graphics chars
+  <a href="212-int_15h__at_extended_services___apm.html">15H</a> AT services; <a href="29-advance_power_management__apm__functions.html">APM</a>     <a href="102-int_05h__print_screen___bounds_exception.html">05H</a> Print screen
+  <a href="228-int_16h__keyboard_services.html">16H</a> Keyboard I/O         <a href="103-int_06h__invalid_opcode.html">06H</a> Invalid opcode     <a href="562-int_22h__terminate_address.html">22H</a> Terminate addr
+  <a href="237-int_17h__printer_support.html">17H</a> Printer I/O          <a href="104-int_07h__math_coprocessor_not_present.html">07H</a> no math chip       <a href="563-int_23h__ctrl_break_exit_address.html">23H</a> Ctrl+Break addr
+  <a href="242-int_18h__rom_basic.html">18H</a> ROM-BASIC            <a href="105-int_08h__timer_interrupt.html">08H</a> <span class="c2">IRQ 0</span> Timer        <a href="564-int_24h__critical_error_handler.html">24H</a> Critical Error addr
+  <a href="243-int_19h__bootstrap_loader.html">19H</a> Bootstrap            <a href="106-int_09h__keyboard_interrupt.html">09H</a> <span class="c2">IRQ 1</span> Keyboard
+  <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">1aH</a> Time I/O; <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI</a> hook  <a href="107-int_0ah__irq_2_cascade___invalid_task_state.html">0aH</a> <span class="c2">IRQ 2</span> cascade      <a href="258-int_40h__diskette_bios_revector.html">40H</a> diskette revector
+                           <a href="108-int_0bh__irq_3_com2_4___segment_not_present.html">0bH</a> <span class="c2">IRQ 3</span> <a href="895-asynchronous_adapter_ports.html">COM 2/4</a>      <a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">41H</a> hard disk 0 parms
+  <a href="558-dos_interrupts.html">20H-2fH: DOS Interrupts</a>  <a href="109-int_0ch__irq_4_com1_3___stack_overflow.html">0cH</a> <span class="c2">IRQ 4</span> <a href="895-asynchronous_adapter_ports.html">COM 1/3</a>      <a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">46H</a> hard disk 1 parms
+                           <a href="110-int_0dh__irq_5_lpt2___general_protection_fault.html">0dH</a> <span class="c2">IRQ 5</span> LPT 2
+  <a href="681-int_2fh__multiplex_interrupt.html">2fH: Multiplex Services</a>  <a href="111-int_0eh__diskette_interrupt___page_fault.html">0eH</a> <span class="c2">IRQ 6</span> <a href="896-diskette_controller_ports.html">diskette</a>     <a href="260-int_43h__ega_vga_graphics_character_font_pointer.html">43H</a> EGA font table
+                           <a href="112-int_0fh__irq_7_lpt1.html">0fH</a> <span class="c2">IRQ 7</span> LPT 1
+  <a href="571-dpmi_services.html">31H</a> DPMI services                               <a href="261-int_4ah__user_alarm_handler.html">4aH</a> User alarm address
+  <a href="832-int_33h__mouse_support.html">33H</a> Mouse Support        <a href="262-int_70h__real_time_clock_interrupt_handler.html">70H</a> <span class="c2">IRQ 8</span> RT Clock
+  <a href="651-emm_functions.html">67H</a> Expanded Memory Fns  71H <span class="c2">IRQ 9</span> redir IRQ 2
+                           72H <span class="c2">IRQ 10</span> (reserved)
+                           73H <span class="c2">IRQ 11</span> (reserved)
+                           74H <span class="c2">IRQ 12</span> (reserved)
+                           75H <span class="c2">IRQ 13</span> math chip
+                           76H <span class="c2">IRQ 14</span> hard disk
+                           77H <span class="c2">IRQ 15</span> (reserved)
+
+See Also: <a href="96-irqs__hardware_interrupts.html">IRQs: Hardware Interrupts</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+          <a href="27-dos__bios___extensions_service_index.html">API Service Index</a>
+          <a href="28-dos___bios_data_structures.html">DOS &amp; BIOS Data Structures</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

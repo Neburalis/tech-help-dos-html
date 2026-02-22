@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Execution Control Instructions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Execution Control Instructions</h1><pre>
+JMP     target       unconditionally transfer control to target
+                         short: IP←(IP+(target displacement sign-extended))
+                          near: IP←(IP+(target displacement))
+                      indirect: IP←(register or value in memory)
+                           far: SS←target_seg; IP←target_offset
+
+JCXZ    shortLbl  jump if CX==0
+
+LOOP    shortLbl  CX←(CX-1) jump if CX!=0
+LOOPE/  shortLbl  CX←(CX-1) jump if CX!=0 &amp;&amp; ZF==ZR==1
+ LOOPZ
+LOOPNE/ shortLbl  CX←(CX-1) jump if CX!=0 &amp;&amp; ZF==NZ==0
+ LOOPNZ
+
+J<span class="c1">ccc</span>    shortLbl  jump when condition <span class="c1">ccc</span> is met
+                      IP←(IP+(8-bit displacement sign-extended to 16 bits))
+
+JA/JNBE shortLbl  jump if Above ((CF &amp; ZF)==0 after unsigned math)
+JAE/JNB shortLbl  jump if Above or Equal (CF==NC==0 after unsigned math)
+JB/JC   shortLbl  jump if Below/Jump if Carry set (CF==CY==1)
+JE/JZ   shortLbl  jump if Equal (ZF==ZR==1)
+JG/JNGE shortLbl  jump if Greater (SF==(OF &amp; ZF) after signed math)
+JGE/JNL shortLbl  jump if Greater or Equal (SF==OF after signed math)
+JL/JNGE shortLbl  jump if Less (ZF != OF after signed math)
+JLE/JNG shortLbl  jump if Less or Equal (SF!=OF || ZF==0 after signed math)
+JNC     shortLbl  jump if carry not set (CF==NC==0) (same as JAE/JNB)
+JNE/JNZ shortLbl  jump if Not Equal (ZF==NZ==0)
+JNO     shortLbl  jump if Not Overflow (OF==NO==0)
+JNP/JPO shortLbl  jump if Parity Odd (PF==PO==0: count of 1-bits is ODD)
+JNS     shortLbl  jump if Not Sign (SF==PL==0: same as high-bit of dest)
+JO      shortLbl  jump if Overflow (OF==OV==1)
+JP/JPE  shortLbl  jump if Parity Even (PF==PE==1 count of 1-bits is EVEN)
+JS      shortLbl  jump if Sign (SF==NG==1: same as high-bit of dest)
+
+BOUND reg16,lmts  perform limit-check on reg16.  <span class="c1">lmts</span> is the address of
+                  a 2-word table with desired min/max limits           <span class="c2">286+</span>
+                  if (reg16&lt;DS:[<span class="c1">lmts</span>]) or (reg16&gt;DS:[<span class="c1">lmts</span>+2]) then INT 5
+
+ENTER frmsiz,frms set high-level language stack frame.  Use as the first
+                  operation in a CALLed procedure.   Same as:          <span class="c2">286+</span>
+                   PUSH BP;      (repeated <span class="c1">frms</span> times)
+                   MOV BP,SP;
+                   PUSH SP;
+                   SUB SP,<span class="c1">frmsiz</span>; (allocate dynamic space on stack)
+
+LEAVE             undo the effect of ENTER.  Use just before RET.
+                  Restores SP and BP to values at time of ENTER.
+
+INT type          perform a software interrupt (call a system function)
+                   PUSHF; IF←0; TF←0;
+                   PUSH CS; PUSH IP
+                   IP← 0000:[<span class="c1">type</span> * 4]; CS ← 0000:[(<span class="c1">type</span> * 4) + 2]
+
+INTO type         if OF==OV==1, then perform INT type
+
+IRET              return from interrupt.  Effectively the same as:
+                   POP IP; POP CS; POPF
+
+NOP               do nothing (actually performs XCHG AX,AX)
+────────────────────────────────────────────────────────────────────────────
+                                                            <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

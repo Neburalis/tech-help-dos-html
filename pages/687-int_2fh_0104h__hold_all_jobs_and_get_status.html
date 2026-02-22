@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 0104H: Hold All Jobs and Get Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 0104H: Hold All Jobs and Get Status</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    0104H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DX</span>    error count (consecutive errors Print had while trying to
+                output last character)
+          <span class="c2">DS:SI</span> addr of a series of 64-byte filespecs naming enqueued files
+          ──────────────────────────────────────────────────────────────────
+    Info: Stops the current print job and returns the address of the print
+          queue (only if <span class="c2">PRINT.EXE</span> is resident in memory.
+
+    <span class="c2">DS:SI</span> is the far address of a series of 64-byte entries that identify
+          the files that are in the queue.  Each entry is an ASCIIZ<a href="913-qasciiz.html">▲</a> string
+          of the drive, path, and filename, followed by a variable number
+          of unused bytes (to pad the record to 64).
+
+          The first entry is the name of the file that is currently being
+          printed.  The end of the queue is identified if the first byte in
+          the entry is 00h.
+
+   Notes: Printing is suspended until you use <a href="688-int_2fh_0105h__resume_printing.html">INT 2fH 0105H</a> (restart
+          queue).
+
+          Don't modify the queue directly.  Use INT 2fH fns to add and
+          delete files.
+
+See Also: <a href="682-int_2fh_01xxh__dos_print_spooler_functions.html">INT 2fH 01xxH: DOS Print Spooler Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

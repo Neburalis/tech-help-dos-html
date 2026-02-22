@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>VESA/SVGA Video Modes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>VESA/SVGA Video Modes</h1><pre>
+ VESA SuperVGA mode numbers are 16-bit values.  Bit 15 must be 0 and bit 8
+ must be 1; thus potential mode numbers range from 100H through 7ffH. You
+ may also use any of the pre-VESA mode numbers in <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>.
+
+ As of VESA ver. #VS911922, the following extended video modes are defined:
+
+   Mode #   Resolution Colors Memory Model
+  ▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   00H-13H                                    (see <a href="114-video_modes.html">Video Modes</a>)
+   14H-7fH                                    (old OEM-dependant modes)
+   100H     640x400      256  packed pixel
+   101H <span class="c2">(1)</span> 640x480      256  packed pixel
+   102H <span class="c2">(2)</span> 800x600       16  4-plane planar
+   103H     800x600      256  packed pixel
+   104H     1024x768      16  4-plane planar
+   105H     1024x768     256  packed pixel
+   ─────────────────────────────────────────
+   108H     80x60         16  text mode
+   109H     132x25        16  text mode
+   10aH     132x43        16  text mode
+   ─────────────────────────────────────────
+   110H     640x480    32768  packed pixel
+   111H     640x480    65536  packed pixel
+   112H     640x480    16.7M  packed pixel
+   113H     800x600    32768  packed pixel
+   114H     800x600    65536  packed pixel
+   116H     1024x768   32768  packed pixel
+   117H     1024x768   65536  packed pixel
+   ???      (OEM-defined codes supported by OEM implementation of VESA)
+  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      <span class="c2">(1)</span> This mode (640x480x256) is defined as VGA mode <span class="c2">13H</span> when using the
+          standard <a href="115-int_10h_00h__set_video_mode.html">INT 10H 00H</a> function.
+      <span class="c2">(2)</span> This mode (800x600x16) is defined as <span class="c2">6aH</span> (via <a href="115-int_10h_00h__set_video_mode.html">INT 10H 00H</a>) by
+          various video BIOS makers prior to VESA adoption.
+
+ Use <a href="937-int_10h_4f00h___query_supervga_support.html">INT 10H 4f00H</a> to see which video modes are supported.
+ Use <a href="939-int_10h_4f02h___set_supervga_video_mode.html">INT 10H 4f02H</a> to select a mode.
+ Use <a href="938-int_10h_4f01h___query_supervga_mode_information.html">INT 10H 4f01H</a> to get information about a mode.
+
+<span class="c2">█▌Mode-Switch Memory Clear▐█</span>
+  On video mode initialization, video memory is normally cleared to blanks
+  or black pixels.
+
+  You can switch modes without clearing video memory by <span class="c2">ORing 80H</span> (that is,
+  setting bit 7) to a mode number when you select the mode.
+
+See Also: <a href="69-supervga_display_adapters__svga_.html">SVGA</a>
+          <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

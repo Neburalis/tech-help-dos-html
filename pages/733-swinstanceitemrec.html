@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwInstanceItemRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwInstanceItemRec</h1><pre><span class="c2">SwInstanceItemRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       4  <span class="c1">pfData</span>       address of the instance data (or 0000:0000 if
+                           last record in the list)
+  +4       2  <span class="c1">wSize</span>        size of the instance data, in bytes
+           6               size of an SwInstanceItemRec structure
+
+      <span class="c1">pfData</span>  this is the address of a data area which needs to be saved on
+              each task switch and restored when that task is reactivated.
+              SwInstanceItemRec structures are organized as a sequential
+              list.  When <span class="c1">pfData</span> is 0000:0000 it indicates the end of the
+              list.
+
+       <span class="c1">wSize</span>  the size of the data area, in bytes. Note that the maximum
+              size is 64K; but you can create two or more of these
+              structures to identify a region that is larger.
+
+ This structure is pointed to by the <span class="c1">pfarInst</span> field of an <a href="732-swstartupinforec.html">SwStartupInfoRec</a>
+ used in <a href="714-int_2fh_4b05h__identify_instance_data.html">INT 2fH 4b05H</a> (identify instance data).    It is part of the
+ system that allows programs to be reentrant across multiple tasks by
+ reserving memory areas for buffers and variables.
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1704H: Query Size of Clipboard Data - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1704H: Query Size of Clipboard Data</h1><pre>                                                    Compatibility:  <span class="c2">WIN 3.0+</span>
+ Expects: <span class="c2">AX</span>    1704H
+          <span class="c2">DX</span>    WinOldApp-supported <a href="761-clipboard_data_formats.html">clipboard data format code</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DX:AX</span> size, in bytes of the data, including any headers.
+                <span class="c2">DX</span> is the high word and <span class="c2">AX</span> is the low word.
+                0000:0000 means no data in format <span class="c2">DX</span> was found.
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the size of the data that is currently in the
+          clipboard.  Equivalent to <span class="c2">GetClipboardDataSize</span>.
+
+          Only a few data types are supported.  See <a href="761-clipboard_data_formats.html">Clipboard Data Formats</a>.
+
+          On CF_BITMAP-formatted data (<span class="c2">DX</span>=0002H), the returned size will
+          include the size of the 24-byte header.
+
+See Also: <a href="751-int_2fh_17xxh__windows_clipboard_functions.html">INT 2fH 17xxH: Windows Clipboard Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

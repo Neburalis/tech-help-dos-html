@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 32H: Get DPB (Drive Parameter Block) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 32H: Get DPB (Drive Parameter Block)</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    32H
+          <span class="c2">DL</span>    drive number (0=default, 1=A, etc.)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0    if DL was a valid drive
+                0ffH if invalid drive
+          <span class="c2">DS:BX</span> address of <a href="350-dpb__drive_parameter_block.html">Drive Parameter Block</a> (DPB) for requested drive
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns a block of information that is useful for utilities which
+          perform sector-level access of disk drives supported by device
+          drivers.
+
+          Some disk drives (especially non-bootable drives) work via their
+          <a href="298-installable_device_drivers.html">device driver</a> interface only.  These drives might not contain
+          valid information in the <a href="337-boot_sector_layout.html">Boot Sector</a> and <a href="345-disk_partition_table.html">Partition Table</a>, making
+          it very hard to locate, for instance, the size of the root
+          directory or the number of <a href="359-fat__dos_file_allocation_table.html">FAT</a>s, etc.  The <a href="350-dpb__drive_parameter_block.html">DPBRec</a> contains all
+          this information in a nicely-formatted structure.
+
+          This may be the only way to find the address of a device driver.
+
+ <span class="c3">Warning:</span> ■ Alters the value of the DS segment register.
+
+See Also: Fn <a href="401-dos_fn_1fh__get_drive_parameter_block__current_disk_.html">1fH</a> (get DPB, default disk)
+          <a href="350-dpb__drive_parameter_block.html">Drive Parameter Block</a>
+          <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> (absolute disk I/O)
+          <a href="9-disk_drive_functions.html">Disk Drive Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

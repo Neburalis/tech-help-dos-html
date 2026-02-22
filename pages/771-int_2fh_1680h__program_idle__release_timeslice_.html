@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1680H: Program Idle (Release Timeslice) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1680H: Program Idle (Release Timeslice)</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    1680H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    status: 00H = system supports Idle Calls
+                        else= system does not support program suspension
+          ──────────────────────────────────────────────────────────────────
+    Info: DOS programs and TSRs should use this while waiting for user
+          input.  It announces to the system (DOS or Windows) that the
+          program is willing to give up the current timeslice.
+
+          Before calling this the first time, you should use DOS fn <a href="426-dos_fn_35h__get_interrupt_vector.html">35H</a> to
+          check that the vector for INT 2FH is non-zero.
+
+          The system does not suspend your program unless there is another
+          task ready to run; most often, control will immediately return.
+
+          You should place a call to this fn inside your idle loop,
+          whenever waiting for keyboard input or polling the mouse, etc.
+
+   Notes: This fn is also described (with the same parameters and
+          functionality) as part of the <a href="571-dpmi_services.html">DPMI</a> specification.
+
+See Also: <a href="567-int_28h__dos_idle.html">INT 28H: DOS Idle</a>
+          <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+          <a href="571-dpmi_services.html">DPMI Services</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Video Initialization Table - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Video Initialization Table</h1><pre> This table is pointed to by the vector for <a href="255-int_1dh__video_initialization_table_pointer.html">INT 1dH</a> (0:0074).
+
+ It is used by <a href="115-int_10h_00h__set_video_mode.html">INT 10H 00H</a> when a video mode-change takes place.  The
+ values in this table describe the register values that must be stored into
+ the 6845 CRT controller, along with other data (such as the number of
+ columns, etc.) for the video variables stored in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+ starting at 0:0449.
+
+ You may reset the <a href="255-int_1dh__video_initialization_table_pointer.html">INT 1dH</a> vector to point it to your own <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> tables.  Then
+ the next mode change will use the values in your tables.
+
+<span class="c2">VidInitRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0     16  <span class="c1">abRegs40x25</span>  6845 reg values for 40x25 modes (see below)
+  +10H    16  <span class="c1">abRegs80x25</span>  6845 reg values for 80x25 modes
+  +20H    16  <span class="c1">abRegsGfx</span>    6845 reg values for graphics modes
+  +30H    16  <span class="c1">abRegsMono</span>   6845 reg values for 80x25 Monochrome
+  +40H     2  <span class="c1">wSize40x25</span>   40x25 modes: regen RAM for one screen page
+  +42H     2  <span class="c1">wSize80x25</span>   80x25 modes: regen RAM for one screen page
+  +44H     2  <span class="c1">wSizeLoRes</span>   low-res graphics modes: regen RAM size
+  +46H     2  <span class="c1">wSizeHiRes</span>   hi-res graphics modes: regen RAM size
+  +48H     8  <span class="c1">abClmCnts</span>    column count for each of 8 modes
+  +50H     8  <span class="c1">abModeCodes</span>  values for the mode-set register (port 3d8H) for
+                           each mode.  Current setting is at 0040:0065.
+          88               size of a VidParmRec
+
+ The first 40H bytes of the table consists of four 16-byte tables that
+ each contain a set of 1-byte register values for each of the 6845
+ CRT-controller registers in their sequential order (R0...R15):
+
+         R0:  horizontal total     -- horizontal sync in character clocks
+         R1:  horizontal displayed -- characters per line
+         R2:  horizontal sync pos. -- use to move display left or right
+         R3:  sync width           -- vert. and horiz. pulse (4 bits each)
+         R4:  vertical total       -- total vertical lines of characters
+         R5:  vertical adjust      -- adjusts for 50 or 60 Hz refresh
+         R6:  vertical displayed   -- lines of characters displayed
+         R7:  vertical sync pos    -- lines shifted up or down
+         R8:  interlace/skew       -- (bits 4 and 5) interlace mode
+                                      (bits 6 and 7) skew mode
+         R9:  max scan line addr.  -- scan lines per character row
+        R10:  cursor start         -- starting scan line of cursor
+        R11:  cursor stop          -- ending scan line of cursor
+        R12:  video RAM start addr -- start of displayed page (high byte)
+        R13:                                                  (low byte)
+        R14:  cursor pos           -- offset address in vid mem (high byte)
+        R15:                                                    (low byte)
+
+ 6845 Registers 16-17 are not stored in the table.  But they are:
+
+        R16:  light pen address (high byte)
+        R17:                    (low byte)
+
+See Also: <a href="66-color_graphics_adapter__cga_.html">CGA</a>  <a href="68-monochrome_display_adapter__mda_.html">MDA</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="113-int_10h__video_services.html">INT 10H</a>
+          <a href="255-int_1dh__video_initialization_table_pointer.html">INT 1dH</a>
+          <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+          <a href="114-video_modes.html">Video Modes</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

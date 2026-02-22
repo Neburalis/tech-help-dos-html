@@ -1,0 +1,715 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS, BIOS &amp; Extensions Service Index - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS, BIOS &amp; Extensions Service Index</h1><pre>
+ This is the complete, combined list of DOS functions and BIOS interrupts
+ and common DOS extension services covered by TECH Help!  These are listed
+ by interrupt number, then sub-function number. For more manageable chunks,
+ see:
+      <a href="25-api_index.html">API Index</a> ........ Individual APIs listed separately
+      <a href="6-system_service_groups.html">Service Groups</a> ... Indexes with functions grouped by category
+      <a href="3-tech_topics.html">TECH Topics</a> ...... Often used topics, plus API overviews and articles
+      <a href="4-general_index.html">General Index</a> .... Lots of ways to find stuff
+      <a href="5-dos_function_index___quick_reference_subset.html">DOS Fns QuickRef</a>   <a href="23-dos_function_index___by_number.html">by Number</a>   <a href="24-dos_function_index___by_dos_version.html">by DOS Version</a>  <a href="22-obsolete_dos_functions.html">Obsolete Fns</a>
+      <a href="558-dos_interrupts.html">DOS Interrupts</a>
+────────────────────────────────────────────── <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+ <a href="97-int_00h__division_overflow.html">INT 00H: Division Overflow</a>
+ <a href="98-int_01h__single_step_interrupt.html">INT 01H: Single-Step Interrupt</a>
+ <a href="99-int_02h__non_maskable_interrupt.html">INT 02H: Non-Maskable Interrupt</a>
+ <a href="100-int_03h__breakpoint_interrupt.html">INT 03H: Breakpoint Interrupt</a>
+ <a href="101-int_04h__overflow_interrupt.html">INT 04H: Overflow Interrupt</a>
+ <a href="102-int_05h__print_screen___bounds_exception.html">INT 05H: Print Screen / Bounds Exception</a>
+ <a href="103-int_06h__invalid_opcode.html">INT 06H: Invalid Opcode</a>
+ <a href="104-int_07h__math_coprocessor_not_present.html">INT 07H: Math Coprocessor Not Present</a>
+ <a href="105-int_08h__timer_interrupt.html">INT 08H: Timer Interrupt</a>
+ <a href="106-int_09h__keyboard_interrupt.html">INT 09H: Keyboard Interrupt</a>
+ <a href="107-int_0ah__irq_2_cascade___invalid_task_state.html">INT 0aH: IRQ 2 Cascade / Invalid Task State</a>
+ <a href="108-int_0bh__irq_3_com2_4___segment_not_present.html">INT 0bH: IRQ 3 COM2/4 / Segment Not Present</a>
+ <a href="109-int_0ch__irq_4_com1_3___stack_overflow.html">INT 0cH: IRQ 4 COM1/3 / Stack Overflow</a>
+ <a href="110-int_0dh__irq_5_lpt2___general_protection_fault.html">INT 0dH: IRQ 5 LPT2 / General Protection Fault</a>
+ <a href="111-int_0eh__diskette_interrupt___page_fault.html">INT 0eH: Diskette Interrupt / Page Fault</a>
+ <a href="112-int_0fh__irq_7_lpt1.html">INT 0fH: IRQ 7 LPT1</a>
+─────────────────────────────────────────────────── <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+ <a href="115-int_10h_00h__set_video_mode.html">INT 10H 00H: Set Video Mode</a>
+ <a href="116-int_10h_01h__set_cursor_shape___size.html">INT 10H 01H: Set Cursor Shape &amp; Size</a>
+ <a href="117-int_10h_02h__set_cursor_position.html">INT 10H 02H: Set Cursor Position</a>
+ <a href="118-int_10h_03h__query_cursor_position_and_size.html">INT 10H 03H: Query Cursor Position and Size</a>
+ <a href="119-int_10h_04h__query_light_pen.html">INT 10H 04H: Query Light Pen</a>
+ <a href="120-int_10h_05h__select_video_page.html">INT 10H 05H: Select Video Page</a>
+ <a href="121-int_10h_06h__scroll_up___clear_screen_rectangle.html">INT 10H 06H: Scroll Up / Clear Screen Rectangle</a>
+ <a href="122-int_10h_07h__scroll_down___clear_screen_rectangle.html">INT 10H 07H: Scroll Down / Clear Screen Rectangle</a>
+ <a href="123-int_10h_08h__read_character_attribute_at_cursor_location.html">INT 10H 08H: Read Character/Attribute at Cursor Location</a>
+ <a href="124-int_10h_09h__write_character_attribute_to_cursor_location.html">INT 10H 09H: Write Character/Attribute to Cursor Location</a>
+ <a href="125-int_10h_0ah__write_character_to_cursor_location.html">INT 10H 0aH: Write Character to Cursor Location</a>
+ <a href="126-int_10h_0bh__select_graphics_palette_or_text_border_color.html">INT 10H 0bH: Select Graphics Palette or Text Border Color</a>
+ <a href="127-int_10h_0ch__write_graphics_pixel.html">INT 10H 0cH: Write Graphics Pixel</a>
+ <a href="128-int_10h_0dh__read_graphics_pixel.html">INT 10H 0dH: Read Graphics Pixel</a>
+ <a href="129-int_10h_0eh__write_character_as_tty.html">INT 10H 0eH: Write Character as TTY</a>
+ <a href="130-int_10h_0fh__query_current_video_info.html">INT 10H 0fH: Query Current Video Info</a>
+ <a href="131-int_10h_13h__at_ega_vga_string_display_functions.html">INT 10H 13H: AT/EGA/VGA String Display Functions</a>
+ <a href="132-int_10h_1300h__display_string.html">INT 10H 1300H: Display String</a>
+ <a href="133-int_10h_1301h__display_string_and_update_cursor.html">INT 10H 1301H: Display String and Update Cursor</a>
+ <a href="134-int_10h_1302h__display_character_attribute_cells.html">INT 10H 1302H: Display Character/Attribute Cells</a>
+ <a href="135-int_10h_1303h__display_char_attr_cells___update_cursor.html">INT 10H 1303H: Display Char/Attr Cells &amp; Update Cursor</a>
+ <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+ <a href="137-int_10h_1000h__set_one_palette_register.html">INT 10H 1000H: Set One Palette Register</a>
+ <a href="138-int_10h_1001h__set_overscan_border_color_register.html">INT 10H 1001H: Set Overscan/Border Color Register</a>
+ <a href="139-int_10h_1002h__set_all_palette_registers_and_overscan.html">INT 10H 1002H: Set All Palette Registers and Overscan</a>
+ <a href="140-int_10h_1003h__select_foreground_blink_or_bold_background.html">INT 10H 1003H: Select Foreground Blink or Bold Background</a>
+ <a href="141-int_10h_1007h__read_one_palette_register.html">INT 10H 1007H: Read One Palette Register</a>
+ <a href="142-int_10h_1008h__read_overscan_register.html">INT 10H 1008H: Read Overscan Register</a>
+ <a href="143-int_10h_1009h__read_all_palette_registers.html">INT 10H 1009H: Read All Palette Registers</a>
+ <a href="144-int_10h_1010h__set_one_dac_color_register.html">INT 10H 1010H: Set One DAC Color Register</a>
+ <a href="145-int_10h_1012h__set_a_block_of_dac_color_register.html">INT 10H 1012H: Set a Block of DAC Color Register</a>
+ <a href="146-int_10h_1013h__dac_color_paging_functions.html">INT 10H 1013H: DAC Color Paging Functions</a>
+ <a href="147-int_10h_1015h__read_one_dac_color_register.html">INT 10H 1015H: Read One DAC Color Register</a>
+ <a href="148-int_10h_1017h__read_a_block_of_dac_color_registers.html">INT 10H 1017H: Read a Block of DAC Color Registers</a>
+ <a href="149-int_10h_101ah__query_dac_color_paging_state.html">INT 10H 101aH: Query DAC Color Paging State</a>
+ <a href="150-int_10h_101bh__convert_dac_colors_to_gray_scale_values.html">INT 10H 101bH: Convert DAC Colors to Gray-Scale Values</a>
+ <a href="151-int_10h_11h__ega_vga_character_generator_functions.html">INT 10H 11H: EGA/VGA Character Generator Functions</a>
+ <a href="152-int_10h_1100h__load_user_defined_font.html">INT 10H 1100H: Load User-Defined Font</a>
+ <a href="153-int_10h_1101h__load_rom_8x14_character_set.html">INT 10H 1101H: Load ROM 8x14 Character Set</a>
+ <a href="154-int_10h_1102h__load_rom_8x8_character_set.html">INT 10H 1102H: Load ROM 8x8 Character Set</a>
+ <a href="155-int_10h_1103h__activate_font_block.html">INT 10H 1103H: Activate Font Block</a>
+ <a href="156-int_10h_1104h__load_rom_8x16_character_set.html">INT 10H 1104H: Load ROM 8x16 Character Set</a>
+ <a href="157-int_10h_1110h__load_and_activate_user_defined_font.html">INT 10H 1110H: Load and Activate User-Defined Font</a>
+ <a href="158-int_10h_1111h__load_and_activate_rom_8x14_character_set.html">INT 10H 1111H: Load and Activate ROM 8x14 Character Set</a>
+ <a href="159-int_10h_1112h__load_and_activate_rom_8x8_character_set.html">INT 10H 1112H: Load and Activate ROM 8x8 Character Set</a>
+ <a href="160-int_10h_1114h__load_and_activate_rom_8x16_character_set.html">INT 10H 1114H: Load and activate ROM 8x16 Character Set</a>
+ <a href="161-int_10h_1120h__setup_int_1fh_vector.html">INT 10H 1120H: Setup INT 1fH Vector</a>
+ <a href="162-int_10h_1121h__setup_user_defined_font_for_graphics_mode.html">INT 10H 1121H: Setup User-Defined Font for Graphics Mode</a>
+ <a href="163-int_10h_1122h__setup_rom_8x14_font_for_graphics_mode.html">INT 10H 1122H: Setup ROM 8x14 Font for Graphics Mode</a>
+ <a href="164-int_10h_1123h__setup_rom_8x8_font_for_graphics_mode.html">INT 10H 1123H: Setup ROM 8x8 Font for Graphics Mode</a>
+ <a href="165-int_10h_1124h__setup_rom_8x16_font_for_graphics_mode.html">INT 10H 1124H: Setup ROM 8x16 Font for Graphics Mode</a>
+ <a href="166-int_10h_1130h__get_current_character_generator_info.html">INT 10H 1130H: Get Current Character Generator Info</a>
+ <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">INT 10H 12H: EGA/VGA Special Functions/Alternate Select</a>
+ <a href="168-int_10h_12h_bl_10h__get_ega_information.html">INT 10H 12H BL=10H: Get EGA information</a>
+ <a href="169-int_10h_12h_bl_20h__select_alternate_print_screen_handler.html">INT 10H 12H BL=20H: Select Alternate Print Screen Handler</a>
+ <a href="170-int_10h_12h_bl_30h__select_scan_lines_for_text_modes.html">INT 10H 12H BL=30H: Select Scan Lines for Text Modes</a>
+ <a href="171-int_10h_12h_bl_31h__palette_loading_on_mode_set.html">INT 10H 12H BL=31H: Palette Loading on Mode Set</a>
+ <a href="172-int_10h_12h_bl_32h__enable_disable_video_ram___i_o_ports.html">INT 10H 12H BL=32H: Enable/Disable Video RAM &amp; I/O Ports</a>
+ <a href="173-int_10h_12h_bl_33h__enable_disable_gray_scale_summing.html">INT 10H 12H BL=33H: Enable/Disable Gray-Scale Summing</a>
+ <a href="174-int_10h_12h_bl_34h__cursor_emulation__scaling_.html">INT 10H 12H BL=34H: Cursor Emulation (Scaling)</a>
+ <a href="175-int_10h_12h_bl_35h__switch_ps_2_displays.html">INT 10H 12H BL=35H: Switch PS/2 Displays</a>
+ <a href="176-int_10h_12h_bl_36h__enable_disable_screen_refresh.html">INT 10H 12H BL=36H: Enable/Disable Screen Refresh</a>
+ <a href="177-int_10h_1ah__set_or_query_display_combination_code.html">INT 10H 1aH: Set or Query Display Combination Code</a>
+ <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">INT 10H 1bH: Get VGA Functionality and State Info</a>
+ <a href="179-int_10h_1ch__vga_state_save_restore_functions.html">INT 10H 1cH: VGA State Save/Restore Functions</a>
+ <a href="180-int_10h_1c00h__vga_query_size_of_state_save_buffer.html">INT 10H 1c00H: VGA Query Size of State-Save Buffer</a>
+ <a href="181-int_10h_1c01h__vga_save_video_state.html">INT 10H 1c01H: VGA Save Video State</a>
+ <a href="182-int_10h_1c02h__vga_restore_video_state.html">INT 10H 1c02H: VGA Restore Video State</a>
+────────────────────────────────────────────────── <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Functions</a>
+ <a href="937-int_10h_4f00h___query_supervga_support.html">INT 10H 4f00H - Query SuperVGA Support</a>
+ <a href="938-int_10h_4f01h___query_supervga_mode_information.html">INT 10H 4f01H - Query SuperVGA Mode Information</a>
+ <a href="939-int_10h_4f02h___set_supervga_video_mode.html">INT 10H 4f02H - Set SuperVGA Video Mode</a>
+ <a href="940-int_10h_4f03h___query_current_supervga_video_mode.html">INT 10H 4f03H - Query Current SuperVGA Video Mode</a>
+ <a href="941-int_10h_4f04h___save_restore_supervga_state.html">INT 10H 4f04H - Save/Restore SuperVGA State</a>
+ <a href="942-int_10h_4f05h___query_set_supervga_video_memory_window.html">INT 10H 4f05H - Query/Set SuperVGA Video Memory Window</a>
+
+ <a href="183-int_11h__equipment_check.html">INT 11H: Equipment Check</a>
+ <a href="184-int_12h__conventional_memory_size.html">INT 12H: Conventional Memory Size</a>
+──────────────────────────────────────────────────── <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+ <a href="186-int_13h_00h__reset_drive.html">INT 13H 00H: Reset Drive</a>
+ <a href="187-int_13h_01h__query_disk_error_status.html">INT 13H 01H: Query Disk Error Status</a>
+ <a href="188-int_13h_02h__read_sectors.html">INT 13H 02H: Read Sectors</a>
+ <a href="189-int_13h_03h__write_sectors.html">INT 13H 03H: Write Sectors</a>
+ <a href="190-int_13h_04h__verify_sectors.html">INT 13H 04H: Verify Sectors</a>
+ <a href="191-int_13h_05h__format_track.html">INT 13H 05H: Format Track</a>
+ <a href="192-int_13h_08h__get_drive_parameters.html">INT 13H 08H: Get Drive Parameters</a>
+ <a href="193-int_13h_09h__initialize_drive_parameter_table.html">INT 13H 09H: Initialize Drive Parameter Table</a>
+ <a href="194-int_13h_0ah__read_sector_plus_ecc.html">INT 13H 0aH: Read Sector Plus ECC</a>
+ <a href="195-int_13h_0bh__write_sector_plus_ecc.html">INT 13H 0bH: Write Sector Plus ECC</a>
+ <a href="196-int_13h_0ch__seek_cylinder.html">INT 13H 0cH: Seek Cylinder</a>
+ <a href="197-int_13h_0dh__alternate_reset_drive.html">INT 13H 0dH: Alternate Reset Drive</a>
+ <a href="198-int_13h_10h__test_drive_ready.html">INT 13H 10H: Test Drive Ready</a>
+ <a href="199-int_13h_11h__recalibrate_drive.html">INT 13H 11H: Recalibrate Drive</a>
+ <a href="200-int_13h_14h__controller_self_test.html">INT 13H 14H: Controller Self-Test</a>
+ <a href="201-int_13h_15h__get_diskette_type_or_check_hard_drive_installed.html">INT 13H 15H: Get Diskette Type or Check Hard Drive Installed</a>
+ <a href="202-int_13h_16h__detect_media_change.html">INT 13H 16H: Detect Media Change</a>
+ <a href="203-int_13h_17h__set_media_transfer_rate.html">INT 13H 17H: Set Media Transfer Rate</a>
+ <a href="204-int_13h_18h__set_media_type_for_format.html">INT 13H 18H: Set Media Type for Format</a>
+────────────────────────────────────────────────── <a href="206-int_14h__serial_port_i_o.html">INT 14H: Serial Port I/O</a>
+ <a href="207-int_14h_00h__initialize_asynchronous_communication_port.html">INT 14H 00H: Initialize Asynchronous Communication Port</a>
+ <a href="208-int_14h_01h__send_a_character.html">INT 14H 01H: Send a Character</a>
+ <a href="209-int_14h_02h__receive_a_character.html">INT 14H 02H: Receive a Character</a>
+ <a href="210-int_14h_03h__query_serial_port_status.html">INT 14H 03H: Query Serial Port Status</a>
+─────────────────────────────────────── <a href="212-int_15h__at_extended_services___apm.html">INT 15H: AT Extended Services / APM</a>
+ <a href="213-int_15h_4fh__keyboard_intercept.html">INT 15H 4fH: Keyboard Intercept</a>
+ <a href="214-int_15h_80h__device_open.html">INT 15H 80H: Device Open</a>
+ <a href="215-int_15h_81h__device_close.html">INT 15H 81H: Device Close</a>
+ <a href="216-int_15h_82h__program_termination.html">INT 15H 82H: Program Termination</a>
+ <a href="217-int_15h_8300h__set_event_wait_interval.html">INT 15H 8300H: Set Event Wait Interval</a>
+ <a href="218-int_15h_8301h__cancel_event_wait_interval.html">INT 15H 8301H: Cancel Event Wait Interval</a>
+ <a href="219-int_15h_84h__joystick_support.html">INT 15H 84H: Joystick Support</a>
+ <a href="220-int_15h_85h__sysreq_key.html">INT 15H 85H: SysReq Key</a>
+ <a href="221-int_15h_86h__wait.html">INT 15H 86H: Wait</a>
+ <a href="222-int_15h_87h__move_memory_block.html">INT 15H 87H: Move Memory Block</a>
+ <a href="223-int_15h_88h__get_extended_memory_size.html">INT 15H 88H: Get Extended Memory Size</a>
+ <a href="224-int_15h_89h__switch_to_protected_mode.html">INT 15H 89H: Switch to Protected mode</a>
+ <a href="225-int_15h_90h__device_busy.html">INT 15H 90H: Device Busy</a>
+ <a href="226-int_15h_91h__interrupt_finished.html">INT 15H 91H: Interrupt Finished</a>
+ <a href="227-int_15h_c0h__get_system_parameters.html">INT 15H c0H: Get System Parameters</a>
+────────────────────────────────────────────────────── <a href="29-advance_power_management__apm__functions.html">Power Management API</a>
+ <a href="31-int_15h_5300h__installation_check.html">INT 15H 5300H: Installation Check</a>
+ <a href="32-int_15h_5301h__interface_connect.html">INT 15H 5301H: Interface Connect</a>
+ <a href="33-int_15h_5302h__interface_connect__prot__mode_16_bit_.html">INT 15H 5302H: Interface Connect (Prot. Mode/16-bit)</a>
+ <a href="34-int_15h_5303h__interface_connect__prot__mode_32_bit_.html">INT 15H 5303H: Interface Connect (Prot. Mode/32-bit)</a>
+ <a href="35-int_15h_5304h__interface_disconnect.html">INT 15H 5304H: Interface Disconnect</a>
+ <a href="36-int_15h_5305h__cpu_idle.html">INT 15H 5305H: CPU Idle</a>
+ <a href="37-int_15h_5306h__cpu_busy.html">INT 15H 5306H: CPU Busy</a>
+ <a href="38-int_15h_5307h__set_power_state.html">INT 15H 5307H: Set Power State</a>
+ <a href="39-int_15h_5308h__enable_disable_power_management.html">INT 15H 5308H: Enable/Disable Power Management</a>
+ <a href="40-int_15h_5309h__restore_system_bios_power_on_defaults.html">INT 15H 5309H: Restore System-BIOS Power-On Defaults</a>
+ <a href="41-int_15h_530ah__query_power_status.html">INT 15H 530aH: Query Power Status</a>
+ <a href="42-int_15h_530bh__get_power_management_event.html">INT 15H 530bH: Get Power Management Event</a>
+──────────────────────────────────────────────── <a href="228-int_16h__keyboard_services.html">INT 16H: Keyboard Services</a>
+ <a href="229-int_16h_00h__read__wait_for__next_keystroke.html">INT 16H 00H: Read (Wait for) Next Keystroke</a>
+ <a href="230-int_16h_01h__query_keyboard_status___preview_key.html">INT 16H 01H: Query Keyboard Status / Preview Key</a>
+ <a href="231-int_16h_02h__query_keyboard_shift_status.html">INT 16H 02H: Query Keyboard Shift Status</a>
+ <a href="232-int_16h_03h__set_keyboard_typematic_rate_and_delay.html">INT 16H 03H: Set Keyboard Typematic Rate and Delay</a>
+ <a href="233-int_16h_05h__store_keystroke_data.html">INT 16H 05H: Store Keystroke Data</a>
+ <a href="234-int_16h_10h__read_extended_keyboard_input.html">INT 16H 10H: Read Extended Keyboard Input</a>
+ <a href="235-int_16h_11h__query_extended_keyboard_status___preview_key.html">INT 16H 11H: Query Extended Keyboard Status / Preview Key</a>
+ <a href="236-int_16h_12h__query_extended_keyboard_shift_status.html">INT 16H 12H: Query Extended Keyboard Shift Status</a>
+────────────────────────────────────────────────── <a href="237-int_17h__printer_support.html">INT 17H: Printer Support</a>
+ <a href="238-int_17h_00h__print_one_character.html">INT 17H 00H: Print One Character</a>
+ <a href="239-int_17h_01h__initialize_printer_port.html">INT 17H 01H: Initialize Printer Port</a>
+ <a href="240-int_17h_02h__query_printer_status.html">INT 17H 02H: Query Printer Status</a>
+
+ <a href="242-int_18h__rom_basic.html">INT 18H: ROM-BASIC</a>
+ <a href="243-int_19h__bootstrap_loader.html">INT 19H: Bootstrap Loader</a>
+─────────────────────────────────── <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH: Timer I/O (and MRCI POST Hook)</a>
+ <a href="245-int_1ah_00h__read_system_clock__ticks_.html">INT 1aH 00H: Read System Clock (Ticks)</a>
+ <a href="246-int_1ah_01h__set_system_clock__ticks_.html">INT 1aH 01H: Set System Clock (Ticks)</a>
+ <a href="247-int_1ah_02h__read_time_from_real_time_clock.html">INT 1aH 02H: Read Time from Real-Time Clock</a>
+ <a href="248-int_1ah_03h__set_time_on_real_time_clock.html">INT 1aH 03H: Set Time on Real-Time Clock</a>
+ <a href="249-int_1ah_04h__read_date_from_real_time_clock.html">INT 1aH 04H: Read Date from Real-Time Clock</a>
+ <a href="250-int_1ah_05h__set_date_on_real_time_clock.html">INT 1aH 05H: Set Date on Real-Time Clock</a>
+ <a href="251-int_1ah_06h__set_real_time_clock_alarm.html">INT 1aH 06H: Set Real-Time Clock Alarm</a>
+ <a href="252-int_1ah_07h__cancel_real_time_clock_alarm.html">INT 1aH 07H: Cancel Real-Time Clock Alarm</a>
+
+ <a href="824-int_1ah_b001h__query_rom_hardware_based_mrci_support.html">INT 1aH b001H: Query ROM/Hardware-Based MRCI Support</a>
+
+ <a href="253-int_1bh__keyboard_break.html">INT 1bH: Keyboard Break</a>
+ <a href="254-int_1ch__user_timer_interrupt.html">INT 1cH: User Timer Interrupt</a>
+ <a href="255-int_1dh__video_initialization_table_pointer.html">INT 1dH: Video Initialization Table Pointer</a>
+ <a href="256-int_1eh__diskette_parameter_pointer.html">INT 1eH: Diskette Parameter Pointer</a>
+ <a href="257-int_1fh__cga_graphics_character_font_pointer.html">INT 1fH: CGA Graphics Character Font Pointer</a>
+
+ <a href="559-int_20h__program_terminate.html">INT 20H: Program Terminate</a>
+──────────────────────────────────────────────────── <a href="560-int_21h__dos_functions.html">INT 21H: DOS Functions</a>
+ <a href="372-dos_fn_00h__terminate_a_program.html">DOS Fn 00H: Terminate a Program</a>
+ <a href="373-dos_fns_01h_0ch__low_level_i_o.html">DOS Fns 01H-0cH: Low-level I/O</a>
+ <a href="374-dos_fn_01h__keyboard_input.html">DOS Fn 01H: Keyboard Input</a>
+ <a href="375-dos_fn_02h__display_output.html">DOS Fn 02H: Display Output</a>
+ <a href="376-dos_fn_03h__auxiliary_input.html">DOS Fn 03H: Auxiliary Input</a>
+ <a href="377-dos_fn_04h__auxiliary_output.html">DOS Fn 04H: Auxiliary Output</a>
+ <a href="378-dos_fn_05h__printer_output.html">DOS Fn 05H: Printer Output</a>
+ <a href="379-dos_fn_06h__console_i_o.html">DOS Fn 06H: Console I/O</a>
+ <a href="380-dos_fn_07h__no_echo_unfiltered_console_input.html">DOS Fn 07H: No Echo Unfiltered Console Input</a>
+ <a href="381-dos_fn_08h__no_echo_console_input.html">DOS Fn 08H: No Echo Console Input</a>
+ <a href="382-dos_fn_09h__display_string.html">DOS Fn 09H: Display String</a>
+ <a href="383-dos_fn_0ah__buffered_string_input.html">DOS Fn 0aH: Buffered String Input</a>
+ <a href="384-dos_fn_0bh__check_input_status.html">DOS Fn 0bH: Check Input Status</a>
+ <a href="385-dos_fn_0ch__clear___input.html">DOS Fn 0cH: Clear &amp; Input</a>
+ <a href="386-dos_fn_0dh__reset_disk.html">DOS Fn 0dH: Reset Disk</a>
+ <a href="387-dos_fn_0eh__select_dos_default_disk.html">DOS Fn 0eH: Select DOS Default Disk</a>
+ <a href="388-dos_fn_0fh__open_file_via_fcb.html">DOS Fn 0fH: Open File via FCB</a>
+ <a href="389-dos_fn_10h__close_file_via_fcb.html">DOS Fn 10H: Close File via FCB</a>
+ <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">DOS Fn 11H: Find 1st Matching File via FCB</a>
+ <a href="391-dos_fn_12h__find_next_matching_file_via_fcb.html">DOS Fn 12H: Find Next Matching File via FCB</a>
+ <a href="392-dos_fn_13h__delete_file_via_fcb.html">DOS Fn 13H: Delete File via FCB</a>
+ <a href="393-dos_fn_14h__read_sequential_file_via_fcb.html">DOS Fn 14H: Read Sequential File via FCB</a>
+ <a href="394-dos_fn_15h__write_sequential_file_via_fcb.html">DOS Fn 15H: Write Sequential File via FCB</a>
+ <a href="395-dos_fn_16h__create_file_via_fcb.html">DOS Fn 16H: Create File via FCB</a>
+ <a href="396-dos_fn_17h__rename_file_via_fcb.html">DOS Fn 17H: Rename File via FCB</a>
+ <a href="397-dos_fn_19h__query_dos_default_disk.html">DOS Fn 19H: Query DOS Default Disk</a>
+ <a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">DOS Fn 1aH: Set Disk Transfer Address (DTA)</a>
+ <a href="399-dos_fn_1bh__get_drive_info__current_disk_.html">DOS Fn 1bH: Get Drive Info (current disk)</a>
+ <a href="400-dos_fn_1ch__get_drive_info__any_disk_.html">DOS Fn 1cH: Get Drive Info (any disk)</a>
+ <a href="401-dos_fn_1fh__get_drive_parameter_block__current_disk_.html">DOS Fn 1fH: Get Drive Parameter Block (current disk)</a>
+ <a href="402-dos_fn_21h__read_random_file_record.html">DOS Fn 21H: Read Random File Record</a>
+ <a href="403-dos_fn_22h__write_random_file_record.html">DOS Fn 22H: Write Random File Record</a>
+ <a href="404-dos_fn_23h__query_file_size_via_fcb.html">DOS Fn 23H: Query File Size via FCB</a>
+ <a href="405-dos_fn_24h__set_random_file_block_address.html">DOS Fn 24H: Set Random File Block Address</a>
+ <a href="406-dos_fn_25h__set_interrupt_vector.html">DOS Fn 25H: Set Interrupt Vector</a>
+ <a href="407-dos_fn_26h__create_program_segment_prefix.html">DOS Fn 26H: Create Program Segment Prefix</a>
+ <a href="408-dos_fn_27h__read_random_file_block.html">DOS Fn 27H: Read Random File Block</a>
+ <a href="409-dos_fn_28h__write_random_file_block.html">DOS Fn 28H: Write Random File Block</a>
+ <a href="410-dos_fn_29h__parse_filename.html">DOS Fn 29H: Parse Filename</a>
+ <a href="411-dos_fn_2ah__query_dos_date.html">DOS Fn 2aH: Query DOS Date</a>
+ <a href="412-dos_fn_2bh__set_dos_date.html">DOS Fn 2bH: Set DOS Date</a>
+ <a href="413-dos_fn_2ch__query_dos_time.html">DOS Fn 2cH: Query DOS Time</a>
+ <a href="414-dos_fn_2dh__set_dos_time.html">DOS Fn 2dH: Set DOS Time</a>
+ <a href="415-dos_fn_2eh__set_reset_verify_switch.html">DOS Fn 2eH: Set/Reset Verify Switch</a>
+ <a href="416-dos_fn_2fh__query_disk_transfer_address__dta_.html">DOS Fn 2fH: Query Disk Transfer Address (DTA)</a>
+ <a href="417-dos_fn_30h__get_dos_version_number.html">DOS Fn 30H: Get DOS Version Number</a>
+ <a href="418-dos_fn_31h__terminate___stay_resident.html">DOS Fn 31H: Terminate &amp; Stay Resident</a>
+ <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">DOS Fn 32H: Get DPB (Drive Parameter Block)</a>
+ <a href="420-dos_fn_33h__set_query_break_check__query_dos_info.html">DOS Fn 33H: Set/Query Break-check; Query DOS Info</a>
+ <a href="421-dos_fn_3300h__query_break_check_flag.html">DOS Fn 3300H: Query Break-Check Flag</a>
+ <a href="422-dos_fn_3301h__set_break_check_level.html">DOS Fn 3301H: Set Break-check level</a>
+ <a href="423-dos_fn_3305h__get_boot_drive.html">DOS Fn 3305H: Get Boot Drive</a>
+ <a href="424-dos_fn_3306h__get_dos_version_info.html">DOS Fn 3306H: Get DOS Version Info</a>
+ <a href="425-dos_fn_34h__get_indos_address__dos_reentrancy_status_.html">DOS Fn 34H: Get InDOS Address (DOS Reentrancy Status)</a>
+ <a href="426-dos_fn_35h__get_interrupt_vector.html">DOS Fn 35H: Get Interrupt Vector</a>
+ <a href="427-dos_fn_36h__get_disk_free_space.html">DOS Fn 36H: Get Disk Free Space</a>
+ <a href="428-dos_fn_37h__set_or_query_switch_character.html">DOS Fn 37H: Set or Query Switch Character</a>
+ <a href="429-dos_fn_3700h__query_switchar.html">DOS Fn 3700H: Query Switchar</a>
+ <a href="430-dos_fn_3701h__set_switchar.html">DOS Fn 3701H: Set Switchar</a>
+ <a href="431-dos_fn_38h__get_set_country_dependent_info.html">DOS Fn 38H: Get/Set Country-dependent Info</a>
+ <a href="432-dos_fn_39h__create_a_new_directory____mkdir.html">DOS Fn 39H: Create a New Directory -- MKDIR</a>
+ <a href="433-dos_fn_3ah__delete_a_directory____rmdir.html">DOS Fn 3aH: Delete a Directory -- RMDIR</a>
+ <a href="434-dos_fn_3bh__set_dos_default_directory____chdir.html">DOS Fn 3bH: Set DOS Default Directory -- CHDIR</a>
+ <a href="435-dos_fn_3ch__create_a_file_via_handle.html">DOS Fn 3cH: Create a File via Handle</a>
+ <a href="436-dos_fn_3dh__open_a_file_via_handle.html">DOS Fn 3dH: Open a File via Handle</a>
+ <a href="437-dos_fn_3eh__close_a_file_handle.html">DOS Fn 3eH: Close a File Handle</a>
+ <a href="438-dos_fn_3fh__read_from_file_via_handle.html">DOS Fn 3fH: Read from File via Handle</a>
+ <a href="439-dos_fn_40h__write_to_file_via_handle.html">DOS Fn 40H: Write to File via Handle</a>
+ <a href="440-dos_fn_41h__delete_file.html">DOS Fn 41H: Delete File</a>
+ <a href="441-dos_fn_42h__set_file_pointer.html">DOS Fn 42H: Set File Pointer</a>
+ <a href="442-dos_fn_43h__set_or_query_file_attributes.html">DOS Fn 43H: Set or Query File attributes</a>
+ <a href="443-dos_fn_4300h__query_file_attribute.html">DOS Fn 4300H: Query File Attribute</a>
+ <a href="444-dos_fn_4301h__set_file_attribute.html">DOS Fn 4301H: Set File Attribute</a>
+ <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">DOS Fn 44H: Device I/O Control -- IOCTL</a>
+ <a href="446-dos_fn_4400h__ioctl_query_device_file_flags.html">DOS Fn 4400H: IOCTL Query Device/File Flags</a>
+ <a href="447-dos_fn_4401h__ioctl_set_device_file_flags.html">DOS Fn 4401H: IOCTL Set Device/File Flags</a>
+ <a href="448-dos_fn_4402h__ioctl_receive_control_data_from_char_device.html">DOS Fn 4402H: IOCTL Receive Control Data from Char Device</a>
+ <a href="449-dos_fn_4403h__ioctl_send_control_data_to_character_device.html">DOS Fn 4403H: IOCTL Send Control Data to Character Device</a>
+ <a href="450-dos_fn_4404h__ioctl_receive_control_data_from_block_device.html">DOS Fn 4404H: IOCTL Receive Control Data from Block Device</a>
+               <a href="802-doublespace_ioctl_fn__f___flush_doublespace_cache.html">DoubleSpace IOCTL fn 'F': Flush DoubleSpace Cache</a>
+               <a href="803-doublespace_ioctl_fn__i___flush_and_invalidate_cache.html">DoubleSpace IOCTL fn 'I': Flush and Invalidate Cache</a>
+               <a href="804-doublespace_ioctl_fn__s___get_drivespace_pointers.html">DoubleSpace IOCTL fn 'S': Get DriveSpace Pointers</a>
+ <a href="451-dos_fn_4405h__ioctl_send_control_data_to_block_device.html">DOS Fn 4405H: IOCTL Send Control Data to Block Device</a>
+ <a href="452-dos_fn_4406h__ioctl_query_handle_input_status.html">DOS Fn 4406H: IOCTL Query Handle Input Status</a>
+ <a href="453-dos_fn_4407h__ioctl_query_handle_output_status.html">DOS Fn 4407H: IOCTL Query Handle Output Status</a>
+ <a href="454-dos_fn_4408h__ioctl_does_drive_use_removable_media.html">DOS Fn 4408H: IOCTL Does Drive Use Removable Media</a>
+ <a href="455-dos_fn_4409h__ioctl_is_drive_remote_or_subst.html">DOS Fn 4409H: IOCTL Is Drive Remote or SUBST</a>
+ <a href="456-dos_fn_440ah__ioctl_is_file_device_remote.html">DOS Fn 440aH: IOCTL Is File/Device Remote</a>
+ <a href="457-dos_fn_440bh__ioctl_set_sharing_retry_count.html">DOS Fn 440bH: IOCTL Set Sharing Retry Count</a>
+ <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">DOS Fn 440cH: Generic I/O Control -- Character Devices</a>
+ <a href="459-dos_fn_440ch_cl_45h__ioctl_set_retry_iteration_count.html">DOS Fn 440cH CL=45H: IOCTL Set Retry Iteration Count</a>
+ <a href="460-dos_fn_440ch_cl_4ah__ioctl_select_code_page.html">DOS Fn 440cH CL=4AH: IOCTL Select Code Page</a>
+ <a href="461-dos_fn_440ch_cl_4ch__ioctl_start_code_page_prepare.html">DOS Fn 440cH CL=4CH: IOCTL Start Code Page Prepare</a>
+ <a href="462-dos_fn_440ch_cl_4dh__ioctl_end_code_page_prepare.html">DOS Fn 440cH CL=4DH: IOCTL End Code Page Prepare</a>
+ <a href="463-dos_fn_440ch_cl_5fh__ioctl_set_display_mode.html">DOS Fn 440cH CL=5Fh: IOCTL Set Display Mode</a>
+ <a href="464-dos_fn_440ch_cl_65h__ioctl_query_retry_iteration_count.html">DOS Fn 440cH CL=65H: IOCTL Query Retry Iteration Count</a>
+ <a href="465-dos_fn_440ch_cl_6ah__ioctl_query_current_code_page.html">DOS Fn 440cH CL=6AH: IOCTL Query Current Code Page</a>
+ <a href="466-dos_fn_440ch_cl_6bh__ioctl_query_code_page_list.html">DOS Fn 440cH CL=6BH: IOCTL Query Code Page List</a>
+ <a href="467-dos_fn_440ch_cl_7fh__ioctl_query_display_mode.html">DOS Fn 440cH CL=7Fh: IOCTL Query Display Mode</a>
+ <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">DOS Fn 440dH: Generic I/O Control -- Block Devices</a>
+ <a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">DOS Fn 440dH CL=40H: IOCTL Set Device Parameters</a>
+ <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">DOS Fn 440dH CL=41H: IOCTL Write Track on Logical Drive</a>
+ <a href="471-dos_fn_440dh_cl_42h__ioctl_format_track_on_logical_drive.html">DOS Fn 440dH CL=42H: IOCTL Format Track on Logical Drive</a>
+ <a href="472-dos_fn_440dh_cl_46h__ioctl_set_media_id.html">DOS Fn 440dH CL=46H: IOCTL Set Media ID</a>
+ <a href="473-dos_fn_440dh_cl_47h__ioctl_set_access_flag.html">DOS Fn 440dH CL=47H: IOCTL Set Access Flag</a>
+ <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">DOS Fn 440dH CL=60H: IOCTL Query Device Parameters</a>
+ <a href="475-dos_fn_440dh_cl_61h__ioctl_read_track_on_logical_drive.html">DOS Fn 440dH CL=61H: IOCTL Read Track on Logical Drive</a>
+ <a href="476-dos_fn_440dh_cl_62h__ioctl_verify_track_on_logical_drive.html">DOS Fn 440dH CL=62H: IOCTL Verify Track on Logical Drive</a>
+ <a href="477-dos_fn_440dh_cl_66h__ioctl_query_media_id.html">DOS Fn 440dH CL=66H: IOCTL Query Media ID</a>
+ <a href="478-dos_fn_440dh_cl_67h__ioctl_query_access_flag.html">DOS Fn 440dH CL=67H: IOCTL Query Access Flag</a>
+ <a href="479-dos_fn_440dh_cl_68h__ioctl_sense_media_type.html">DOS Fn 440dH CL=68H: IOCTL Sense Media Type</a>
+ <a href="480-dos_fn_440eh__ioctl_query_logical_drive_map.html">DOS Fn 440eH: IOCTL Query Logical Drive Map</a>
+ <a href="481-dos_fn_440fh__ioctl_set_logical_drive_map.html">DOS Fn 440fH: IOCTL Set Logical Drive Map</a>
+ <a href="482-dos_fn_4410h__ioctl_query_ioctl_support_for_handle.html">DOS Fn 4410H: IOCTL Query IOCTL Support for Handle</a>
+ <a href="483-dos_fn_4411h__ioctl_query_ioctl_support_for_device.html">DOS Fn 4411H: IOCTL Query IOCTL Support for Device</a>
+ <a href="497-dos_fn_45h__duplicate_a_file_handle.html">DOS Fn 45H: Duplicate a File Handle</a>
+ <a href="498-dos_fn_46h__redirect_a_handle.html">DOS Fn 46H: Redirect a Handle</a>
+ <a href="499-dos_fn_47h__query_default_directory.html">DOS Fn 47H: Query Default Directory</a>
+ <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">DOS Fn 48H: Allocate Memory / Query Free Memory</a>
+ <a href="501-dos_fn_49h__free_allocated_memory_block.html">DOS Fn 49H: Free Allocated Memory Block</a>
+ <a href="502-dos_fn_4ah__shrink_or_expand_a_memory_block.html">DOS Fn 4aH: Shrink or Expand a Memory Block</a>
+ <a href="503-dos_fn_4bh__load_or_execute_a_program.html">DOS Fn 4bH: Load or Execute a program</a>
+ <a href="504-dos_fn_4b00h__execute_a_program.html">DOS Fn 4b00H: Execute a Program</a>
+ <a href="505-dos_fn_4b01h__load_program.html">DOS Fn 4b01H: Load Program</a>
+ <a href="506-dos_fn_4b03h__load_overlay.html">DOS Fn 4b03H: Load Overlay</a>
+ <a href="507-dos_fn_4b05h__set_execution_state.html">DOS Fn 4b05H: Set Execution State</a>
+ <a href="508-dos_fn_4ch__terminate_program.html">DOS Fn 4cH: Terminate Program</a>
+ <a href="509-dos_fn_4dh__get_program_exit_code.html">DOS Fn 4dH: Get Program Exit Code</a>
+ <a href="510-dos_fn_4eh__find_1st_matching_file.html">DOS Fn 4eH: Find 1st Matching File</a>
+ <a href="511-dos_fn_4fh__find_next_matching_file.html">DOS Fn 4fH: Find Next Matching File</a>
+ <a href="512-dos_fn_50h__set_psp.html">DOS Fn 50H: Set PSP</a>
+ <a href="513-dos_fn_51h__query_current_psp.html">DOS Fn 51H: Query Current PSP</a>
+ <a href="514-dos_fn_52h__get_dos_variables.html">DOS Fn 52H: Get DOS Variables</a>
+ <a href="515-dos_fn_53h__convert_bpb_to_dpb.html">DOS Fn 53H: Convert BPB to DPB</a>
+ <a href="516-dos_fn_54h__get_dos_verify_state.html">DOS Fn 54H: Get DOS Verify State</a>
+ <a href="517-dos_fn_56h__rename_move_a_file.html">DOS Fn 56H: Rename/Move a File</a>
+ <a href="518-dos_fn_57h__set_or_query_file_time_date.html">DOS Fn 57H: Set or Query File Time/Date</a>
+ <a href="519-dos_fn_5700h__query_file_time_date.html">DOS Fn 5700H: Query File Time/Date</a>
+ <a href="520-dos_fn_5701h__set_file_time_date.html">DOS Fn 5701H: Set File Time/Date</a>
+ <a href="521-dos_fn_58h__set_or_query_memory_allocation_options.html">DOS Fn 58H: Set or Query Memory Allocation Options</a>
+ <a href="522-dos_fn_5800h__query_memory_allocation_strategy.html">DOS Fn 5800H: Query Memory Allocation Strategy</a>
+ <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">DOS Fn 5801H: Set Memory Allocation Strategy</a>
+ <a href="524-dos_fn_5802h__query_upper_memory_link_state.html">DOS Fn 5802H: Query Upper-Memory Link State</a>
+ <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">DOS Fn 5803H: Set Upper-Memory Link State</a>
+ <a href="526-dos_fn_59h__get_extended_error_info.html">DOS Fn 59H: Get Extended Error Info</a>
+ <a href="527-dos_fn_5ah__create_unique_temporary_file.html">DOS Fn 5aH: Create Unique Temporary File</a>
+ <a href="528-dos_fn_5bh__create_new_file.html">DOS Fn 5bH: Create New File</a>
+ <a href="529-dos_fn_5ch__lock_unlock_file_access.html">DOS Fn 5cH: Lock/Unlock File Access</a>
+ <a href="530-dos_fn_5c00h__lock_file_access.html">DOS Fn 5c00H: Lock File Access</a>
+ <a href="531-dos_fn_5c01h__unlock_file_access.html">DOS Fn 5c01H: Unlock File Access</a>
+ <a href="532-dos_fn_5d0ah__set_extended_error.html">DOS Fn 5d0aH: Set Extended Error</a>
+ <a href="533-dos_fn_5eh__network_miscellaneous.html">DOS Fn 5eH: Network Miscellaneous</a>
+ <a href="534-dos_fn_5e00h__query_network_node_name.html">DOS Fn 5e00H: Query Network Node Name</a>
+ <a href="535-dos_fn_5e02h__set_network_printer_setup.html">DOS Fn 5e02H: Set Network Printer Setup</a>
+ <a href="536-dos_fn_5e03h__query_network_printer_setup.html">DOS Fn 5e03H: Query Network Printer Setup</a>
+ <a href="537-dos_fn_5fh__network_device_redirection.html">DOS Fn 5fH: Network Device Redirection</a>
+ <a href="538-dos_fn_5f02h__network_query_assign_list_entry.html">DOS Fn 5f02H: Network Query Assign-List Entry</a>
+ <a href="539-dos_fn_5f03h__make_network_connection.html">DOS Fn 5f03H: Make Network Connection</a>
+ <a href="540-dos_fn_5f04h__delete_network_connection.html">DOS Fn 5f04H: Delete Network Connection</a>
+ <a href="541-dos_fn_60h__query_truename.html">DOS Fn 60H: Query TrueName</a>
+ <a href="542-dos_fn_62h__query_current_psp.html">DOS Fn 62H: Query Current PSP</a>
+ <a href="543-dos_fn_65h__extended_country_information_functions.html">DOS Fn 65H: Extended Country Information Functions</a>
+ <a href="544-dos_fn_6501h__get_extended_country_information.html">DOS Fn 6501H: Get Extended Country Information</a>
+ <a href="545-dos_fn_6504h__get_uppercase_table.html">DOS Fn 6504H: Get Uppercase Table</a>
+ <a href="546-dos_fn_6505h__get_filename_character_table.html">DOS Fn 6505H: Get Filename Character Table</a>
+ <a href="547-dos_fn_6506h__get_collating_sequence_table.html">DOS Fn 6506H: Get Collating Sequence Table</a>
+ <a href="548-dos_fn_6507h__get_double_byte_character_set.html">DOS Fn 6507H: Get Double-Byte Character Set</a>
+ <a href="549-dos_fn_6520h__upshift_character.html">DOS Fn 6520H: Upshift Character</a>
+ <a href="550-dos_fn_6521h__upshift_string.html">DOS Fn 6521H: Upshift String</a>
+ <a href="551-dos_fn_6522h__upshift_asciiz_string.html">DOS Fn 6522H: Upshift ASCIIZ String</a>
+ <a href="552-dos_fn_66h__set_or_query_active_code_page.html">DOS Fn 66H: Set or Query Active Code Page</a>
+ <a href="553-dos_fn_6601h__query_active_code_page.html">DOS Fn 6601H: Query Active Code Page</a>
+ <a href="554-dos_fn_6602h__activate_code_page.html">DOS Fn 6602H: Activate Code Page</a>
+ <a href="555-dos_fn_67h__set_file_handle_count.html">DOS Fn 67H: Set File Handle Count</a>
+ <a href="556-dos_fn_68h__commit_file.html">DOS Fn 68H: Commit File</a>
+ <a href="557-dos_fn_6ch__extended_open_create.html">DOS Fn 6cH: Extended Open/Create</a>
+──────────────────────────────────────────────────── <a href="300-device_requests.html">Device Driver Requests</a>
+ <a href="301-device_request_00h__initialize_device.html">Device Request 00H: Initialize device</a>
+ <a href="302-device_request_01h__media_check.html">Device Request 01H: Media Check</a>
+ <a href="303-device_request_02h__build_bpb.html">Device Request 02H: Build BPB</a>
+ <a href="304-device_request_03h__ioctl_input.html">Device Request 03H: IOCTL Input</a>
+ <a href="305-device_request_04h__input__read_data_from_device_.html">Device Request 04H: Input (Read Data from Device)</a>
+ <a href="306-device_request_05h__non_destructive_input.html">Device Request 05H: Non-destructive Input</a>
+ <a href="307-device_request_06h__input_status.html">Device Request 06H: Input Status</a>
+ <a href="308-device_request_07h__input_flush.html">Device Request 07H: Input Flush</a>
+ <a href="309-device_request_08h__output__write_data_to_device_.html">Device Request 08H: Output (Write Data to Device)</a>
+ <a href="310-device_request_09h__output__write_verify_data_to_device_.html">Device Request 09H: Output (Write/Verify Data to Device)</a>
+ <a href="311-device_request_0ah__output_status.html">Device Request 0aH: Output Status</a>
+ <a href="312-device_request_0bh__output_flush.html">Device Request 0bH: Output Flush</a>
+ <a href="313-device_request_0ch__ioctl_output.html">Device Request 0cH: IOCTL Output</a>
+ <a href="314-device_request_0dh__device_open.html">Device Request 0dH: Device Open</a>
+ <a href="315-device_request_0eh__device_close.html">Device Request 0eH: Device Close</a>
+ <a href="316-device_request_0fh__removable_media.html">Device Request 0fH: Removable Media</a>
+ <a href="317-device_request_10h__output_until_busy.html">Device Request 10H: Output Until Busy</a>
+ <a href="318-device_request_13h__generic_ioctl_request.html">Device Request 13H: Generic IOCTL Request</a>
+ <a href="319-device_request_17h__get_logical_device.html">Device Request 17H: Get Logical Device</a>
+ <a href="320-device_request_18h__set_logical_device.html">Device Request 18H: Set Logical Device</a>
+ <a href="321-device_request_19h__ioctl_support_query.html">Device Request 19H: IOCTL Support Query</a>
+
+ <a href="562-int_22h__terminate_address.html">INT 22H: Terminate Address</a>
+ <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H: Ctrl-Break Exit Address</a>
+ <a href="564-int_24h__critical_error_handler.html">INT 24H: Critical Error Handler</a>
+ <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H: Absolute Disk Read/Write</a>
+ <a href="566-int_27h__terminate_but_stay_resident.html">INT 27H: Terminate but Stay Resident</a>
+ <a href="567-int_28h__dos_idle.html">INT 28H: DOS Idle</a>
+ <a href="568-int_29h__fast_putchar.html">INT 29H: Fast PUTCHAR</a>
+ <a href="569-int_2ah__microsoft_network_services.html">INT 2aH: Microsoft Network Services</a>
+ <a href="570-int_2eh__perform_dos_command.html">INT 2eH: Perform DOS Command</a>
+────────────────────────────────────────────── <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+ <a href="682-int_2fh_01xxh__dos_print_spooler_functions.html">INT 2fH 01xxH: DOS Print Spooler Functions</a>
+ <a href="683-int_2fh_0100h__is_print_exe_installed_.html">INT 2fH 0100H: Is Print.Exe Installed?</a>
+ <a href="684-int_2fh_0101h__submit_file_to_spooler.html">INT 2fH 0101H: Submit File to Spooler</a>
+ <a href="685-int_2fh_0102h__remove_file_from_print_queue.html">INT 2fH 0102H: Remove File from Print Queue</a>
+ <a href="686-int_2fh_0103h__cancel_all_files.html">INT 2fH 0103H: Cancel All Files</a>
+ <a href="687-int_2fh_0104h__hold_all_jobs_and_get_status.html">INT 2fH 0104H: Hold All Jobs and Get Status</a>
+ <a href="688-int_2fh_0105h__resume_printing.html">INT 2fH 0105H: Resume Printing</a>
+ <a href="689-int_2fh_0106h__get_printer_device_driver_header.html">INT 2fH 0106H: Get Printer Device Driver Header</a>
+
+ <a href="690-int_2fh_0600h__is_assign_com_installed_.html">INT 2fH 0600H: Is Assign.Com Installed?</a>
+
+ <a href="691-int_2fh_1000h__is_share_exe_installed_.html">INT 2fH 1000H: Is Share.Exe Installed?</a>
+
+ <a href="692-int_2fh_1100h__is_network_support_installed_.html">INT 2fH 1100H: Is Network Support Installed?</a>
+
+ <a href="693-int_2fh_1400h__is_nlsfunc_exe_installed_.html">INT 2fH 1400H: Is Nlsfunc.Exe Installed?</a>
+
+ <a href="694-int_2fh_15xxh__mscdex_cd_rom_functions.html">INT 2fH 15xxH: Mscdex CD-ROM Functions</a>
+ <a href="695-int_2fh_1500h__is_mscdex_installed__count_drive_letters.html">INT 2fH 1500H: Is MSCDEX Installed?/Count Drive Letters</a>
+ <a href="696-int_2fh_150dh__query_cd_rom_drive_letters.html">INT 2fH 150dH: Query CD-ROM Drive Letters</a>
+
+──────────────────── <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+ <a href="764-int_2fh_1600h__is_enh386_windows_installed_.html">INT 2fH 1600H: Is Enh386 Windows Installed?</a>
+ <a href="765-int_2fh_1602h__get_enh386_windows_entry_point_address.html">INT 2fH 1602H: Get Enh386 Windows Entry-Point Address</a>
+ <a href="766-int_2fh_1605h__windows_is_about_to_startup.html">INT 2fH 1605H: Windows Is About to Startup</a>
+ <a href="767-int_2fh_1606h__windows_is_about_to_terminate.html">INT 2fH 1606H: Windows Is About to Terminate</a>
+ <a href="768-int_2fh_1607h__device_call_out.html">INT 2fH 1607H: Device Call Out</a>
+ <a href="769-int_2fh_1608h__windows_initialization_is_complete.html">INT 2fH 1608H: Windows Initialization is Complete</a>
+ <a href="770-int_2fh_1609h__windows_is_terminating.html">INT 2fH 1609H: Windows is Terminating</a>
+ <a href="771-int_2fh_1680h__program_idle__release_timeslice_.html">INT 2fH 1680H: Program Idle (Release Timeslice)</a>
+ <a href="772-int_2fh_1681h__begin_critical_section.html">INT 2fH 1681H: Begin Critical Section</a>
+ <a href="773-int_2fh_1682h__end_critical_section.html">INT 2fH 1682H: End Critical Section</a>
+ <a href="774-int_2fh_1683h__get_current_virtual_machine_id.html">INT 2fH 1683H: Get Current Virtual Machine ID</a>
+ <a href="775-int_2fh_1684h__get_device_entry_point_address__for_vxds_.html">INT 2fH 1684H: Get Device Entry-Point Address (for VxDs)</a>
+ <a href="776-int_2fh_1685h__switch_vms_and_callback.html">INT 2fH 1685H: Switch VMs and CallBack</a>
+ <a href="777-int_2fh_1686h__detect_int_31h_dpmi_services.html">INT 2fH 1686H: Detect INT 31h DPMI Services</a>     (see also: INT 31H, below)
+
+ <a href="573-int_2fh_1687h__get_real_to_protected_mode_switch_address.html">INT 2fH 1687H: Get Real-to-Protected Mode Switch Address</a>     (see INT 31H)
+ <a href="574-int_2fh_168ah__get_vendor_specific_dpmi_api_entry_address.html">INT 2fH 168AH: Get Vendor-Specific DPMI API Entry Address</a>    (see INT 31H)
+
+──────────────────────────────── <a href="751-int_2fh_17xxh__windows_clipboard_functions.html">INT 2fH 17xxH: Windows Clipboard Functions</a>
+ <a href="752-int_2fh_1700h__is_clipboard_available_.html">INT 2fH 1700H: Is Clipboard Available?</a>
+ <a href="753-int_2fh_1701h__get_access_to_clipboard.html">INT 2fH 1701H: Get Access to Clipboard</a>
+ <a href="754-int_2fh_1702h__discard_clipboard_contents.html">INT 2fH 1702H: Discard Clipboard Contents</a>
+ <a href="755-int_2fh_1703h__put_data_into_the_clipboard.html">INT 2fH 1703H: Put Data into the Clipboard</a>
+ <a href="756-int_2fh_1704h__query_size_of_clipboard_data.html">INT 2fH 1704H: Query Size of Clipboard Data</a>
+ <a href="757-int_2fh_1705h__copy_clipboard_data_to_buffer.html">INT 2fH 1705H: Copy Clipboard Data to Buffer</a>
+ <a href="758-int_2fh_1708h__release_control_of_the_clipboard.html">INT 2fH 1708H: Release Control of the Clipboard</a>
+ <a href="759-int_2fh_1709h__see_if_data_will_fit_in_clipboard.html">INT 2fH 1709H: See if Data Will Fit in Clipboard</a>
+ <a href="760-int_2fh_170ah__obtain_device_capabilities.html">INT 2fH 170aH: Obtain Device Capabilities</a>
+
+ <a href="697-int_2fh_1a00h__is_ansi_sys_installed_.html">INT 2fH 1a00H: Is ANSI.SYS Installed?</a>
+
+─────────────────────────── <a href="778-int_2fh_40xxh__virtual_display_driver_functions.html">INT 2fH 40xxH: Virtual Display Driver Functions</a>
+ <a href="779-int_2fh_4000h__enable_vm_assisted_video_save_restore.html">INT 2fH 4000H: Enable VM-Assisted Video Save/Restore</a>
+ <a href="780-int_2fh_4001h__notify_background_switch.html">INT 2fH 4001H: Notify Background Switch</a>
+ <a href="781-int_2fh_4002h__notify_foreground_switch.html">INT 2fH 4002H: Notify Foreground Switch</a>
+ <a href="782-int_2fh_4003h__enter_critical_section.html">INT 2fH 4003H: Enter Critical Section</a>
+ <a href="783-int_2fh_4004h__exit_critical_section.html">INT 2fH 4004H: Exit Critical Section</a>
+ <a href="784-int_2fh_4005h__save_video_register_state.html">INT 2fH 4005H: Save Video Register State</a>
+ <a href="785-int_2fh_4006h__restore_video_register_state.html">INT 2fH 4006H: Restore Video Register State</a>
+ <a href="786-int_2fh_4007h__disable_vm_assisted_video_save_restore.html">INT 2fH 4007H: Disable VM-Assisted Video Save/Restore</a>
+───────────────────────────────────────────────────────────── <a href="944-xms_functions.html">XMS Functions</a>
+ <a href="699-int_2fh_4300h__is_himem_sys__xms_support__installed_.html">INT 2fH 4300H: Is HIMEM.SYS (XMS Support) Installed?</a>
+ <a href="700-int_2fh_4310h__get_himem_sys__xmm__entry_address.html">INT 2fH 4310H: Get HIMEM.SYS (XMM) Entry Address</a>
+                <a href="945-xms_00h__get_xms_version_number.html">XMS 00H: Get XMS Version Number</a>
+                <a href="946-xms_01h__request_high_memory_area.html">XMS 01H: Request High Memory Area</a>
+                <a href="947-xms_02h__release_high_memory_area.html">XMS 02H: Release High Memory Area</a>
+                <a href="948-xms_03h__global_enable_a20.html">XMS 03H: Global Enable A20</a>
+                <a href="949-xms_04h__global_disable_a20.html">XMS 04H: Global Disable A20</a>
+                <a href="950-xms_05h__local_enable_a20.html">XMS 05H: Local Enable A20</a>
+                <a href="951-xms_06h__local_disable_a20.html">XMS 06H: Local Disable A20</a>
+                <a href="952-xms_07h__query_a20_state.html">XMS 07H: Query A20 State</a>
+                <a href="953-xms_08h__query_free_extended_memory.html">XMS 08H: Query Free Extended Memory</a>
+                <a href="954-xms_09h__allocate_extended_memory_block.html">XMS 09H: Allocate Extended Memory Block</a>
+                <a href="955-xms_0ah__free_extended_memory_block.html">XMS 0aH: Free Extended Memory Block</a>
+                <a href="956-xms_0bh__move_extended_memory_block.html">XMS 0bH: Move Extended Memory Block</a>
+                <a href="957-xms_0ch__lock_extended_memory_block.html">XMS 0cH: Lock Extended Memory Block</a>
+                <a href="958-xms_0dh__unlock_extended_memory_block.html">XMS 0dH: Unlock Extended Memory Block</a>
+                <a href="959-xms_0eh__get_handle_information.html">XMS 0eH: Get Handle Information</a>
+                <a href="960-xms_0fh__resize_extended_memory_block.html">XMS 0fH: Resize Extended Memory Block</a>
+                <a href="961-xms_10h__request_upper_memory_block.html">XMS 10H: Request Upper Memory Block</a>
+                <a href="962-xms_11h__release_upper_memory_block.html">XMS 11H: Release Upper Memory Block</a>
+
+─────────────────────────────────────── <a href="701-int_2fh_48xxh__doskey_com_functions.html">INT 2fH 48xxH: DOSKEY.COM Functions</a>
+ <a href="702-int_2fh_4800h__is_doskey_com_installed_.html">INT 2fH 4800H: Is DOSKEY.COM Installed?</a>
+ <a href="703-int_2fh_4810h__get_keyboard_input_with_doskey_editing.html">INT 2fH 4810H: Get Keyboard Input with Doskey Editing</a>
+
+─────────────────────────────────────── <a href="704-int_2fh_4axxh__hma_suballocations.html">INT 2fH 4axxH: HMA Suballocations</a>
+ <a href="705-int_2fh_4a01h__query_hma_free_space_and_address.html">INT 2fH 4a01H: Query HMA Free Space and Address</a>
+ <a href="706-int_2fh_4a02h__suballocate_hma_memory.html">INT 2fH 4a02H: Suballocate HMA Memory</a>
+
+────────────────────────── <a href="815-microsoft_real_time_compression_interface__mrci_.html">Microsoft Real-time Compression Interface (MRCI)</a>
+ <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H: Get MRCI Installed State and Entry Address</a>
+                <a href="817-mrci_fn_0001h__compress_data.html">MRCI Fn 0001H: Compress Data</a>
+                <a href="818-mrci_fn_0002h__decompress_data.html">MRCI Fn 0002H: Decompress Data</a>
+                <a href="819-mrci_fn_0020h__incrementally_decompress_data.html">MRCI Fn 0020H: Incrementally Decompress Data</a>
+                <a href="820-mrci_fn_ffffh__deinstall_server.html">MRCI Fn ffffH: Deinstall Server</a>
+
+─────────────────────────────────── <a href="790-int_2fh_4a11h__doublespace_api_services.html">INT 2fH 4a11H: DoubleSpace API Services</a>
+ <a href="791-int_2fh_4a11h_bx_0000h__get_dblspace_version___drives.html">INT 2fH 4a11H BX=0000H: Get Dblspace Version &amp; Drives</a>
+ <a href="792-int_2fh_4a11h_bx_0001h__get_dblspace_drive_mapping.html">INT 2fH 4a11H BX=0001H: Get Dblspace Drive Mapping</a>
+ <a href="793-int_2fh_4a11h_bx_0002h__dblspace_swap_drive.html">INT 2fH 4a11H BX=0002H: Dblspace Swap Drive</a>
+ <a href="794-int_2fh_4a11h_bx_0005h__mount_dblspace_drive.html">INT 2fH 4a11H BX=0005H: Mount Dblspace Drive</a>
+ <a href="795-int_2fh_4a11h_bx_0006h__unmount_dblspace_drive.html">INT 2fH 4a11H BX=0006H: Unmount Dblspace Drive</a>
+ <a href="796-int_2fh_4a11h_bx_0007h__get_dblspace_disk_size___free_space.html">INT 2fH 4a11H BX=0007H: Get Dblspace Disk Size / Free Space</a>
+ <a href="797-int_2fh_4a11h_bx_0008h__get_cvf_fragmentation_info.html">INT 2fH 4a11H BX=0008H: Get CVF Fragmentation Info</a>
+ <a href="798-int_2fh_4a11h_bx_0009h__get_count_of_disk_unit_structures.html">INT 2fH 4a11H BX=0009H: Get Count of DISK_UNIT Structures</a>
+ <a href="799-int_2fh_4a11h_bx_000ah__set_automount_drives.html">INT 2fH 4a11H BX=000aH: Set Automount Drives</a>
+ <a href="800-int_2fh_4a11h_bx_000bh__query_automount_drives.html">INT 2fH 4a11H BX=000bH: Query Automount Drives</a>
+
+────────────────────────────────────────────────────────────── <a href="708-switcher_api.html">Switcher API</a>
+ <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4BxxH: Task Switcher Functions</a>
+ <a href="710-int_2fh_4b01h__build_notification_chain.html">INT 2fH 4B01H: Build Notification Chain</a>
+ <a href="711-int_2fh_4b02h__is_switcher_installed____get_service_addr.html">INT 2fH 4B02H: Is Switcher Installed? / Get Service Addr</a>
+ <a href="712-int_2fh_4b03h__allocate_switcher_id.html">INT 2fH 4B03H: Allocate Switcher ID</a>
+ <a href="713-int_2fh_4b04h__free_switcher_id.html">INT 2fH 4B04H: Free Switcher ID</a>
+ <a href="714-int_2fh_4b05h__identify_instance_data.html">INT 2fH 4B05H: Identify Instance Data</a>
+                <a href="715-swntfy_fn_0000h__a_switcher_is_being_initialized.html">SwNtfy Fn 0000H: A Switcher Is Being Initialized</a>
+                <a href="716-swntfy_fn_0001h__can_switcher_suspend_your_session_.html">SwNtfy Fn 0001H: Can Switcher Suspend Your Session?</a>
+                <a href="717-swntfy_fn_0002h__switcher_is_suspending_your_session.html">SwNtfy Fn 0002H: Switcher Is Suspending Your Session</a>
+                <a href="718-swntfy_fn_0003h__switcher_is_activating_your_session.html">SwNtfy Fn 0003H: Switcher Is Activating Your Session</a>
+                <a href="719-swntfy_fn_0004h__session_is_now_active.html">SwNtfy Fn 0004H: Session Is Now Active</a>
+                <a href="720-swntfy_fn_0005h__switcher_is_creating_a_session.html">SwNtfy Fn 0005H: Switcher Is Creating a Session</a>
+                <a href="721-swntfy_fn_0006h__switcher_is_destroying_a_session.html">SwNtfy Fn 0006H: Switcher Is Destroying a Session</a>
+                <a href="722-swntfy_fn_0007h__switcher_is_exiting.html">SwNtfy Fn 0007H: Switcher Is Exiting</a>
+                <a href="723-swsrvc_fn_0000h__get_switcher_version.html">SwSrvc Fn 0000H: Get Switcher Version</a>
+                <a href="724-swsrvc_fn_0001h__test_memory_region.html">SwSrvc Fn 0001H: Test Memory Region</a>
+                <a href="725-swsrvc_fn_0002h__suspend_switcher.html">SwSrvc Fn 0002H: Suspend Switcher</a>
+                <a href="726-swsrvc_fn_0003h__resume_switcher.html">SwSrvc Fn 0003H: Resume Switcher</a>
+                <a href="727-swsrvc_fn_0004h__hook_notification_chain.html">SwSrvc Fn 0004H: Hook Notification Chain</a>
+                <a href="728-swsrvc_fn_0005h__unhook_notification_chain.html">SwSrvc Fn 0005H: Unhook Notification Chain</a>
+                <a href="729-swsrvc_fn_0006h__query_api_support.html">SwSrvc Fn 0006H: Query API Support</a>
+
+───────────────────────────────────────── <a href="735-int_2fh_adxxh__keyb_com_functions.html">INT 2fH adxxH: KEYB.COM Functions</a>
+ <a href="736-int_2fh_ad80h__is_keyb_com_installed____get_version.html">INT 2fH ad80H: Is KEYB.COM Installed? / Get Version</a>
+ <a href="737-int_2fh_ad81h__set_keyb_com_active_code_page.html">INT 2fH ad81H: Set KEYB.COM Active Code Page</a>
+ <a href="738-int_2fh_ad82h__set_keyb_com_country_flag.html">INT 2fH ad82H: Set KEYB.COM Country Flag</a>
+ <a href="739-int_2fh_ad83h__query_keyb_com_country_flag.html">INT 2fH ad83H: Query KEYB.COM Country Flag</a>
+
+──────────────────────── <a href="740-int_2fh_aexxh__command_processor_command_line_hook.html">INT 2fH aexxH: Command Processor Command-Line Hook</a>
+ <a href="741-int_2fh_ae00h__notify_pending_command.html">INT 2fH ae00H: Notify Pending Command</a>
+ <a href="742-int_2fh_ae01h__process_hooked_command.html">INT 2fH ae01H: Process Hooked Command</a>
+
+ <a href="743-int_2fh_b000h__is_graftabl_com_installed_.html">INT 2fH b000H: Is GRAFTABL.COM Installed?</a>
+
+─────────────────────────────────────── <a href="744-int_2fh_b7xxh__append_exe_functions.html">INT 2fH b7xxH: APPEND.EXE Functions</a>
+ <a href="745-int_2fh_b700h__is_append_exe_installed_.html">INT 2fH b700H: Is APPEND.EXE Installed?</a>
+ <a href="746-int_2fh_b702h__get_append_exe_version.html">INT 2fH b702H: Get APPEND.EXE Version</a>
+ <a href="747-int_2fh_b704h__get_append_exe_path_string.html">INT 2fH b704H: Get APPEND.EXE Path String</a>
+ <a href="748-int_2fh_b706h__query_append_exe_option_settings.html">INT 2fH b706H: Query APPEND.EXE Option Settings</a>
+ <a href="749-int_2fh_b707h__set_append_exe_options___disable_append.html">INT 2fH b707H: Set APPEND.EXE Options / Disable APPEND</a>
+ <a href="750-int_2fh_b711h__set_append_exe_truename_flag.html">INT 2fH b711H: Set APPEND.EXE Truename Flag</a>
+
+ <a href="825-int_2fh_xxfbh__faxbios_functions.html">INT 2fH xxfbH: FaxBIOS Functions</a>
+───────────────────────────────────────────────────────────── <a href="571-dpmi_services.html">DPMI Services</a>
+ <a href="573-int_2fh_1687h__get_real_to_protected_mode_switch_address.html">INT 2fH 1687H: Get Real-to-Protected Mode Switch Address</a>
+ <a href="574-int_2fh_168ah__get_vendor_specific_dpmi_api_entry_address.html">INT 2fH 168AH: Get Vendor-Specific DPMI API Entry Address</a>
+
+ <a href="575-int_31h_0000h__allocate_ldt_descriptors.html">INT 31H 0000H: Allocate LDT Descriptors</a>
+ <a href="576-int_31h_0001h__free_ldt_descriptor.html">INT 31H 0001H: Free LDT Descriptor</a>
+ <a href="577-int_31h_0002h__segment_to_descriptor.html">INT 31H 0002H: Segment to Descriptor</a>
+ <a href="578-int_31h_0003h__query_selector_increment_value.html">INT 31H 0003H: Query Selector Increment Value</a>
+ <a href="579-int_31h_0006h__query_segment_base_address.html">INT 31H 0006H: Query Segment Base Address</a>
+ <a href="580-int_31h_0007h__set_segment_base_address.html">INT 31H 0007H: Set Segment Base Address</a>
+ <a href="581-int_31h_0008h__set_segment_limit.html">INT 31H 0008H: Set Segment Limit</a>
+ <a href="582-int_31h_0009h__set_descriptor_access_rights.html">INT 31H 0009H: Set Descriptor Access Rights</a>
+ <a href="583-int_31h_000ah__create_alias_descriptor.html">INT 31H 000aH: Create Alias Descriptor</a>
+ <a href="584-int_31h_000bh__query_descriptor.html">INT 31H 000bH: Query Descriptor</a>
+ <a href="585-int_31h_000ch__set_descriptor.html">INT 31H 000cH: Set Descriptor</a>
+ <a href="586-int_31h_000dh__allocate_specific_descriptor.html">INT 31H 000dH: Allocate Specific Descriptor</a>
+ <a href="587-int_31h_000eh__query_multiple_descriptors.html">INT 31H 000eH: Query Multiple Descriptors</a>
+ <a href="588-int_31h_000fh__set_multiple_descriptors.html">INT 31H 000fH: Set Multiple Descriptors</a>
+ <a href="589-int_31h_0100h__allocate_dos_memory_block.html">INT 31H 0100H: Allocate DOS Memory Block</a>
+ <a href="590-int_31h_0101h__free_dos_memory_block.html">INT 31H 0101H: Free DOS Memory Block</a>
+ <a href="591-int_31h_0102h__resize_dos_memory_block.html">INT 31H 0102H: Resize DOS Memory Block</a>
+ <a href="592-int_31h_0200h__query_real_mode_interrupt_vector.html">INT 31H 0200H: Query Real-mode Interrupt Vector</a>
+ <a href="593-int_31h_0201h__set_real_mode_interrupt_vector.html">INT 31H 0201H: Set Real-mode Interrupt Vector</a>
+ <a href="594-int_31h_0202h__query_processor_exception_handler_vector.html">INT 31H 0202H: Query Processor Exception Handler Vector</a>
+ <a href="595-int_31h_0203h__set_processor_exception_handler_vector.html">INT 31H 0203H: Set Processor Exception Handler Vector</a>
+ <a href="596-int_31h_0204h__query_protected_mode_interrupt_vector.html">INT 31H 0204H: Query Protected-Mode Interrupt Vector</a>
+ <a href="597-int_31h_0205h__set_protected_mode_interrupt_vector.html">INT 31H 0205H: Set Protected-mode Interrupt Vector</a>
+ <a href="598-int_31h_0210h__query_exception_handler_vector__prot__mode_.html">INT 31H 0210H: Query Exception Handler Vector (Prot. Mode)</a>
+ <a href="599-int_31h_0211h__query_exception_handler_vector__real_mode_.html">INT 31H 0211H: Query Exception Handler Vector (Real Mode)</a>
+ <a href="600-int_31h_0212h__set_exception_handler_vector__prot__mode_.html">INT 31H 0212H: Set Exception Handler Vector (Prot. Mode)</a>
+ <a href="601-int_31h_0213h__set_exception_handler_vector__real_mode_.html">INT 31H 0213H: Set Exception Handler Vector (Real Mode)</a>
+ <a href="602-int_31h_0300h__simulate_real_mode_interrupt.html">INT 31H 0300H: Simulate Real Mode Interrupt</a>
+ <a href="603-int_31h_0301h__simulate_real_mode_far_call.html">INT 31H 0301H: Simulate Real Mode FAR CALL</a>
+ <a href="604-int_31h_0302h__simulate_real_mode_call_for_iret.html">INT 31H 0302H: Simulate Real Mode CALL for IRET</a>
+ <a href="605-int_31h_0303h__allocate_real_mode_callback_address.html">INT 31H 0303H: Allocate Real-mode Callback Address</a>
+ <a href="606-int_31h_0304h__free_real_mode_callback_address.html">INT 31H 0304H: Free Real-mode Callback Address</a>
+ <a href="607-int_31h_0305h__query_state_save_restore_addresses.html">INT 31H 0305H: Query State Save/Restore Addresses</a>
+ <a href="608-int_31h_0306h__query_raw_mode_switch_address.html">INT 31H 0306H: Query Raw Mode-Switch Address</a>
+ <a href="609-int_31h_0400h__query_dpmi_version.html">INT 31H 0400H: Query DPMI Version</a>
+ <a href="610-int_31h_0401h__query_dpmi_capabilities.html">INT 31H 0401H: Query DPMI Capabilities</a>
+ <a href="611-int_31h_0500h__query_free_memory_information.html">INT 31H 0500H: Query Free Memory Information</a>
+ <a href="612-int_31h_0501h__allocate_memory_block.html">INT 31H 0501H: Allocate Memory Block</a>
+ <a href="613-int_31h_0502h__free_memory_block.html">INT 31H 0502H: Free Memory Block</a>
+ <a href="614-int_31h_0503h__resize_memory_block.html">INT 31H 0503H: Resize Memory Block</a>
+ <a href="615-int_31h_0504h__allocate_linear_memory_block.html">INT 31H 0504H: Allocate Linear Memory Block</a>
+ <a href="616-int_31h_0505h__resize_linear_memory_block.html">INT 31H 0505H: Resize Linear Memory Block</a>
+ <a href="617-int_31h_0506h__query_page_attributes.html">INT 31H 0506H: Query Page Attributes</a>
+ <a href="618-int_31h_0507h__set_page_attributes.html">INT 31H 0507H: Set Page Attributes</a>
+ <a href="619-int_31h_0508h__map_device_in_memory_block.html">INT 31H 0508H: Map Device in Memory Block</a>
+ <a href="620-int_31h_0509h__map_conventional_memory_in_memory_block.html">INT 31H 0509H: Map Conventional Memory in Memory Block</a>
+ <a href="621-int_31h_050ah__query_memory_block_size_and_base.html">INT 31H 050aH: Query Memory Block Size and Base</a>
+ <a href="622-int_31h_050bh__query_memory_information.html">INT 31H 050bH: Query Memory Information</a>
+ <a href="623-int_31h_0600h__lock_linear_region.html">INT 31H 0600H: Lock Linear Region</a>
+ <a href="624-int_31h_0601h__unlock_linear_region.html">INT 31H 0601H: Unlock Linear Region</a>
+ <a href="625-int_31h_0602h__mark_real_mode_region_as_pageable.html">INT 31H 0602H: Mark Real-Mode Region as Pageable</a>
+ <a href="626-int_31h_0603h__relock_real_mode_region.html">INT 31H 0603H: Relock Real-Mode Region</a>
+ <a href="627-int_31h_0604h__query_page_size.html">INT 31H 0604H: Query Page Size</a>
+ <a href="628-int_31h_0700h__mark_page_as_demand_paging_candidate.html">INT 31H 0700H: Mark Page as Demand-Paging Candidate</a>
+ <a href="629-int_31h_0701h__discard_page_contents.html">INT 31H 0701H: Discard Page Contents</a>
+ <a href="630-int_31h_0800h__physical_address_mapping.html">INT 31H 0800H: Physical Address Mapping</a>
+ <a href="631-int_31h_0801h__free_physical_address_mapping.html">INT 31H 0801H: Free Physical Address Mapping</a>
+ <a href="632-int_31h_0900h__query_and_disable_virtual_interrupt_state.html">INT 31H 0900H: Query and Disable Virtual Interrupt State</a>
+ <a href="633-int_31h_0901h__query_and_disable_virtual_interrupt_state.html">INT 31H 0901H: Query and Disable Virtual Interrupt State</a>
+ <a href="634-int_31h_0902h__query_virtual_interrupt_state.html">INT 31H 0902H: Query Virtual Interrupt State</a>
+ <a href="635-int_31h_0a00h__get_vendor_specific_api_entry_address.html">INT 31H 0a00H: Get Vendor-Specific API Entry Address</a>
+ <a href="636-int_31h_0b00h__set_debug_watchpoint.html">INT 31H 0b00H: Set Debug Watchpoint</a>
+ <a href="637-int_31h_0b01h__clear_debug_watchpoint.html">INT 31H 0b01H: Clear Debug Watchpoint</a>
+ <a href="638-int_31h_0b02h__query_state_of_debug_watchpoint.html">INT 31H 0b02H: Query State of Debug Watchpoint</a>
+ <a href="639-int_31h_0b03h__reset_debug_watchpoint.html">INT 31H 0b03H: Reset Debug Watchpoint</a>
+ <a href="640-int_31h_0c00h__setup_dpmi_tsr_callback.html">INT 31H 0c00H: Setup DPMI TSR Callback</a>
+ <a href="641-int_31h_0c01h__protected_mode_terminate_and_stay_resident.html">INT 31H 0c01H: Protected-Mode Terminate and Stay Resident</a>
+ <a href="642-int_31h_0d00h__allocate_shared_memory.html">INT 31H 0d00H: Allocate Shared Memory</a>
+ <a href="643-int_31h_0d01h__free_shared_memory.html">INT 31H 0d01H: Free Shared Memory</a>
+ <a href="644-int_31h_0d02h__serialize_on_shared_memory.html">INT 31H 0d02H: Serialize on Shared Memory</a>
+ <a href="645-int_31h_0d03h__free_serialization_on_shared_memory.html">INT 31H 0d03H: Free Serialization on Shared Memory</a>
+ <a href="646-int_31h_0e00h__query_coprocessor_status.html">INT 31H 0e00H: Query Coprocessor Status</a>
+ <a href="647-int_31h_0e01h__set_coprocessor_emulation.html">INT 31H 0e01H: Set Coprocessor Emulation</a>
+─────────────────────────────────────────────────────<a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+ <a href="833-int_33h_0000h__reset_query_installed_state.html">INT 33H 0000H: Reset/Query Installed State</a>
+ <a href="834-int_33h_0001h__show_mouse_pointer.html">INT 33H 0001H: Show Mouse Pointer</a>
+ <a href="835-int_33h_0002h__hide_mouse_pointer.html">INT 33H 0002H: Hide Mouse Pointer</a>
+ <a href="836-int_33h_0003h__query_position___button_status.html">INT 33H 0003H: Query Position / Button Status</a>
+ <a href="837-int_33h_0004h__set_mouse_pointer_position.html">INT 33H 0004H: Set Mouse Pointer Position</a>
+ <a href="838-int_33h_0005h__query_button_pressed_counter.html">INT 33H 0005H: Query Button-Pressed Counter</a>
+ <a href="839-int_33h_0006h__query_button_released_counter.html">INT 33H 0006H: Query Button-Released Counter</a>
+ <a href="840-int_33h_0007h__set_horizontal_range.html">INT 33H 0007H: Set Horizontal Range</a>
+ <a href="841-int_33h_0008h__set_vertical_range.html">INT 33H 0008H: Set Vertical Range</a>
+ <a href="842-int_33h_0009h__set_graphics_pointer_shape.html">INT 33H 0009H: Set Graphics Pointer Shape</a>
+ <a href="843-int_33h_000ah__set_text_pointer_mask.html">INT 33H 000aH: Set Text Pointer Mask</a>
+ <a href="844-int_33h_000bh__query_motion_distance.html">INT 33H 000bH: Query Motion Distance</a>
+ <a href="845-int_33h_000ch__set_mouse_event_handler.html">INT 33H 000cH: Set Mouse Event Handler</a>
+ <a href="846-int_33h_000dh__enable_lightpen_emulation.html">INT 33H 000dH: Enable Lightpen Emulation</a>
+ <a href="847-int_33h_000eh__disable_lightpen_emulation.html">INT 33H 000eH: Disable Lightpen Emulation</a>
+ <a href="848-int_33h_000fh__set_pointer_speed.html">INT 33H 000fH: Set Pointer Speed</a>
+ <a href="849-int_33h_0010h__set_exclusion_area.html">INT 33H 0010H: Set Exclusion Area</a>
+ <a href="850-int_33h_0013h__set_speed_doubling_threshold.html">INT 33H 0013H: Set Speed-Doubling Threshold</a>
+ <a href="851-int_33h_0014h__exchange_mouse_event_handler.html">INT 33H 0014H: Exchange Mouse Event Handler</a>
+ <a href="852-int_33h_0015h__query_size_of_mouse_status_buffer.html">INT 33H 0015H: Query Size of Mouse Status Buffer</a>
+ <a href="853-int_33h_0016h__save_mouse_status.html">INT 33H 0016H: Save Mouse Status</a>
+ <a href="854-int_33h_0017h__restore_mouse_status.html">INT 33H 0017H: Restore Mouse Status</a>
+ <a href="855-int_33h_0018h__set_alternate_event_handler.html">INT 33H 0018H: Set Alternate Event Handler</a>
+ <a href="856-int_33h_0019h__query_user_alternate_event_handler.html">INT 33H 0019H: Query User Alternate Event Handler</a>
+ <a href="857-int_33h_001ah__set_mouse_sensitivity.html">INT 33H 001aH: Set Mouse Sensitivity</a>
+ <a href="858-int_33h_001bh__query_mouse_sensitivity.html">INT 33H 001bH: Query Mouse Sensitivity</a>
+ <a href="859-int_33h_001ch__set_inport_mouse_interrupt_rate.html">INT 33H 001cH: Set Inport Mouse Interrupt Rate</a>
+ <a href="860-int_33h_001dh__set_mouse_display_page.html">INT 33H 001dH: Set Mouse Display Page</a>
+ <a href="861-int_33h_001eh__query_mouse_display_page.html">INT 33H 001eH: Query Mouse Display Page</a>
+ <a href="862-int_33h_001fh__deactivate_mouse_driver.html">INT 33H 001fH: Deactivate Mouse Driver</a>
+ <a href="863-int_33h_0020h__reenable_mouse_driver.html">INT 33H 0020H: Reenable Mouse Driver</a>
+ <a href="864-int_33h_0021h__reset_mouse_driver.html">INT 33H 0021H: Reset Mouse Driver</a>
+ <a href="865-int_33h_0024h__query_mouse_type_driver_version_irq_.html">INT 33H 0024H: Query Mouse Type/Driver Version/IRQ#</a>
+
+ <a href="258-int_40h__diskette_bios_revector.html">INT 40H: Diskette BIOS Revector</a>
+ <a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">INT 41H and INT 46H: Hard Disk Parameter Pointers</a>
+ <a href="260-int_43h__ega_vga_graphics_character_font_pointer.html">INT 43H: EGA/VGA Graphics Character Font Pointer</a>
+ <a href="261-int_4ah__user_alarm_handler.html">INT 4aH: User Alarm Handler</a>
+───────────────────────────────────────────────────────────── <a href="651-emm_functions.html">EMM Functions</a>
+ <a href="652-int_67h_4000h__get_emm_status.html">INT 67H 4000H: Get EMM Status</a>
+ <a href="653-int_67h_4100h__get_frame_segment_address.html">INT 67H 4100H: Get Frame Segment Address</a>
+ <a href="654-int_67h_4200h__get_ems_memory_total___available.html">INT 67H 4200H: Get EMS Memory Total / Available</a>
+ <a href="655-int_67h_4300h__open_emm_handle_and_allocate_memory.html">INT 67H 4300H: Open EMM Handle and Allocate Memory</a>
+ <a href="656-int_67h_44xxh__map_memory_into_page_frame.html">INT 67H 44xxH: Map Memory into Page Frame</a>
+ <a href="657-int_67h_4500h__close_emm_handle_and_free_memory.html">INT 67H 4500H: Close EMM Handle and Free Memory</a>
+ <a href="658-int_67h_4600h__get_emm_version_number.html">INT 67H 4600H: Get EMM Version Number</a>
+ <a href="659-int_67h_4700h__save_mapping_context.html">INT 67H 4700H: Save Mapping Context</a>
+ <a href="660-int_67h_4800h__restore_mapping_context.html">INT 67H 4800H: Restore Mapping Context</a>
+ <a href="661-int_67h_4b00h__count_handle_s_pages.html">INT 67H 4b00H: Count Handle's Pages</a>
+ <a href="662-int_67h_4c00h__count_active_handles.html">INT 67H 4c00H: Count Active Handles</a>
+ <a href="663-int_67h_4d00h__get_page_information_for_all_handles.html">INT 67H 4d00H: Get Page Information For All Handles</a>
+ <a href="664-int_67h_4exxh__get_set_entire_page_map.html">INT 67H 4exxH: Get/Set Entire Page Map</a>
+ <a href="665-int_67h_4fxxh__get_set_partial_page_map.html">INT 67H 4fxxH: Get/Set Partial Page Map</a>
+ <a href="666-int_67h_50xxh__map_unmap_multiple_pages.html">INT 67H 50xxH: Map/Unmap Multiple Pages</a>
+ <a href="667-int_67h_5100h__resize_ems_handle.html">INT 67H 5100H: Resize EMS Handle</a>
+ <a href="668-int_67h_52xxh__get_set_handle_attribute.html">INT 67H 52xxH: Get/Set Handle Attribute</a>
+ <a href="669-int_67h_53xxh__get_set_handle_name.html">INT 67H 53xxH: Get/Set Handle Name</a>
+ <a href="670-int_67h_54xxh__find_named_handle.html">INT 67H 54xxH: Find Named Handle</a>
+ <a href="671-int_67h_55xxh__alter_page_map_and_jmp.html">INT 67H 55xxH: Alter Page Map and JMP</a>
+ <a href="672-int_67h_56xxh__alter_page_map_and_call.html">INT 67H 56xxH: Alter Page Map and CALL</a>
+ <a href="673-int_67h_57xxh__move_exchange_memory.html">INT 67H 57xxH: Move/Exchange Memory</a>
+ <a href="674-int_67h_58xxh__get_mappable_physical_address_array.html">INT 67H 58xxH: Get Mappable Physical Address Array</a>
+ <a href="675-int_67h_59xxh__get_hardware_configuration.html">INT 67H 59xxH: Get Hardware Configuration</a>
+ <a href="676-int_67h_5axxh__allocate_standard_or_raw_pages.html">INT 67H 5axxH: Allocate Standard or Raw Pages</a>
+ <a href="677-int_67h_5bxxh__alternate_map_register_set.html">INT 67H 5bxxH: Alternate Map Register Set</a>
+ <a href="678-int_67h_5c00h__prepare_for_warm_boot.html">INT 67H 5c00H: Prepare for warm boot</a>
+ <a href="679-int_67h_5dxxh__enable_disable_os_function_set_functions.html">INT 67H 5dxxH: Enable/Disable OS Function Set Functions</a>
+
+ <a href="262-int_70h__real_time_clock_interrupt_handler.html">INT 70H: Real-Time Clock Interrupt Handler</a>
+
+See Also: <a href="25-api_index.html">API Index</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Fns QuickRef</a>   <a href="23-dos_function_index___by_number.html">by Number</a>   <a href="24-dos_function_index___by_dos_version.html">by DOS Version</a>  <a href="22-obsolete_dos_functions.html">Obsolete Fns</a>
+          <a href="558-dos_interrupts.html">DOS Interrupts</a>
+          <a href="6-system_service_groups.html">Service Groups</a>
+          <a href="4-general_index.html">General Index</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

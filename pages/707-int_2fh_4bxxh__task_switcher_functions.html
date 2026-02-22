@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4BxxH: Task Switcher Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4BxxH: Task Switcher Functions</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+     See: <a href="709-switcher_api_overview.html">Switcher API Overview</a> for background info.
+
+          <a href="710-int_2fh_4b01h__build_notification_chain.html">4b01H</a> (build notification chain)
+
+          <a href="711-int_2fh_4b02h__is_switcher_installed____get_service_addr.html">4b02H</a> (is switcher installed? / get service addr)
+
+          <a href="712-int_2fh_4b03h__allocate_switcher_id.html">4b03H</a> (allocate switcher ID)
+
+          <a href="713-int_2fh_4b04h__free_switcher_id.html">4b04H</a> (free switcher ID)
+
+          <a href="714-int_2fh_4b05h__identify_instance_data.html">4b05H</a> (identify instance data)
+
+          <a href="708-switcher_api.html">Switcher Services and Notifications</a> (interact with the switcher)
+
+ These functions are used by application programs, especially <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>s, which
+ have special needs with regard to task switching; for instance, programs
+ which must prevent the DOS Shell from swapping them out or switching to
+ another program (say, via Alt+Tab).  They also enable a TSR to maintain
+ instance data--a unique data area for each DOS session.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

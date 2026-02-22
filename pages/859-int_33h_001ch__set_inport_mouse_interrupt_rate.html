@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 001cH: Set Inport Mouse Interrupt Rate - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 001cH: Set Inport Mouse Interrupt Rate</h1><pre>
+ Expects: <span class="c2">AX</span>    001cH
+          <span class="c2">BX</span>    interrupt rate code: 1=none; 2=30 per sec, 4=50 per sec
+                                     8=100 per sec; 16=200 per second
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets the rate at which the mouse hardware will interrupt
+          with updated mouse positions and status.
+
+          This call is only meaningful for the Inport mouse.  Use
+          <a href="865-int_33h_0024h__query_mouse_type_driver_version_irq_.html">INT 33H 0024H</a> to see if an Inport mouse is installed.
+
+          Increasing the number of interrupts per second provides more
+          accuracy for the mouse, but makes the foreground application slow
+          down.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

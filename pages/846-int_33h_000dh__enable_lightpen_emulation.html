@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 000dH: Enable Lightpen Emulation - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 000dH: Enable Lightpen Emulation</h1><pre>
+ Expects: <span class="c2">AX</span>    000dH
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This causes the mouse support to work with programs which are
+          written to support a light pen (e.g., using the PEN function on
+          BASIC).  The mouse support apparently intercepts <a href="119-int_10h_04h__query_light_pen.html">INT 10H 04H</a> when
+          this feature is enabled.
+
+          When enabled, a click of either button is taken as a press of the
+          pen button at current mouse position.
+
+          Disable this support via <a href="847-int_33h_000eh__disable_lightpen_emulation.html">INT 33H 000eH</a>.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

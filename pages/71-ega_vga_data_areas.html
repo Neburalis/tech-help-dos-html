@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>EGA/VGA Data Areas - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>EGA/VGA Data Areas</h1><pre> These data variables are defined when an <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> or <a href="70-video_graphics_array__vga_.html">VGA</a> is installed.
+
+ Address   Size Contents   (most are in <a href="93-rom_bios_variables.html">BIOS Data Area</a>)
+ ▀▀▀▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 0000:0074   4  <span class="c1">prVidInit</span>  <a href="255-int_1dh__video_initialization_table_pointer.html">INT 1dH</a> address of <a href="90-video_initialization_table.html">VidInitRec</a>
+ 0000:010c   4  <span class="c1">prFont</span>     <a href="260-int_43h__ega_vga_graphics_character_font_pointer.html">INT 43H</a> addr of <a href="91-video_font_definition.html">Font Definition Data</a> for gfx
+
+ 0040:0085   2  <span class="c1">wPoints</span>    height of character matrix (scan lines)
+ 0040:0087   1  <span class="c1">bInfo</span>      bit fields in <a href="72-egamiscinforec.html">EgaMiscInfoRec</a> layout
+ 0040:0088   1  <span class="c1">bInfo2</span>     bit fields in <a href="72-egamiscinforec.html">EgaMiscInfo2Rec</a> layout
+ 0040:0089   1  <span class="c1">rFlags</span>     bit fields in <a href="73-vgaflagsrec.html">VgaFlagsRec</a> layout (<span class="c2">VGA</span> only)
+ 0040:008A   1  <span class="c1">bDccIdx</span>    current display combo in <a href="81-vgadccrec.html">VgaDccRec</a> (<span class="c2">VGA</span> only)
+ 0040:00a8   4  <span class="c1">pfrSavePtr</span> far address of an <a href="74-egasaveptrrec.html">EgaSavePtrRec</a> <span class="c2">═══╗</span>
+  <span class="c2">╔═══════════════════════════════════════════════════════════╝</span>
+  <span class="c2">╚►</span>┌ <a href="74-egasaveptrrec.html">EgaSavePtrRec</a> ─┐
+    │ <span class="c1">pfrVidParms</span>   <span class="c2">════►</span> <a href="75-egavidparmsrec.html">EgaVidParmsRec</a>
+    │ <span class="c1">pfrDynParms</span>   <span class="c2">════►</span> <a href="76-egadynamicsaverec.html">EgaDynamicSaveRec</a>   or 0000:0000
+    │ <span class="c1">pfrTxtAuxFnt</span>  <span class="c2">════►</span> <a href="77-egatxtfontrec.html">EgaTxtFontRec</a> <span class="c2">════╗</span> or 0000:0000
+    │ <span class="c1">pfrGfxAuxFnt</span>  <span class="c2">════►</span> <a href="78-egagfxfontrec.html">EgaGfxFontRec</a> <span class="c2">═══╗║</span> or 0000:0000
+    │ <span class="c1">pfrSavePtr2</span>   <span class="c2">════►</span> <a href="79-vgasaveptr2rec.html">VgaSavePtr2Rec</a> <span class="c2">═╗║║</span>
+    └────────────────┘                    <span class="c2">║║║</span>
+<span class="c2">╔═════════════════════════════════════════╝║║</span>
+<span class="c2">║╔═════════════════════════════════════════╝║</span>
+<span class="c2">║║╔═════════════════════════════════════════╝</span>
+<span class="c2">║║╚►</span>┌ <a href="77-egatxtfontrec.html">EgaTxtFontRec</a> ──┐
+<span class="c2">║║</span>  │ <span class="c1">font info</span>       │
+<span class="c2">║║</span>  │ <span class="c1">pfFontDefData</span> <span class="c2">════►</span> <a href="91-video_font_definition.html">Font Definition Data</a>
+<span class="c2">║║</span>  └─────────────────┘
+<span class="c2">║║</span>
+<span class="c2">║╚═►</span>┌ <a href="78-egagfxfontrec.html">EgaGfxFontRec</a> ──┐
+<span class="c2">║</span>   │ <span class="c1">font info</span>       │
+<span class="c2">║</span>   │ <span class="c1">pfFontDefData</span> <span class="c2">════►</span> <a href="91-video_font_definition.html">Font Definition Data</a>
+<span class="c2">║</span>   └─────────────────┘
+<span class="c2">║</span>
+<span class="c2">╚══►</span>┌ <a href="79-vgasaveptr2rec.html">VgaSavePtr2Rec</a> ┐ (<span class="c2">VGA</span> only)
+    │ <span class="c1">pfrDccRec</span>     <span class="c2">════►</span> <a href="81-vgadccrec.html">VgaDccRec</a>
+    │ <span class="c1">pfrTxtAuxFnt</span>  <span class="c2">════►</span> <a href="77-egatxtfontrec.html">EgaTxtFontRec</a>        or 0000:0000
+    │ <span class="c1">pfrPalProf</span>    <span class="c2">════►</span> <a href="80-vgapaletteprofilerec.html">VgaPaletteProfileRec</a> or 0000:0000
+    └────────────────┘
+
+      <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">INT 10H 1bH</a>   <span class="c2">════►</span> <a href="82-vga_dynamic_state_table.html">VgaDynamicStateRec</a> <span class="c2">════►</span> <a href="83-vga_static_functionality_table.html">VgaStaticFnalityRec</a>
+
+See Also: <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+          <a href="89-video_memory_layouts.html">Video Memory Layouts</a>
+          <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

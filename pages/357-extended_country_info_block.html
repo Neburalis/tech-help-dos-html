@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Extended Country Info Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Extended Country Info Block</h1><pre>
+ This topic covers the ExtCountryInfoRec returned by fn <a href="544-dos_fn_6501h__get_extended_country_information.html">6501H</a>.  See
+ <a href="343-country_info_block.html">CountryInfoRec</a> for the subset of this structure obtained via the older
+ fn <a href="431-dos_fn_38h__get_set_country_dependent_info.html">38H</a>.
+
+<span class="c2">ExtCountryInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bRecID</span>       Information ID (01H on calls to fn <a href="544-dos_fn_6501h__get_extended_country_information.html">6501H</a>)
+   +1      2  <span class="c1">wRecLen</span>      size of information
+   +3      2  <span class="c1">wCountryID</span>   <a href="342-country_id_codes.html">Country Code</a>
+   +5      2  <span class="c1">wCodePgID</span>    <a href="340-code_page.html">Code Page</a>
+   +7      2  <span class="c1">wDateFormat</span>  date format
+   +9      5  <span class="c1">szCrncySymb</span>  currency symbol (ASCIIZ<a href="913-qasciiz.html">▲</a>)
+  +0eH     2  <span class="c1">szThouSep</span>    thousands separator (ASCIIZ)
+  +10H     2  <span class="c1">szDecSep</span>     decimal separator (ASCIIZ)
+  +12H     2  <span class="c1">szDateSep</span>    date separator (ASCIIZ)
+  +14H     2  <span class="c1">szTimeSep</span>    time separator (ASCIIZ)
+  +16H     1  <span class="c1">bCrncyFlags</span>  currency format flags
+  +17H     1  <span class="c1">bCrncyDigits</span> decimals digits in currency
+  +18H     1  <span class="c1">bTimeFormat</span>  time format
+  +19H     4  <span class="c1">pfCasemap</span>    Casemap FAR call address
+  +1dH     2  <span class="c1">szDataSep</span>    data list separator (ASCIIZ)
+  +1fH    10  <span class="c1">res</span>          reserved zeros
+          41               length of return buffer
+
+      <span class="c1">bRecID</span>  The record ID, as used in all <span class="c2">3.3+</span> NLS fns.
+     <span class="c1">wRecLen</span>  The size of the following information.  Be suer to check this,
+              to avoid the chance that DOS returns a truncated record.
+  <span class="c1">wCountryID</span>  <a href="342-country_id_codes.html">Country ID</a>
+   <span class="c1">wCodePgID</span>  <a href="340-code_page.html">Code Page ID</a>
+ <span class="c1">wDateFormat</span>  How to print a date: 0000H = MM/DD/YY (as in USA)
+                                   0001H = DD/MM/YY (as in Europe)
+                                   0002H = YY/MM/DD (as in Japan)
+ <span class="c1">szCrncySymb</span>  ASCIIZ<a href="913-qasciiz.html">▲</a> char(s) used for printing currency amounts
+   <span class="c1">szThouSep</span>  ASCIIZ  char used to separate 1000 place (e.g., comma)
+    <span class="c1">szDecSep</span>  ASCIIZ  char used to separate number from decimal (e.g.,
+              period)
+   <span class="c1">szDateSep</span>  ASCIIZ  char used to separate elements of a date
+   <span class="c1">szTimeSep</span>  ASCIIZ  char used to separate elements hours from minutes
+ <span class="c1">bCrncyFlags</span>  currency format code, e.g.:  0=&quot;<span class="c2">$123.00</span>&quot;;  1=&quot;<span class="c2">123.00$</span>&quot;;
+                                         2=&quot;<span class="c2">$ 123.00</span>&quot;; 3=&quot;<span class="c2">123.00 $</span>&quot;
+<span class="c1">bCrncyDigits</span>  The number of places that appear to the right of the decimal
+              point when printing currency amounts.
+ <span class="c1">bTimeFormat</span>  time format:  0=12-hour clock, 1=24-hour clock
+   <span class="c1">pfCasemap</span>  CaseMap FAR Call address (see note)
+   <span class="c1">szDataSep</span>  ASCIIZ  char used to separate elements of a list (e.g., comma)
+
+   Notes: ■ The CaseMap call can be used to assign <span class="c1">ASCII weights</span> to
+            characters above 80H.  For instance, the DOS SORT command uses
+            the CaseMap to assign â,ä,à,å,Ä,Å,æ,and á the same ASCII weight
+            as 'A' and 'a' for sorting purposes.  Different CaseMaps exist
+            for countries with different alphabets.
+
+              To use the CaseMap address:
+                1. Place a byte to 'weigh' into AL
+                2. Make a FAR CALL to the indicated address
+                3. The weight value is returned in AL
+                   All register values (except AL) are preserved
+
+            <span class="c2">Note:</span> DOS 3.3+ provides easy-to-use case-mapping via fn <a href="543-dos_fn_65h__extended_country_information_functions.html">65H</a>.
+
+          ■ When running under DOS version <span class="c2">2.0</span> through <span class="c2">3.2</span>, DOS returns a
+            structure containing some of this information, but in a
+            different layout.  See <a href="343-country_info_block.html">CountryInfoRec</a>.  Be sure you know which
+            version of DOS is active (see fn <a href="417-dos_fn_30h__get_dos_version_number.html">30H</a>).
+
+See Also: <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

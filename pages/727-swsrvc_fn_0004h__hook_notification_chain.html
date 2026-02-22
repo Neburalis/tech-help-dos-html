@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwSrvc Fn 0004H: Hook Notification Chain - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwSrvc Fn 0004H: Hook Notification Chain</h1><pre>
+ Expects: <span class="c2">AX</span>    0004H
+          <span class="c2">ES:DI</span> address of an <a href="731-swcallbackinforec.html">SwCallbackInfoRec</a> structure
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000H and CF is clear (NC) if successful
+                CF is set (CY) if the switcher does not support this fn.
+          ──────────────────────────────────────────────────────────────────
+    Info: Applications use this fn when they wish to be notified of task-
+          switcher operations such as switching session out.
+
+          To access this fn, fill-in an <a href="731-swcallbackinforec.html">SwCallbackInfoRec</a> structure and use
+          a FAR call to the switcher entry address (see <a href="711-int_2fh_4b02h__is_switcher_installed____get_service_addr.html">INT 2fH 4b02H</a>).
+          Your program code pointed to by the <span class="c1">pfHandler</span> in that structure
+          will then receive notifications in the form of FAR calls with AX
+          specifying a notification fn number.
+
+    Note: Before terminating your program (for instance, a TSR which
+          receives notifications) you must use <a href="728-swsrvc_fn_0005h__unhook_notification_chain.html">SwSrvcFn 0005H</a> (unhook).
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

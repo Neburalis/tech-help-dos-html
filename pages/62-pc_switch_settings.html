@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>PC Switch Settings - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>PC Switch Settings</h1><pre>
+ <span class="c1">This topic discusses the switches as defined for IBM logoed PCs only</span>.  On
+ PC-compatible computers, there may be more or fewer switches and they may
+ have different meanings.
+
+ On the original PC (64K byte motherboard; sometimes called the PC-1),
+ there are two DIP switch banks labeled SW1 and SW2.  This is a summary of
+ switch meanings:
+          SW1                                SW 2  (PC-1)
+ON ╓1┬2┬3┬4┬5┬6┬7┬8╖                   ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+ ↑ ║ │ │   │   │   ║                    ↑ ║       │▄│▄│▄│▄║
+   ╙╥┴╥┴─┴─┴─┴─┴─┴─╜                      ╙─┴─┴─┴─┴─┴─┴─┴─╜
+    ║ ║ ╚╦╝ ╚╦╝ ╚═╩═►7-8: diskette drives  ╚══╦══╝ ╚═════╩═► 5-8: always OFF
+    ║ ║  ║   ╚══════►5-6: active display      ╚════════════► 1-4: total RAM
+    ║ ║  ╚══════════►3-4: system board RAM
+    ║ ╚═════════════►  2: 8087 coprocessor
+    ╚═══════════════►  1: diskette drives
+
+ A later version of the PC (sometimes         SW 2  (PC-2)
+ called the PC-2) has a different BIOS  ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+ which interprets the switches somewhat  ↑ ║         │▄│▄│▄║
+ differently.  SW1 is the same but SW2     ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ differs as shown:                         ╚═══╦═══╝ ╚═══╩═► 6-8: always OFF
+                                               ╚═══════════► 1-5: total RAM
+
+ On PCs and XTs, you can change the effect of the switch settings by
+ changing the <a href="59-equipment_list.html">Equipment List</a> bytes in <a href="93-rom_bios_variables.html">BIOS Data Area</a> 0:0410, then rebooting
+ DOS.  First store address 0:0472 with the value 1234H, then do an <a href="243-int_19h__bootstrap_loader.html">INT 19H</a>.
+
+<span class="c2">█▌PC and XT SW1: Diskette Drives▐█</span>
+  This indicates how many diskette drives are attached to the system.
+          SW1
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▄│ │ │ │ │ │▀│▀║ 1 diskette drive  (Note: position 1 is ON if 0 drives)
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▄│ │ │ │ │ │▄│▀║ 2 diskette drives
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▄│ │ │ │ │ │▀│▄║ 3 diskette drives
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▄│ │ │ │ │ │▄│▄║ 4 diskette drives
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+
+<span class="c2">█▌PC and XT SW1: Active Monitor▐█</span>
+  These switches tell the system which display adapter is to be used when
+  the system is turned on.  If the PC displays nothing after power-up, it
+  may be because of an incorrect switch setting.
+           SW1
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║ │ │ │ │▀│▀│ │ ║ None or <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║ │ │ │ │▄│▀│ │ ║ 40x25 Color/Graphics Adapter (CGA)
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║ │ │ │ │▀│▄│ │ ║ 80x25 Color/Graphics Adapter (CGA)
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║ │ │ │ │▄│▄│ │ ║ Monochrome Adapter (MDA) or both MDA and CGA
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+
+<span class="c2">█▌PC and XT SW1: 8087▐█</span>
+  This switch enables the 8087 Coprocessor to interrupt CPU (via <a href="99-int_02h__non_maskable_interrupt.html">INT 02H</a>
+  Non-Maskable Interrupt) when it encounters an exception condition (as in
+  division by 0).  When OFF, software should be installed to trap INT 02H
+  and determine if the interrupt was caused by a memory parity error or an
+  8087 exception condition.
+           SW1
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║ │▄│ │ │ │ │ │ ║ 8087 is installed
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║ │▀│ │ │ │ │ │ ║ 8087 is NOT installed
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+
+<span class="c2">█▌PC SW1: System board RAM▐█</span>
+  These switches should both be OFF on systems that have 64K of memory or
+  more.
+           SW1
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║ │ │▄│▄│ │ │ │ ║ 64K or more on the system board
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+
+<span class="c2">█▌PC-1 SW2: System board RAM▐█</span>
+  These settings are for the original PC (64K maximum on the system board)
+  which does not have a later version of the ROM-BIOS; i.e., it does not
+  have <a href="266-rom_scan.html">ROM-Scan</a> and does not connect to an expansion unit or have a
+  self-booting hard disk.  The maximum settings for this system is 544K.
+
+       SW2  (PC-1)
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖     Note: on PC-1, SW2 positions 5-8 are always OFF
+  ↑ ║▀│▀│▀│▀│ │ │ │ ║ 64K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      ┌───────────────────────────────────────────────┐
+  ↑ ║▀│▄│▀│▀│ │ │ │ ║ 128K │ The settings reflect a binary number of 32K   │
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜      │ blocks where an OFF is a 1-bit.  To set the   │
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      │ switches without using a chart, just remember:│
+  ↑ ║▀│▀│▄│▀│ │ │ │ ║ 192K │                                               │
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜      │     Position 4 = 256Ks  (ON=0, OFF=1)         │
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      │     Position 3 = 128Ks                        │
+  ↑ ║▀│▄│▄│▀│ │ │ │ ║ 256K │     Position 2 =  64Ks                        │
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜      │     Position 1 =  32Ks                        │
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      │                                               │
+  ↑ ║▀│▀│▀│▄│ │ │ │ ║ 320K │ Add them up, then add 64K (system board RAM)  │
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜      │ to get the total system memory.               │
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      └───────────────────────────────────────────────┘
+  ↑ ║▀│▄│▀│▄│ │ │ │ ║ 384K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▀│▀│▄│▄│ │ │ │ ║ 448K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▀│▄│▄│▄│ │ │ │ ║ 512K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▄│▄│▄│▄│ │ │ │ ║ 544K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+
+<span class="c2">█▌PC-2 SW2: System board RAM▐█</span>
+  These settings are for a later version of the IBM-PC (sometimes called the
+  PC-2) which is capable of having 256K on the system board.  These setting
+  also apply to the PC-1 (64K system board) if a later version of the
+  ROM-BIOS has been installed.  If you have a self-booting hard disk or an
+  IBM expansion chassis, you have PC-2 ROMS.  The maximum memory for this
+  model is 640K.
+
+       SW2  (PC-2)
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      Note: on PC-2, SW2 positions 6-8 are always OFF
+  ↑ ║▀│▀│▀│▀│▀│ │ │ ║ 64K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      ┌───────────────────────────────────────────────┐
+  ↑ ║▀│▄│▀│▀│▀│ │ │ ║ 128K │ The settings reflect a binary number of 32K   │
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜      │ blocks where an OFF is a 1-bit.  To set the   │
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      │ switches without using a chart, just remember:│
+  ↑ ║▀│▀│▄│▀│▀│ │ │ ║ 192K │                                               │
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜      │     Position 5 = 512Ks  (ON=0, OFF=1)         │
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      │     Position 4 = 256Ks                        │
+  ↑ ║▀│▄│▄│▀│▀│ │ │ ║ 256K │     Position 3 = 128Ks                        │
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜      │     Position 2 =  64Ks                        │
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      │     Position 1 =  32Ks                        │
+  ↑ ║▀│▀│▀│▄│▀│ │ │ ║ 320K │                                               │
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜      │ Add them up, then add 64K to get the total RAM│
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖      └───────────────────────────────────────────────┘
+  ↑ ║▀│▄│▀│▄│▀│ │ │ ║ 384K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▀│▀│▄│▄│▀│ │ │ ║ 448K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▀│▄│▄│▄│▀│ │ │ ║ 512K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▀│▀│▀│▀│▄│ │ │ ║ 576K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+  ↑ ║▀│▄│▀│▀│▄│ │ │ ║ 640K
+    ╙─┴─┴─┴─┴─┴─┴─┴─╜
+
+See Also: <a href="59-equipment_list.html">Equipment List</a>
+          <a href="61-switch_settings.html">Switch Settings</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

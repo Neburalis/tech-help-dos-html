@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 3300H: Query Break-Check Flag - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 3300H: Query Break-Check Flag</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AX</span>    3300H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DL</span>    current break level (0=OFF, 1=ON)
+          ──────────────────────────────────────────────────────────────────
+    Info: DL is returned with the current Ctrl-Break checking state.
+
+          When Break is ON, DOS checks for Ctrl-Break (or Ctrl+C) from the
+          console during most functions (except 06H and 07H).  When
+          detected, <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> is executed (if INT 23H has not been
+          intercepted, this will abort the process).
+
+          When Break is OFF, DOS checks for Ctrl-Break during <a href="828-standard_i_o_and_i_o_redirection.html">standard I/O</a>,
+          <a href="362-file_handle.html">standard printer</a>, and <a href="362-file_handle.html">standard AUX</a> operations
+          only.
+
+See Also: Fn <a href="422-dos_fn_3301h__set_break_check_level.html">3301H</a> (set break-checking state)
+          Fn <a href="384-dos_fn_0bh__check_input_status.html">0bH</a> (get input status)
+          <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

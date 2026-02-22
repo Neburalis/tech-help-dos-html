@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1aH 07H: Cancel Real-Time Clock Alarm - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1aH 07H: Cancel Real-Time Clock Alarm</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    07H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    0
+          <span class="c2">CF</span>    NC (0) no error
+                CY (1) alarm already operating
+          ──────────────────────────────────────────────────────────────────
+    Info: Cancels an alarm previously set via <a href="251-int_1ah_06h__set_real_time_clock_alarm.html">INT 1aH 06H</a>.
+
+          If you cancel an alarm. you should also restore the original
+          vector for <a href="261-int_4ah__user_alarm_handler.html">INT 4aH</a> (it will normally point to an IRET in ROM-BIOS
+          when unused).
+
+    Note: Using fns INT 1aH 06H and 07H as described is quite unusual.  A
+          more common technique is to patch a TSR into <a href="105-int_08h__timer_interrupt.html">INT 08H</a> and keep an
+          eye on the system time.  That way you can set up multiple timers,
+          etc.
+
+See Also: <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH</a> (BIOS Time I/O)
+          <a href="221-int_15h_86h__wait.html">INT 15H 86H</a> (wait; delay a specified number of milliseconds)
+          <a href="217-int_15h_8300h__set_event_wait_interval.html">INT 15H 8300H</a> (set interval for event wait)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

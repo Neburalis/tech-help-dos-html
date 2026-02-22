@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DTA: Disk Transfer Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DTA: Disk Transfer Address</h1><pre>
+ The old <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a> functions funnel all data through a program-global
+ address called the <span class="c2">DTA</span> or <span class="c2">Data Transfer Address</span>.
+
+ DOS fn <a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">1aH</a> (set DTA) sets or changes the DTA.
+ DOS fn <a href="416-dos_fn_2fh__query_disk_transfer_address__dta_.html">2fH</a> (query DTA) obtains the current address of the DTA.
+
+ When a program starts, its DTA is initially set to <a href="371-psp__program_segment_prefix.html">PSP</a>:0080.  See
+ <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>.
+
+ About the only commonly-used DOS services that uses the DTA are:
+  <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> (find first matching file)
+  <a href="511-dos_fn_4fh__find_next_matching_file.html">4fH</a> (find next matching file)
+
+ If you use these functions in a recursive search through directories,
+ remember to set the DTA to an instance-local area at each level!
+
+See Also: <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

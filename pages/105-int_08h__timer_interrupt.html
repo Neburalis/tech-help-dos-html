@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 08H: Timer Interrupt - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 08H: Timer Interrupt</h1><pre>
+ This hardware-generated interrupt (<span class="c2">IRQ 0</span>) is executed upon each tick of
+ the PC's real-time clock.  The clock ticks every 55ms, or about 18.2 ticks
+ per second.
+
+ The ROM-BIOS (default) code for this interrupt updates the clock values at
+ 0:046c.  It also turns off the diskette drive motors after about 2 seconds
+ without read/write activity.  See <a href="93-rom_bios_variables.html">BIOS Data Area</a> for other variables.
+
+ If you want to use this interrupt for custom timer-keyed activities (as
+ with a <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> program) you must be sure to include the code that tells the
+ system when the interrupt is finished.  The magic sequence is:
+
+          mov     al,20H     ;send End-Of-Interrupt signal
+          out     20H,al     ; to the 8259 Interrupt Controller
+
+ Most TSRs let the default code do this.  For instance, when the TSR is
+ installed, the original vector is saved in a variable named cs:[old_int8].
+ Then the following code is executed on each INT 08H:
+
+         pushf                            ;simulate an INT
+         call  dword ptr cs:[old_int8]    ;perform normal timer actions
+         cmp   cs:my_var,test_value       ;now do customized stuff
+     ... etc. ...
+         iret    ;return to interrupted foreground application program
+
+<span class="c2">█▌CPU Exception Interrupt▐█</span>
+  286+ computer execute INT 08H when encountering a Double Exception Error
+  (an exception while processing an exception).
+
+See Also: <a href="96-irqs__hardware_interrupts.html">IRQs: Hardware Interrupts</a>
+          <a href="904-timer_ports.html">Timer Ports</a>
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR Functions</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

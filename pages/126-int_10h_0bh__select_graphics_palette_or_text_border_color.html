@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 0bH: Select Graphics Palette or Text Border Color - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 0bH: Select Graphics Palette or Text Border Color</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    0bH
+          <span class="c2">BL</span>    text modes: select overscan (border) color
+                            00H-0fH low-intensity colors
+                            10H-1fH high-intensity colors
+                graphics:   select palette combination
+                            0 = green/red/brown
+                            1 = cyan/magenta/white
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: In text modes, this selects a color for the overscan (border)
+          area of the display.
+
+          In CGA-style 4-color graphics <a href="114-video_modes.html">video modes</a> 04H and 05H, this
+          selects one of two supported color-combination palettes.
+
+          To set colors for EGA and VGA graphics modes, use <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H</a>.
+
+See Also: <a href="137-int_10h_1000h__set_one_palette_register.html">INT 10H 1000H</a> (EGA: set one color)
+          <a href="138-int_10h_1001h__set_overscan_border_color_register.html">INT 10H 1001H</a> (EGA: set border color)
+          <a href="139-int_10h_1002h__set_all_palette_registers_and_overscan.html">INT 10H 1002H</a> (EGA: set entire palette and border)
+                                    <span class="c3">-♦-</span></pre></body></html>

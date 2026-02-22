@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS &amp; BIOS Data Structures - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS &amp; BIOS Data Structures</h1><pre>                                                         <a href="334-understanding_tech_help__data_structures.html">About Structures</a>
+┌─ <span class="c2">DOS - File System</span> ───────┐┌─ <span class="c2">DOS - Other</span> ───────────┐┌─ <span class="c2">Dblspace/MRCI</span> ──┐
+│<a href="338-bpb__bios_parameter_block.html">BPB: BIOS Parameter Block</a>  ││<a href="349-dos_variables_block__list_of_lists_.html">ListOfLists</a> (undoc'ed)   ││<a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>        │
+│<a href="348-cds__current_directory_structure.html">CDS: Current Directories</a>   ││<a href="368-mcb__memory_control_block.html">MCB: Memory Control Block</a>││<a href="806-cvf_region__mdbpb.html">MDBPB</a>             │
+│<a href="350-dpb__drive_parameter_block.html">DPB: Drive Parameter Block</a> ││<a href="371-psp__program_segment_prefix.html">PSP: Prgrm Segment Prefix</a>││<a href="807-cvf_region__bitfat.html">BitFAT</a>            │
+│<a href="351-dta__disk_transfer_address.html">DTA: Disk Transfer Address</a> ││                         ││<a href="808-cvf_region__mdfat.html">MDFAT</a>             │
+│<a href="359-fat__dos_file_allocation_table.html">FAT: File Allocation Table</a> ││<a href="346-dos_environment.html">Environment Layout</a>       ││<a href="809-cvf_region__bootsect.html">BootSect</a>          │
+│<a href="360-fcb__file_control_block.html">FCB: File Control Block</a>    ││<a href="369-predefined_environment_variables.html">Predefined E-vars</a>        ││<a href="810-cvf_region__fat.html">FAT</a>               │
+│                           ││                         ││<a href="811-cvf_region__rootdir.html">RootDir</a>           │
+│<a href="335-absdiskiorec.html">AbsDiskIORec</a>               ││<a href="355-exec_parameter_block__execparamrec_.html">ExecParamRec</a>             ││<a href="812-cvf_region__sector_heap.html">Sector Heap</a>       │
+│<a href="337-boot_sector_layout.html">Boot Sector Layout</a>         ││<a href="356-exec_state_record.html">ExecStateRec</a>             ││<a href="813-cvf_region___md_stamps_.html">&quot;MD Stamps&quot;</a>       │
+│<a href="344-directory_entry_layout.html">Directory Entry Layout</a>     ││<a href="366-load_overlay_record__execoverlayrec_.html">ExecOverlayRec</a>           ││                  │
+│<a href="345-disk_partition_table.html">Disk Partition Table</a>       ││<a href="367-load_program_record__execloadrec_.html">ExecLoadRec</a>              ││<a href="814-mapping_dos_fat_to_mdfat.html">Mapping FAT═►MDFAT</a>│
+│<a href="358-extended_dos_partition.html">Extended DOS Partition</a>     ││<a href="354-exe_file_header_layout.html">EXE File Header</a>          ││<a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a>      │
+│<a href="364-fileinforec.html">FileInfoRec</a>                ││                         ││                  │
+│<a href="370-media_descriptor.html">Media Descriptor</a>           ││<a href="347-dos_error_codes.html">Error Codes</a>   <a href="353-errormode_flag.html">ErrorMode</a>  ││<a href="822-mrcinforec.html">MRCInfoRec</a>        │
+│                           ││<a href="352-errorinforec.html">ErrorInfoRec</a>  <a href="365-indos_flag.html">InDOS Flag</a> ││<a href="823-mrcrequestrec.html">MRCRequestRec</a>     │
+│<a href="336-access_mode___open_mode.html">File Access Mode</a>           │└─────────────────────────┘└──────────────────┘
+│<a href="361-file_attribute.html">File Attribute</a>             │┌─ <span class="c2">BIOS - General</span> ────────────────────────────┐
+│<a href="362-file_handle.html">File Handle</a>                ││<a href="93-rom_bios_variables.html">BIOS Data Area</a>             <a href="60-cmos_storage_layout.html">CMOS Memory</a>       │
+│<a href="363-file_time_date_format.html">File Time/Date Format</a>      ││<a href="94-general_memory_map.html">General Memory Map</a>         <a href="59-equipment_list.html">Equipment List</a>    │
+└───────────────────────────┘│<a href="266-rom_scan.html">ROM-Scan</a>                   <a href="61-switch_settings.html">Switch Settings</a>   │
+┌─ <span class="c2">Device Drivers &amp; IOCTL</span> ──┐└─────────────────────────────────────────────┘
+│<a href="322-device_header_layout.html">Device Header Layout</a>       │┌─ <span class="c2">BIOS - Video</span> ──────────────────────────────┐
+│<a href="323-device_attribute.html">Device Attribute</a>           ││<a href="114-video_modes.html">Video Modes</a>                <a href="85-vesa_svga_video_modes.html">SVGA Video Modes</a>  │
+│<a href="324-device_request_header.html">Device Request Header</a>      ││<a href="87-screen_attributes.html">Video Attributes</a>           <a href="84-supervga_info_block.html">SVGA Info Block</a>   │
+│<a href="325-device_status_word.html">Device Status Word</a>         ││<a href="91-video_font_definition.html">Video Font Definition</a>      <a href="86-supervga_mode_info_block.html">SVGA Mode Info</a>    │
+│                           ││<a href="89-video_memory_layouts.html">Video Memory Layouts</a>                         │
+│<a href="484-ioctl_device_or_file_info.html">IOCTL Device Info</a>          ││<a href="88-color_table.html">Color Table</a>                                  │
+│<a href="485-ioctldriveinforec.html">IoctlDriveInfoRec</a>          ││                                             │
+│<a href="486-ioctlhandleinforec.html">IoctlHandleInfoRec</a>         ││<a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>                           │
+│                           ││<a href="82-vga_dynamic_state_table.html">VgaDynamicStateRec</a>         <a href="76-egadynamicsaverec.html">EgaDynamicSaveRec</a> │
+│<a href="487-generic_ioctl_data_packets.html">Generic IOCTL Data Packets</a> ││<a href="83-vga_static_functionality_table.html">VgaStaticFnalityRec</a>        <a href="78-egagfxfontrec.html">EgaGfxFontRec</a>     │
+│<a href="488-ioctlcpidrec.html">IoctlCpIdRec</a>               ││<a href="81-vgadccrec.html">VgaDccRec</a>                  <a href="72-egamiscinforec.html">EgaMiscInfoRec</a>    │
+│<a href="489-ioctlcplistrec.html">IoctlCpListRec</a>             ││<a href="73-vgaflagsrec.html">VgaFlagsRec</a>                <a href="74-egasaveptrrec.html">EgaSavePtrRec</a>     │
+│<a href="490-ioctlcppreprec.html">IoctlCpPrepRec</a>             ││<a href="80-vgapaletteprofilerec.html">VgaPaletteProfileRec</a>       <a href="77-egatxtfontrec.html">EgaTxtFontRec</a>     │
+│<a href="491-ioctldisplaymoderec.html">IoctlDisplayModeRec</a>        ││<a href="79-vgasaveptr2rec.html">VgaSavePtr2Rec</a>             <a href="75-egavidparmsrec.html">EgaVidParmsRec</a>    │
+│<a href="492-ioctldeviceparmsrec.html">IoctlDeviceParmsRec</a>        ││                                             │
+│<a href="493-ioctlfmtvrfytrackrec.html">IoctlFmtVrfyTrackRec</a>       ││<a href="90-video_initialization_table.html">VidInitRec</a>                                   │
+│<a href="494-ioctlmediaidrec.html">IoctlMediaIdRec</a>            │└─────────────────────────────────────────────┘
+│<a href="495-ioctlrdwrttrackrec.html">IoctlRdWrtTrackRec</a>         │┌─ <span class="c2">BIOS - Keyboard</span> ───────────────────────────┐
+│<a href="496-tracklayoutrec.html">TrackLayoutRec</a>             ││<a href="55-extended_ascii_keystrokes.html">Extended ASCII Keystrokes</a>  <a href="46-ascii_decimal_hex_binary_cross_reference.html">ASCII Table</a>       │
+│                           ││<a href="57-keyboard_scan_codes.html">Keyboard Scan Codes</a>        <a href="48-ascii_control_codes.html">Control Codes</a>     │
+│<a href="339-clock__i_o_structure.html">CLOCK$ I/O Structure</a>       ││<a href="58-keyboard_shift_status_flags.html">Shift-Key Status Flags</a>                       │
+└───────────────────────────┘└─────────────────────────────────────────────┘
+┌─ <span class="c2">National Language</span> ───────┐┌─ <span class="c2">BIOS - Disk</span> ───────────────────────────────┐
+│<a href="275-country_codes.html">Country Codes</a>              ││<a href="52-diskette_parameter_table.html">Diskette Parameter Table</a>   <a href="345-disk_partition_table.html">Master Boot Record</a>│
+│<a href="340-code_page.html">Code Page</a>                  ││<a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a>  <a href="54-at_bios_hard_disk_types.html">Hard Disk Types</a>   │
+│<a href="341-code_page_font_files.html">Code Page Font Files</a>       │└─────────────────────────────────────────────┘
+│<a href="342-country_id_codes.html">Country ID Codes</a>           │┌─ <span class="c2">Error Codes</span> ───────────────────────────────┐
+│<a href="343-country_info_block.html">Country Info Block</a>         ││<a href="43-apm_api_error_return_codes.html">APM API Error Codes</a>        <a href="648-dpmi_error_codes.html">DPMI Error Codes</a>  │
+│<a href="357-extended_country_info_block.html">Extended Country Info</a>      ││<a href="211-bios_com_status_codes.html">BIOS COM status codes</a>      <a href="680-emm_status.html">EMM Status</a>        │
+└───────────────────────────┘│<a href="205-bios_disk_error_codes.html">BIOS disk error codes</a>      <a href="821-mrci_api_error_return_codes.html">MRCI Error Codes</a>  │
+┌─ <span class="c2">DOS Shell/Task Switcher</span> ─┐│<a href="241-bios_printer_status_flags.html">BIOS Printer Status Flags</a>  <a href="963-xms_error_codes.html">XMS Error Codes</a>   │
+│<a href="730-swapiinforec.html">SwApiInfoRec</a>               ││<a href="326-device_driver_errors.html">Device Driver Errors</a>                         │
+│<a href="731-swcallbackinforec.html">SwCallbackInfoRec</a>          ││<a href="347-dos_error_codes.html">DOS Error Codes</a>            <a href="265-power_on_error_codes.html">POST Error Codes</a>  │
+│<a href="732-swstartupinforec.html">SwStartupInfoRec</a>           ││<a href="801-doublespace_api_error_return_codes.html">DoubleSpace Error Codes</a>                      │
+│<a href="733-swinstanceitemrec.html">SwInstanceItemRec</a>          │└─────────────────────────────────────────────┘
+│<a href="734-swversionrec.html">SwVersionRec</a>               │
+└───────────────────────────┘
+See Also: <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="94-general_memory_map.html">General Memory Map</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+          <a href="4-general_index.html">General Index</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

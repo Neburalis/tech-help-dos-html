@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DPB: Drive Parameter Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DPB: Drive Parameter Block</h1><pre>
+ The DPB information is obtained via DOS Fns <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> and <a href="401-dos_fn_1fh__get_drive_parameter_block__current_disk_.html">1fH</a>.  It describes a
+ drive and the medium in the drive.
+
+ Virtually all this information can be obtained by reading the <a href="337-boot_sector_layout.html">boot sector</a>
+ and invoking a series of other DOS function calls and performing
+ calculations (see <a href="359-fat__dos_file_allocation_table.html">FAT</a>), but the DPB has all the data in one place.
+
+<span class="c2">DPBRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bDrvNo</span>       drive number (0=A, 1=B, etc.)
+   +1      1  <span class="c1">bUnitNo</span>      sub-unit number
+   +2      2  <span class="c1">wSectSize</span>    bytes per sector
+   +4      1  <span class="c1">bClustMask</span>   sectors per cluster-1 (max sector in cluster)
+   +5      1  <span class="c1">bClustShift</span>  cluster-to-sector shift (cluster is 2ⁿ sectors)
+   +6      2  <span class="c1">wFirstFAT</span>    sector number of first start of first <a href="359-fat__dos_file_allocation_table.html">FAT</a>
+   +8      1  <span class="c1">bFatCnt</span>      number of FATs
+   +9      2  <span class="c1">wRootEntries</span> number of entries allowed in root directory
+  +0bH     2  <span class="c1">wFirstData</span>   sector number of cluster #2 (first data cluster)
+  +0dH     2  <span class="c1">wHiClust</span>     total clusters+1 (number of highest cluster)
+  +0fH     1  <span class="c1">bFatSects</span>    sectors needed by a FAT
+  +10H     2  <span class="c1">wRootSec</span>     sector # of start of root directory
+  +12H     4  <span class="c1">pfrDevHdr</span>    address of <a href="322-device_header_layout.html">DevHdrRec</a> for this device driver
+  +16H     1  <span class="c1">bMedia</span>       <a href="370-media_descriptor.html">media descriptor</a> byte
+  +17H     1  <span class="c1">bFirstAccess</span> ffH=medium in drive has not been accessed
+  +18H     4  <span class="c1">pfrNextDPB</span>   Address of next DPBRec (0ffffH if last)
+  +1CH     2  <span class="c1">wNextFree</span>    last allocated cluster
+  +1EH     2  <span class="c1">wFreeCnt</span>     number of free clusters
+          32               size of a DPBRec
+
+ Many of these fields are exactly as in <a href="337-boot_sector_layout.html">BootSectorRec</a> and <a href="338-bpb__bios_parameter_block.html">BPBRec</a> (which
+ see).  Notable fields are:
+
+     <span class="c1">bUnitNo</span>  identifies the drive sub-unit, for <a href="298-installable_device_drivers.html">device drivers</a> which
+              support multiple drive types.
+
+   <span class="c1">wFirstFAT</span>  is the sector number of the first copy of the <a href="359-fat__dos_file_allocation_table.html">FAT</a> for this
+              drive.  It is also the <span class="c2">number of &quot;reserved&quot; sectors</span> on the
+              disk, since the first FAT always follows the last reserved
+              sector.
+
+  <span class="c1">wFirstData</span>  saves some calculations when converting a cluster number (from
+              the <a href="359-fat__dos_file_allocation_table.html">FAT</a> or a <a href="344-directory_entry_layout.html">DirEntryRec</a>) into a cluster number.  Data for a
+              FAT entry of (0)002H starts at this sector number.  In
+              general, the data for cluster number <span class="c1">n</span> starts at sector number
+              <span class="c1">wFirstData</span> + ((<span class="c1">n</span>-2)*(<span class="c1">bClustMask</span>+1)).
+
+<span class="c1">bFirstAccess</span>  00H means this DPB has been accessed.
+              ffH means this DPB has NOT been accessed and must be rebuilt.
+
+  <span class="c1">pfrNextDPB</span>  is the FAR address of the next DPBRec in the chain; this
+              address is FFFF:FFFF in the last DPBRec.  The address of the
+              first DBPRec can be found via <a href="514-dos_fn_52h__get_dos_variables.html">52H</a> (get ListOfLists).
+
+   <span class="c1">wNextFree</span>  is used by DOS in allocating clusters.  DOS will attempt to
+              allocate at this cluster (and then bump <span class="c1">wNextFree</span> up) in the
+              hopes of making contiguous allocations.  This field was not
+              documented before <span class="c2">5.0</span>.
+
+    <span class="c1">wFreeCnt</span>  MAY contain the current number of unallocated clusters.  But
+              DOS is NOT required to maintain a correct calculation here.
+              Use fn <a href="427-dos_fn_36h__get_disk_free_space.html">36H</a> to learn how much space is available (that fn
+              triggers ram-resident <span class="c2">Undelete</span> Delete Sentry to purge old
+              files).  If this field is ffffH, it has not been calculated
+              yet.  This field was not documented before <span class="c2">5.0</span>.
+
+   Notes: The undocumented DOS fn <a href="515-dos_fn_53h__convert_bpb_to_dpb.html">53H</a> converts a <a href="338-bpb__bios_parameter_block.html">BPB</a> (as supplied by a
+          device driver) into a DPB.
+
+See Also: DOS fn <a href="515-dos_fn_53h__convert_bpb_to_dpb.html">53H</a> (translate BPB to DPB)
+          <a href="9-disk_drive_functions.html">Disk Drive Functions</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="338-bpb__bios_parameter_block.html">BPB: BIOS Parameter Block</a>
+          <a href="337-boot_sector_layout.html">Boot Sector Layout</a>
+          <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

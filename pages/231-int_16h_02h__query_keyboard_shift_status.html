@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 16H 02H: Query Keyboard Shift Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 16H 02H: Query Keyboard Shift Status</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    02H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    <a href="58-keyboard_shift_status_flags.html">KbdShiftFlagsRec</a> (status of Ctl, Alt, etc.)
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the current status of the shift keys.  This is the same
+          as the byte at 0040:0017 in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>.
+
+   Notes: ■ Additional shift-key information is available via <a href="236-int_16h_12h__query_extended_keyboard_shift_status.html">INT 16H 12H</a>
+            for systems equipped with 101-key BIOSes.
+
+          ■ There is no corresponding fn to <span class="c1">set</span> the keyboard shift status.
+
+See Also: <a href="228-int_16h__keyboard_services.html">INT 16H</a> (BIOS keyboard services)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

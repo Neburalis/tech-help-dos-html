@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 38H: Get/Set Country-dependent Info - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 38H: Get/Set Country-dependent Info</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    38H
+          <span class="c2">DX</span>    0ffffH select country code in <span class="c2">AL</span> (or <span class="c2">BX</span>) as current country
+                  <span class="c2">AL</span> = <a href="342-country_id_codes.html">Country Code</a> (if code &lt; 254)
+                     = 0ffH and <span class="c2">BX</span> is a Country Code
+                            <span class="c2">BX</span>=code of country you want to make current
+
+                (else) get <a href="343-country_info_block.html">CountryInfoRec</a> for country number in AL (or BX)
+                  <span class="c2">AL</span> = 00H: Get info for current country
+                      0ffH: Get info for country whose code is in <span class="c2">BX</span>
+                            <span class="c2">BX</span>=code of country whose info you want
+                      else: Get info for country whose code is in <span class="c2">AL</span>
+                (else)
+
+          <span class="c2">BX</span>    (if AL=0ffH) 16-bit country code
+
+          <span class="c2">DS:DX</span> address of local buffer to receive a <a href="343-country_info_block.html">CountryInfoRec</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">BX</span>    country code
+          <span class="c2">DS:DX</span> buffer holds country info (if DX was not 0ffffH on entry)
+          ──────────────────────────────────────────────────────────────────
+    Info: In <span class="c2">2.0+</span>, gets localization information about a country.
+          In <span class="c2">3.0+</span>, gets country info or activates a different country as
+          the current country.
+
+          DOS's support of international localization includes information
+          on the time-and-date format, currency layout, and collation
+          (string sorting) tools.  See <a href="343-country_info_block.html">CountryInfoRec</a> for related info.
+
+          <span class="c2">To get country info:</span>
+          ■ Set DS:DX to a buffer large enough for a <a href="343-country_info_block.html">CountryInfoRec</a>.
+          ■ Set AL to a <a href="342-country_id_codes.html">Country Code</a> (if the country code &gt; 254, then set
+            AL to 0ffH, and set BX to the country code).
+            To get info on the current country, set AL to 0.
+          ■ Set AH to 38H and perform INT 21H.
+
+          <span class="c2">To select a different country as the &quot;current&quot; country:</span>
+          ■ DX to a 0ffffH.
+          ■ Set AL to desired <a href="342-country_id_codes.html">Country Code</a> (if the country code &gt; 254, then
+            set AL to 0ffH, and set BX to the country code).
+          ■ Set AH to 38H and perform INT 21H.
+
+Versions: <span class="c2">2.x</span>
+          You cannot select a different current country.  The calling
+          sequence is simpler:
+          Expects: <span class="c2">AL</span>    = 0
+                   <span class="c2">DS:DX</span> = address of 20H-byte local buffer
+          Returns: fills memory at DS:DX with DOS 2.x <a href="343-country_info_block.html">CountryInfoRec</a>
+
+See Also: Fn <a href="544-dos_fn_6501h__get_extended_country_information.html">6501H</a> (get extended country Info)
+          Fn <a href="553-dos_fn_6601h__query_active_code_page.html">6601H</a> (query global code page)
+          Fn <a href="554-dos_fn_6602h__activate_code_page.html">6602H</a> (set global code page)
+          <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+          <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

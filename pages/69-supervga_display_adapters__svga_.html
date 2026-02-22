@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SuperVGA Display Adapters (SVGA) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SuperVGA Display Adapters (SVGA)</h1><pre><span class="c2">█▌Overview▐█</span>
+  VESA is an acronym for <span class="c2">V</span>ideo <span class="c2">E</span>lectronics <span class="c2">S</span>tandards <span class="c2">A</span>ssociation.  In 1989,
+  this group saw that IBM was not taking up the reigns to define standards
+  for advanced <span class="c2">SVGA</span> or <span class="c2">SuperVGA</span> video systems that were evolving.  Each
+  manufacturer had different video mode numbers and wildly-varying BIOS
+  support functions.
+
+  The VESA standard has not been adopted universally, and with the growing
+  popularity of Windows, emphasis has been placed on Windows video drivers.
+  However, OEMs that do implement VESA support enjoy some compatibility with
+  a wider range of non-Windows SuperVGA-aware applications.  OEMs may
+  include VESA support in ROM or distribute a device driver or TSR that adds
+  the new support.
+
+  TECH Help! covers the following SVGA topics:
+
+     <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Functions</a>··· includes VGA modes
+     <a href="85-vesa_svga_video_modes.html">VESA/SVGA Video Modes</a>······ covers VGA services available via ROM-BIOS
+
+  All features of the <a href="70-video_graphics_array__vga_.html">VGA</a> (and lesser systems) are supported on all SVGA
+  adaptors.  In text modes, the SVGA's video memory begins at <span class="c2">b800:0000</span> and
+  in hi-res graphics modes, video memory begins at <span class="c2">a000:0</span>.
+
+<span class="c2">█▌Testing for an SVGA▐█</span>
+  Alas, there is NO certain way to know if you are running on a SuperVGA;
+  witness the chaos when you choose the wrong video driver with some
+  software!
+
+  However, you can check for VESA support via <a href="937-int_10h_4f00h___query_supervga_support.html">INT 10H 4f00H</a>.  If VESA/SVGA
+  BIOS is present, it returns with AX=004fH and lots of useful information
+  at ES:BX.
+
+  Although some SuperVGAs support some new text-mode capabilities (such as
+  132-column screen modes), SVGA-awareness is usually needed only by high-
+  end, non-Windows graphics applications.
+
+See Also: <a href="66-color_graphics_adapter__cga_.html">CGA</a>
+          <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+          <a href="68-monochrome_display_adapter__mda_.html">MDA</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+                                    <span class="c3">-♦-</span>
+  .E</pre></body></html>

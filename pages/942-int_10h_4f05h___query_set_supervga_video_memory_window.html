@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 4f05H - Query/Set SuperVGA Video Memory Window - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 4f05H - Query/Set SuperVGA Video Memory Window</h1><pre>
+ Expects: <span class="c2">AX</span>    4f05H
+          <span class="c2">BH</span>    SubFn number:  00H = Select memory window
+                               01H = Query current memory window
+          <span class="c2">BL</span>    window ID 0 or 1
+          <span class="c2">DX</span>    (subfn 00H only) window position (see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    VESA status: AH=0 means successful (else failed)
+                             AL=4fH means function supported
+          <span class="c2">DX</span>    current or new window position (see below)
+          ──────────────────────────────────────────────────────────────────
+    Info: This function is used to map chunks of video memory into CPU
+          address space, or to find out which part of video memory is
+          currently available to the CPU.
+
+          The CPU address space for most systems is the 64K starting at
+          a000:0.  Even in standard VGA modes, there are 256K of video
+          memory to be accessed.  SVGA modes can require 1.3 MB (1280K) of
+          video memory or more.
+
+          For instance, in order to access graphical scan line 1024, you
+          need to page-in the 20th page of video memory.  This function
+          provides the interface to do that--and avoids needing to the port
+          I/O or other obscure coding.
+
+          Before using this function, you <span class="c1">must</span> use <a href="938-int_10h_4f01h___query_supervga_mode_information.html">INT 10H 4f01H</a> to obtain
+          a <a href="86-supervga_mode_info_block.html">SvgaModeInfoRec</a> containing detailed information about the video
+          mode.  For instance, the <span class="c1">rWinBAttrs</span> <span class="c1">bit 1</span> will be 0 if only one
+          video window is supported for that mode.  It also returns
+          <span class="c1">wWinGran</span>, which is essential to determining what scan line gets
+          pages in when you select a block with <span class="c2">DX</span> (see below).
+
+       <span class="c2">DX</span> with subfn 00H, DX selects the chunk of memory that you want to
+          make accessible.
+
+          DX is a video memory address, expressed in &quot;window granularity
+          units&quot;.  The size of such a unit is given in the <span class="c1">wWinGran</span> field
+          of the <a href="86-supervga_mode_info_block.html">SvgaModeInfoRec</a>.
+
+          For instance, if <span class="c1">wWinGran</span> is 4, then the units are 4K, so
+          addressing a scan line that begins at video memory offset 8193
+          will require that <span class="c2">DX</span> be set to 2 to map in the third page of
+          video memory.
+
+          This call maps the specified page to the start of the video
+          memory segment for the specified window.  The <span class="c1">wWinASeg</span> of
+          <a href="86-supervga_mode_info_block.html">SvgaModeInfoRec</a> will provide the segment address in CPU terms
+          (usually a000H).
+
+   Notes: ■ This function can also be called via a FAR CALL, to avoid the
+            INT-handler overhead.  Use <a href="938-int_10h_4f01h___query_supervga_mode_information.html">INT 10H 4f01H</a> to obtain the address
+            of the function handler.
+
+            When called directly, the value in <span class="c2">AX</span> is ignored, but other
+            parameters are the same.  Upon return, <span class="c2">AX</span> and <span class="c2">DX</span> are destroyed.
+
+          ■ Also note that the function <span class="c1">address may change when you switch</span>
+            <span class="c1">video modes</span>, so be sure to obtain the right address, just
+            before calling.
+
+See Also: <a href="69-supervga_display_adapters__svga_.html">SVGA</a>
+          <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

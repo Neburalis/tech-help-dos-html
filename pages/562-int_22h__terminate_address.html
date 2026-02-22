@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 22H: Terminate Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 22H: Terminate Address</h1><pre>
+ The INT 22H vector (0000:0088) contains the address that will receive
+ control when the executing program terminates via any of:
+
+ Standard program exits:           <a href="559-int_20h__program_terminate.html">INT 20H</a>  <a href="910-_superseded_.html">◄superseded►</a>
+                            DOS fn <a href="372-dos_fn_00h__terminate_a_program.html">00H</a>      <a href="910-_superseded_.html">◄superseded►</a>
+                            DOS fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a>      (normal termination)
+
+ TSR (stay resident) exits:        <a href="566-int_27h__terminate_but_stay_resident.html">INT 27H</a>  <a href="910-_superseded_.html">◄superseded►</a>
+                            DOS fn <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a>      (normal KEEP termination)
+
+ Do not invoke INT 22H or call its address directly.
+
+ In addition to normal program termination, the default <a href="564-int_24h__critical_error_handler.html">INT 24H</a> (Critical
+ Error) handler uses this vector when the user pressed <span class="c2">A</span> (to Abort) and the
+ default action of the <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> (Ctrl-Break) handler is to terminate the
+ program via this vector.
+
+ On program startup, the address at this vector is copied into the
+ <span class="c1">pfTerminate</span> field of the <a href="371-psp__program_segment_prefix.html">PSP</a>.  This PSP-local copy of the address is used
+ to terminate the program and is restored into the interrupt table;
+ therefore, changing the INT 22H vector has no effect on your program, but
+ will affect any child programs you EXEC.
+
+ Normal termination causes DOS to free all resources, including open files
+ and memory allocations.  A lot of DOS internal stuff can get messed up if
+ you modify the <span class="c1">pfTerminate</span> field of the PSP or if you invoke INT 22H
+ directly.
+
+See Also: <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

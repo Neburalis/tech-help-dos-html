@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 19H: Bootstrap Loader - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 19H: Bootstrap Loader</h1><pre>
+ This vector is taken after the <a href="264-power_on_self_test.html">POST</a> in order to attempt to load and
+ execute any bootstrap code on diskette or hard disk.
+
+ The data in sector 1 of track 0 of head 0 of the first responding disk
+ (diskette or hard disk) is loaded at absolute address 0000:7c00 and
+ control is given to that address.  On the oldest IBM-logoed systems,
+ control goes to <a href="242-int_18h__rom_basic.html">INT 18H</a> (to start ROM BASIC) if all disks fail.
+
+ On a hard disk, the bootstrap code determines which partition is active,
+ and then loads and executes the boot sector for that partition.
+
+ See <a href="345-disk_partition_table.html">Disk Partition Table</a> for more info on the hard disk boot sequence.
+ See <a href="337-boot_sector_layout.html">Boot Sector Layout</a> for info on the format of the DOS boot sector.
+
+    Note: You can use this service to reboot DOS after changing some values
+          in the <a href="59-equipment_list.html">Equipment List</a> or other variables in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          (be sure 0040:0072 is set to 1234H).
+
+          After a reboot, DOS will notice any changes you made.
+
+See Also: <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

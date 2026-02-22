@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>ROM-BIOS Variables - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>ROM-BIOS Variables</h1><pre>
+ This maps the most important of the ROM-BIOS variables and data areas.
+ All addresses are documented and should be valid in future BIOSes. The
+ map is sequential by memory address, with blank lines indicating rough
+ functional groups.  Addresses not shown should be considered <span class="c1">reserved</span>.
+
+    Note: Although this table shows addresses as offsets from segment 40H,
+          it is valid to use offsets from absolute segment 00H.  For
+          instance, a variable shown to be at address 40:0012 can also be
+          addressed at 0:0412.
+
+Address Size Contents
+▀▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+40:0000   2  Base port address of first RS-232 adapter (COM1) See <a href="895-asynchronous_adapter_ports.html">COM Ports</a>
+40:0002   2  Port of COM2
+40:0004   2  Port of COM3
+40:0006   2  Port of COM4
+40:0008   2  Base port addr of first parallel printer (LPT1)  <a href="907-parallel_printer_adapter_ports.html">Printer Ports</a>
+40:000A   2  Port of LPT2
+40:000C   2  Port of LPT3
+40:000E   2  Port of LPT4
+40:0010   2  Equipment/hardware installed/active; see <a href="59-equipment_list.html">Equipment List</a>
+40:0012   1  Errors in PCjr infrared keyboard link
+40:0013   2  Total memory in K-bytes (same as obtained via <a href="184-int_12h__conventional_memory_size.html">INT 12H</a>)
+40:0015   2  Scratch pad for manufacturing error tests
+
+40:0017   2  Keyboard status bits; see <a href="58-keyboard_shift_status_flags.html">Keyboard Shift Status Flags</a>
+40:0019   1  Current (accumulating) value of Alt+numpad pseudo-key input;
+             normally 0.  When [Alt] is released, value is stored in
+             keyboard buffer at 001e.
+40:001a   2  Addr of keyboard buffer head (keystroke at that addr is next)
+40:001c   2  Address of keyboard buffer tail
+40:001e  32  Keyboard buffer.  BIOS stores keystrokes here (head and tail
+             point to addresses from 041eH to 043dH inclusive).
+
+40:003e   1  Diskette drive needs recalibration (bit 0=A, bit 1=B, etc.)
+             bits 4-5 indicate which drive is currently selected
+40:003f   1  Diskette motor is running (bit 0=drive A, bit 1=B, etc.)
+40:0040   1  Time until motor off. <a href="105-int_08h__timer_interrupt.html">INT 08H</a> turns motor off when this is 0.
+40:0041   1  Diskette error status; same as status returned by <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a>
+40:0042   7  Diskette controller status information area
+
+40:0049   1  Current active video mode.  See <a href="114-video_modes.html">Video Modes</a> and <a href="113-int_10h__video_services.html">INT 10H</a>.
+40:004a   2  Screen width in text columns
+40:004c   2  Length (in bytes) of video area (regen size)
+40:004e   2  Offset from video segment of active video memory page
+40:0050  16  Cursor location (8 byte-pairs; low byte=clm, hi byte=row)
+40:0060   2  Cursor size/shape.  Low byte=end scan line; hi byte=start line.
+40:0062   1  Current active video page number
+40:0063   2  Port address for 6845 video controller chip; see <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+40:0065   1  Current value of 6845 video ctrlr CRT_MODE (port 3x8H register)
+40:0066   1  Current value of 6845 video ctrlr CRT_PALETTE (port 3x9H reg)
+
+40:0067   5  Cassette data area or <a href="264-power_on_self_test.html">POST</a> data area
+40:006c   4  Timer tick counter (count of 55ms ticks since CPU reset)
+40:0070   1  Timer overflow flag (timer has rolled over 24 hr)
+40:0071   1  Ctrl-Break flag.  Bit 7=1 when break was pressed.  This never
+             gets reset unless you do it yourself.
+
+40:0072   2  <span class="c2">1234H</span> means Ctrl+Alt+Del reboot is in progress.  BIOS checks
+             this to avoid doing a &quot;cold boot&quot; with the time-consuming <a href="264-power_on_self_test.html">POST</a>
+             <span class="c2">4321H</span> means reset, preserving memory
+             5678H, 9abcH, and abcdH (are internal PC Convertible codes)
+
+40:0074   4  <a href="830-system_compatibility.html">PCjr</a> diskette or <a href="830-system_compatibility.html">AT</a> hard disk control area
+  (0074)   1 Status of last fixed-disk drive operation
+  (0075)   1 Number of hard disk drives for <a href="830-system_compatibility.html">AT</a>
+  (0077)   1 Hard disk port for <a href="830-system_compatibility.html">XT</a>.  See <a href="898-xt_hard_disk_ports.html">XT Hard Disk Ports</a>.
+40:0078   4  Printer time-out values (478H=Lpt1, 478H=Lpt2...)
+40:007c   4  RS-232 time-out values  (47cH=Com1, 47dH=Com2...)
+
+40:0080   2  <a href="830-system_compatibility.html">AT</a> <a href="830-system_compatibility.html">PS/2</a> keyboard buffer offset start address (usually 01eH)
+40:0082   2                                   end address (usually 003eH)
+
+40:0084   1  <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> text rows-1  (maximum valid row value)
+40:0085   2  <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> bytes per character (scan-lines/char used in active mode)
+40:0087   1  <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> flags; see <a href="72-egamiscinforec.html">EgaMiscInfoRec</a>
+40:0088   1  <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> flags; see <a href="72-egamiscinforec.html">EgaMiscInfo2Rec</a>
+40:0089   1  <a href="70-video_graphics_array__vga_.html">VGA</a> flags; see <a href="73-vgaflagsrec.html">VgaFlagsRec</a>
+             See also:  <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+
+40:008b   1  <a href="830-system_compatibility.html">AT</a> <a href="830-system_compatibility.html">PS/2</a> Media control: data rate, step rate
+40:008c   1  <a href="830-system_compatibility.html">AT</a> <a href="830-system_compatibility.html">PS/2</a> Hard disk drive controller status
+40:008d   1  <a href="830-system_compatibility.html">AT</a> <a href="830-system_compatibility.html">PS/2</a> Hard disk drive error status
+40:008e   1  <a href="830-system_compatibility.html">AT</a> <a href="830-system_compatibility.html">PS/2</a> Hard disk drive interrupt control
+
+40:0090   1  <a href="830-system_compatibility.html">AT</a> <a href="830-system_compatibility.html">PS/2</a> Disk media state bits for drive 0
+40:0091   1                                for drive 1
+40:0092   1  <a href="830-system_compatibility.html">AT</a> <a href="830-system_compatibility.html">PS/2</a> Disk operation started flag for drive 0
+40:0093   1                                      for drive 1
+40:0094   1  <a href="830-system_compatibility.html">AT</a> <a href="830-system_compatibility.html">PS/2</a> Present cylinder number for drive 0
+40:0095   1                                  for drive 1
+
+40:0096   1  <a href="830-system_compatibility.html">AT</a> Keyboard flag bit 4=1 (10H) if 101-key keyboard is attached
+40:0097   1  <a href="830-system_compatibility.html">AT</a> Keyboard flag for LED 'key lock' display
+             bits 0-2 are ScrollLock, NumLock, CapsLock
+
+40:0098   4  <a href="830-system_compatibility.html">AT</a> Pointer to 8-bit user wait flag; see <a href="221-int_15h_86h__wait.html">INT 15H 86H</a>
+40:009c   4  <a href="830-system_compatibility.html">AT</a> Microseconds before user wait is done
+40:00a0   1  <a href="830-system_compatibility.html">AT</a> User wait activity flag:
+                01H=busy, 80H=posted, 00H=acknowledged
+
+40:00a1   7  <a href="830-system_compatibility.html">AT</a> Reserved for network adapters
+
+40:00a8   4  <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> Address of table of pointers; see <a href="74-egasaveptrrec.html">EgaSavePtrRec</a>
+
+40:00f0  16  (IAC) Inter-Aapplication Communication area.  Programs may use
+             this area to store status, etc.  Might get overwritten by
+             another program.
+
+40:0100   1  Print-screen status:
+               00H=ok; 01H=printing; 0ffH=error while printing screen
+
+40:0104   1  Phantom-floppy status;  see also DOS fn <a href="480-dos_fn_440eh__ioctl_query_logical_drive_map.html">440eH</a>
+               01H=drive A is acting as drive B.
+40:0110  17  Used by BASIC interpreter
+40:0130   3  Used by MODE command
+─────── ──── ───────────────────────────────────────────────────────────────
+f000:fff0 5  FAR JMP instruction to begin <a href="264-power_on_self_test.html">POST</a>
+             (after a hard reset, the CPU jumps here)
+f000:fff5 8  ROM-BIOS release date in ASCII (eg, &quot;04/24/81&quot; is original PC)
+f000:fffc 2  (unused)
+f000:fffe 1  IBM computer-type code; see also BIOS <a href="227-int_15h_c0h__get_system_parameters.html">INT 15H C0H</a>
+               0ffH = original PC
+               0feH = XT or Portable PC
+               0fdH = PCjr
+               0fcH = AT (or XT model 286) (or PS/2 Model 50/60)
+               0fbH = XT with 640K motherboard
+               0faH = PS/2 Model 30
+               0f9H = Convertible PC (easily converts into a paperweight)
+               0f8H = PS/2 Model 80
+
+See Also: <a href="94-general_memory_map.html">General Memory Map</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Advance Power Management (APM) Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Advance Power Management (APM) Functions</h1><pre>
+ The Intel/Microsoft APM specification provides a system that allows
+ computers (especially laptops) to conserve electricity.
+
+ See <a href="30-about_advanced_power_management.html">About Advanced Power Management</a> for background information.
+
+ The APM specification defines the following functions:
+                                                           │<span class="c2">Connection</span>
+ <span class="c2">─────────────── Interface Connect Services</span>                │<span class="c2">needed?</span>
+  <a href="31-int_15h_5300h__installation_check.html">INT 15H 5300H</a>  Installation check                        │ No
+                                                           │
+  <a href="32-int_15h_5301h__interface_connect.html">INT 15H 5301H</a>  Interface Connect                         │ No
+  <a href="33-int_15h_5302h__interface_connect__prot__mode_16_bit_.html">INT 15H 5302H</a>  Interface Connect (Protected Mode/16-bit) │ No
+  <a href="34-int_15h_5303h__interface_connect__prot__mode_32_bit_.html">INT 15H 5303H</a>  Interface Connect (Protected Mode/32-bit) │ No
+  <a href="35-int_15h_5304h__interface_disconnect.html">INT 15H 5304H</a>  Interface Disconnect                      │ Yes
+ <span class="c2">─────────────── CPU Control Services</span>                      │
+  <a href="36-int_15h_5305h__cpu_idle.html">INT 15H 5305H</a>  CPU Idle                                  │ Yes
+  <a href="37-int_15h_5306h__cpu_busy.html">INT 15H 5306H</a>  CPU Busy                                  │ Yes
+  <a href="38-int_15h_5307h__set_power_state.html">INT 15H 5307H</a>  Set Power State                           │ Yes
+ <span class="c2">─────────────── Status/Control Services</span>                   │
+  <a href="39-int_15h_5308h__enable_disable_power_management.html">INT 15H 5308H</a>  Enable/Disable APM Functionality          │ Yes
+  <a href="40-int_15h_5309h__restore_system_bios_power_on_defaults.html">INT 15H 5309H</a>  Restore APM BIOS Defaults                 │ No
+  <a href="41-int_15h_530ah__query_power_status.html">INT 15H 530aH</a>  Query Status                              │ No
+ <span class="c2">───────────────</span> <span class="c2">Power Management Event Notification</span>       │
+  <a href="42-int_15h_530bh__get_power_management_event.html">INT 15H 530bH</a>  Get Power Management Event                │ Yes
+
+See Also: <a href="30-about_advanced_power_management.html">About APM</a>
+          <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (AT Extended Services)
+                                    <span class="c3">-♦-</span></pre></body></html>

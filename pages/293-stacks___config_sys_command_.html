@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>STACKS= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>STACKS= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 2.0+</span>
+ Purpose: Allocates additional stack space for DOS.  If you see the
+          message...
+                <span class="c2">Internal Stack Failure</span>
+                <span class="c2">System Halted</span>
+          ...then you should put a STACKS= statement in <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+
+  Syntax: STACKS= <span class="c1">n</span>,<span class="c1">s</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+        <span class="c1">n</span> is the number of stacks to allocate (0-64; default=9)
+
+        <span class="c1">s</span> is the size (in bytes) of each stack (32-512; default=128)
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ DOS typically intercepts interrupts <span class="c2">02H</span>, <span class="c2">08H</span>-<span class="c2">0eH</span>, <span class="c2">72H</span>-<span class="c2">74H</span>, and <span class="c2">76H</span>-<span class="c2">77H</span>
+    (see <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>) which handle <a href="96-irqs__hardware_interrupts.html">IRQ</a>s.
+
+    When one of these interrupts occurs, DOS points SS:SP to an internal
+    data area; that is, it <span class="c1">switches stacks</span>.  This is supposed to minimize
+    the chance of a hardware interrupt overflowing an application's stack.
+
+     <span class="c2">Note:</span> DOS only performs stack switching when <span class="c1">n</span> is greater than <span class="c2">8</span>.
+
+  ■ <span class="c2">STACKS=0,0</span> saves about 1K of conventional<a href="924-qmemconv.html">▲</a> memory (but it may cause
+    problems when running communications software or other interrupt-
+    intensive applications, or when running poorly-written software that
+    supplies insufficient internal stack space for handling external
+    interrupts.
+
+   ■ A worst-case scenario -- such as an interrupt interrupting an
+    interrupt, which itself is interrupted (etc.) -- can cause a stack
+    overflow.  If that happens, you should fall back to the default stack
+    settings or even increase them.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

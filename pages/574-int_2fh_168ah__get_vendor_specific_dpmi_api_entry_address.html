@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 168AH: Get Vendor-Specific DPMI API Entry Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 168AH: Get Vendor-Specific DPMI API Entry Address</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    168AH
+          <span class="c2">DS:SI</span> address of ASCIIZ<a href="913-qasciiz.html">▲</a> string identifying the vendor
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000h = successful
+                else  = no such vendor API or not in Protected Mode
+          <span class="c2">ES:DI</span> vendor-specific API Entry Address
+          ──────────────────────────────────────────────────────────────────
+    Info: A DPMI client may use this fn to get an address that will provide
+          access to vendor-specific extensions of the DPMI specification.
+
+ <span class="c2">DS:</span>(<span class="c2">E</span>)<span class="c2">SI</span> the string at this address must match exactly with the vendor ID.
+          The string comparison is case-sensitive.
+
+ <span class="c2">ES:</span>(<span class="c2">E</span>)<span class="c2">DI</span> on return, this is the address supplied by the vendor.  Access it
+          via a FAR CALL.  Registers and other calling conventions are set
+          by the vendor.
+
+    Note: You must be in protected mode to call this.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH</a> (Enh386 Windows Services &amp; Notifications)
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

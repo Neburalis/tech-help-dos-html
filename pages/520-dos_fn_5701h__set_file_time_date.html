@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5701H: Set File Time/Date - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5701H: Set File Time/Date</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AX</span>    5701H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a> of an open file
+          <span class="c2">CX</span>    file time, in <a href="363-file_time_date_format.html">FileTimeRec</a> format (if no error)
+          <span class="c2">DX</span>    file date, in <a href="363-file_time_date_format.html">FileDateRec</a> format
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Changes a file's directory entry to indicate the specified time
+          and date.
+
+   Notes: ■ Remember that if you modify the file in any way before closing
+            it, the directory entry will end up specifying the time and
+            date that the file was closed.
+
+See Also: Fn <a href="519-dos_fn_5700h__query_file_time_date.html">5700H</a> (query file time/date)
+          <a href="363-file_time_date_format.html">File time/date format</a> (bit-field format of info)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

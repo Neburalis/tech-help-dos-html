@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwApiInfoRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwApiInfoRec</h1><pre><span class="c2">SwApiInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       2  <span class="c1">wRecLength</span>   size of this structure, in bytes (10)
+  +2       2  <span class="c1">wApiType</span>     type of asynchronous API supported by program
+  +4       2  <span class="c1">wVerMajor</span>    version number (major) eg with &quot;3.10&quot;, use 0003H
+  +6       2  <span class="c1">wVerMinor</span>    version number (minor) eg with &quot;3.10&quot;, use 000aH
+  +8       2  <span class="c1">wSupportLvl</span>  code 0000H-0004H (see below)
+          10               size of a SwApiInfoRec structure
+
+    <span class="c1">wApiType</span>  this code identifies API protocol supported by an application.
+              It must be one of:
+                0001H   NETBIOS
+                0002H   802.2
+                0003H   TCP/IP
+                0004H   Lan Manager named pipes
+                0005H   NetWare APX
+
+ <span class="c1">wSupportLvl</span>  this code identifies how much support this program provides
+              for the API specified in <span class="c1">wApiType</span>.  It is one of:
+
+              <span class="c2">0001H   Minimal support.</span>  Program prevents a session switch
+              after an API call is made (e.g., DOS's <span class="c2">InterLink</span>).
+
+              <span class="c2">0002H   API-level support.</span>  The program prevents switching
+              while requests remain to be processed; but enables switching
+              when all request are completed.
+
+              <span class="c2">0003H  Switcher compatibility.</span>  Allows switching even when
+              unfinished requests are outstanding; but this may be limited
+              by internal constraints such as buffer sizes, etc..
+
+              <span class="c2">0004H  Seamless compatibility.</span>  Allows switching at any time.
+
+ This structure is used in <a href="729-swsrvc_fn_0006h__query_api_support.html">SwSrvcFn 0006H</a> (query API support).  It enables
+ API handlers to determine which program supplies the highest level of
+ support for asynchronous task-switching API services.
+
+ It is also referred to in <a href="731-swcallbackinforec.html">SwCallbackInfoRec</a>s.  A series of these
+ structures may exist for each client program that provides task-switching
+ API support--one for each supported API.  The list ends when the
+ <span class="c1">wRecLength</span> field is 0000H.
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

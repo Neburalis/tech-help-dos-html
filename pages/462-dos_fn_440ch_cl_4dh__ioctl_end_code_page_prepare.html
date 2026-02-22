@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440cH CL=4DH: IOCTL End Code Page Prepare - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440cH CL=4DH: IOCTL End Code Page Prepare</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AX</span>    440cH
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device or disk file)
+          <span class="c2">CL</span>    4dH
+          <span class="c2">CH</span>    device category: 00H=unknown
+                                 01H=COMn (DOS <span class="c2">3.3+</span>)
+                                 03H=console (screen + keyboard) (DOS <span class="c2">3.3+</span>)
+                                 05H=parallel printer (DOS <span class="c2">3.2+</span>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Completes the sequence that prepares a device for preparing a
+          code page list.
+
+          See Fn <a href="461-dos_fn_440ch_cl_4ch__ioctl_start_code_page_prepare.html">440cH 4cH</a> (start cp prepare) and <a href="449-dos_fn_4403h__ioctl_send_control_data_to_character_device.html">4403H</a> (send IOCTL data)
+          for related information.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (generic IOCTL for character devices)
+          <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

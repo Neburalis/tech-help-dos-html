@@ -1,0 +1,14 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 24H: Set Random File Block Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 24H: Set Random File Block Address</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    24H
+          <span class="c2">DS:DX</span> address of an opened <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the <span class="c1">randomRec</span> field of the <a href="360-fcb__file_control_block.html">FCB</a> to the file address that
+          corresponds to the values of <span class="c1">curBlk</span> and <span class="c1">curRec</span>.
+
+See Also: <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="441-dos_fn_42h__set_file_pointer.html">42H</a> (Lseek handle)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

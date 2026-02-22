@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1a00H: Is ANSI.SYS Installed? - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1a00H: Is ANSI.SYS Installed?</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    1a00H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    status: 00H = is not installed
+                        ffH = is installed
+          ──────────────────────────────────────────────────────────────────
+    Info: Checks to see if the <span class="c2">ANSI.SYS</span> console device driver has been
+          installed (via <a href="267-the_config_sys_file.html">CONFIG.SYS</a>) and is resident in memory.
+
+          Use this before assuming that <a href="50-ansi_console_escape_sequences.html">ANSI Console Escape Sequences</a> will
+          work.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

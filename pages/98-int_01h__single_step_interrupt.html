@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 01H: Single-Step Interrupt - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 01H: Single-Step Interrupt</h1><pre>
+ When the CPU Trap Flag is set (TF=1), the CPU executes this interrupt
+ after each instruction.
+
+ Debuggers which allow you to single-step through the instructions of a
+ program use this interrupt to recapture execution to display the
+ registers, memory, etc.
+
+ Trapping is turned off (TF=0) upon execution of any INT instruction, so
+ the INT 01H itself is not executed in single-step fashion.  Upon leaving
+ the interrupt (via IRET), all flags are restored, thus the next
+ instruction will be trapped.
+
+ The normal way to begin single-stepping is to PUSH a word containing all
+ the desired flags (including TF=1), PUSH the desired CS and IP address to
+ execute, then perform an IRET to begin single-stepping at that address.
+
+See Also: <a href="100-int_03h__breakpoint_interrupt.html">INT 03H</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

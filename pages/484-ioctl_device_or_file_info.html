@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IOCTL Device or File Info - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IOCTL Device or File Info</h1><pre>
+ DOS Fn <a href="446-dos_fn_4400h__ioctl_query_device_file_flags.html">4400H</a> and <a href="447-dos_fn_4401h__ioctl_set_device_file_flags.html">4401H</a> use this for values passed in DX.  The bit flags
+ have different meanings, depending upon <span class="c1">bit 7</span> (device or file).
+
+    Note: The upper 8 bits are the same as those in the <a href="323-device_attribute.html">Device Attribute</a>
+          for the device.
+
+<span class="c2">IoctlDevInfoRec</span> ─── layout when describing a <span class="c2">device</span>
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║1│ │ │0│ │0 0 0║<span class="c2">1</span>│e│b│f│c│n│o│i║
+╙╥┴╥┴╥┴─┴╥┴─┴─┴─╨<span class="c2">╥</span>┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜ <span class="c1">bit</span>  <span class="c1">mask</span>
+ ║ ║ ║   ║       <span class="c2">║</span> ║ ║ ║ ║ ║ ║ ╚═► 0: 0001H Console Input device
+ ║ ║ ║   ║       <span class="c2">║</span> ║ ║ ║ ║ ║ ╚═══► 1: 0002H Console Output device
+ ║ ║ ║   ║       <span class="c2">║</span> ║ ║ ║ ║ ╚═════► 2: 0004H Null device
+ ║ ║ ║   ║       <span class="c2">║</span> ║ ║ ║ ╚═══════► 3: 0008H Clock device
+ ║ ║ ║   ║       <span class="c2">║</span> ║ ║ ╚═════════► 4: 0010H special device; fast output
+ ║ ║ ║   ║       <span class="c2">║</span> ║ ╚═══════════► 5: 0020H binary mode; 0=ASCII
+ ║ ║ ║   ║       <span class="c2">║</span> ╚═════════════► 6: 0040H not EOF; 0=EOF on input
+ ║ ║ ║   ║       <span class="c2">╚═══════════════► 7: 0080H 1=device</span>
+ ║ ║ ║   ╚═══════════════════════►11: 0800H supports device open  <a href="314-device_request_0dh__device_open.html">DvRq 0DH</a>
+ ║ ║ ║                                      and device close      <a href="315-device_request_0eh__device_close.html">DvRq 0EH</a>
+ ║ ║ ╚═══════════════════════════►13: 2000H spts output-till-busy <a href="317-device_request_10h__output_until_busy.html">DvRq 10H</a>
+ ║ ╚═════════════════════════════►14: 4000H supports IOCTL Read   <a href="304-device_request_03h__ioctl_input.html">DvRq 03H</a>
+ ║                                          and IOCTL Write       <a href="313-device_request_0ch__ioctl_output.html">DvRq 0CH</a>
+ ╚═══════════════════════════════►15: 8000H 0=block device; 1=char device
+
+<span class="c2">IoctlFileInfoRec</span> ─── layout when describing a <span class="c2">file</span>
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║0│ │ │0│ │0 0 0║<span class="c2">0</span>│ │ <span class="c1">drive ID</span>  ║
+╙╥┴╥┴╥┴─┴╥┴─┴─┴─╨<span class="c2">╥</span>┴╥┴╥┴─┴─┴─┴─┴╥╜ <span class="c1">bit</span>  <span class="c1">mask</span>
+ ║ ║ ║   ║       <span class="c2">║</span> ║ ╚═════════╩═►0-5: 003fH drive ID (0=A, 1=B, etc.)
+ ║ ║ ║   ║       <span class="c2">║</span> ╚═════════════►  6: 0040H not EOF; 0=EOF on input
+ ║ ║ ║   ║       <span class="c2">╚═══════════════►  7: 0080H 0=file</span>
+ ║ ║ ║   ╚═══════════════════════► 11: 0800H supports device open  <a href="314-device_request_0dh__device_open.html">DvRq 0DH</a>
+ ║ ║ ║                                       and device close      <a href="315-device_request_0eh__device_close.html">DvRq 0EH</a>
+ ║ ║ ║                                       and Removable Media   <a href="316-device_request_0fh__removable_media.html">DvRq 0FH</a>
+ ║ ║ ╚═══════════════════════════► 13: 2000H 0=Needs FAT with BPB  <a href="303-device_request_02h__build_bpb.html">DvRq 02H</a>
+ ║ ╚═════════════════════════════► 14: 4000H supports IOCTL Read   <a href="304-device_request_03h__ioctl_input.html">DvRq 03H</a>
+ ║                                           and IOCTL Write       <a href="313-device_request_0ch__ioctl_output.html">DvRq 0CH</a>
+ ╚═══════════════════════════════►15: 8000H 0=block device; 1=char device
+
+See Also: fn <a href="446-dos_fn_4400h__ioctl_query_device_file_flags.html">4400H</a> (IOCTL query device/file flags)
+          fn <a href="447-dos_fn_4401h__ioctl_set_device_file_flags.html">4401H</a> (IOCTL set device/file flags)
+          <a href="323-device_attribute.html">Device Attribute</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

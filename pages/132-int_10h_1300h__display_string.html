@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1300H: Display String - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1300H: Display String</h1><pre>                                                   Compatibility: <span class="c2">AT</span> <span class="c2">EGA</span> <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1300H
+          <span class="c2">BH</span>    video page
+          <span class="c2">BL</span>    <a href="87-screen_attributes.html">video attribute</a>
+          <span class="c2">CX</span>    length of string
+          <span class="c2">DH</span>,<span class="c2">DL</span> row,column to start writing
+          <span class="c2">ES:BP</span> address of start of text to write
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This displays a string of text, using a specified video attribute
+          and starting at a specified screen location.
+
+          This does not change the cursor position.
+
+          This function treats these characters specially:
+
+           CR  (0dH) ─── cursor to start of <span class="c1">same</span> line
+           LF  (0aH) ─── cursor to <span class="c1">current clm on next</span> lower line
+           BEL (07H) ─── beep the speaker
+
+          Notice that you must supply <span class="c1">both CR+FL</span> to perform a natural
+          &quot;newline&quot; (that is, to move the cursor to the start of the next
+          lower line).
+
+    Note: This fn requires that you modify <span class="c2">BP</span>.  When calling from high-
+          level languages such as C, be very careful to save and restore
+          BP, since it is used to keep track of the &quot;stack frame&quot;.
+
+See Also: <a href="133-int_10h_1301h__display_string_and_update_cursor.html">INT 10H 1301H</a> (write string &amp; update cursor)
+          <a href="134-int_10h_1302h__display_character_attribute_cells.html">INT 10H 1302H</a> (write char/attr cells)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

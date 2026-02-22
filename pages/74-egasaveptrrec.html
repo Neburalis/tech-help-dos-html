@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>EgaSavePtrRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>EgaSavePtrRec</h1><pre>
+ The 4-byte pointer at <span class="c2">0040:00a8</span> has been named SAVE_PTR by an imaginative
+ programmer.  It points to a table of EGA/VGA data block pointers.  You can
+ change this address to point to a different data area in which you define
+ your own fonts and other options.
+
+ To make a change, copy the current table and then modify the copy.  You
+ can use <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> techniques to make your customized table resident in memory to
+ enable it with each mode change.
+
+<span class="c2">EgaSavePtrRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      4  <span class="c1">pfrVidParms</span>  addr of a table of <a href="75-egavidparmsrec.html">EgaVidParmsRec</a> structures
+   +4      4  <span class="c1">pfrDynParms</span>  addr of an <a href="76-egadynamicsaverec.html">EgaDynamicSaveRec</a> or 0:0
+   +8      4  <span class="c1">pfrTxtAuxFnt</span> addr of an <a href="77-egatxtfontrec.html">EgaTxtFontRec</a> structure or 0:0
+  +0cH     4  <span class="c1">pfrGfxAuxFnt</span> addr of an <a href="78-egagfxfontrec.html">EgaGfxFontRec</a> structures or 0:0
+  +10H     4  <span class="c1">pfrSavePtr2</span>  (VGA only) addr of a <a href="79-vgasaveptr2rec.html">VgaSavePtr2Rec</a> or 0:0
+  +14H     8  <span class="c1">res</span>          reserved (two far pointers)
+          28               size of an EgaSavePtrRec structure
+
+ <span class="c1">pfrVidParms</span>  This MUST exist.  It is initially set to point to a table in
+              ROM.  The table should be 1472 bytes long,  with 64 bytes for
+              each of 23 (17H) different video modes.  In this parameter
+              table: <span class="c2">Modes 0-10H</span> are the modes listed in <a href="114-video_modes.html">Video Modes</a> for 64K
+              EGAs.  <span class="c2">Modes 11H-12H</span> are for 350-line graphics with 128K+ RAM
+              on board.  <span class="c2">Modes 13H-17H</span> are the 350-line versions of text
+              modes 0-3 when used with the Enhanced Color Display.
+
+              See <a href="75-egavidparmsrec.html">EgaVidParmsRec</a> for the layout.
+
+ <span class="c1">pfrDynParms</span>  Initially 0000:0000 (not used).  When present, this points to
+              an <a href="76-egadynamicsaverec.html">EgaDynamicSaveRec</a> to hold the current settings for EGA and
+              VGA palettes.  This is updated when the BIOS updates the
+              Attribute Controller registers (as in <a href="137-int_10h_1000h__set_one_palette_register.html">INT 10H 1000H</a>).
+
+<span class="c1">pfrTxtAuxFnt</span>  Initially 0000:0000 (not used).  When present, this points to
+              an <a href="77-egatxtfontrec.html">EgaTxtFontRec</a> structure that overrides all or part of the
+              font definition for specified text modes; the font will be
+              loaded to the character generator when selected text modes are
+              initialized.  You can use this vector to setup unusual and
+              exotic fonts or to override just a few characters for national
+              language support.
+
+              On VGAs, an additional character set may be set up for
+              selected modes by setting up a <a href="79-vgasaveptr2rec.html">VgaSavePtr2Rec</a>.
+
+<span class="c1">pfrGfxAuxFnt</span>  Initially 0000:0000 (not used).  When present, this points to
+              an <a href="78-egagfxfontrec.html">EgaGfxFontRec</a> structure.  The font information will be used
+              to generate characters is specified graphics modes.
+
+ <span class="c1">pfrSavePtr2</span>  This field contains an address on VGAs only.  It points to a
+              <a href="79-vgasaveptr2rec.html">VgaSavePtr2Rec</a> which sets special options foe VGA video
+              systems.
+
+See Also: <a href="71-ega_vga_data_areas.html">EGA Data Areas</a>
+          <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+          <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

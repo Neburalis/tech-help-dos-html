@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 29H: Fast PUTCHAR - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 29H: Fast PUTCHAR</h1><pre>                                                   Compatibility: <a href="912-_undocumented_.html">◄Undoc►</a> <span class="c2">??</span>
+ Expects: <span class="c2">AL</span>    character to display
+          ──────────────────────────────────────────────────────────────────
+ Returns: ??    undocumented
+          ──────────────────────────────────────────────────────────────────
+
+    Info: This is <a href="912-_undocumented_.html">◄undocumented►</a> through DOS 6.0 and I can't find much
+          about it.
+
+          INT 29H outputs a character to the screen.  When <a href="50-ansi_console_escape_sequences.html">ANSI.SYS</a> is
+          resident, it intercepts this vector; otherwise, it is handled
+          internally by DOS.
+
+          My disassembly shows that the routine fetches the current screen
+          color into <span class="c2">BL</span> and then passes <span class="c2">AL</span> on to <a href="124-int_10h_09h__write_character_attribute_to_cursor_location.html">INT 10H 09H</a> (write
+          character).  It updates the cursor position.  It also appears to
+          take special action on:
+
+            <span class="c2">07H</span> BEL (make a beep; don't update cursor)
+            <span class="c2">08H</span> BS  (backspace; cursor backwards one column)
+            <span class="c2">0aH</span> LF  (line feed; cursor to next line; scroll if needed)
+            <span class="c2">0dH</span> CR  (carriage return; cursor to start of line)
+            <span class="c2">1bH</span> ESC (ANSI Escape Sequences)
+
+          This fn is <span class="c1">NOT particularly fast</span>, compared to hand-optimized
+          writes directly to video memory.  In fact,  I can see no
+          advantage over using, say <a href="129-int_10h_0eh__write_character_as_tty.html">INT 10H 0eH</a>.  However, it is a bit
+          faster than handle-oriented file output to the CON device.
+
+See Also: <a href="7-character_i_o_functions.html">Character I/O Functions</a>
+          <a href="697-int_2fh_1a00h__is_ansi_sys_installed_.html">INT 2fH 1a00H</a> (is ANSI installed?)
+          <a href="50-ansi_console_escape_sequences.html">ANSI Escape Sequences</a>
+          <a href="558-dos_interrupts.html">DOS Interrupts</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

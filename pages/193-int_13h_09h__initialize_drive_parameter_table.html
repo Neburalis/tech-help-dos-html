@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 13H 09H: Initialize Drive Parameter Table - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 13H 09H: Initialize Drive Parameter Table</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    09H
+          <span class="c2">DL</span>    hard drive: 80H=drive 0; or 81H=drive 1
+          0:104 <a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a> for hard drive 0 (<a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">INT 41H</a> vector)
+          0:118 Hard Disk Parameter Table for hard drive 1 (<a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">INT 46H</a> vector)
+          ──────────────────────────────────────────────────────────────────
+ Returns: AH    <a href="205-bios_disk_error_codes.html">BIOS disk error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This reinitializes the hard disk system for a particular hard
+          drive (in <span class="c2">DL</span>) to use the low-level parameters in the
+          corresponding disk parameter tables.
+
+          When <span class="c2">DL</span>=80H, it sets up hard drive 0 to use the parameters at the
+          table pointed to by the <a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">INT 41H</a> vector (at 0:0104).
+
+          When <span class="c2">DL</span>=81H, it sets up hard drive 1 to use the parameters at the
+          table pointed to by the <a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">INT 46H</a> vector (at 0:0118).
+
+   Notes: ■ The only reason to use this would be after changing the
+            contents of a <a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a>; for instance, in
+            writing a custom boot sector.
+
+          ■ On <a href="830-system_compatibility.html">XT</a> systems, both drives use the parameters at the INT 41H
+            vector.
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

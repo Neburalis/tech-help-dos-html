@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440bH: IOCTL Set Sharing Retry Count - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440bH: IOCTL Set Sharing Retry Count</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    440bH
+          <span class="c2">CX</span>    delays per retry (default=1)
+          <span class="c2">DX</span>    retries before declaring <a href="564-int_24h__critical_error_handler.html">INT 24H</a> critical error (default=3)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn sets how many times DOS should retry a file I/O attempt
+          on any shared file or device.
+
+          When a file is locked, an attempt to write to it will cause an
+          <a href="564-int_24h__critical_error_handler.html">INT 24H</a> critical error.  Before declaring the error, DOS will
+          retry the I/O 3 times, waiting for 1 &quot;delay unit&quot; between
+          retries.
+
+   Notes: ■ The count in CX specifies a number of arbitrary &quot;delay units&quot;,
+            which depend on the speed of the CPU.  A &quot;delay unit&quot; is the
+            time it takes the CPU to LOOP 65536 times.  On 4.77 MHz PCs,
+            this equates to about 0.2 seconds.  On faster PCs, it can
+            represent less than 0.001 seconds.
+
+          ■ This is a global setting.  If you change it, you should restore
+            the defaults (CX=1, DX=3) before terminating your program.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="517-dos_fn_56h__rename_move_a_file.html">56H</a> (Lock/Unlock File)
+          <a href="691-int_2fh_1000h__is_share_exe_installed_.html">INT 2FH 1000H</a> (Is SHARE.EXE Installed)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

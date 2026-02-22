@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1013H: DAC Color Paging Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1013H: DAC Color Paging Functions</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1013H
+          <span class="c2">BL</span>    subfn: 00H = select color paging mode
+                             <span class="c2">BH</span> = paging mode
+                                  00H = 4 blocks of 64 registers
+                                  01H = 16 blocks of 16 registers
+
+          <span class="c2">BL</span>    subfn: 01H = activate color page
+                             <span class="c2">BH</span> = DAC color page number
+                                  00H-03H (4-page/64-reg mode)
+                                  00H-0fH (16-page/16-reg mode)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This lets you choose a DAC color-paging mode to enable groupings
+          of color registers.  It also lets you activate a particular DAC
+          register page.
+
+          Text-mode users will prefer 16-color paging mode (<span class="c2">BX</span>=0100H),
+          making it possible to quickly map any of 16 color set to the 16
+          possible text-mode attribute colors.
+
+          For instance, imagine setting up 16 groups with gradually-
+          increasing brightness of all colors.  Then you could cycle
+          through the groups (<span class="c2">BX=0001H</span>, <span class="c2">BX=0101H</span>, <span class="c2">BX=0201H</span>...) to brighten
+          or dim the entire screen.
+
+   Notes: Use <a href="149-int_10h_101ah__query_dac_color_paging_state.html">INT 10H 101aH</a> (query color paging state) to obtain the
+          current settings.
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

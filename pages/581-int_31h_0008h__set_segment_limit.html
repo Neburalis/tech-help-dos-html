@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0008H: Set Segment Limit - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0008H: Set Segment Limit</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0008H
+          <span class="c2">BX</span>    selector
+          <span class="c2">CX:DX</span> 32-bit size of the segment -1
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: This changes the limit field of the descriptor in the LDT.
+
+    <span class="c2">CX:DX</span> if the requested size is &gt; 1MB, then it must be page-aligned (an
+          even multiple of 4096--the low 12-bits of <span class="c2">DX</span> must be 0).
+
+    Note: There is no corresponding fn to query the limit.  Use the <span class="c2">LSL</span>
+          opcode to do so.  If the limit might be larger than 64K, you must
+          use the 32-bit version of <span class="c2">LSL</span>.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

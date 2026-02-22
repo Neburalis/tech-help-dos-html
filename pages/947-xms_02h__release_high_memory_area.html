@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS 02H: Release High Memory Area - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS 02H: Release High Memory Area</h1><pre>                                                     Compatibility: <span class="c2">XMS 2.0+</span>
+ Expects: <span class="c2">AH</span>    02H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0000H = successful
+                        0001H = error and <span class="c2">BL</span>=<a href="963-xms_error_codes.html">XMS error code</a> (if BL &gt;= 80H)
+          ──────────────────────────────────────────────────────────────────
+    Info: Releases control of the HMA<a href="926-qmemhma.html">▲</a> after a previous call to <a href="946-xms_01h__request_high_memory_area.html">XMS 01H</a>
+          (request HMA).
+
+          Applications which use the HMA must release it before
+          terminating.  Once released, any code or data in it is lost.
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

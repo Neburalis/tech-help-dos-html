@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwCallbackInfoRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwCallbackInfoRec</h1><pre><span class="c2">SwCallbackInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       4  <span class="c1">pfrNext</span>      address of next SwCallbackInfoRec in the
+                           notification chain (or 0000:0000 if last entry)
+  +4       4  <span class="c1">pfHandler</span>    addr of notification-function handler
+  +8       4  <span class="c1">res</span>          (reserved)
+ +0c       4  <span class="c1">pfarAPIs</span>     address of list of <a href="730-swapiinforec.html">SwApiInfoRec</a> structures.
+          16               size of an SwCallbackInfoRec structure
+
+     <span class="c1">pfrNext</span>  this is the address of the next SwCallbackInfoRec in the
+              chain; it is stored by programs which intercept <a href="710-int_2fh_4b01h__build_notification_chain.html">INT 2fH 4b01H</a>
+              (build notification chain).
+
+   <span class="c1">pfHandler</span>  the FAR address of the code that will be called for various
+              notification functions.
+
+    <span class="c1">pfarAPIs</span>  the FAR address of the first of a series of <a href="730-swapiinforec.html">SwApiInfoRec</a>
+              structures that identify how much support this program
+              provides for various asynchronous request APIs.  The list ends
+              when the first field of that structure is 0000H.
+
+ This structure is used in <a href="727-swsrvc_fn_0004h__hook_notification_chain.html">SwSrvcFn 0004H</a> (hook notification chain) and in
+ <a href="710-int_2fh_4b01h__build_notification_chain.html">INT 2fH 4b01H</a> (build notification chain).  It is part of the system that
+ allows programs to be notified when they are about to be switched out or
+ that they can resume operation, etc.
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

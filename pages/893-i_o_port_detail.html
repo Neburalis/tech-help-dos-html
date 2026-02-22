@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>I/O Port Detail - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>I/O Port Detail</h1><pre>
+ This detailed information covers some I/O ports that are not detailed
+ elsewhere.
+
+    Note: All IN and OUT examples are for 8-bit I/O
+          (e.g., OUT 70H,0 really means MOV al,0; OUT 70H,al)
+
+Port  Description
+▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+000H-
+01fH  DMA (Direct Memory Access) controller          See <a href="908-dma_ports.html">DMA Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+020H-
+03fH  Interrupt Controller.  See <a href="905-interrupt_controller_ports.html">Interrupt Controller Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+040H-
+043H  8253 Timer chip.                               See <a href="904-timer_ports.html">Timer Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+060H  PC/XT  (Programmable Peripheral Interface) port A.  Read keyboard:
+      IN   al,60H  ;fetches most recent scan code.   See <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a>
+                                                     See <a href="57-keyboard_scan_codes.html">Scan Code</a>
+      AT keyboard data register.                     See <a href="894-at_keyboard_functions.html">AT Keyboard</a>
+
+061H-
+063H  PC/XT PPI Command/Mode Register.  See <a href="906-programmable_peripheral_interface__ppi__ports.html">PPI Ports</a>.
+────  ──────────────────────────────────────────────────────────────────────
+064H  AT keyboard command register.  This port communicates with the 8042
+      which runs an on-chip control program for the keyboard.  It accepts
+      command codes and data bytes.
+               For commands and programming details, See <a href="894-at_keyboard_functions.html">AT Keyboard</a>
+────  ──────────────────────────────────────────────────────────────────────
+070H  AT register address (write-only) for Real-Time Clock and CMOS RAM.
+
+070H  AT NMI mask.  Use this port to mask the Non-maskable Interrupt.
+           An OUT with bit 7=0 enables the NMI; with bit 7=1 disables NMI:
+      OUT  70H,2dH  ;enable NMI--2dH is a reserved addr in the <a href="60-cmos_storage_layout.html">CMOS Memory</a>
+      OUT  70H,0adH ;disable NMI
+────  ──────────────────────────────────────────────────────────────────────
+080H  AT page register used during <a href="264-power_on_self_test.html">POST</a> to accumulate errors
+────  ──────────────────────────────────────────────────────────────────────
+081H-
+08fH  DMA page registers                             See <a href="908-dma_ports.html">DMA Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+0a0H  PC/XT  NMI mask. Enable/disable Non-maskable Int (RAM parity err)
+      OUT  0a0H,80H  ;enable NMI
+      OUT  0a0H,0    ;disable NMI
+────  ──────────────────────────────────────────────────────────────────────
+0c0H-
+0dfH  AT DMA controller access to 16-bit DMA         See <a href="908-dma_ports.html">DMA Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+0f0H  AT 80287 latch clear.  'Busy' gets latched upon an unmasked 287 error.
+      OUT  0f0H,0  ;clears the latch
+
+0f1H  AT 80287 Reset.  Coprocessor is reset from protected mode to real mode
+      OUT  0f1H,0  ;resets the 80287 to real mode
+
+0f8H-
+0fcH  AT 80287 data. 286 sends opcodes &amp; operands and receives results.
+────  ──────────────────────────────────────────────────────────────────────
+170H-
+177H  AT hard disk controller #2                     See <a href="897-at_hard_disk_ports.html">AT Hard Disk Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+1f0H-
+1f7H  AT hard disk controller #1                     See <a href="897-at_hard_disk_ports.html">AT Hard Disk Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+210H  XT Expansion chassis control port
+213H  XT Expansion chassis enable
+215H  XT Expansion chassis data bus register
+215H  XT Expansion chassis address register (high byte)
+216H  XT                                    (low byte)
+────  ──────────────────────────────────────────────────────────────────────
+278H-
+27fH  Parallel Printer Adapter #2                    See <a href="907-parallel_printer_adapter_ports.html">Printer Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+2e8H-
+2efH  Asynchronous Communications Adapter COM<span class="c2">4</span>.      See <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+2f8H-
+2ffH  Asynchronous Communications Adapter COM<span class="c2">2</span>.      See <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+320H-
+32fH  XT hard disk controller.                       See <a href="898-xt_hard_disk_ports.html">XT Hard Disk Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+2c0H-
+2cfH  Enhanced Graphics Adapter (EGA) #2.            See <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+378H-
+37fH  Parallel Printer Adapter #1                    See <a href="907-parallel_printer_adapter_ports.html">Printer Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+3b4H- Monochrome Display Adapter (MDA) display control ports.
+3baH  See <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a> for a summary of usage of the 6854 CRT controller.
+      The MDA has few capabilities beyond it's single standard display mode.
+────  ──────────────────────────────────────────────────────────────────────
+3bcH-
+3bdH  Parallel Printer on MDA                        See <a href="907-parallel_printer_adapter_ports.html">Printer Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+3b0H-
+3dfH  Video Graphics Array (VGA)                     See <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+3c0H-
+3dfH  Enhanced Graphics Adapter (EGA)                See <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+3d2H-
+3dcH  Color/Graphics Adapter (CGA)                   See <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+3e8H- asynchronous communications adapter COM<span class="c2">3</span>.
+3efH                                                 See <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+3f0H-
+3f7H  diskette drive controller (aka FDC)            See <a href="896-diskette_controller_ports.html">FDC Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+3f8H- asynchronous communications adapter COM<span class="c2">1</span>.
+3ffH                                                 See <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+────  ──────────────────────────────────────────────────────────────────────
+See Also: <a href="892-i_o_port_map.html">I/O Port Map</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 0dH: Reset Disk - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 0dH: Reset Disk</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    0DH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Flushes all file buffers.
+
+          This does NOT update file length in a directory.  To ensure a
+          file's length is correctly recorded, close the file via Fn <a href="389-dos_fn_10h__close_file_via_fcb.html">10H</a> or
+          <a href="437-dos_fn_3eh__close_a_file_handle.html">3eH</a>.
+
+   Notes: ■ All MS-DOS tools that buffer I/O data will honor this function,
+            including the <span class="c2">SmartDrv</span> disk cache and caching performed by
+            <a href="787-doublespace_overview.html">DoubleSpace</a>.  For instance, if you want to avoid having
+            Smartdrv perform its periodic disk output during a time-
+            critical program function, use Fn 0dH before starting that
+            function.
+
+          ■ Control does not return until all buffers have been flushed.
+
+          ■ The default <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> Ctrl+Break handler calls this function when
+            DOS detects Ctrl+Break or Ctrl+C.
+
+See Also: <a href="9-disk_drive_functions.html">Disk Drive Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

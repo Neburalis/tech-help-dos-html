@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IoctlRdWrtTrackRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IoctlRdWrtTrackRec</h1><pre>
+ This structure is used in the following IOCTL fns:
+    <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a> (write track on logical drive)
+    <a href="475-dos_fn_440dh_cl_61h__ioctl_read_track_on_logical_drive.html">440dH 61H</a> (read track on logical drive)
+
+    <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>  (generic IOCTL for block devices)
+
+<span class="c2">IoctlRdWrtTrackRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0     1  <span class="c1">rSpclFns</span>     (always 00)
+    +1     2  <span class="c1">wHead</span>        head to read/write
+    +3     2  <span class="c1">wTrack</span>       track (cylinder) to read/write
+    +5     2  <span class="c1">wStartSect</span>   starting sector (0-based; sector 1=0, 2=1...)
+    +7     2  <span class="c1">wSectCnt</span>     sector count (0-based; use 8 for 9-sector track)
+    +9     4  <span class="c1">fpBuff</span>       32-bit addr of buffer containing data to write
+                           (<a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a>) or addr to hold data read (<a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a>)
+          0dH (13)         size of an IoctlRdWrtTrackRec
+
+   Notes: The <span class="c1">wStartSect</span> field is relative to the start of the track (for
+          instance, to write an entire track on a 9-sector/track diskette,
+          set <span class="c1">wStartSect</span> to <span class="c2">0</span> and set <span class="c1">wSectCnt</span> to <span class="c2">9</span>.
+
+          This is the only place I've seen where tracks are not specified
+          with their &quot;hardware code&quot; numbers (e.g. 1-9).
+
+See Also: fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (Generic IOCTL for block devices)
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

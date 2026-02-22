@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>String Operation Instructions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>String Operation Instructions</h1><pre>
+CLD            clear direction flag to UP (DF←UP←0)
+                sets ▲ (Delta) to positive; string ops auto-<span class="c2">increment</span>
+STD            set direction flag to DN (DF←DN←1)
+                sets ▲ (Delta) to negative; string ops auto-<span class="c2">decrement</span>
+
+REP/REPE/REPZ  <span class="c1">(prefix)</span> repeat: perform string operation repeatedly
+                CX←(CX-1); string op repeats until CX==0
+REPNE/REPNZ    <span class="c1">(prefix)</span> repeat: useful for string ops CMPS and SCAS
+                ZF←0; CX←(CX-1); StrOp repeats while (CX!=0 and ZF==0)
+
+MOVSB          copy byte(word) string (byte:▲=1, word:▲=2)
+MOVSW           ES:[DI]←DS:[SI]; DI+=▲; SI+=▲
+MOVSXB         copy byte(word) with SF (sign) extension                <span class="c2">386+</span>
+MOVSXW         copy byte(word) with ZF (zero) extension                <span class="c2">386+</span>
+
+LODSB          copy string byte(word) into AL(AX)
+                AL ← DS:[SI]; SI+=1;
+LODSW           AX ← DS:[SI]; SI+=2;
+
+STOSB          store bytes(words) into string
+                ES:[DI]←AL; DI+=1;
+STOSW           ES:[DI]←AX; DI+=2;
+
+CMPSB          compare byte(word) strings (byte:▲=1, word:▲=2)
+CMPSW           flags←(result of CMP DS:[SI],ES:[DI]); DI+=▲; SI+=▲
+
+SCASB          find byte(word) in string
+                flags←(result of CMP DS:[DI],AL); DI+=1
+SCASW           flags←(result of CMP DS:[DI],AX); DI+=2
+
+INSB           port input byte(word) into string (byte:▲=1, word:▲=2)
+INSW                                                                   <span class="c2">286+</span>
+                ES:[DI]←(byte/word at port DX); DI+=▲;
+
+OUTSB          port output byte(word) from string (byte:▲=1, word:▲=2)
+OUTSW                                                                  <span class="c2">286+</span>
+                [port DX]←DS:[SI]; SI+=▲;
+────────────────────────────────────────────────────────────────────────────
+                                                            <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

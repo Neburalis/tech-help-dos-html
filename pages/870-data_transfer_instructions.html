@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Data Transfer Instructions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Data Transfer Instructions</h1><pre>
+MOV  dest,src      transfer (copy) data to/from register, to/from memory
+                    dest←src
+
+XCHG dest,src      exchange values of two registers or register and r/m
+                    dest ↔ src
+
+IN port8 (or DX)   input to AL(or AX) from I/O port
+                    byte: AL←port
+                    word: AL←[port]; AH←[port+1]
+
+OUT port8 (or DX)  output from AL(or AX) to I/O port
+                    byte: [port]←AL
+                    word: [port]←AL [port+1]←AH
+
+XLAT               translate AL into a value in a translation table at BX
+                    AL←ES:[BX+(AL)]
+
+LEA  reg16,addr    load address into a register
+                     reg16←(result of EA calculation of addr offset)
+
+LDS  reg16,mem     load DS and <span class="c1">reg16</span> from memory variable
+                    reg16←[mem16]; DS←[mem16+2]
+LES  reg16,mem     load ES and <span class="c1">reg16</span> from memory variable
+                    reg16←[mem16]; ES←[mem16+2]
+
+LAHF               load/convert flags into AH
+SAHF               store/convert AH into flags
+PUSH src           transfer reg16 or r/m16 to stack
+                    SP-=2; SS:[SP]←src
+PUSH immed         transfer immed16 (or sign-extended immed8) to stack.
+                   SP-=2; SS:[SP]←immed16                              <span class="c2">286+</span>
+
+PUSHA              PUSH ALL: copy general registers to stack           <span class="c2">286+</span>
+                    SP-=10H; AX,BX,CX,DX,SI,DI,BP,SP saved on stack
+
+PUSHF              PUSH Flags: transfer flags register to stack
+                    SP-=2; SS:[SP]←flags
+
+POP dest           transfer from stack to <span class="c1">dest</span> (reg16, r/m16, or segreg)
+                    dest←SS:[SP]; SP+=2
+
+POPA               POP All: copy general registers from stack          <span class="c2">286+</span>
+                    SP+=10H; AX,BX,CX,DX,SI,DI,BP restored from stack
+
+POPF               POP Flags: transfer from stack to flags register
+                    flags←SS:[SP]; SP+=2
+────────────────────────────────────────────────────────────────────────────
+ <a href="875-string_operation_instructions.html">String Operation Instructions</a>                              <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

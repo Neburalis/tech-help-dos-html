@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MRCI Fn ffffH: Deinstall Server - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MRCI Fn ffffH: Deinstall Server</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    ffffH
+          <span class="c2">ES:BX</span> address of a <a href="822-mrcinforec.html">MRCInfoRec</a> structure filled via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000H = success
+                else  = <a href="821-mrci_api_error_return_codes.html">MRCI API Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn is used only by MRCI servers.  If, at load time, a MRCI
+          server detects that another MRCI server is already active, it can
+          compare the capacities and version of the installed server to
+          those of it own.
+
+          If it believes that it can do a better job, it (presumably) could
+          use this fn to tell the other driver to deinstall itself.
+
+          <span class="c2">However</span>, the example code in the MRCI spec does not use this.
+          Instead, it edits the old server's <a href="822-mrcinforec.html">MRCInfoRec</a> structure to point
+          to its own entry address (a technique which would not work if the
+          structure were in ROM).
+
+See Also: <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

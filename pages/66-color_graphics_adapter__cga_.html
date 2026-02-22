@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Color Graphics Adapter (CGA) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Color Graphics Adapter (CGA)</h1><pre><span class="c2">█▌Overview▐█</span>
+  The CGA is the &quot;lowest common denominator&quot; color video system.  It is
+  the <span class="c1">original</span> color system shipped with the IBM-PC circa 1981.  TECH Help!
+  covers the following CGA and general video topics:
+
+   <a href="113-int_10h__video_services.html">Video Services</a> ..... <a href="113-int_10h__video_services.html">INT 10H</a> video services
+   <a href="114-video_modes.html">Video Modes</a> ........ includes CGA modes
+   <a href="89-video_memory_layouts.html">Video Memory Layouts</a> accessing CGA video memory
+   <a href="92-cga_video_snow_and_cls_flash.html">Video Snow</a> ......... about CGA video programming peculiarities
+
+   <a href="93-rom_bios_variables.html">BIOS Data Area</a> ..... includes video-specific variables in low memory
+
+   <a href="87-screen_attributes.html">Screen Attributes</a> .. codes determine colors for text mode
+   <a href="88-color_table.html">Color Table</a> ........ exhaustive listing of screen attributes
+
+   <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a> ...... I/O port addresses; video controller registers
+   <a href="883-cga_video_adaptor_pin_outs.html">CGA Pin Outs</a> ....... connectors on CGA cards
+
+   <a href="255-int_1dh__video_initialization_table_pointer.html">INT 1dH</a> ............ video initialization table
+   <a href="257-int_1fh__cga_graphics_character_font_pointer.html">INT 1fH</a> ............ font definitions of chars 128-255 in graphics modes
+
+  CGAs are limited to 25-lines or 80 or 40 columns in text mode.  In
+  graphics mode, it supports 320x200 4-color and 640-200 2-color modes only.
+  Its video memory begins at <span class="c2">b800:0000</span> and it supports up to 8 &quot;pages&quot; of
+  video in text mode.
+
+  If your program writes directly to CGA video memory, it is important to
+  write special code to avoid annoying screen flicker.  See <a href="92-cga_video_snow_and_cls_flash.html">Video Snow</a>.
+
+  <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>, <a href="70-video_graphics_array__vga_.html">VGA</a>, and <a href="69-supervga_display_adapters__svga_.html">SuperVGA</a> are all upwardly-compatible with CGA, supporting
+  all of its modes, I/O ports, and BIOS variables.
+
+<span class="c2">█▌Testing for a CGA▐█</span>
+  Use <a href="183-int_11h__equipment_check.html">INT 11H</a> (equipment list) and check bits 4 &amp; 5; if (<span class="c1">w</span> AND 30H) is 30H,
+  then you are running on an <a href="68-monochrome_display_adapter__mda_.html">MDA</a> (video memory is at b000:0).  Otherwise,
+  its a CGA, EGA, VGA or other compatible color system (video memory is at
+  <span class="c2">b800:0</span>).  See <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> and <a href="70-video_graphics_array__vga_.html">VGA</a> if you need to narrow it down.
+
+See Also: <a href="68-monochrome_display_adapter__mda_.html">MDA</a>
+          <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+          <a href="69-supervga_display_adapters__svga_.html">SuperVGA</a>
+          <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+          <a href="89-video_memory_layouts.html">Video Memory Layouts</a>
+                                         <span class="c3">-♦-</span></pre></body></html>

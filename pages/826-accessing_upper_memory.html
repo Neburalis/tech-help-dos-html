@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Accessing Upper Memory - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Accessing Upper Memory</h1><pre><span class="c2">█▌Overview▐█</span>
+  Starting with DOS 5.0, DOS supports access to Upper Memory Blocks (UMBs<a href="927-qmemumb.html">▲</a>)
+  on <a href="830-system_compatibility.html">386+</a> based computers which have installed the <span class="c2">HIMEM.SYS</span> and <span class="c2">EMM386.EXE</span>
+  device drivers and have use <a href="278-dos___config_sys_command_.html">DOS=</a><span class="c2">UMB</span> in <a href="267-the_config_sys_file.html">CONFIG.SYS</a>.
+
+   Notes: ■ See <a href="943-extended_memory_specification__xms_.html">XMS</a> for info on accessing <span class="c2">Ex</span><span class="c1">tend</span><span class="c2">ed memory</span><a href="928-qmemxms.html">▲</a>
+          ■ See <a href="650-expanded_memory_specification__ems_.html">EMS</a> for info on accessing <span class="c2">Ex</span><span class="c1">pand</span><span class="c2">ed memory</span><a href="925-qmemems.html">▲</a>
+          ■ See <a href="704-int_2fh_4axxh__hma_suballocations.html">INT 2fH 4axxH</a> for info on allocating part of the <span class="c2">HMA</span><a href="926-qmemhma.html">▲</a>
+
+  At the user-interface level, just use the DOS <span class="c2">Loadhigh</span> command or the
+  <a href="277-devicehigh___config_sys_command_.html">DEVICEHIGH=</a> CONFIG.SYS command to load a TSR or device driver into upper
+  memory.  TSRs and applications can also make use of upper memory via:
+
+    Fn <a href="522-dos_fn_5800h__query_memory_allocation_strategy.html">5800H</a> (query allocation strategy)       3.0+
+    Fn <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a> (set allocation strategy)         3.0+
+    Fn <a href="524-dos_fn_5802h__query_upper_memory_link_state.html">5802H</a> (query upper-memory link state)   <span class="c2">5.0+</span>
+    Fn <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> (set upper-memory link state)     <span class="c2">5.0+</span>
+
+<span class="c2">█▌Allocating in UMBs▐█</span>
+  To obtain access to an unallocated portion of a UMB, use the following
+  steps:
+
+   1) Use fn <a href="524-dos_fn_5802h__query_upper_memory_link_state.html">5802H</a> and save the current UMB link state.
+
+   2) Use fn <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> with <span class="c2">BX</span>=0001H to link-in upper memory.
+
+   3) Use fn <a href="522-dos_fn_5800h__query_memory_allocation_strategy.html">5800H</a> and save the current allocation strategy code.
+
+   4) Use fn <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a> with <span class="c2">BX</span>=0041H (for instance) to set the allocation
+      strategy to &quot;best fit high-only&quot;.
+
+   5) Use fn <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">48H</a> with <span class="c2">BX</span>=ffffH to learn the size of the largest available
+      allocation in upper memory.
+
+   6) Use fn <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">48H</a> with <span class="c2">BX</span>=<span class="c1">desired_size</span> to allocate the memory.  The segment
+      returned in <span class="c2">AX</span> will be higher than <span class="c2">a000H</span> if the memory was allocated
+      in a UMB.
+
+   7) Be sure to use fns <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> and <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a> to restore the previous link state
+      and allocation strategy saved in steps 1 and 3.  And use fn <a href="501-dos_fn_49h__free_allocated_memory_block.html">49H</a> to
+      free the allocation when you're done with it.
+
+<span class="c2">█▌Loading a TSR High▐█</span>
+  A <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> can load itself into a upper memory automatically, without having
+  the user use the <span class="c2">Loadhigh</span> command via these steps:
+
+   1) Check to see if this is the second copy of your program.  One
+      technique is to hook <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a> and watch for your own MUX-ID (and
+      communicate with the resident copy via your own internal API).
+      Another it to examine the <a href="368-mcb__memory_control_block.html">MCB</a> chain and look for your own name.
+      Another way might be to see if your PSP is above <span class="c2">a000H</span>.
+
+      If this is the second copy, just initialize yourself and exit via
+      fn <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a> (terminate and stay resident).
+
+   2) Set the link to upper memory via fn <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> and select a &quot;load high
+      only&quot; allocation strategy via fn <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a>.
+
+   3) Make sure there is enough upper memory for your program.
+
+   4) Examine the <a href="346-dos_environment.html">DOS Environment</a> to learn the filespec (including drive
+      and path) that was used to start you.
+
+   5) Use DOS fn <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> (or a variant) to load and execute another copy of
+      your program.  Since the UMB-link is set and there is enough high
+      RAM, the copy will be loaded into upper memory.
+
+   6) Restore the UMB-link and allocation strategy via fns <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> and <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a>
+      and terminate normally via fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a>.
+
+  Of course, if there is no room in upper memory, you should install
+  yourself normally, into conventional memory.
+
+  <span class="c2">Important</span>: If you use this technique, be sure to provide a way for users
+  to override (e.g., a /LOW command-line option).  Many users require very
+  specific control over UMB usage.
+
+<span class="c2">█▌HMA Suballocations▐█</span>
+  A small part of the HMA<a href="926-qmemhma.html">▲</a> (up to about 16K, but often much less) may be
+  available for use by device drivers and TSRs.  It is usually occupied by
+  DOS buffers (see <a href="273-buffers___config_sys_command_.html">BUFFERS=</a>) or by the <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI</a>-engine portion of the
+  <a href="787-doublespace_overview.html">DoubleSpace</a> support for DOS 6.2.
+
+  See the <a href="912-_undocumented_.html">◄undocumented►</a> function <a href="704-int_2fh_4axxh__hma_suballocations.html">INT 2fH 4axxH</a> for details.
+
+See Also: <a href="13-memory_management_functions.html">Memory Control Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

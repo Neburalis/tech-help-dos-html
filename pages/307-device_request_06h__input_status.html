@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Request 06H: Input Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Request 06H: Input Status</h1><pre>                                                                      <a href="327-_chr_.html">◄Chr►</a>
+ This tells the driver to return its input status; in particular, to
+ indicate whether there are characters in the device input buffer ready for
+ immediate retrieval.
+
+<span class="c2">DevReq06Rec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bLen</span>         0dH (length of this request packet)
+   +1      1  <span class="c1">bUnitNo</span>      (not used)
+   +2      1  <span class="c1">bCmd</span>         <span class="c2">06H</span> (command code)
+   +3      2  <span class="c1">rStatus</span>      OUTPUT: <a href="325-device_status_word.html">Device Status Word</a> must fill before exit
+   +5H     8  <span class="c1">res</span>          (reserved)
+          13               size of this structure
+
+     <span class="c1">rStatus</span>  On exit, the driver must place a <a href="325-device_status_word.html">DevStatusWord</a> here.  Always
+              set the Done bit (<span class="c1">bit 8</span>).
+
+              If no characters are ready, set the Busy bit (<span class="c1">bit 9</span>).
+              Otherwise, clear <span class="c1">bit 9</span> to indicate that a call to <a href="305-device_request_04h__input__read_data_from_device_.html">DvRq 04H</a>
+              will be satisfied without waiting.
+
+   Notes: ■ This is the device driver &quot;catch-point&quot; for DOS fn <a href="384-dos_fn_0bh__check_input_status.html">0bH</a> (get
+            input status).
+
+            It is also called by DOS to avoid waiting in an input loop.
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">DevRequestHdrRec</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

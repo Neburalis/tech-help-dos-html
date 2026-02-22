@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>VgaPaletteProfileRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>VgaPaletteProfileRec</h1><pre>
+ One field of the <a href="79-vgasaveptr2rec.html">VgaSavePtr2Rec</a> points to a <span class="c2">VgaPaletteProfileRec</span>.
+ Initially, this structure does not exist, but may be installed by task
+ switching or other TSR code.
+
+ This is especially needed when secondary fonts are used; you will want to
+ define palettes which are consistent and independent of video attribute
+ bit 3 (which switches character sets).
+
+<span class="c2">VgaPaletteProfileRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wRecLen</span>      size of this structure, in bytes (normally 1aH)
+   +0      1  <span class="c1">bUnderline</span>   underlining: 01=enable in all text modes
+                                        00=enable in monochrome text mode
+                                        ff=disable in all text modes
+   +1      3  <span class="c1">res</span>          (reserved)
+   +4      2  <span class="c1">wAtcRegCnt</span>   internal palette count: 0-17 (17 is normal)
+   +6      2  <span class="c1">wAtcRegIdx</span>   internal palette index: 0-16 (16 is normal)
+   +8      4  <span class="c1">pfabRegTbl</span>   address of internal palette data
+  +0cH     2  <span class="c1">wDacRegCnt</span>   external palette count: 0-256 (0 is normal)
+  +0eH     2  <span class="c1">wDacRegIdx</span>   external palette index: 0-255 (0 is normal)
+  +10H     4  <span class="c1">pfabDacTbl</span>   address of external palette data
+  +14H     n  <span class="c1">abModes</span>      use for these <a href="114-video_modes.html">video modes</a> (variable-length table)
+  +n+14H   1  ffH          0ffH indicates end of <span class="c1">abModes</span> table
+        n+21               size of a VgaPaletteProfileRec
+
+See Also: <a href="71-ega_vga_data_areas.html">VGA Data Areas</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

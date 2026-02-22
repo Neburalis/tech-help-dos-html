@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 3fH: Read from File via Handle - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 3fH: Read from File via Handle</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    3fH
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>
+          <span class="c2">CX</span>    number of bytes to read
+          <span class="c2">DS:DX</span> address of buffer to receive data
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+                if no error, <span class="c2">AX</span>=number of bytes actually read
+          ──────────────────────────────────────────────────────────────────
+    Info: Reads <span class="c2">CX</span> bytes of data (or fewer) from the file or device with
+          handle number <span class="c2">BX</span>.  The data is read from the current position of
+          the file's read/write pointer and is placed into the caller's
+          buffer pointed to by <span class="c2">DS:DX</span>.
+
+          This updates the file's read/write pointer to set up for a
+          subsequent sequential-access read or write.  To access a specific
+          part of a file, use Fn <a href="441-dos_fn_42h__set_file_pointer.html">42H</a> (Lseek) before this call.
+
+   Notes: ■ You should always compare the return value of <span class="c2">AX</span> (number of
+            bytes read) to <span class="c2">CX</span> (number of bytes requested):
+
+            • if <span class="c2">AX</span> = <span class="c2">CX</span>, (and CF=NC) the read was correct with no error
+            • if <span class="c2">AX</span> = 0, the end of the file (EOF) was reached
+            • if <span class="c2">AX</span> &lt; <span class="c2">CX</span> (but not zero):
+                if reading from a device, the input line is <span class="c2">AX</span> bytes long
+                if reading from a file, the call has read up to the EOF
+
+          ■ It is handy to use this function for reading default handles
+            such as the <a href="828-standard_i_o_and_i_o_redirection.html">Standard I/O</a> handles, instead of the buffered input
+            or character-by-character input functions.
+
+          ■ When you read from a device, <span class="c2">AX</span> returns the length of the line
+            up to and including the terminating CR (ASCII 13H).
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

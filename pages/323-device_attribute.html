@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Attribute - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Attribute</h1><pre>
+ The <span class="c1">rDevAttr</span> field of the <a href="322-device_header_layout.html">DevHdrRec</a> indicates properties of a device.  DOS
+ fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> returns a structure that contains a pointer to the DevHdrRec for a
+ specified block device driver.  And fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a> obtain info that can let you
+ get attributes of character devices.
+
+ Bit-meanings vary depending on the driver type, so two layouts are given:
+
+<span class="c2">DevAttrChar</span> ─── layout for <span class="c2">character</span> devices
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║<span class="c2">1</span>│ │ │0│ │0 0 0║<span class="c1">q</span>│<span class="c1">g</span>│0│<span class="c1">s</span>│<span class="c1">c</span>│<span class="c1">n</span>│<span class="c1">o</span>│<span class="c1">i</span>║
+╙<span class="c2">╥</span>┴╥┴╥┴─┴╥┴─┴─┴─╨╥┴╥┴─┴╥┴╥┴╥┴╥┴╥╜ <span class="c1">bit</span>  <span class="c1">mask</span>
+ <span class="c2">║</span> ║ ║   ║       ║ ║   ║ ║ ║ ║ ╚═► 0: 0001H standard input device
+ <span class="c2">║</span> ║ ║   ║       ║ ║   ║ ║ ║ ╚═══► 1: 0002H standard output device
+ <span class="c2">║</span> ║ ║   ║       ║ ║   ║ ║ ╚═════► 2: 0004H standard NUL device
+ <span class="c2">║</span> ║ ║   ║       ║ ║   ║ ╚═══════► 3: 0008H clock device
+ <span class="c2">║</span> ║ ║   ║       ║ ║   ╚═════════► 4: 0010H special; fast output   <a href="568-int_29h__fast_putchar.html">INT 29H</a>
+ <span class="c2">║</span> ║ ║   ║       ║ ╚═════════════► 6: 0040H supports Generic IOCTL <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>
+ <span class="c2">║</span> ║ ║   ║       ╚═══════════════► 7: 0080H supports Query IOCTL   <a href="321-device_request_19h__ioctl_support_query.html">DvRq 19H</a>
+ <span class="c2">║</span> ║ ║   ╚═══════════════════════►11: 0800H supports device open,  <a href="314-device_request_0dh__device_open.html">DvRq 0dH</a>
+ <span class="c2">║</span> ║ ║                                      and device close       <a href="315-device_request_0eh__device_close.html">DvRq 0eH</a>
+ <span class="c2">║</span> ║ ╚═══════════════════════════►13: 2000H sprts output till busy <a href="317-device_request_10h__output_until_busy.html">DvRq 10H</a>
+ <span class="c2">║</span> ╚═════════════════════════════►14: 4000H supports IOCTL Read    <a href="304-device_request_03h__ioctl_input.html">DvRq 03H</a>
+ <span class="c2">║</span>                                          and IOCTL Write        <a href="313-device_request_0ch__ioctl_output.html">DvRq 0cH</a>
+ <span class="c2">╚═══════════════════════════════►15: 8000H 1=character device</span>
+
+<span class="c2">DevAttrBlock</span> ─── layout for <span class="c2">block</span> devices
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║<span class="c2">0</span>│ │ │0│ │0 0 0║<span class="c1">q</span>│<span class="c1">g</span>│0 0 0 0│<span class="c1">b</span>│0║
+╙<span class="c2">╥</span>┴╥┴╥┴─┴╥┴─┴─┴─╨╥┴╥┴─┴─┴─┴─┴╥┴─╜ <span class="c1">bit</span>  <span class="c1">mask</span>
+ <span class="c2">║</span> ║ ║   ║       ║ ║         ╚═══► 1: 0002H supports &gt;32M partitions
+ <span class="c2">║</span> ║ ║   ║       ║ ╚═════════════► 6: 0040H supports Generic IOCTL <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>
+ <span class="c2">║</span> ║ ║   ║       ║                          and Get Logical Device <a href="319-device_request_17h__get_logical_device.html">DvRq 17H</a>
+ <span class="c2">║</span> ║ ║   ║       ║                          and Set Logical Device <a href="320-device_request_18h__set_logical_device.html">DvRq 18H</a>
+ <span class="c2">║</span> ║ ║   ║       ╚═══════════════► 7: 0080H supports Query IOCTL   <a href="321-device_request_19h__ioctl_support_query.html">DvRq 19H</a>
+ <span class="c2">║</span> ║ ║   ╚═══════════════════════►11: 0800H supports device open   <a href="314-device_request_0dh__device_open.html">DvRq 0dH</a>
+ <span class="c2">║</span> ║ ║                                      and device close       <a href="315-device_request_0eh__device_close.html">DvRq 0eH</a>
+ <span class="c2">║</span> ║ ║                                      and Removable Media    <a href="316-device_request_0fh__removable_media.html">DvRq 0fH</a>
+ <span class="c2">║</span> ║ ╚═══════════════════════════►13: 2000H 0=Needs FAT with BPB   <a href="303-device_request_02h__build_bpb.html">DvRq 02H</a>
+ <span class="c2">║</span> ╚═════════════════════════════►14: 4000H supports IOCTL Read    <a href="304-device_request_03h__ioctl_input.html">DvRq 03H</a>
+ <span class="c2">║</span>                                          and IOCTL Write        <a href="313-device_request_0ch__ioctl_output.html">DvRq 0cH</a>
+ <span class="c2">╚═══════════════════════════════►15: 8000H 0=block device</span>
+
+   <span class="c1">bit 15</span> This bit affects Device Input and Output requests and determines
+          the meaning of the <span class="c1">abDevName</span> field of the <a href="322-device_header_layout.html">DevHdrRec</a>.  If this bit
+          is <span class="c2">0</span>, the device is a block device (usually a disk drive).
+
+          <span class="c2">─────────────────────────────────────────────── Character Devices</span>
+    <span class="c1">bit 0</span> and...
+    <span class="c1">bit 1</span> Set the standard I/O bits when you replace the CON driver.
+
+    <span class="c1">bit 2</span> The standard NUL device cannot be reassigned.
+
+    <span class="c1">bit 3</span> The clock device indicates replacement for the CLOCK$ device
+          driver.  CLOCK$ is a character device which handles device
+          requests to input and output exactly 6 bytes.  An input request
+          (<a href="305-device_request_04h__input__read_data_from_device_.html">DvRq 04H</a>) should return 6 bytes indicating the current time/date
+          and an output request (<a href="309-device_request_08h__output__write_data_to_device_.html">DvRq 08H</a>) should accept 6 bytes to set the
+          clock/calendar.  See <a href="339-clock__i_o_structure.html">ClockIORec</a> for the layout.
+
+    <span class="c1">bit 4</span> This is set if this is the CON device and it supports the <a href="568-int_29h__fast_putchar.html">INT 29H</a>
+          &quot;fast-output&quot; function.
+
+   <span class="c1">bits 7</span> <span class="c1">11</span>, and <span class="c1">14</span> indicates support for device utilities which use
+          fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> and other fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> services.
+
+          <span class="c2">─────────────────────────────────────────────────── Block Devices</span>
+    <span class="c1">bit 1</span> Indicates support for accessing the large disk partitions (4.0+).
+          On <a href="305-device_request_04h__input__read_data_from_device_.html">DvRq 04H</a> and <a href="309-device_request_08h__output__write_data_to_device_.html">DvRq 08H</a>, the <span class="c1">wSectorNo</span> field in the request
+          packet will be set to ffffH and the actual address will be a 32-
+          bit value in the <span class="c1">lBigSectorNo</span> field.  See <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> for related
+          information.
+
+   <span class="c1">bit 11</span> (DOS 3.0+) indicates support for Removable Media-related device
+          requests (<a href="314-device_request_0dh__device_open.html">DvRq 0dH</a> and <a href="316-device_request_0fh__removable_media.html">DvRq 0fH</a>) so a block device driver can
+          optimize with local buffering.  When set, the driver must also
+          take special action on <a href="303-device_request_02h__build_bpb.html">DvRq 02H</a>.
+
+   <span class="c1">bit 13</span> (once called the &quot;non-IBM device&quot; bit)
+          <span class="c2">0</span>: <a href="303-device_request_02h__build_bpb.html">DvRq 02H</a> (Build BPB) will receive a buffer containing the
+          first sector of the first <a href="359-fat__dos_file_allocation_table.html">FAT</a>.  You can determine the media type
+          from the first byte of the FAT.
+          <span class="c2">1</span>: The buffer given in DvRq 02H is not important.
+
+See Also: <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="323-device_attribute.html">Device Attribute</a>
+          <a href="300-device_requests.html">Device Requests</a>
+          <a href="299-device_driver_basics.html">Device Driver Basics</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 89H: Switch to Protected mode - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 89H: Switch to Protected mode</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    89H
+          <span class="c2">BH</span>    index into IDT defining access of IRQ 0-7
+          <span class="c2">BL</span>    index into IDT defining access of IRQ 8-15
+          <span class="c2">ES:DI</span> addr of a GDT built by the caller
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    00 and CY=NC means successful and return ion protected mode
+                ff and/or CF=CY means no can do.
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets the processor into protected mode and passes control to
+          the code segment identified by the GDT provided by the caller.
+
+          There is no BIOS service to return to real mode.
+
+          This is tricky, unless you really know what you're doing; only
+          writers of operating systems need bother.  You better study the
+          BIOS listing on this one.  Better yet, use the <a href="571-dpmi_services.html">DPMI API</a>.
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

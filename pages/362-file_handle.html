@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>File Handle - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>File Handle</h1><pre>
+ Starting with DOS <span class="c2">2.0</span>, a set of UNIX-like file functions were added to the
+ DOS repertoire.  When you open a file, DOS passes back a 16-bit value
+ called a <span class="c2">file handle</span>.  Thereafter, when you read, write, seek a position,
+ or close the file, you refer to it by its handle.
+
+ One nice feature is that you can refer to certain devices as if they were
+ disk files by using one of the reserved DOS handles:
+
+                          <span class="c1">Pre-defined DOS handles</span>
+ Handle Description
+▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 000<span class="c2">0</span>H  Standard Input Device  (usually the keyboard)
+ 000<span class="c2">1</span>H  Standard Output Device (usually the screen)
+ 000<span class="c2">2</span>H  Standard Error Device  (always CON--the screen.  Use for messages)
+ 000<span class="c2">3</span>H  Standard AUX Device    (<span class="c2">AUX</span> first serial port--COM1)
+ 000<span class="c2">4</span>H  Standard Printer       (<span class="c2">PRN</span> first parallel printer port--LPT1)
+
+   Notes: ■ Standard handles are automatically opened when your program
+            starts:
+            • Use fn <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> and <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> to read and write.
+            • Close one or more standard handles if an open fails due to
+              lack of handles (or use fn <a href="555-dos_fn_67h__set_file_handle_count.html">67H</a> to increase the available
+              number of handles).
+            • One quick sanity check during debugging: The first file you
+              open should generally be assigned handle # 5.
+
+          ■ You can redirect Standard Input and Standard Output handles to
+            a text file or another device.  See <a href="828-standard_i_o_and_i_o_redirection.html">I/O Redirection</a> for
+            details.
+
+          ■ You can flush a standard handle via fn 68H (commit file)
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="828-standard_i_o_and_i_o_redirection.html">Standard I/O</a>
+          <a href="267-the_config_sys_file.html">Config.Sys</a> (FILES= setting)
+                                    <span class="c3">-♦-</span></pre></body></html>

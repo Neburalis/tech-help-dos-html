@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440cH CL=4CH: IOCTL Start Code Page Prepare - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440cH CL=4CH: IOCTL Start Code Page Prepare</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AX</span>    440cH
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>  (device or disk file)
+          <span class="c2">CL</span>    4cH
+          <span class="c2">CH</span>    device category: 00H=unknown
+                                 01H=COMn (DOS <span class="c2">3.3+</span>)
+                                 03H=console (screen + keyboard) (DOS <span class="c2">3.3+</span>)
+                                 05H=parallel printer (DOS <span class="c2">3.2+</span>)
+          <span class="c2">DS:DX</span> addr of an <a href="490-ioctlcppreprec.html">IoctlCpPrepRec</a> that contains information for the
+                new code page list.
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Instructs a device driver to begin preparing a new code-page
+          list.  It can also be used to select the hardware character set
+          or &quot;refresh&quot; the device with the most recently-prepared character
+          set.
+
+   Notes: ■ <span class="c2">To set up a new code page list:</span>
+            ■ Prepare the <a href="490-ioctlcppreprec.html">IoctlCpPrepRec</a> and call this fn
+            ■ Call fn <a href="449-dos_fn_4403h__ioctl_send_control_data_to_character_device.html">4403h</a> (send control data) to pass the code-page
+              character set remapping information to the driver.
+            ■ Call fn <a href="462-dos_fn_440ch_cl_4dh__ioctl_end_code_page_prepare.html">440cH 4dH</a> (end cp prepare).
+
+          ■ <span class="c2">To reset to the hardware code page:</span>
+            ■ Prepare the <a href="490-ioctlcppreprec.html">IoctlCpPrepRec</a> and call this fn
+            ■ Immediately call fn <a href="462-dos_fn_440ch_cl_4dh__ioctl_end_code_page_prepare.html">440cH 4dH</a> (end cp prepare) without
+              sending any control data to the driver.
+
+          ■ <span class="c2">To &quot;refresh&quot; the most recently selected code page:</span>
+            ■ Prepare the <a href="490-ioctlcppreprec.html">IoctlCpPrepRec</a>, filling all of the <span class="c1">ccpIDs</span> fields
+              with -1 (ffffH) and then call this function.
+            ■ Immediately call fn <a href="462-dos_fn_440ch_cl_4dh__ioctl_end_code_page_prepare.html">440cH 4dH</a> (end cp prepare) without
+              sending any control data to the driver.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (generic IOCTL for character devices)
+          <a href="487-generic_ioctl_data_packets.html">Generic IOCTL Data Packets</a>
+          <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

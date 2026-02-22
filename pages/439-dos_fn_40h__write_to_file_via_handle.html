@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 40H: Write to File via Handle - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 40H: Write to File via Handle</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    40H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>
+          <span class="c2">CX</span>    number of bytes to write (<span class="c3">Note: 0 means truncate the file</span>)
+          <span class="c2">DS:DX</span> address of a buffer containing the data to write
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+                number of bytes actually written <span class="c3">◄════ use for error test</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Writes <span class="c2">CX</span> bytes of data to the file or device with handle number
+          in <span class="c2">BX</span>.  The data is taken starting from the caller's buffer
+          pointed to by <span class="c2">DS:DX</span>.  The data is written to the current position
+          of the file's read/write pointer.
+
+          This updates the file's read/write pointer to set up for a
+          subsequent sequential-access read or write.  To write to a
+          specific part of a file, use Fn <a href="441-dos_fn_42h__set_file_pointer.html">42H</a> (Lseek) before this call.
+
+Versions: <span class="c2">3.0+</span> If CX is 0000H on entry, the file is truncated at the
+          current file position -- or the file is padded to that position.
+
+          <span class="c2">6.0+</span> (on <a href="787-doublespace_overview.html">Doublespace</a> compressed drive) when you seek some large
+          distance past the end of the file and then write some data,
+          DoubleSpace may not allocate disk space for the unwritten bytes.
+          The compression ratio for such data is considered &quot;infinite&quot;.
+          See <a href="808-cvf_region__mdfat.html">MDFAT</a>.
+
+   Notes: ■ You should always compare the return value of <span class="c2">AX</span> (number of
+            bytes written) to <span class="c2">CX</span> (requested write size):
+
+            • if <span class="c2">AX</span> = <span class="c2">CX</span>, the write was successful
+            • if <span class="c2">AX</span> &lt; <span class="c2">CX</span>, an error occurred (most likely a full disk).
+              Note that <span class="c2">Carry is not set</span> for this &quot;error&quot;.
+
+          ■ It is handy to use this function for writing to default handles
+            such as the <a href="828-standard_i_o_and_i_o_redirection.html">Standard Output</a> instead of using the various text
+            output functions.
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

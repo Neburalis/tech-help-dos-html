@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1684H: Get Device Entry-Point Address (for VxDs) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1684H: Get Device Entry-Point Address (for VxDs)</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    1684H
+          <span class="c2">BX</span>    Device ID (see <a href="762-some_published_vxd_ids.html">VxD IDs</a>)
+          <span class="c2">ES:DI</span> 0000:0000 (required for pre-3.0 Windows)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:DI</span> device entry-point address
+                0000:0000 if that device does not support entry-point calls
+          ──────────────────────────────────────────────────────────────────
+    Info: TSRs and DOS-level device drivers may use this function as a way
+          to communicate with a Windows virtual device driver (VxD).
+
+          This is normally used to access &quot;published&quot; APIs supplied by
+          software vendors or it can be called by a TSR which has loaded a
+          windows virtual device (and therefore knows its ID).
+
+          Windows virtual device drivers can use this to provide various
+          services to DOS device drivers and TSRs.  To access any such
+          services, set registers as needed by the device, and use a FAR
+          CALL to execute the code at <span class="c2">ES:DI</span>.
+
+          The <a href="768-int_2fh_1607h__device_call_out.html">INT 2fH 1607H</a> (device call out) service provides another
+          means of communication.
+
+See Also: <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

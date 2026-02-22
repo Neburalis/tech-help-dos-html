@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Country Info Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Country Info Block</h1><pre>
+ This topic covers the ExtCountryInfoRec returned by fn <a href="431-dos_fn_38h__get_set_country_dependent_info.html">38H</a> (AL&gt;0).  For
+ the structure obtained via the newer fn <a href="544-dos_fn_6501h__get_extended_country_information.html">6501H</a>, see <a href="357-extended_country_info_block.html">ExtCountryInfoRec</a>.
+
+ DOS <span class="c2">2.x</span> returns an abridged country info record (see below).
+
+<span class="c2">CountryInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wDateFormat</span>  0=USA (m d y), 1=Europe (d m y), 2=Japan (y m d)
+   +2      5  <span class="c1">szCrncySymb</span>  currency symbol (ASCIIZ<a href="913-qasciiz.html">▲</a>)
+   +7      2  <span class="c1">szThouSep</span>    thousands separator (ASCIIZ)
+   +9      2  <span class="c1">szDecSep</span>     decimal separator (ASCIIZ)
+  +0bH     2  <span class="c1">szDateSep</span>    date separator (ASCIIZ)
+  +0dH     2  <span class="c1">szTimeSep</span>    time separator (ASCIIZ)
+  +0fH     1  <span class="c1">bCrncyFlags</span>  currency format flags
+  +10H     1  <span class="c1">bCrncyDigits</span> decimals digits in currency
+  +11H     1  <span class="c1">bTimeFormat</span>  time format
+  +12H     4  <span class="c1">pfCasemap</span>    Casemap FAR call address
+  +16H     2  <span class="c1">szDataSep</span>    data list separator (ASCIIZ)
+  +18H    10  <span class="c1">res</span>          reserved zeros
+          34               length of return buffer
+
+   Notes: ■ See <a href="357-extended_country_info_block.html">ExtCountryInfoRec</a> for descriptions of these fields (the
+            meanings are the same, but offsets differ).
+
+          ■ When running under DOS version <span class="c2">2.x</span>,  DOS returns a simpler data
+            structure:
+
+<span class="c2">DOS 2.x CountryInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wDateFormat</span>  0=USA (m d y), 1=Europe (d m y), 2=Japan (y m d)
+   +2      5  <span class="c1">szCrncySymb</span>  currency symbol (ASCIIZ<a href="913-qasciiz.html">▲</a>)
+   +7      2  <span class="c1">szThouSep</span>    thousands separator (ASCIIZ)
+   +9      2  <span class="c1">szDecSep</span>     decimal separator (ASCIIZ)
+  +0bH    21  <span class="c1">res</span>          reserved)
+          32               size of this structure
+
+See Also: <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

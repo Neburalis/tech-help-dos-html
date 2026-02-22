@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1aH b001H: Query ROM/Hardware-Based MRCI Support - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1aH b001H: Query ROM/Hardware-Based MRCI Support</h1><pre>
+ Expects: <span class="c2">AX</span>    b001H
+          <span class="c2">CX</span>    4d52H ('MR')
+          <span class="c2">DX</span>    4349H ('CI')
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CX</span>    4943h ('IC', if successful)
+          <span class="c2">DX</span>    524dh ('RM', if successful)
+          <span class="c2">ES:DI</span> address of an <a href="822-mrcinforec.html">MRCInfoRec</a> describing the MRCI server
+          ──────────────────────────────────────────────────────────────────
+    Info: See <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a> for information on the parameters.
+
+          This fn is defined by the <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a> as a way for a hardware or
+          ROM-based MRCI server to make its presence known and as a way for
+          a software-based MRCI server to learn whether it should install
+          itself.
+
+          The idea is that a ROM-based and/or hardware-assisted compression
+          system will be installed during <a href="266-rom_scan.html">ROM-Scan</a>, before DOS or other
+          operating system is loaded and thus may be unable to take control
+          of the standard INT 2fH vector.
+
+          The MRCI spec recommends that applications check for the server
+          via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a> and if it is not found there, use this INT 1aH
+          service.
+
+   Notes: Before using INT 1aH, you should check its interrupt vectors to
+          make sure that it is not 0000:0000.
+
+See Also: <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

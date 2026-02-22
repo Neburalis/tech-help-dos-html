@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>File Attribute - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>File Attribute</h1><pre>
+ The file attribute is a 1-byte bit-flag associated with each file, found
+ in the file's <a href="344-directory_entry_layout.html">directory entry</a> and used in several DOS functions.
+
+<span class="c2">FileAttrRec</span>
+╓7┬6┬5┬4┬3┬2┬1┬0╖
+║   │<span class="c1">a</span>│<span class="c1">d</span>│<span class="c1">v</span>│<span class="c1">s</span>│<span class="c1">h</span>│<span class="c1">r</span>║
+╙─┴─┴╥┴╥┴╥┴╥┴╥┴╥╜ <span class="c1">bit</span> <span class="c1">mask</span>
+     ║ ║ ║ ║ ║ ╚═► 0:  01H 1=Read-only (file can't be written/deleted)
+     ║ ║ ║ ║ ╚═══► 1:  02H 1=Hidden
+     ║ ║ ║ ╚═════► 2:  04H 1=System
+     ║ ║ ╚═══════► 3:  08H 1=Volume label entry
+     ║ ╚═════════► 4:  10H 1=subDirectory entry
+     ╚═══════════► 5:  20H Archive bit. 1=file has <span class="c2">NOT</span> been backed up
+
+                     <span class="c2">Some Commonly-Seen File Attributes</span>
+ Attr  Meaning
+ ▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   <span class="c2">0</span>   a normal file
+   <span class="c2">3</span>   read-only, hidden, and system (used in system files)
+   <span class="c2">8</span>   the volume label entry (should be found only in the root directory)
+  <span class="c2">10H</span>  a directory
+  <span class="c2">20H</span>  a normal file which has not been backed up by BACKUP or XCOPY
+ ▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+ DOS Fn <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">11H</a> and <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> directory searches are <span class="c2">inclusive</span>.  You can set one or
+ more  of the file attribute bits for Hidden, System, Directory, and
+ Archive if you  want to search for files with one or more of these
+ attributes.  When a bit is clear, files that have that attribute will NOT
+ be found.
+
+ For instance, if you want to locate directory entries only, you can use an
+ attribute of 10H to obtain a set of all files <span class="c1">including</span> directories, then
+ ignore all the entries that are not directories (having bit 4=0).
+
+ If you specify an attribute with the Volume bit, the search will be
+ <span class="c2">exclusive</span>, returning only the entry of the volume label (if any).
+
+ DOS Fn <a href="442-dos_fn_43h__set_or_query_file_attributes.html">43H</a> (set file attribute) will let you set or clear the Read-only,
+ Hidden, System, and Archive bits.  You cannot alter the Directory
+ attribute bit, but you can add or remove other bits of the directory's
+ attribute by specifying an attribute having all the desired bits for the
+ directory <span class="c2">EXCEPT bit 4</span>.
+
+See Also: <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

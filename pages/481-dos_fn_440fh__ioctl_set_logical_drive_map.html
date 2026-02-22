@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440fH: IOCTL Set Logical Drive Map - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440fH: IOCTL Set Logical Drive Map</h1><pre>                                                         Compatibility: <span class="c2">3.2+</span>
+ Expects: <span class="c2">AX</span>    440eH
+          <span class="c2">BL</span>    drive in question (0=default, 1=A, 2=B, etc.)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          <span class="c2">AL</span>    00H:  the drive has only one drive number (if no error)
+                else: drive number currently being used to refer to this
+                physical drive.
+          ──────────────────────────────────────────────────────────────────
+    Info: This tells the device driver that its &quot;drive alias&quot; will be used
+          in subsequent read/write access.
+
+   Notes: ■ The phantom floppy concept is used by DOS on systems which have
+            a single diskette drive.  In that case, when you attempt to
+            access drive B, DOS prompts with:
+
+               <span class="c2">Insert diskette for drive B.</span>
+               <span class="c2">Press any key when ready.</span>
+
+            Programs may use this function to ell that driver that the
+            &quot;disk for drive B&quot; is already in place--and thus avoid having
+            DOS issue this prompt.
+
+          ■ Phantom floppies are also created by the <span class="c2">Driver.Sys</span> installable
+            device driver.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="480-dos_fn_440eh__ioctl_query_logical_drive_map.html">440eH</a> (query logical drive map)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

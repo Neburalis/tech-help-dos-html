@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>EMM Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>EMM Status</h1><pre>
+ Upon return from an <a href="651-emm_functions.html">INT 67h</a> request to the Expanded Memory Manager, the
+ <span class="c2">AH</span> register always contains a status/error code.  If the status is not 0,
+ then the requested function was not performed and any values returned by
+ EMM are meaningless.  These errors are defined:
+
+   Status  Meaning
+   ▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      0    no error; function was successful; returned parms are OK
+
+     80H   internal error in EMM driver
+     81H   EMS memory board hardware malfunction
+     82H   EMM is busy
+     83H   invalid handle
+     84H   undefined function requested
+     85H   no more EMM handles available
+     86H   error in save or restore of mapping context
+     87H   allocation request was larger than total EMS memory
+     88H   allocation request was larger than available pages
+     89H   you can't open a handle with a page count of 0
+     8aH   your handle doesn't own that many pages
+     8bH   illegal mapping.  Only physical pages 0-3 are defined
+     8cH   mapping context save area is full
+     8dH   you can save context only once per handle
+     8eH   you can't restore context without a prior save
+     8fH   Subfunction parameter in AL not defined
+           <span class="c2">────────────────────────────────────────────── (EMS 4.0 codes)</span>
+     90H   attribute type undefined
+     91H   non-volatility not supported
+     92H   source and dest overlap in EMS RAM (warning, not error)
+     93H   destination area in handle too small
+     94H   conventional memory overlaps EMS RAM
+     95H   offset too large in block move
+     96H   block size too large; ie, &gt; 1M
+     97H   source and dest are in same handle and overlap
+     98H   source or dest memory type invalid (in offset 4 of packet)
+     9aH   alternate map register set in not supported
+     9bH   all alternate map/DMA register sets are all allocated
+     9cH   all alternate map/DMA register sets are not supported
+     9dH   specified alternate map/DMA register set invalid or in use
+     9eH   dedicated DMA channels are not supported
+     9fH   specified DMA channel is not supported
+     a0H   no handle matches specified name
+     a1H   the specified name already exists
+     a2H   source offset+region length &gt; 1M (attempted to wrap)
+     a3H   contents of specified data packet are corrupted or invalid
+     a4H   access to this function has been denied (bad access key)
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

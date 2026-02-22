@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5800H: Query Memory Allocation Strategy - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5800H: Query Memory Allocation Strategy</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    5800H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    allocation strategy code. See fn <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a> (set alloc strategy)
+          <span class="c2">CF</span>    always clear (CF=NC=0)
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains a code indicating the method DOS will use in satisfying
+          subsequent memory allocations (via fn <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">48H</a>).
+
+          Programs which change the allocation strategy should use this
+          function and save the current setting and be sure to change it
+          back (via fn <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a>) before terminating.
+
+          See <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a> for info on allocating from UMBs<a href="927-qmemumb.html">▲</a>.
+
+See Also: Fn <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">48H</a> (allocate memory)
+          <a href="13-memory_management_functions.html">Memory Control Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 15H: Write Sequential File via FCB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 15H: Write Sequential File via FCB</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    15H
+          <span class="c2">DS:DX</span> address of an opened <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0 if the write was successful
+                1 if &quot;disk full&quot; error and no data was written
+                2 if DTA+ <a href="360-fcb__file_control_block.html">FCB</a> <span class="c1">recSize</span> would overrun a segment (no write)
+          ──────────────────────────────────────────────────────────────────
+    Info: Writes <span class="c1">recSize</span> bytes from the <a href="351-dta__disk_transfer_address.html">DTA</a> to the file address specified
+          by <span class="c1">curBlk</span> and <span class="c1">curRec</span> (as specified in the <a href="360-fcb__file_control_block.html">FCB</a>).  Then increments
+          the block-and-record file address.
+
+          Be sure to set CurRec to 0 before starting sequential file
+          operations, since DOS Fn <a href="388-dos_fn_0fh__open_file_via_fcb.html">0fH</a> Open FCB does not initialize it.
+
+   Notes: ■ DOS buffers data until a full sector can be written at one time
+            (or until the file is closed).
+
+See Also: Fn <a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">1aH</a> (set DTA)
+          Fn <a href="439-dos_fn_40h__write_to_file_via_handle.html">40h</a> (write to handle)
+          <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

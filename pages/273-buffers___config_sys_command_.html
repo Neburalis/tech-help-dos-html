@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>BUFFERS= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>BUFFERS= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 1.0+</span>
+ Purpose: Sets the number of disk buffers DOS will allocate.  Use to make
+          certain disk intensive operations perform faster.
+
+  Syntax: BUFFERS= <span class="c1">n</span>[,<span class="c1">m</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+        <span class="c1">n</span> is the requested number of buffers, from 1 to 99.  The default
+          (when BUFFERS= is not used) is 2, 3, 10, or 15, depending on
+          available memory (15 for most 640K+ systems).
+
+        <span class="c1">m</span> sets how many 'look-ahead' buffers to allocate; they are used for
+          reading upcoming sectors, before they are actually requested.  It
+          can range from 0 to 8.  The default is 0.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ When <a href="278-dos___config_sys_command_.html">DOS=</a> HIGH, and BUFFER= is less than <span class="c2">48</span>, then DOS will store the
+    buffers in the HMA<a href="926-qmemhma.html">▲</a>.
+
+  ■ With <span class="c2">DOS 6.2</span>, when <a href="278-dos___config_sys_command_.html">DOS=</a> HIGH, and BUFFER= is small (&lt;10), then
+    DBLSPACE.BIN will load part of itself into the HMA to conserve
+    conventional memory.
+
+  ■ It is possible to suballocate memory in the HMA (see <a href="704-int_2fh_4axxh__hma_suballocations.html">INT 2fH 4axxH</a>).
+    However, if BUFFERS= is large, then there'll be no room in the inn.
+
+  ■ When Smartdrv or other disk cache is active, you should minimize your
+    BUFFERS= setting.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

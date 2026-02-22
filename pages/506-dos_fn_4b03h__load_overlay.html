@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4b03H: Load Overlay - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4b03H: Load Overlay</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AX</span>    4b03H
+          <span class="c2">DS:DX</span> address of an ASCIIZ<a href="913-qasciiz.html">▲</a> filespec of the program file to load
+          <span class="c2">ES:BX</span> address of an <a href="366-load_overlay_record__execoverlayrec_.html">ExecOverlayRec</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This function loads a program into memory at a desired location.
+          It performs all needed segment fixups in preparation for
+          executing the code, but does not actually begin execution.
+
+          DS:DX points to an ASCIIZ string in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">◄0►</span>
+          If the drive or path is omitted, defaults are assumed.
+
+          ES:BX points to a block of memory prepared as an <a href="366-load_overlay_record__execoverlayrec_.html">ExecOverlayRec</a>
+          that has been filled with the information needed, including the
+          address to load the overlay.
+
+   Notes: ■ This variation of the EXEC function is used to load program
+            fragments, such a code overlays.  It does not prepare a PSP nor
+            does it set registers as they would be expected by a stand-
+            alone program.
+
+          ■ There must be enough free memory for DOS to load the program.
+
+See Also: Fn <a href="505-dos_fn_4b01h__load_program.html">4b01H</a> (load program)
+          Fn <a href="507-dos_fn_4b05h__set_execution_state.html">4b05H</a> (set execution state)
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MRCI Fn 0002H: Decompress Data - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MRCI Fn 0002H: Decompress Data</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    0002H
+          <span class="c2">CX</span>    caller type: 0000H=APPLICATION client (<a href="365-indos_flag.html">InDOS</a> is clear)
+                             0001H=SYSTEM client      (InDOS is set)
+          <span class="c2">DS:SI</span> address of a pre-filled <a href="823-mrcrequestrec.html">MRCRequestRec</a> structure:
+                  <span class="c1">.pfbSrc</span>=address of compressed data
+                  <span class="c1">.wSrcLen</span>=(ignored)
+                  <span class="c1">.pfbDest</span>=buffer to receive decompressed data
+                  <span class="c1">.wDestLen</span>=exact size of the data when decompressed
+          <span class="c2">ES:BX</span> address of a <a href="822-mrcinforec.html">MRCInfoRec</a> structure obtained via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000H = success
+                else  = <a href="821-mrci_api_error_return_codes.html">MRCI API Error Code</a>
+          <span class="c2">DS:SI</span> <span class="c1">wDestLen</span> field (offset 0eH) is size of uncompressed data
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn decompresses data that was compressed via <a href="817-mrci_fn_0001h__compress_data.html">MRCI Fn 0001H</a>
+          (compress data).  The source and destination addresses and other
+          important details are identified in the <a href="823-mrcrequestrec.html">MRCRequestRec</a> structure.
+          The API entry address is obtained via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a>.
+
+          Before using this call, you must ensure the correct state of the
+          <a href="365-indos_flag.html">InDOS Flag</a> (corresponding to the value in <span class="c2">CX</span>) and you must start
+          a Windows Critical Section.  See <a href="817-mrci_fn_0001h__compress_data.html">MRCI Fn 0001H</a> for info about
+          these requirements.
+
+          You <span class="c1">must</span> know the exact size of the data after it is decompressed
+          and put that amount in the <span class="c1">wDestLen</span> of the <a href="823-mrcrequestrec.html">MRCRequestRec</a>
+          structure.  MRCI needs this to know when to stop decompressing.
+
+   Notes: ■ Check <span class="c2">AX</span> for a returned error code.  And check the <span class="c1">wDestLen</span>
+            field of the <a href="823-mrcrequestrec.html">MRCRequestRec</a> structure.
+
+          ■ The MRCI server will NOT decompress data that is not compressed
+            (for instance when a previous call to <a href="818-mrci_fn_0002h__decompress_data.html">MRCI Fn 0002H</a> failed
+            because the data was incompressible).  To decide whether or not
+            to decompress, you may examine the four-byte header and/or
+            maintain separate information about each block of data
+            compressed.
+
+            Data compressed by MRCI starts with a 4-byte header such as
+            '<span class="c2">MD</span>0<span class="c2">☻</span>' (4DH, 44H, 00H, 02H).
+
+          ■ To decompress data found in a DoubleSpace CVF, you must know
+            the size the data will be after it is uncompressed.  You can
+            obtain a file size from the <a href="811-cvf_region__rootdir.html">RootDir</a> region of the CVF.
+
+            Alternately, you can make a series of calls to <a href="819-mrci_fn_0020h__incrementally_decompress_data.html">MRCI Fn 0020H</a>
+            (incremental decompress) and look for some sort of end-of-file
+            marker or (perhaps) hope for an error return code that helps
+            decide when you have reached the end of the valid compressed
+            data.
+
+See Also: <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

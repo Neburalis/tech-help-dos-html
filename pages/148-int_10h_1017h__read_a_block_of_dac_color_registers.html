@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1017H: Read a Block of DAC Color Registers - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1017H: Read a Block of DAC Color Registers</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1017H
+          <span class="c2">BX</span>    first DAC register to read (0-00ffH)
+          <span class="c2">CX</span>    number of registers to read (0-00ffH)
+          <span class="c2">ES:DX</span> addr of a buffer to hold R,G,B values (<span class="c2">CX</span>*3 bytes long)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:DX</span> buffer contains returned data
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the current 18-bit RGB values of a consecutive block
+          of DAC color registers.
+
+          On entry, the buffer at <span class="c2">ES:DX</span> must be large enough to hold the
+          requested data.  Each register takes 3 bytes, so the buffer must
+          be <span class="c2">CX</span>*3 bytes long.
+
+          On return, the table is laid out as Red,Green,Blue,
+          Red,Green,Blue, ... etc.  Only the low-order 6 bits of each byte
+          has meaning.  See <a href="144-int_10h_1010h__set_one_dac_color_register.html">INT 10H 1010H</a> for background info on 18-bit RGB
+          values for DAC color registers.
+
+   Notes: Use <a href="145-int_10h_1012h__set_a_block_of_dac_color_register.html">INT 10H 1012H</a> to program a block of DAC registers.
+          See <a href="146-int_10h_1013h__dac_color_paging_functions.html">INT 10H 1013H</a> for a reason why you might tend to work with
+          16- or 64-register blocks.
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

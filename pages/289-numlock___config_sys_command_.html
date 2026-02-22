@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>NUMLOCK= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>NUMLOCK= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 6.0+</span>
+ Purpose: Sets the state of keyboard &quot;NumLock&quot;.  When NumLock is OFF, the
+          numeric keypad can be used as arrow keys for cursor movement.
+
+    Uses: ■ Preset the keyboard for use with screen-oriented programs which
+            use the arrow keys for cursor control.
+          ■ Set up so that <a href="271-multiconfig_menus.html">MultiConfig Menus</a> will work intuitively; that
+            is, so the user can use the arrow keys to move the cursor bar
+            (without needing to first press the NumLock key).
+
+  Syntax: NUMLOCK=<span class="c1">ON</span> or <span class="c1">OFF</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+       <span class="c1">ON</span> sets the keyboard into Numlock mode; keys on the numeric keyboard
+          will represent numbers.
+
+      <span class="c1">OFF</span> runs off Numlock mode; keys on the numeric keyboard represent
+          cursor-control arrows.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ This sets or clears <span class="c1">bit 5</span> of 0040:0017 (see <a href="58-keyboard_shift_status_flags.html">Keyboard Flags</a> and
+    <a href="93-rom_bios_variables.html">BIOS Data Area</a>).
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

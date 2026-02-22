@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Directory Entry Layout - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Directory Entry Layout</h1><pre><span class="c2">DirEntryRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       8  <span class="c1">abName</span>       left-justified, blank-padded (e.g. 'FILE    '
+  +8       3  <span class="c1">abExt</span>        left-justified, blank-padded (e.g. 'EXT'
+ +0bH      1  <span class="c1">bAttr</span>        <a href="361-file_attribute.html">file attribute</a>
+ +0cH     10  <span class="c1">res</span>          (reserved)
+ +16H      2  <span class="c1">rTime</span>        time created/last modified in <a href="363-file_time_date_format.html">FileTimeRec</a> format
+ +18H      2  <span class="c1">rDate</span>        date created/last modified in <a href="363-file_time_date_format.html">FileDateRec</a> format
+ +1aH      2  <span class="c1">wClstrNo</span>     cluster number of start of file (link into <a href="359-fat__dos_file_allocation_table.html">FAT</a>)
+ +1cH      4  <span class="c1">lSize</span>        file size in bytes
+          32               size of DirEntryRec
+
+      <span class="c1">abName</span>  The name of the file or directory.  If fewer than 8
+              characters, it is padded to 8 with spaces (20H).  The
+              following bytes, when at offset 0, have special meaning:
+               00H ( ) The entry has never been used.
+               05H (<span class="c2">♣</span>) The first character is really 0e5H
+               2eH (<span class="c2">.</span>) This is an alias for a directory. <span class="c2">.</span>=self, <span class="c2">..</span>=parent
+               e5H (<span class="c2">σ</span>) The entry has been deleted.
+       <span class="c1">abExt</span>  File extension.  If fewer than 3 characters, it is padded to 3
+              with spaces (30H)
+       <span class="c1">bAttr</span>  See <a href="361-file_attribute.html">File Attributes</a>
+       <span class="c1">rTime</span>  File time in special format. See <a href="363-file_time_date_format.html">FileTimeRec</a>
+       <span class="c1">rDate</span>  File date in special format. See <a href="363-file_time_date_format.html">FileDateRec</a>
+    <span class="c1">wClstrNo</span>  Cluster<a href="915-qcluster.html">▲</a> number of the first cluster in the file.  This is the
+              link into the <a href="359-fat__dos_file_allocation_table.html">FAT</a> chain that defines the location if the file.
+       <span class="c1">lSize</span>  32-bit file length; a 4 GB capacity!
+
+   Notes: ■ This layout is seen when you read a directory sector from the
+            disk, for instance, via <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a>.  See <a href="337-boot_sector_layout.html">Boot Sector</a> for a way to
+            calculate the sector of the root directory.
+
+          ■ It is also returned by FCB-oriented fns <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">11H</a> and <a href="391-dos_fn_12h__find_next_matching_file_via_fcb.html">12H</a>.
+
+          ■ It is used in <a href="787-doublespace_overview.html">DoubleSpace</a> compressed drives.  See <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>.
+
+See Also: <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

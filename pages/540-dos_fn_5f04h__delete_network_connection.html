@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5f04H: Delete Network Connection - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5f04H: Delete Network Connection</h1><pre>                                                         Compatibility: <span class="c2">3.1+</span>
+ Expects: <span class="c2">AX</span>    5f04H
+          <span class="c2">DS:SI</span> addr of ASCIIZ<a href="913-qasciiz.html">▲</a> device name to disconnect
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Deletes the connection between a local drive ID or device name
+          and the network.  The specified device reverts to its original
+          (local) meaning.
+
+          The string at <span class="c2">DS:SI</span> can be one of:
+
+          ■ The drive letter of a redirected drive, followed by a colon
+            (e.g., &quot;D:&quot;,0).  This discontinues local access to that network
+            drive and the drive ID reverts to it local meaning.
+
+          ■ The name of a printer (e.g., &quot;LPT1&quot;,0).  This discontinues
+            local access to that network printer and that device name
+            reverts to its local meaning as a physical device.
+
+          ■ A string starting with 2 backslashes (e.g.,
+            &quot;\\SERVER\FILES&quot;,0).  This would be used when a null drive ID
+            was used when the connection was made (see fn <a href="539-dos_fn_5f03h__make_network_connection.html">5f03H</a>).
+
+   Notes: ■ Network redirection is normally handled by system-level
+            utilities rather than application programs.
+
+See Also: <a href="16-network_and_file_sharing_functions.html">Network Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

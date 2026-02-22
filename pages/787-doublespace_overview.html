@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DoubleSpace Overview - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DoubleSpace Overview</h1><pre>            TECH Help! covers these DoubleSpace and MRCI Topics:
+
+  <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>                INT 2fH 4a11H and IOCTL services
+  <a href="805-doublespace_compressed_volume_file_layout.html">Compressed Volume File Layout</a>  (CVF internal structures)
+  <a href="814-mapping_dos_fat_to_mdfat.html">Mapping DOS FAT to MDFAT</a>       For CVF spelunkers
+
+  <a href="789-dblspace_ini_commands.html">DBLSPACE.INI Commands</a>          Boot-time configuration settings
+
+  <a href="788-using_a_compressed_ram_disk.html">Using a Compressed RAM Disk</a>    Just a tip for power users
+
+  <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>                       (INT 2fH 4a12H Real-time Compression fns)
+
+<span class="c2">█▌Overview▐█</span>
+  DoubleSpace compression is implemented in levels:
+
+  ■ The lowest level is the <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI</a> support which compresses and uncompresses
+    data with a few simple API calls.  MRCI fns may be installed in a ROM
+    module.
+
+  ■ The next level is the DoubleSpace device driver (<span class="c2">DBLSPACE.BIN</span>) which is
+    installed at boot time.  It emulates a disk drive by reading from and
+    writing to a standard DOS file (i.e., a Compressed Volume File<a href="919-qcvf.html">▲</a>).
+
+  ■ Finally, the program <span class="c2">DBLSPACE.EXE</span> is an external DOS command which
+    installs DoubleSpace support, compresses disk volumes, and tweaks the
+    DoubleSpace configuration file (<a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a>).
+
+<span class="c2">█▌Boot Sequence▐█</span>
+  At system startup, the BIOS reads and executes the <a href="337-boot_sector_layout.html">boot sector</a> of the
+  boot drive.  That reads and executes file <span class="c2">IO.SYS</span> which reads and executes
+  <span class="c2">MSDOS.SYS</span> (all of this is the normal pre-DoubleSpace sequence).
+
+  New with DOS 6.0: Before MSDOS.SYS begins processing <a href="267-the_config_sys_file.html">CONFIG.SYS</a>, it looks
+  for <span class="c2">DBLSPACE.BIN</span> in the root of the boot drive.  If found, it is loaded
+  into the highest part of conventional<a href="924-qmemconv.html">▲</a> memory and executed.
+
+  Next DBLSPACE.BIN looks in the root of the boot drive for <a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a>.
+  It reads this file to learn how it should configure itself (which CVFs to
+  mount and which drive IDs to swap, etc.).
+
+  After DBLSPACE.BIN is done mounting and swapping, it passes control back
+  to MSDOS.SYS which finally reads <a href="267-the_config_sys_file.html">CONFIG.SYS</a> (from the root of the
+  swapped-in drive C) and processes its commands.
+
+  If the command, <span class="c2">DEVICEHIGH=DBLSPACE.SYS</span>, is found, then a small program
+  (DBLSPACE.SYS) is executed.  All it does is find the DBLSPACE.BIN code
+  (remember, it starts out high in conventional memory) and move it into a
+  UMB<a href="927-qmemumb.html">▲</a> if UMBs are available or to the lowest available addresses in
+  conventional memory (if no UMBs exist).
+
+  <span class="c2">DOS 6.2 Notes</span>:  DBLSPACE.SYS may move the 15K MRCI engine into the HMA<a href="926-qmemhma.html">▲</a>
+  if there is room.  The DOS 6.2 <span class="c2">Mem /A</span> command reveals how much HMA is
+  free.
+
+  This also has the effect of <span class="c2">&quot;locking-in&quot; the DoubleSpace drive letters</span>,
+  including any &quot;reserved IDs&quot; needed for mounting compressed floppy
+  diskettes.
+
+  Note that DBLSPACE.BIN contains all of the drive-emulation code as well as
+  the lower-level <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI</a> compression engine (about 15K of code).  However, it
+  is possible for MRCI to install itself earlier in the boot sequence...
+
+<span class="c2">█▌Before the Boot Sequence▐█</span>
+  It is possible for an adapter card (a hard disk controller, most likely)
+  to install its own MRCI engine.  It could do that by having ROM-based code
+  in the <a href="266-rom_scan.html">ROM-Scan</a> address range.  That code would intercept <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH</a> to
+  provide the MRCI support API (presumably it would provide hardware-
+  assisted compression support).
+
+  In that case, DBLSPACE.BIN would use the ROM-based MRCI engine and discard
+  its own internal version.
+
+<span class="c2">█▌DoubleSpace Compression▐█</span>
+  DoubleSpace uses a variation of the &quot;Lempel-Ziv&quot; compression scheme.  In
+  simple terms, it works by keeping track of repeated sequences.  When the
+  same sequence appears later, it just refers to the previous data rather
+  than keeping duplicates.  For instance....
+
+          The rain in Spain falls, mainly.
+
+     ...is compressed to...
+
+          The rain <span class="c1">■</span>Sp<span class="c1">■</span>falls, m<span class="c1">■</span>ly.
+                   <span class="c3">↑</span>  <span class="c3">↑</span>        <span class="c3">↑</span>
+                 <span class="c3">3,3</span>  <span class="c3">9,4</span>   <span class="c3">12,3</span>
+
+  The codes <span class="c3">3,3</span>, <span class="c3">9,4</span>, and <span class="c3">12,3</span> identify repeated sequences.  The first code
+  specifies the position of the original text (as a distance backward from
+  the current position) and the second code specifies the length of the
+  repeated text.  The actual algorithms (as well as library code to do the
+  work) can be licensed from Microsoft for no fee.
+
+  DoubleSpace compression is around 1.7 to 1 with &quot;real world&quot; data files.
+  Other systems, such as PKZIP and LHARC get better compression, but only in
+  &quot;batch mode&quot; where they can work with an entire file at once.  DoubleSpace
+  is &quot;real time&quot; system which must work with data in 8K chunks (a 16-sector
+  cluster).
+
+<span class="c2">█▌Accessing the APIs▐█</span>
+
+  See <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a> and <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a> for information on how to use these
+  services.
+
+  Most application programs will have no need to access these services.
+  Exceptions exist; for instance, a backup program can use <a href="817-mrci_fn_0001h__compress_data.html">MRCI Fn 0001H</a>
+  (compress data) to save disk space on the target disk.
+
+  Another example: At this writing, there is no utility to perform simple
+  DoubleSpace operations such as &quot;Get Drive Info&quot; while in a DOS session
+  under Windows.  As you may know, the DOS <span class="c2">Dblspace</span> command aborts with the
+  &quot;Can't run under Windows&quot; message (Note: fixed with DOS 6.2).
+
+See Also: <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a>
+          <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

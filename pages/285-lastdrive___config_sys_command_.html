@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>LASTDRIVE= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>LASTDRIVE= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 2.0+</span>
+ Purpose: Sets the limit for drive IDs usable by the <span class="c2">Subst</span> command and for
+          use as <span class="c2">InterLink</span> drives.
+
+  Syntax: LASTDRIVE=<span class="c1">d</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+        <span class="c1">d</span> is a single alphabetical letter in the range A to Z.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ DOS maintains an <a href="912-_undocumented_.html">undocumented</a> internal array of information on each
+    drive, including the ASCIIZ name of the current directory.  The size of
+    this array is set via the LASTDRIVE= command.
+
+    The undocumented DOS fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a> (get DOS Vars) returns the address of a
+    <a href="349-dos_variables_block__list_of_lists_.html">DOS Variables Block</a>, one field of which contains the LASTDRIVE= setting
+    and another field points to a pointer to the drive info array.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

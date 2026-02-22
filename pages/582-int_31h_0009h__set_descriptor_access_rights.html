@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0009H: Set Descriptor Access Rights - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0009H: Set Descriptor Access Rights</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0009H
+          <span class="c2">BX</span>    selector
+          <span class="c2">CL</span>    access rights/type byte
+          <span class="c2">CH</span>    (386+) extended access rights/type byte
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: This modifies the access rights and/or type of the LDT descriptor
+          identified by the selector in <span class="c2">BX</span>.
+
+       <span class="c2">CL</span> is in this form:
+          ┌7┬6┬5┬4┬3┬2┬1┬0┐
+          │<span class="c1">p</span>│<span class="c1">dpl</span>│<span class="c2">1</span>│<span class="c1">c</span>│<span class="c1">x</span>│<span class="c1">w</span>│<span class="c1">a</span>│
+          └╥┴─┴─┴╥┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+           ║ ╚╦╝ ║ ║ ║ ║ ╚═►  0: 01H 1=accessed; 0=not accessed
+           ║  ║  ║ ║ ║ ╚═══►  1: 02H 1=read/write (must be 0 in code segs)
+           ║  ║  ║ ║ ╚═════►  2: 04H 1=expand down; 0=expand up
+           ║  ║  ║ ╚═══════►  3: 08H 1=code seg; 0=data seg
+           ║  ║  ╚═════════►  4: 10H must be 1
+           ║  ╚════════════►5-6: 60H CPL (protection level) must=caller
+           ╚═══════════════►  7: 80H 1=present; 0=absent
+
+       <span class="c2">CH</span> is ignored on 80286.  On 386+, its bits mean:
+          ┌7┬6┬5┬4┬3┬2┬1┬0┐
+          │<span class="c1">g</span>│<span class="c1">b</span>│<span class="c2">0</span>│<span class="c1">v</span>│0 0 0 0│
+          └╥┴╥┴╥┴╥┴─┴─┴─┴─┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+           ║ ║ ║ ║ ╚═════╩═►0-3: 0fH ignored
+           ║ ║ ║ ╚═════════►  4: 10H AVL can be 0 or 1
+           ║ ║ ╚═══════════►  5: 20H must be 0
+           ║ ╚═════════════►  6: 40H 1=default to 32-bit; 0=default to 16
+           ╚═══════════════►  7: 80H 1=page granularity; 0=byte granularity
+
+    Note: There is no corresponding fn to query the current settings.  Use
+          the <span class="c2">LAR</span> opcode to do so.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

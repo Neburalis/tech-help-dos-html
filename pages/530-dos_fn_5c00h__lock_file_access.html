@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5c00H: Lock File Access - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5c00H: Lock File Access</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    5c00H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>
+          <span class="c2">CX:DX</span> file offset from start of file    (CX * 65536)+DX
+          <span class="c2">SI:DI</span> length in bytes of region to lock (SI * 65536)+DI
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This function locks access to a region of the file identified by
+          the file handle in BX.  The region of the file that begins at
+          file logical offset CX:DX extending for a length of SI:DI is
+          locked.
+
+          File sharing support must be present (usually installed by your
+          network software, or Windows, or by using the DOS <span class="c2">Share</span> command).
+          If not installed, the call returns an <a href="347-dos_error_codes.html">error code</a> of &quot;invalid
+          function number.&quot;
+
+          Locks apply to reads, writes, and opens of a file by a child or
+          concurrent process.  When another process attempts such an access
+          (and the <a href="336-access_mode___open_mode.html">Access Mode</a> defined during the file OPEN is a sharing
+          mode which disallows such access), then DOS will fail the
+          operation via an <a href="564-int_24h__critical_error_handler.html">INT 24H</a> Critical Error handler.
+
+          The correct way to avoid a lock violation is to attempt to lock
+          the region yourself and examine the returned error code.  By
+          default, any attempt to violate a lock causes DOS to display the
+          &quot;Abort, Retry, Ignore&quot; message after three tries.  You can change
+          the retry count via fn <a href="457-dos_fn_440bh__ioctl_set_sharing_retry_count.html">440bH</a>.  And you can intercept <a href="564-int_24h__critical_error_handler.html">INT 24H</a> to
+          cause a less ghastly response.
+
+          <span class="c2">To lock an entire file</span>: It is legal to lock beyond the end of the
+          file.  You can lock an entire file by setting CX=0, DX=0,
+          SI=0ffffH, and DI=0ffffH.
+
+   Notes: ■ When you unlock (via fn <a href="531-dos_fn_5c01h__unlock_file_access.html">5c01H</a>), the offset and length must
+            match exactly with the offset and length that was locked.
+
+          ■ DUPing a file handle via Fn <a href="497-dos_fn_45h__duplicate_a_file_handle.html">45H</a> or <a href="498-dos_fn_46h__redirect_a_handle.html">46H</a> will duplicate any
+            locks.
+
+          ■ Even if an <a href="336-access_mode___open_mode.html">Access Mode</a> of &quot;Inherit&quot; is used when opened, the
+            locking mechanism does not give access privileges to child
+            processes created via <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> EXEC.
+
+          ■ It is important that all locks be removed from a file before a
+            program is terminated.  You should intercept <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a>
+            (Ctrl-Break) and <a href="564-int_24h__critical_error_handler.html">INT 24H</a> (Critical Error) to ensure that locks
+            are removed before you terminate.
+
+          ■ It is recommended that you unlock as soon as possible.  Always
+            try to lock, access the file, and unlock in one operation.
+
+See Also: <a href="16-network_and_file_sharing_functions.html">Network Functions</a>
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

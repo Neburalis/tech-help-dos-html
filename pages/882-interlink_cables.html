@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>InterLink Cables - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>InterLink Cables</h1><pre><span class="c2">█▌Overview▐█</span>
+  The DOS 6.0+ <span class="c2">InterLink</span> utility provides a means to share files and data
+  between two computers without using a network.  It is typically used to
+  attach a laptop computer to a desktop model.  This topic describes the
+  cables used to connect the two computers.
+
+<span class="c2">█▌Serial Cables▐█</span>
+  When connecting via COM<span class="c1">n</span> serial ports, you can use a standard 25-pin or
+  9-pin (or 25-to-9 pin) serial cable .  The cable will need to have female
+  connectors on both ends.  If you have such a cable laying around, try
+  it--it will probably work.
+
+  Here are the pin connections, in case you need to create a cable or, if
+  you need to buy one, you can specify your needs exactly:
+
+  For <span class="c2">normal data-transmission connections</span>, just three wires are used:
+
+      9-pin (<span class="c1">25-pin</span>)                            9-pin (<span class="c1">25-pin</span>)
+        connector                                 connector
+      ─────────────                             ──────────────
+       pin 5 (<span class="c1">7</span>)   ◄═══ (ground-to-ground) ════►  pin 5 (<span class="c1">7</span>)
+       pin 3 (<span class="c1">2</span>)   ◄══ (transmit-to-receive) ══►  pin 2 (<span class="c1">3</span>)
+       pin 2 (<span class="c1">3</span>)   ◄══ (receive-to-transmit) ══►  pin 3 (<span class="c1">2</span>)
+
+  A 7-wire<span class="c2"> null-modem cable</span> is needed for <span class="c2">remote copy operations</span>
+  (i.e., <span class="c2">Intersvr /RCOPY</span>):
+
+      9-pin (<span class="c1">25-pin</span>)                            9-pin (<span class="c1">25-pin</span>)
+        connector                                 connector
+      ─────────────                             ──────────────
+       pin 5 (<span class="c1">7</span>)   ◄═══ (ground-to-ground) ════►  pin 5 (<span class="c1">7</span>)
+       pin 3 (<span class="c1">2</span>)   ◄══ (transmit-to-receive) ══►  pin 2 (<span class="c1">3</span>)
+
+       pin 7 (<span class="c1">4</span>)   ◄══════ (RTS-to-CTS) ═══════►  pin 8 (<span class="c1">5</span>)
+       pin 6 (<span class="c1">6</span>)   ◄══════ (DSR-to-DTR) ═══════►  pin 4 (<span class="c1">20</span>)
+
+       pin 2 (<span class="c1">3</span>)   ◄══ (receive-to-transmit) ══►  pin 3 (<span class="c1">2</span>)
+       pin 8 (<span class="c1">5</span>)   ◄══════ (CTS-to-RTS) ═══════►  pin 7 (<span class="c1">4</span>)
+       pin 4 (<span class="c1">20</span>)  ◄══════ (DTR-to-DSR) ═══════►  pin 6 (<span class="c1">6</span>)
+
+   Notes: ■ This cable also works for normal InterLink transmissions.
+          ■ You can use a standard cable if you attach a &quot;null modem
+            adapter&quot; to one end of it.
+
+<span class="c2">█▌Parallel Cables▐█</span>
+  When connecting via LPT<span class="c1">n</span> parallel ports, you need male DB-25 connectors on
+  both ends of the cable (many parallel cables have a Centronics connector
+  on one end--these won't work).  Eleven wires are connected:
+
+         25-pin         25-pin
+       connector      connector
+       ─────────      ─────────
+        pin 2   ◄════► pin 15
+        pin 3   ◄════► pin 13
+        pin 4   ◄════► pin 12
+        pin 5   ◄════► pin 10
+        pin 6   ◄════► pin 11
+        pin 15  ◄════► pin 2
+        pin 13  ◄════► pin 3
+        pin 12  ◄════► pin 4
+        pin 10  ◄════► pin 5
+        pin 11  ◄════► pin 6
+        pin 25  ◄════► pin 25 (Ground-Ground)
+
+See Also: <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+          <a href="907-parallel_printer_adapter_ports.html">Parallel Ports</a>
+          <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

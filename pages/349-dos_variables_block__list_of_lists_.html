@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Variables Block (List of Lists) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Variables Block (List of Lists)</h1><pre>
+ This is the <a href="912-_undocumented_.html">undocumented</a> format of the structure whose address is returned
+ in <span class="c2">ES:BX</span> by the undocumented DOS fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a>.  This data can be used to learn
+ low-level information such as how many drive IDs are recognized and the
+ address of the base <a href="368-mcb__memory_control_block.html">MemBlockRec</a>.
+
+<span class="c2">DosVarsRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  -2      2   <span class="c1">wBaseMemSeg</span>  <span class="c2">ES</span>:[<span class="c2">BX</span>-2] is seg of first <a href="368-mcb__memory_control_block.html">Memory Control Block</a>
+                           ──────────────────────────────────────────────
+  +0      4   <span class="c1">prBaseDPB</span>    address of first <a href="350-dpb__drive_parameter_block.html">Drive Parameter Block</a> (DPB)
+  +4      4   <span class="c1">pHandleTbl</span>   address of first system file table
+  +8      4   <span class="c1">prClockDev</span>   address of CLOCK <a href="322-device_header_layout.html">device header</a>
+  +0cH    4   <span class="c1">prConDev</span>     address of CON <a href="322-device_header_layout.html">device header</a>
+  +10H    2   <span class="c1">wMaxSect</span>     maximum sector size for block devices
+  +12H    4   <span class="c1">pbCache</span>      address of cache head buffer
+  +16H    4   <span class="c1">parDirs</span>      address of the <a href="348-cds__current_directory_structure.html">CurDirRec</a> structure array
+  +1aH    4   <span class="c1">prFcbTbl</span>     address of system FCB file table
+  +1eH    2   <span class="c1">wFcbCnt      </span>size of FCB table file table
+  +20H    1   <span class="c1">bDriveCnt</span>    number of drives in system
+  +21H    1   <span class="c1">bLastDrive</span>   corresponds to <a href="267-the_config_sys_file.html">Config.sys</a> LASTDRIVE
+          34               size of a DOSVarsRec
+                           ──────────────────────────────────────────────
+  +22H    18  <span class="c1">rNulDevHdr</span>   the <a href="322-device_header_layout.html">DevHdrRec</a> for the NUL device (the start of
+                           device driver chain).
+
+ <span class="c1">wBaseMemSeg</span>  The segment address of the &quot;base <a href="368-mcb__memory_control_block.html">MemBlockRec</a>&quot;  This is the
+              lowest allocation in memory.  It may be owned by DOS or
+              <a href="787-doublespace_overview.html">DoubleSpace</a>.
+
+              Note: This value is located two bytes <span class="c1">before</span> the structure
+              itself; i.e., after calling fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a>, it is at ES:[BX-2].
+
+   <span class="c1">prBaseDPB</span>  The first <a href="350-dpb__drive_parameter_block.html">Drive Parameter Block</a>.  You can trace the DPB chain
+              by accessing the <span class="c1">pfrNextDPB</span> field of each structure.
+  <span class="c1">pHandleTbl</span>  Internal info on each open file (?)
+  <span class="c1">prClockDev</span>  Address of the <a href="322-device_header_layout.html">DevHdrRec</a> for the CLOCK device
+    <span class="c1">prConDev</span>  Address of the <a href="322-device_header_layout.html">DevHdrRec</a> for the CON device
+    <span class="c1">wMaxSect</span>  Largest allowed sector size for block devices (?)
+     <span class="c1">pbCache</span>  FAR address of DOS's internal disk buffers
+     <span class="c1">parDirs</span>  FAR address of an array of 88-byte <a href="348-cds__current_directory_structure.html">CurDirRec</a> structures.  The
+              first item in each structure is an ASCIIZ<a href="913-qasciiz.html">▲</a> string that names
+              the current default directory for one drive.  There are
+              <span class="c1">bDriveCnt</span> such records, placed sequentially in memory.
+    <span class="c1">prFcbTbl</span>  Address of the system <a href="360-fcb__file_control_block.html">FCBRec</a> file table (?)
+     <span class="c1">wFcbCnt</span>  Number of FCBRecs in the system FCB table
+   <span class="c1">bDriveCnt</span>  Number of drives (including logical drives) known to the
+              system (does not include network drives).
+  <span class="c1">bLastDrive</span>  A count of the elements in the list pointed to by <span class="c1">pparDirs</span>.
+              For instance, if you specified LASTDRIVE=Z in your <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+              file, then this value will be 24 (18H).
+
+  <span class="c1">rNulDevHdr</span>  is the actual 18-byte <a href="322-device_header_layout.html">DevHdrRec</a> of the NUL device.  This is
+              the <span class="c2">start of the device driver chain</span>.  You can locate all
+              device drivers by examining the chain of far pointers whose
+              first link is at ES:[BX+22H].  It is a 4-byte pointer to the
+              next driver.
+
+   Notes: ■ You can use the <span class="c1">wBaseMemSeg</span> as the segment address to start
+            tracing the memory allocation chain.  You can recognize a <a href="371-psp__program_segment_prefix.html">PSP</a>
+            since it begins with an INT 20H (ie, cd 20).  At offset 2cH of
+            a PSP is the address of the <a href="346-dos_environment.html">DOS environment</a> segment for that
+            process (from which you <span class="c1">may</span> be able to obtain the fill filespec
+            of the program which owns it).
+
+          ■ This structure has apparently been intact since <span class="c2">DOS 2.0</span>, but
+            Microsoft continues to leave it undocumented as late as 6.0.
+
+See Also: <a href="19-system_information_functions.html">System Information Functions</a>
+          fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a> (get DOS vars address)
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

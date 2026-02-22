@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CVF Region: BitFAT - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CVF Region: BitFAT</h1><pre>
+ The <span class="c2">BitFAT</span> is a simple one-bit-to-one-sector mapping of the contents of
+ the <a href="812-cvf_region__sector_heap.html">Sector Heap</a>.  Unlike the standard FAT, this does not provide
+ information in the location of files or cluster fragmentation--it simply
+ indicates which sectors are currently in use.
+
+ For safety and integrity, the BitFAT is rebuilt (by scanning the <a href="808-cvf_region__mdfat.html">MDFAT</a>)
+ each time a volume is mounted.
+
+ The BitFAT region starts at sector 1 (512 bytes from the start) of
+ the CVF.  It may be as large as 256 sectors (128K=131,072 bytes).
+
+ Each 16-bit word in this region represents a group of 16 sectors of the
+ <a href="812-cvf_region__sector_heap.html">Sector Heap</a>.  When a bit is set (1), it indicates that the sector is in
+ use and when clear (0) indicates that the sector is free.  The high bit
+ (<span class="c1">bit 15</span>) corresponds to the first sector of the 16-sector group and low
+ bit (<span class="c1">bit 0</span>) represents the 16th sector in the group:
+
+         <span class="c2">(WORD) BitFAT+0</span>                  <span class="c2">BitFAT+2</span>        <span class="c2">BitFAT+4</span>
+        <span class="c2">┌┴──────────────────────────────┐┌┴─────── - ───┐┌┴── - -</span>
+        <span class="c2">│</span>1 1 1 1 1 1                    <span class="c2">││</span>1 1 1 1       <span class="c2">││</span>1 1 1
+        ╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖╓5┬4┬3┬2┬\ \1┬0╖╓5┬4┬3┬\
+        ║ │ │ │ │ │ │ │ ║ │ │ │ │ │ │ │ ║║ │ │ │ │/ / │ ║║ │ │ │/
+        ╙╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╨╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜╙╥┴╥┴╥┴╥┴\ \╥┴╥╜╙╥┴╥┴╥┴\
+SectHeap+0 ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+          +1 ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+            +2 ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+              +3 ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                +4 ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                  +5 ║ ║ ║ ║ ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                    +6 ║ ║ ║ ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                      +7 ║ ║ ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                        +8 ║ ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                          +9 ║ ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                           +10 ║ ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                             +11 ║ ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                               +12 ║ ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                                 +13 ║ ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                                   +14 ║  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                                     +15  ║ ║ ║ ║    ║ ║  ║ ║ ║
+                                SectHeap+16 ║ ║ ║    ║ ║  ║ ║ ║
+                                          +17 ║ ║    ║ ║  ║ ║ ║
+                                            +18 ║    ║ ║  ║ ║ ║
+                                              +19    ║ ║  ║ ║ ║
+                                           SectHeap+30 ║  ║ ║ ║
+See Also: <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>                                 +31  ║ ║ ║
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>                          +32 ║ ║
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>                                 +33 ║
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>                                      +34...
+                                    <span class="c3">-♦-</span></pre></body></html>

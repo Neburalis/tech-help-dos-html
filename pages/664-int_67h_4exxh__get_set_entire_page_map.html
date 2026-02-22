@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 4exxH: Get/Set Entire Page Map - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 4exxH: Get/Set Entire Page Map</h1><pre>                                                     Compatibility: <span class="c2">EMS 3.2+</span>
+ Expects: <span class="c2">AH</span>    4eH
+          <span class="c2">AL</span>    subfn: 00H=Get all mapping registers into <span class="c2">ES:DI</span>
+                       01H=Set all mapping registers from data at <span class="c2">DS:SI</span>
+                       02H=Swap all mapping registers (01H and 00H combined)
+                       03H=Query size of buffer needed for fns 00H-02H
+          <span class="c2">ES:DI</span> (subfns 00H and 02H) buffer to receive mapping registers
+          <span class="c2">DS:SI</span> (subfns 01H and 02H) buffer containing mapping registers
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">AL</span>    (subfn 03H) size, in bytes of buffer for mapping registers
+          <span class="c2">ES:DI</span> (subfn 00H and 02H) buffer contains returned information
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn is designed to support multi-tasking operating systems in
+          order to more fully control EMS.
+
+          This also provides a way to quickly map all four pages of EMS
+          memory into the frame in one call.  Just use <a href="656-int_67h_44xxh__map_memory_into_page_frame.html">INT 67H 44xxH</a> four
+          times to map four pages into memory, then use subfn 00H to save
+          that state.  Later, use subfn 01H to restore that state.
+
+    <span class="c2">ES:DI</span> and <span class="c2">DS:SI</span> point to data buffers.  Use subfn 03H to see how large
+          the buffer should be.
+
+          The mapping register data contains a variety of hardware-
+          dependant information; its layout is not documented.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 3306H: Get DOS Version Info - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 3306H: Get DOS Version Info</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    3306H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">BL</span>    major version number
+          <span class="c2">BH</span>    minor version number (note: binary value -- x.20 is 14H)
+          <span class="c2">DL</span>    revision number in low two bits (i.e., 00H to 03H)
+          <span class="c2">DH</span>    version flags:  bit 3 (08H)  DOS runs in ROM
+                                bit 4 (10H)  DOS is in the <a href="926-qmemhma.html">HMA</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns information about the active version of DOS.  The return
+          value is not modified by <span class="c2">Setver</span>.
+
+See Also: Fn <a href="417-dos_fn_30h__get_dos_version_number.html">30H</a> (get DOS version)
+          <a href="24-dos_function_index___by_dos_version.html">DOS Function Index - by DOS Version</a>
+          <a href="831-dos_versions.html">DOS Versions</a> (overview and history)
+          <a href="19-system_information_functions.html">System Information Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Power-On Error Codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Power-On Error Codes</h1><pre>
+ When power is first applied to the system, the <a href="264-power_on_self_test.html">POST</a> BIOS code checks the
+ CPU, Keyboard, and various controllers and when it encounters an error, it
+ typically beeps and displays an error code and a brief message.
+
+ The earliest PCs, Xt, and ATs displayed a simple error code number and
+ left you wondering what happened.  Later BIOSes provide more info, but
+ often use the same numbering convention as shown below.
+
+<span class="c2">█▌Beep Codes▐█</span>
+  No beeps, no display:        Power failure
+  Continuous beeps:            Power failure
+  Repeating short beeps:       Power failure
+  One short beep:              Display failure
+  One long, two short beeps:   Display failure
+  One long, three short beeps: EGA display failure
+
+<span class="c2">█▌100s: Motherboard▐█</span>
+  101     Interrupt failure
+  102     Timer failure
+  103     Timer interrupt failure
+  104     Protected mode failure
+  107     Hot non-maskable interrupt (NMI) test
+  108     Timer bus test failure
+  109     Direct Memory Access (DMA) failure
+  110     Motherboard memory
+  111     Adapter memory
+  112,113,166  Adapter in system unit
+  121     Hardware interrupts
+  151     Defective battery
+  152     Real-time clock
+  161     Battery failure
+  162,165,199 System options not set correctly; run setup
+  163     Time and date not set correctly
+  164     Memory size error
+
+<span class="c2">█▌200s: Memory▐█</span>
+  <span class="c1">xxyyy yyzz</span> 201 Bad Chip (note: code IDs chip, but differs for
+          various BIOSes, makes, and models
+  201,202 Memory test failed
+  203,215 Memory address error
+  216     Motherboard memory
+
+<span class="c2">█▌300s: Keyboard Errors▐█</span>
+  301     Improper keyboard response or stuck key
+  302     User-indicated error from keyboard test or AT keylock locked
+  303     Keyboard or system
+  341     Replace keyboard
+  342     Replace interface cable
+  343     replace enhancement card or cable
+
+<span class="c2">█▌400s: Monochrome Monitor▐█</span>
+  401     MDA video memory, horizontal sync, or video test failed
+  408,416,424  User-indicated display attributes failure
+  432     Parallel port test failed
+
+<span class="c2">█▌500s: Color Monitor▐█</span>
+  501     Video memory, horizontal sync, or video test failed
+  408,516,424,532,540,548  User-indicated attribute or mode failure
+
+<span class="c2">█▌600s: Diskette Drive▐█</span>
+  601     Diskette power-on diagnostics failed
+  602     Boot record not valid
+  603     Diskette size error
+  606     Diskette verify
+  607     Write protected
+  608     Bad command diskette status
+  610     Diskette initialization
+  611     Time out
+  612     Bad controller
+  613,614 Direct memory access (DMA)
+  621     Bad seek
+  622     Bad cyclic redundancy (CRC)
+  623     Record not found
+  624     Bad address mark
+  625     Bad controller seek
+  626     Diskette data compare
+  627     Diskette change line
+  628     Diskette removed
+
+<span class="c2">█▌600s: Math Coprocessor▐█</span>
+  701     Coprocessor test failed
+
+<span class="c2">█▌900s: Parallel Printer Adapter LPT1▐█</span>
+  901     Parallel printer adapter failure
+
+<span class="c2">█▌1000s: Parallel Printer Adapter LPT2▐█</span>
+  1001    Alternate Parallel printer adapter failure
+
+<span class="c2">█▌1400s: Printer▐█</span>
+  1401    Printer test failed
+  1404    Dot Matrix printer test failed
+
+<span class="c2">█▌1700s: Hard Disk▐█</span>
+  1702    Time out error
+  1703    Seek error
+  1704    Disk adapter error
+  1705    No record found
+  1706    Write fault error
+  1707    Track 0 error
+  1708    Head select error
+  1709    Defective error check
+  1710    Read buffer overrun
+  1711    Bad address mark
+  1712    Undetermined error
+  1713    Data compare error
+  1714    Drive not ready
+  1780,1790 Disk 1 failure or error
+  1781,1791 Disk 2 failure or error
+  1782    Disk adapter error
+
+See Also: <a href="264-power_on_self_test.html">POST</a>
+          <a href="347-dos_error_codes.html">DOS Error Codes</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

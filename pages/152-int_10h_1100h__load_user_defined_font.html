@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1100H: Load User-Defined Font - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1100H: Load User-Defined Font</h1><pre>                                                      Compatibility: <span class="c2">EGA</span> <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1100H
+          <span class="c2">BH</span>    height of each character (bytes per character definition)
+          <span class="c2">BL</span>    font block to load (EGA: 0-3; VGA: 0-7)
+          <span class="c2">CX</span>    number of characters to redefine
+          <span class="c2">DX</span>    ASCII code of the first character defined at <span class="c2">ES:BP</span>
+          <span class="c2">ES:BP</span> address of font-definition information
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: Redefines one or more characters on EGA/VGA cards.  It copies
+          user-supplied character-definition information to a table in
+          video RAM.
+
+          This fn does <span class="c1">not</span> program the CRTC or set BIOS variables to make
+          allowances for changes in character height, etc.  Use
+          <a href="157-int_10h_1110h__load_and_activate_user_defined_font.html">INT 10H 1110H</a> to have the BIOS do that automatically.
+
+          You may use this to change the display of a single character or
+          an entire 256-character set.  You can also set up a secondary
+          font-definition to be selected by bit 3 of the video attribute
+          (see <a href="155-int_10h_1103h__activate_font_block.html">INT 10H 1103H</a>).
+
+       <span class="c2">BH</span> specifies how high each character is, in scan-lines; thus, it
+          describes how many byte are needed to define each character (the
+          BIOS always uses a width of 8, so one byte describes the bit
+          pattern for one line of the character matrix).
+
+       <span class="c2">BL</span> specifies which of the up-to eight tables in EGA/VGA character-
+          definition RAM should be affected.  See <a href="155-int_10h_1103h__activate_font_block.html">INT 10H 1103H</a> (activate
+          font block).  Normally, you will use <span class="c2">BL</span>=0, since block 0 is
+          normally the active font block.
+
+       <span class="c2">CX</span> specifies how many characters are to be redefined.
+
+       <span class="c2">DX</span> identifies the first character you wish to define.  Valid values
+          are 0-255.
+
+    <span class="c2">ES:BP</span> points to a table containing the character-definition codes.  It
+          should be <span class="c2">BH</span>*<span class="c2">CX</span> bytes long.  The table is laid out as a series of
+          <span class="c2">CX</span> groups of <span class="c2">BH</span> bytes in each group.
+
+          See <a href="91-video_font_definition.html">Video Font Definition</a> for byte layout.
+
+    Note: This fn requires that you modify <span class="c2">BP</span>.  When calling from high-
+          level languages such as C, be very careful to save and restore
+          BP, since it is used to keep track of the &quot;stack frame&quot;.
+
+See Also: <a href="151-int_10h_11h__ega_vga_character_generator_functions.html">INT 10H 11H: EGA/VGA Character Generator Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

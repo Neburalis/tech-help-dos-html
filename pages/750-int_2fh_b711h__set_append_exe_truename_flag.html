@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH b711H: Set APPEND.EXE Truename Flag - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH b711H: Set APPEND.EXE Truename Flag</h1><pre>                                                         Compatibility: <span class="c2">4.0+</span>
+ Expects: <span class="c2">AX</span>    b711H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    Carry Flag clear (NC) if no error
+          ──────────────────────────────────────────────────────────────────
+    Info: This is an oddball.  When you call this fn, it sets a one-shot
+          APPEND internal flag which affects what happens on the <span class="c1">next</span> call
+          to any of:
+
+            <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a>    (open file via handle)
+            <a href="443-dos_fn_4300h__query_file_attribute.html">4300H</a>  (get file attribute)
+            <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a>    (find file)
+            <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a>    (extended file open/create)
+
+          Each of these DOS fns require an ASCIIZ<a href="913-qasciiz.html">▲</a> filespec as a parameter.
+          When the Truename flag is set, APPEND <span class="c1">overwrites the input</span>
+          <span class="c1">parameter</span> with the full and actual name of the file.  It then
+          resets the internal Truename flag.
+
+          You must be sure to that the filespec parameter you pass to those
+          DOS fns has plenty of unused space at the end.  APPEND may expand
+          that filespec to as large as 79 bytes (a 2-byte <span class="c1">d:</span>, 64-byte
+          <span class="c1">\path</span>, and a 12-character <span class="c1">filename.ext</span> and a terminating byte of
+          00H.
+
+   Notes: This service is available only if APPEND.EXE is loaded.  If you
+          just want a flexible way to obtain a fully-qualified
+          <span class="c1">d:\path\filename.exe</span> (given an ambiguous or partial filename),
+          you might try using the undocumented <a href="541-dos_fn_60h__query_truename.html">DOS Fn 60H: Query TrueName</a>.
+
+See Also: <a href="744-int_2fh_b7xxh__append_exe_functions.html">INT 2fH b7xxH: APPEND.EXE Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

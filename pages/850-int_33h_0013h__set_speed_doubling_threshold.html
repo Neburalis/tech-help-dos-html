@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0013H: Set Speed-Doubling Threshold - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0013H: Set Speed-Doubling Threshold</h1><pre>
+ Expects: <span class="c2">AX</span>    0013H
+          <span class="c2">DX</span>    doubling limit, in mickeys-per-second
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: When the mouse is moved quickly, the mouse support doubles the
+          distance of the motion of the pointer.  This makes it possible to
+          use slow, fine motions for detail work without sacrificing speedy
+          motion to move quickly across the screen.
+
+          By default, if the mouse moves 64 mickeys per second (about 1/3rd
+          inch per second), the mouse support doubles the pointer motion.
+          If you prefer more acceleration, use values smaller than 64 in
+          DX.  For less acceleration, use larger values.  To effectively
+          eliminate this speed-doubling, use a large values, such as 10,000
+          in <span class="c2">DX</span>.
+
+          You can also set this threshold via <a href="857-int_33h_001ah__set_mouse_sensitivity.html">INT 33H 001aH</a> and query its
+          current value via <a href="858-int_33h_001bh__query_mouse_sensitivity.html">INT 33H 001bH</a>.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

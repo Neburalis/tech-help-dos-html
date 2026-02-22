@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 14H 03H: Query Serial Port Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 14H 03H: Query Serial Port Status</h1><pre>
+ Expects: <span class="c2">AH</span>    03H
+          <span class="c2">DX</span>    COMM port number (0 to 3)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    line status  ═╦══► see <a href="211-bios_com_status_codes.html">BIOS COM status codes</a>
+          <span class="c2">AL</span>    modem status ═╝
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the current modem status and current line status for the
+          specified COMM port.
+
+See Also: <a href="206-int_14h__serial_port_i_o.html">INT 14H: Serial Port I/O</a>
+          <a href="895-asynchronous_adapter_ports.html">Asynchronous Adapter Ports</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

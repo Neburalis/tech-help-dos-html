@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>xView■Syntax - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>xView■Syntax</h1><pre>                                                        <a href="973-xview_examples.html">Examples</a> │ <a href="974-xview_notes.html">Notes</a>
+ Purpose: Displays hypertext databases and text files.  In conjunction with
+          the TECH Help! database, provides in-depth technical reference
+          information for programmers.
+
+          See <a href="964-using_tech_help_.html">Using TECH Help!</a> for a general introduction.
+
+  Syntax: XVIEW [<span class="c1">topic</span>] [/B] [/H] [/M=<span class="c1">file</span>] [/Q] [/?] <span class="c2">◄═════ normal startup</span>
+
+      or: XVIEW /I[<span class="c1">swap</span>] [/M=<span class="c1">file</span>] [/K=<span class="c1">key1,key2</span>] [/B] [/Q] <span class="c2">◄═══ load TSR</span>
+      or: XVIEW /U [/Q]                                     <span class="c2">◄═══ remove TSR</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+   (none) starts xView as an interactive, full screen program.  After the
+          initial logo screen, the <a href="2-main_menu.html">Main Menu</a> page is displayed.
+
+    <span class="c1">topic</span> is any keyword found on the <a href="4-general_index.html">General Index</a> page.  You need only
+          type enough of <span class="c1">topic</span> to make it unique (e.g., <span class="c2">XVIEW ASCII</span> would
+          bring up the ASCII Table topic.  You may surround <span class="c1">topic</span> with
+          quotes to lookup two-word topics, such as <span class="c2">&quot;file attributes&quot;</span>.  If
+          <span class="c1">topic</span> is present, <span class="c1">/I</span> and <span class="c1">/K</span> are ignored.
+
+       <span class="c1">/B</span> starts xView with a black-and-white color set.  After choosing a
+          custom color set (<span class="c1">Alt+C</span>,<span class="c1">C</span>,<span class="c1">C</span>) and Save Setup (<span class="c1">Alt+C</span>,<span class="c1">S</span>) xView will
+          startup with your custom color set.
+
+       <span class="c1">/H</span> sets xView to display the maximum number of screen lines
+          available on your video system (43 lines on EGA and 50 on VGA.
+
+  <span class="c1">/M=file</span> specifies the name and location of the hypertext database file.
+          xView will look in its program directory, the current default
+          directory, in the XVIEWPATH directory, and down the command
+          search path to locate hypertext databases and text files.
+          See <a href="974-xview_notes.html">Notes</a>.
+
+       <span class="c1">/Q</span> starts &quot;quietly&quot;; bypasses the logo screen and displays the Main
+          Menu.  When used with <span class="c1">/I</span>, skips the logo screen when going TSR.
+
+       <span class="c1">/?</span> displays a brief TTY-style syntax summary.
+
+          <span class="c2">───────────────────────────────────────────────────── TSR Options</span>
+ <span class="c1">/I[</span>swap<span class="c1">]</span> Loads xView into memory as a TSR<a href="917-qtsr.html">▲</a>.  <span class="c1">swap</span> is <span class="c2">C</span>, <span class="c2">E</span>, <span class="c2">X</span>, or <span class="c2">D</span>.
+<span class="c2">       /I</span> and...
+      <span class="c2">/IC</span> specify to load as a standard TSR, using about 140K of
+          conventional memory.
+
+          /IE, /IX, and /IE use only 5K or conventional memory by swapping
+          data into and out of conventional memory when you pop it up.
+          See <a href="974-xview_notes.html">Notes</a>.
+
+      <span class="c2">/IE</span> uses EMS (ex<span class="c2">pand</span>ed memory) for swapping storage.
+      <span class="c2">/IX</span> uses XMS (ex<span class="c2">tend</span>ed memory) for swapping storage.
+     <span class="c2">/ID</span><span class="c1">d</span> uses disk space on drive <span class="c1">d</span> (or the default drive) for storage.
+
+<span class="c1">/K=key1,key2</span> selects hot key triggers to be used when in TSR mode.
+     <span class="c1">key1</span> identifies the key for popping up at the most recently-viewed
+          page.  Default: <span class="c2">Alt</span>+<span class="c2">H</span>.
+     <span class="c1">key2</span> identifies the &quot;lookup&quot; key.  When used, xView will attempt to
+          read the screen at the current cursor location and collect a
+          topic to lookup.  Default: <span class="c2">Alt</span>+<span class="c2">L</span>.
+
+          Both key names are in the form <span class="c2">A</span><span class="c1">char</span> (for <span class="c2">Alt</span>+<span class="c1">char</span>) or <span class="c2">C</span><span class="c1">char</span>
+          (for <span class="c2">Ctrl</span>+<span class="c1">char</span>) or <span class="c2">F1</span>...<span class="c2">F12</span> or <span class="c2">NONE</span>.  For <span class="c1">char</span>, you may use
+          any alphabetic character <span class="c2">A</span>...<span class="c2">Z</span>, or <span class="c2">F1</span>...<span class="c2">F12</span>.
+
+       <span class="c1">/U</span> Unloads xView from memory (if it has been installed as a TSR).
+
+See Also: <a href="973-xview_examples.html">Examples</a>
+          <a href="974-xview_notes.html">Notes</a>
+          <a href="970-installing_tech_help_.html">Installing TECH Help!</a>
+          <a href="971-popup_help_.html">Popup Help!</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 17H 00H: Print One Character - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 17H 00H: Print One Character</h1><pre>
+ Expects: <span class="c2">AH</span>    00H
+          <span class="c2">AL</span>    byte to print.  See <a href="45-ascii.html">ASCII</a> and <a href="48-ascii_control_codes.html">ASCII Control Codes</a>.
+          <span class="c2">DX</span>    port number (0=LPT1, 1=LPT2, 2=LPT3)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    Bits set as in <a href="241-bios_printer_status_flags.html">PrinterStatusRec</a> (bit 0 set on time-out
+                error)
+          ──────────────────────────────────────────────────────────────────
+    Info: Sends the byte in <span class="c2">AL</span> to the specified printer port.
+
+          Always check the return code in <span class="c2">AH</span> to see if the character made
+          it to the printer.
+
+   Notes: ■ Use <a href="183-int_11h__equipment_check.html">INT 11H</a> to see how many printer ports are installed.
+
+          ■ Please stop writing those applications that write ONLY to LPT1.
+            That is unutterably frustrating for users.
+
+          ■ You can write to the PRN device just by using DOS fn <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> with
+            BX=0004H.  You may want to use fn <a href="437-dos_fn_3eh__close_a_file_handle.html">3eH</a> now and then to flush the
+            data to the printer.
+
+See Also: <a href="237-int_17h__printer_support.html">INT 17H</a> (BIOS printer support)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

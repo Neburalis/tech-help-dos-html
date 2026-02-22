@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Video Memory Layouts - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Video Memory Layouts</h1><pre>
+  BIOS video output services such as <a href="125-int_10h_0ah__write_character_to_cursor_location.html">INT 10H 0aH</a> (write character) are
+  typically far too slow for most purposes.  Nearly all programs write
+  directly to video memory for performance reasons.
+
+  This topic describes the location and layout of video memory for the
+  various video systems.
+
+<span class="c2">█▌Text Modes▐█</span>
+  Video modes 00H-03H and 07H (see <a href="114-video_modes.html">Video Modes</a>) use the following video-
+  memory layout:
+
+        0   1 ║ 2   3 ║ 4   5 ║ ... ║158 159
+      ┌───┼───╫───┼───╫───┼───╫─────╫───┼───╖
+     0│chr│atr║chr│atr║chr│atr║ ... ║chr│atr║ line 0, <span class="c2">video page 0</span>
+      ├───┼───╫───┼───╫───┼───╫─────╫───┼───╢
+   160│chr│atr║chr│atr║chr│atr║ ... ║chr│atr║ line 1
+      ├───┼───╫───┼───╫───┼───╫─────╫───┼───╢
+   320│chr│atr║chr│atr║chr│atr║ ... ║chr│atr║ line 2
+      ├───┼───╫───┼───╫───┼───╫─────╫───┼───╢
+   480│chr│atr║chr│atr║chr│atr║ ... ║chr│atr║
+      ├───┼───╫───┼───╫───┼───╫─────╫───┼───╢
+      \                                     \
+      ├───┼───╫───┼───╫───┼───╫─────╫───┼───╢
+  3840│chr│atr║chr│atr║chr│atr║ ... ║chr│atr║ line 24
+      └───┴───╨───┴───╨───┴───╨─────╨───┴───╜
+       ...small gap...
+      ┌───┼───╫───┼───╫───┼───╫─────╫───┼───╖
+  4096│chr│atr║chr│atr║chr│atr║ ... ║chr│atr║ line 0, <span class="c2">video page 1</span>
+       ...etc...
+
+  All even-numbered addresses contain characters (see <a href="47-character_set_matrix.html">Character Set</a>) and
+  all odd-numbered addresses contain <a href="87-screen_attributes.html">video attributes</a>.
+
+  The width of a standard 80-column line is 160 bytes and there are 25 lines
+  (0-24) in most cases.  But these can be changed by various video services
+  or TSRs or device drivers.  Programs should check the width and height of
+  the screen via <a href="130-int_10h_0fh__query_current_video_info.html">INT 10H 0fH</a> or <a href="166-int_10h_1130h__get_current_character_generator_info.html">INT 10H 1130H</a> or by examining variables in
+  the <a href="93-rom_bios_variables.html">BIOS Data Area</a>.
+
+  On EGAs and VGAs, it is possible to remap the video attributes so that
+  any attribute byte can represent any desired color (see <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H</a>).
+  You can also redefine the characters; for instance, to display italics or
+  foreign-language text.  See <a href="151-int_10h_11h__ega_vga_character_generator_functions.html">INT 10H 11H</a> and <a href="91-video_font_definition.html">Video Font Definition</a>.
+
+  <span class="c2">Accessing Text Mode Video Memory</span>
+    ■ Text mode video memory begins at <span class="c2">b800:0</span> on <a href="66-color_graphics_adapter__cga_.html">CGA</a>, <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> and <a href="70-video_graphics_array__vga_.html">VGA</a> and at
+      <span class="c2">b000:0</span> on <a href="68-monochrome_display_adapter__mda_.html">MDA</a>.
+
+      Use <a href="184-int_12h__conventional_memory_size.html">INT 12H</a> to see if MDA is active and set up a segment register
+      accordingly.
+
+    ■ Given an X,Y coordinate (<span class="c1">clm</span>,<span class="c1">row</span>), calculate a memory location as:
+
+        <span class="c1">vidAddr</span> = (<span class="c1">row</span> * 160 )+ (<span class="c1">clm</span> * 2)
+
+      Note: For best flexibility, don't hard-code &quot;160&quot;.  Instead, fetch
+      the word at <span class="c2">0040:004a</span> in the <a href="93-rom_bios_variables.html">BIOS Data Area</a> and multiply it by 2.
+
+    ■ Store a character at that position and an attribute one address
+      higher.  Most applications use 16-bit commands such as...
+
+         mov  word ptr ES:[DI],AX
+      or
+         stosw
+
+      ...to write both a character and attribute to video memory in one
+      operation.
+
+  Special care must be taken when using direct-memory access on CGA
+  adapters.  See <a href="92-cga_video_snow_and_cls_flash.html">Video Snow</a> for a discussion.
+
+  Also, all video systems except MDA provide multiple &quot;pages&quot; of video
+  memory.  It is possible to write to a secondary page then swap it into
+  view via <a href="120-int_10h_05h__select_video_page.html">INT 10H 05H</a>.  But this is seen rarely: CPUs are now fast enough
+  to update the screen in place without flicker.  If you are writing to a
+  video page other than 0, check <span class="c2">0040:004e</span> for the offset of the start of
+  the video page.
+
+<span class="c2">█▌Graphics Modes▐█</span>
+  Graphics-mode video memory layouts vary considerably, depending on the
+  mode.  The following summarizes each standard video graphics mode:
+
+  <span class="c2">CGA Low-res 320x200, 4-color</span> (video modes <span class="c2">04H</span> and <span class="c2">05H</span>)
+ Segment: b800
+  Layout: <span class="c1">Interleaved scan lines, packed-pixel</span>.  Even-numbered scan lines
+          begin at <span class="c2">b800:0</span>, and odd-numbered lines begin at <span class="c2">b800:2000</span>.
+
+          Each scan line is <span class="c2">80</span>-bytes long and there are <span class="c2">200</span> scan lines
+          (regen size=8000 bytes * 2 regions).  Each byte contains <span class="c2">4</span> pixels
+          (16,000 total pixels):
+          ╓7┬6┬5┬4┬3┬2┬1┬0╖
+          ║   │   │   │   ║
+          ╙─┴─┴─┴─┴─┴─┴─┴─╜  <span class="c1">bits</span> <span class="c1">mask</span>
+           ╚╦╝ ╚╦╝ ╚╦╝ ╚═╩═► 0-1:  03H  fourth pixel in byte
+            ║   ║   ╚══════► 2-3:  0cH  third pixel in byte
+            ║   ╚══════════► 4-5:  30H  second pixel in byte
+            ╚══════════════► 6-7:  c0H  first pixel in byte
+                                        <span class="c2">00</span>=black;       <span class="c2">01</span>=green/cyan
+                                        <span class="c2">10</span>=red/magenta; <span class="c2">11</span>=brown/white
+
+          Each 2-bit field selects one of four colors, depending on the
+          setting of the CGA palette.  Use <a href="126-int_10h_0bh__select_graphics_palette_or_text_border_color.html">INT 10H 0bH</a>.
+ ──────────────────────────────────────────────────────────────────────────
+  <span class="c2">CGA Hi-res 640x200, 2-color</span> (video mode <span class="c2">06H</span>)
+ Segment: b000
+  Layout: <span class="c1">Interleaved scan lines, packed-pixel</span>.  Even-numbered scan lines
+          begin at <span class="c2">b800:0</span>, and odd-numbered lines begin at <span class="c2">b800:2000</span>.
+
+          Each scan line is <span class="c2">80</span>-bytes long and there are <span class="c2">200</span> scan lines
+          (regen size=8000 bytes * 2 regions).  Each byte contains <span class="c2">8</span> pixels
+          (32,000 total pixels):
+          ╓7┬6┬5┬4┬3┬2┬1┬0╖
+          ║ │ │ │ │ │ │ │ ║
+          ╙╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜  <span class="c1">bits</span> <span class="c1">mask</span>
+           ║ ║ ║ ║ ║ ║ ║ ╚══► 0:  01H  eighth pixel in byte
+           ║ ║ ║ ║ ║ ║ ╚════► 1:  02H  seventh pixel in byte
+           ║ ║ ║ ║ ║ ╚══════► 2:  04H  sixth pixel in byte
+           ║ ║ ║ ║ ╚════════► 3:  08H  fifth pixel in byte
+           ║ ║ ║ ╚══════════► 4:  10H  fourth pixel in byte
+           ║ ║ ╚════════════► 5:  20H  third pixel in byte
+           ║ ╚══════════════► 6:  40H  second pixel in byte
+           ╚════════════════► 7:  80H  first pixel in byte
+                                       <span class="c2">0</span>=black; <span class="c2">1</span>=white
+
+          Each 1-bit field selects black (0) or white (1).
+ ──────────────────────────────────────────────────────────────────────────
+  <span class="c2">EGA 320x200, 16-color</span> (video mode <span class="c2">0dH</span>)
+ Segment: a000
+  Layout: <span class="c1">4-plane planar</span>.  Each pixel color is determined by the combined
+          value of bits in the four color planes.  Each color plane begins
+          at <span class="c2">a000:0</span>.  To select a plane, use:
+
+            OUT 3ceH, 0005H         ;set up for plane masking
+            OUT 3c4H, <span class="c1">n</span>             ;<span class="c1">n</span> is: <span class="c2">0102H</span>=plane 0; <span class="c2">0202H</span>=plane 1
+                                    ;      <span class="c2">0402H</span>=plane 2; <span class="c2">0802H</span>=plane 3
+            ...(write video data)...
+            OUT 3c4H, 0f02H         ;restore normal plane mask
+
+          Each scan line is <span class="c2">40</span> bytes long and there are <span class="c2">200</span> scan lines
+          (regen size=16,000 bytes * 4 planes).  Each byte contains
+          <span class="c2">8</span> pixels (64,000 total pixels):
+          ╓7┬6┬5┬4┬3┬2┬1┬0╖
+          ║ │ │ │ │ │ │ │ ║
+          ╙╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜  <span class="c1">bits</span> <span class="c1">mask</span>
+           ║ ║ ║ ║ ║ ║ ║ ╚══► 0:  01H  eighth pixel in byte
+           ║ ║ ║ ║ ║ ║ ╚════► 1:  02H  seventh pixel in byte
+           ║ ║ ║ ║ ║ ╚══════► 2:  04H  sixth pixel in byte
+           ║ ║ ║ ║ ╚════════► 3:  08H  fifth pixel in byte
+           ║ ║ ║ ╚══════════► 4:  10H  fourth pixel in byte
+           ║ ║ ╚════════════► 5:  20H  third pixel in byte
+           ║ ╚══════════════► 6:  40H  second pixel in byte
+           ╚════════════════► 7:  80H  first pixel in byte
+                                       <span class="c2">0</span>=color OFF; <span class="c2">1</span>=color ON
+
+          The pixel color depends on the 4-bit value (0-15) obtained by
+          combining the same bit position in each plane.  <span class="c1">Default</span> settings
+          are:   <span class="c2">0H</span> black     <span class="c2">8H</span> gray
+                 <span class="c2">1H</span> blue      <span class="c2">9H</span> bright blue
+                 <span class="c2">2H</span> green     <span class="c2">aH</span> bright green
+                 <span class="c2">3H</span> cyan      <span class="c2">bH</span> bright cyan
+                 <span class="c2">4H</span> red       <span class="c2">cH</span> bright red
+                 <span class="c2">5H</span> magenta   <span class="c2">dH</span> bright magenta
+                 <span class="c2">6H</span> brown     <span class="c2">eH</span> yellow
+                 <span class="c2">7H</span> white     <span class="c2">fH</span> bright white
+          For instance, to make a pixel blue, the combined planes must
+          equal 01H; that is the bit in plane 0 is set and the bits in
+          planes 1,2, and 3 are clear.
+
+          The actual colors depend on the palette (see <a href="137-int_10h_1000h__set_one_palette_register.html">INT 10H 1000H</a>).
+ ──────────────────────────────────────────────────────────────────────────
+  <span class="c2">EGA 640x200, 16-color</span> (video mode <span class="c2">0eH</span>)
+ Segment: a000
+  Layout: <span class="c1">4-plane planar</span>.  Each pixel color is determined by the combined
+          value of bits in the four color planes.  Each color plane begins
+          at <span class="c2">a000:0</span>.
+
+          Each scan line is <span class="c2">80</span> bytes long and there are <span class="c2">200</span> scan lines
+          (regen size=16,000 bytes * 4 planes).  Each byte contains
+          <span class="c2">8</span> pixels (128,000 total pixels).
+
+          The layout and access is the same as mode 0dH.
+───────────────────────────────────────────────────────────────────────────
+  <span class="c2">EGA 640x350, 4-color</span> (video mode <span class="c2">0fH</span>)
+ Segment: a000
+  Layout: <span class="c1">2-plane planar</span>.  Video layout is the same as modes 0dH and 0eH,
+          except that only planes 0 and 2 are used.  The effect is to have
+          only two bits per pixel and the four colors are determined by
+          palette registers 0, 1, 4, and 5.
+
+          Each scan line is <span class="c2">80</span> bytes long and there are <span class="c2">350</span> scan lines
+          (regen size=28,000 bytes * 2 planes).  Each byte contains
+          <span class="c2">8</span> pixels (224,000 total pixels).
+
+          On really-old EGAs with only 64K, the even-numbered bit positions
+          in video memory are displayed for planes 0 and 2 and odd-numbered
+          pixels are in planes 1 and 3.  This variation is seen rarely.
+ ──────────────────────────────────────────────────────────────────────────
+  <span class="c2">EGA 640x350, 16-color</span> (video mode <span class="c2">10H</span>)
+ Segment: a000
+  Layout: <span class="c1">4-plane planar</span>.  Video layout is the same as modes 0dH and 0eH,
+          where the pixel is determined by the combined value in all four
+          color planes.
+
+          Each scan line is <span class="c2">80</span> bytes long and there are <span class="c2">350</span> scan lines
+          (regen size=28,000 bytes * 4 planes).  Each byte contains
+          <span class="c2">8</span> pixels (224,000 total pixels).
+ ──────────────────────────────────────────────────────────────────────────
+  <span class="c2">VGA 640x480, 2-color</span> (video mode <span class="c2">11H</span>)
+ Segment: a000
+  Layout: <span class="c1">4-plane planar</span>.  In this mode, there is a one-to-one
+          correspondence to bits in color plane 0 and the displayed data.
+
+          Each scan line is <span class="c2">80</span> bytes long and there are <span class="c2">480</span> scan lines
+          (regen size=38,400 bytes).  Each byte contains <span class="c2">8</span> pixels (307,200
+          total pixels).
+ ──────────────────────────────────────────────────────────────────────────
+  <span class="c2">VGA 640x480, 16-color</span> (video mode <span class="c2">12H</span>)
+ Segment: a000
+  Layout: <span class="c1">4-plane planar</span>.  Video layout is the same as modes 0dH and 0eH,
+          where the pixel is determined by the combined value in all four
+          color planes.
+
+          Each scan line is <span class="c2">80</span> bytes long and there are <span class="c2">480</span> scan lines
+          (regen size=38,400 bytes * 4 planes). Each byte contains <span class="c2">8</span> pixels
+          (307,200 total pixels).
+ ──────────────────────────────────────────────────────────────────────────
+  <span class="c2">VGA 320x200, 256-color</span> (video mode <span class="c2">13H</span>)
+ Segment: a000
+  Layout: <span class="c1">Linear, packed-pixel</span>.  This mode uses one byte (8 bits) per
+          pixel.  The colors displayed depend on the palette settings.
+
+          Each scan line is <span class="c2">320</span> bytes long and there are <span class="c2">200</span> scan lines
+          (regen size=64,000 bytes).  Each byte contains <span class="c2">1</span> pixel (64,000
+          total pixels).
+
+See Also: <a href="87-screen_attributes.html">Screen Attributes</a>
+          <a href="114-video_modes.html">Video Modes</a>
+          <a href="91-video_font_definition.html">Video Font Definition</a>
+          <a href="113-int_10h__video_services.html">INT 10H</a> (Video Services)
+          <a href="85-vesa_svga_video_modes.html">SVGA Video Modes</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

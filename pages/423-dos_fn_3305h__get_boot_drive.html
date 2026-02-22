@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 3305H: Get Boot Drive - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 3305H: Get Boot Drive</h1><pre>                                                         Compatibility: <span class="c2">4.0+</span>
+ Expects: <span class="c2">AX</span>    3305H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DL</span>    boot drive (1=A, 2=B, etc.)
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns with DL containing the number of the drive which was used
+          to boot the system.
+
+          You can use this to help locate CONFIG.SYS or AUTOEXEC.BAT or
+          DBLSPACE.BIN, etc. (files that live in the root of the boot
+          disk).
+
+See Also: <a href="19-system_information_functions.html">System Information Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

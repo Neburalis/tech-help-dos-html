@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0b00H: Set Debug Watchpoint - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0b00H: Set Debug Watchpoint</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0b00H
+          <span class="c2">BX:CX</span> linear address of watchpoint
+          <span class="c2">DL</span>    size of watchpoint (1, 2, or 4 bytes)
+          <span class="c2">DH</span>    type of watchpoint: 00H = execute
+                                    01H = write
+                                    02H = read/write
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets a debug watchpoint at the specified linear address.  When
+          the specified action occurs, an <a href="100-int_03h__breakpoint_interrupt.html">INT 03H</a> is invoked.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

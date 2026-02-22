@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5f02H: Network Query Assign-List Entry - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5f02H: Network Query Assign-List Entry</h1><pre>                                                         Compatibility: <span class="c2">3.1+</span>
+ Expects: <span class="c2">AX</span>    5f02H
+          <span class="c2">BX</span>    index number requested
+          <span class="c2">DS:SI</span> addr of 16-byte buffer to receive ASCIIZ<a href="913-qasciiz.html">▲</a> device name
+          <span class="c2">ES:DI</span> addr of 128-byte buffer to receive ASCIIZ network name
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">BH</span>    01H = device available
+                00H = device temporarily unavailable
+          <span class="c2">BL</span>    03H = it's a printer
+                04H = it's a drive
+          <span class="c2">CX</span>    user value--code stored by fn <a href="539-dos_fn_5f03h__make_network_connection.html">5f03H</a> (make net connection)
+          <span class="c2">DS:SI</span> buffer contains device name (e.g., <span class="c2">LPT1</span><span class="c1">0</span>)
+          <span class="c2">ES:DI</span> buffer contains network device name (e.g., <span class="c2">\\DAN\HP</span><span class="c1">0</span>)
+          DX,BP destroyed by some versions of network support
+          ──────────────────────────────────────────────────────────────────
+    Info: Fetches one element of the network redirection list (also called
+          the &quot;assign list&quot;).
+
+          Use this fn to obtain the index number needed by network
+          functions such as <a href="535-dos_fn_5e02h__set_network_printer_setup.html">5e02H</a> and <a href="536-dos_fn_5e03h__query_network_printer_setup.html">5e03H</a>.  For instance, to obtain the
+          setup string for a redirected &quot;LPT1&quot;, you would call this fn
+          multiple times, starting with BX=0 and incrementing on each call.
+          Upon return, check the <span class="c2">DS:SI</span> buffer to see if it contains &quot;LPT1&quot;.
+          You could then use the index number used in that call as input
+          into fn <a href="536-dos_fn_5e03h__query_network_printer_setup.html">5e03H</a> (query network printer setup).
+
+   Notes: ■ Index numbers can change at any time.  When a device is deleted
+            from the list (via fn <a href="540-dos_fn_5f04h__delete_network_connection.html">5f04H</a>), DOS reorders the index numbers to
+            remove the gap.
+
+            Therefore, you should not save an index number for later use.
+            Instead, use this function each time you need one.
+
+          ■ Items are added to the assign list via fn <a href="539-dos_fn_5f03h__make_network_connection.html">5F03H</a> (make network
+            connection).
+
+          ■ The value in <span class="c2">CX</span> can also be found in the <a href="348-cds__current_directory_structure.html">CurDirRec</a> for a drive.
+
+See Also: <a href="16-network_and_file_sharing_functions.html">Network Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

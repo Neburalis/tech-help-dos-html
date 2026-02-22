@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1685H: Switch VMs and CallBack - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1685H: Switch VMs and CallBack</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    1685H
+          <span class="c2">BX</span>    VM_ID (virtual machine ID)
+          <span class="c2">CX</span>    flags:  bit 0: 1=wait until interrupts are enabled
+                        bit 1: 1=wait until critical section is released
+          <span class="c2">DX:SI</span> 32-bit priority boost setting (<span class="c2">DX</span>=high word, <span class="c2">SI</span>=low word)
+          <span class="c2">ES:DI</span> callback function address
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    return code:  0000H (and CF is clear) in successful
+                              0001H invalid VM_ID
+                              0002H invalid priority boost
+                              0003H invalid flags
+          ──────────────────────────────────────────────────────────────────
+    Info: This causes Windows to switch to a specified virtual machine and
+          then call a specified address.
+
+          This is used by network support software or software which needs
+          to perform certain functions while executing in a specific
+          virtual machine.
+
+          Please see the <span class="c2">Windows Device Driver Kit (DDK)</span> for full
+          information.
+
+See Also: <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH: Enh386 Windows Services &amp; Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

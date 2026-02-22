@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 16H 11H: Query Extended Keyboard Status / Preview Key - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 16H 11H: Query Extended Keyboard Status / Preview Key</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    11H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ZF</span>    ZR = no keys in buffer
+                NZ = key is ready
+          <span class="c2">AH</span>    (if ZR) scan code
+          <span class="c2">AL</span>    <a href="45-ascii.html">ASCII</a> character code or <a href="55-extended_ascii_keystrokes.html">extended ASCII</a> keystroke
+          ──────────────────────────────────────────────────────────────────
+    Info: This is identical to <a href="230-int_16h_01h__query_keyboard_status___preview_key.html">INT 16H 01H</a>, except that it does not perform
+          &quot;extended key filtering&quot; to map 101-key 'board keystrokes to
+          84-key 'board equivalents.
+
+See Also: <a href="228-int_16h__keyboard_services.html">INT 16H</a> (BIOS keyboard services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

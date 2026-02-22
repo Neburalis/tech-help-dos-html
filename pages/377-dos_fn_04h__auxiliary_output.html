@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 04H: Auxiliary Output - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 04H: Auxiliary Output</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    04H
+          <span class="c2">DL</span>    character to send to the <a href="362-file_handle.html">Standard Auxiliary Device</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Sends the character in DL to the Standard Auxiliary Device, COM1
+          or AUX.
+
+See Also: DOS Fn <a href="376-dos_fn_03h__auxiliary_input.html">03H</a> Auxiliary Input
+          <a href="206-int_14h__serial_port_i_o.html">INT 14H</a>
+          <a href="895-asynchronous_adapter_ports.html">COM Ports</a>
+          <a href="7-character_i_o_functions.html">Character I/O Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

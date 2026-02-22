@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Using a Compressed RAM Disk - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Using a Compressed RAM Disk</h1><pre><span class="c2">█▌Overview▐█</span>
+  Although the technique described here is interesting, its usefulness is
+  debatable.  Some experts say that you can get better mileage out of your
+  extended memory by using it in a disk cache.  However, a large RAM disk
+  used as your <a href="369-predefined_environment_variables.html">TEMP</a> directory will speed up <a href="828-standard_i_o_and_i_o_redirection.html">I/O Redirection</a> and Windows
+  Print Manager tremendously.
+
+  A compressed RAM disk provides nearly double the storage for the same
+  amount of RAM.  The speed difference is negligible (it's still far faster
+  than the fastest uncached hard disk).
+
+<span class="c2">█▌Prerequisites▐█</span>
+  ■ You must <span class="c1">install the RAM disk earlier than DBLSPACE.SYS</span> in your
+    <a href="267-the_config_sys_file.html">CONFIG.SYS</a> file.  Otherwise, each time you mount the RAM disk,
+    DoubleSpace will modify <a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a> to take over its drive ID (and the
+    next time you boot, the RAM disk's ID will be one notch higher... ad
+    infinitum).
+
+  ■ You must have at least one available DoubleSpace reserved drive ID.
+    Use <span class="c2">Dblspace /LIST</span> to check this.  If not, run <span class="c2">Dblspace</span>, choose Options
+    from the Tools menu, and change the setting.
+
+<span class="c2">█▌The Simple, Vanilla Technique▐█</span>
+  ■ Create a 1.2 MB RAM disk.  For instance..
+    DEVICEHIGH=c:\dos\ramdrive.sys 1200 /E   <span class="c2">(in CONFIG.SYS)</span>
+    DEVICEHIGH=c:\dos\Dblspace.sys           <span class="c2">(in this order)</span>
+
+    ...and create a compressed drive....
+
+    DBLSPACE /CREATE D: /NEW=E: /SIZE=0.50   <span class="c2">(in AUTOEXEC.BAT)</span>
+    DBLSPACE /SIZE /RESERVE=0 E:             <span class="c2">(no reserved space needed)</span>
+
+    ...each time you boot.
+
+  ■ This slows-down your boot sequence and you may want to use less than
+    1.2 MB for your RAM disk.
+
+<span class="c2">█▌The Interesting Technique▐█</span>
+  Quick overview:
+    Create a &quot;dummy&quot; compressed volume file on a diskette.  Copy it to your
+    hard disk.  In AUTOEXEC.BAT, copy it to a RAM disk and mount it.  A
+    600K RAM disk will yield about 1 MB of fast RAM disk storage.
+
+  Step-by-step instructions:
+
+   1) Format a 1.2M diskette in drive A...
+          <span class="c2">Format a: /U /VDbl_RAMDisk</span>
+
+   2) Create a minimum-size CVF<a href="919-qcvf.html">▲</a> on the diskette; for instance,
+          <span class="c2">Dblspace /COMPRESS A: /res=0</span>
+          <span class="c2">Dblspace /SIZE=0.56 A:</span>
+
+   3) Unmount the compressed volume:
+          <span class="c2">Dblspace /UNMOUNT A:</span>
+
+   4) Clear the attributes of the CVF:
+          <span class="c2">Attrib -h -r -s A:\DBLSPACE.000</span>
+
+   5) Copy the CVF to your hard disk, <span class="c1">giving it a different name</span>:
+          <span class="c2">Copy A:\DBLSPACE.000 C:\DUMMY.CVF</span>
+
+      Note: You no longer need the compressed diskette.
+
+   6) Setup CONFIG.SYS to create a 600K RAM disk; for instance:
+          <span class="c2">DEVICEHIGH=c:\dos\ramdrive.sys 600 /E</span>
+
+      Put this BEFORE installing DBLSPACE.SYS.  We'll assume that your RAM
+      disk is drive D.
+
+   7) Setup AUTOEXEC.BAT.  Add these lines:
+          <span class="c2">SET RAMDRV=D:</span>                            (create a handy e-var)
+          <span class="c2">Copy C:\DUMMY.CVF  %RAMDRV%\DBLSPACE.000</span> (put CVF on RAM disk)
+          <span class="c2">Dblspace /MOUNT %RAMDRV%</span>                 (make it accessible)
+
+  Reboot.  From now on, drive D (or whatever) will be your compressed RAM
+  drive and its host will have a higher letter, such as E or F.
+
+<span class="c2">█▌Refinements▐█</span>
+  ■ Between steps <span class="c1">2</span> and <span class="c1">3</span>, pre-load the diskette with often-used programs
+    and batch files.  When you mount the pre-filled CVF, the programs will
+    be ready for action.
+
+    While you're at it, create a <a href="369-predefined_environment_variables.html">TEMP</a> directory on the diskette.  And in
+    AUTOEXEC.BAT, use <span class="c2">Set TEMP=%RAMDRV%\TEMP</span>.
+
+  ■ Steps <span class="c1">2</span> and <span class="c1">6</span> minimize the memory use of the RAM disk.  The technique
+    works fine for larger RAM disks (in fact, you may want to use about 1MB
+    to get best performance from Windows Print Manager).
+
+  ■ In step <span class="c1">5</span>, be sure to store the dummy CVF on a compressed disk; since
+    it is mostly empty (and it was formatted with /U in step <span class="c1">1</span>), it will
+    take very little <span class="c1">physical</span> disk storage.
+
+  ■ General tip for using RAM disks: Step <span class="c1">7</span> creates an e-var to identify
+    the RAM disk.  In batch files that refer to the RAM disk drive ID, use
+    <span class="c2">%RAMDRV%\</span> in place of <span class="c2">D:\</span>.  That way, if you end up changing the drive
+    ID of the RAM disk, one change to AUTOEXEC.BAT fixes all of your batch
+    files and MAKE files.
+
+   Notes: ■ In nearly all respects, DoubleSpace treats a RAM disk as if it
+            were a hard disk.  The one apparent difference is in
+            <span class="c2">Dblspace /LIST</span>, it will identify a disk as a &quot;Compressed
+            RAMDrive&quot; or &quot;Local RAMDrive&quot; only if its volume label is
+            &quot;MS-RAMDRIVE&quot;.
+
+          ■ By default, <span class="c2">Smartdrv</span> will provide disk caching for a compressed
+            RAM disk.  This is <span class="c1">particularly wasteful</span> (if somewhat
+            humorous).  Be sure to disable all caching for your RAM disk;
+            for instance, if the RAM disk host drive is E, add <span class="c2">E-</span> to the
+            Smartdrv command line in your AUTOEXEC.BAT file.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace</a> (overview)
+                                    <span class="c3">-♦-</span></pre></body></html>

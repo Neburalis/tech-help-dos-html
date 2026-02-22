@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Game I/O Adapter Port - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Game I/O Adapter Port</h1><pre>
+ Port 201H is designated as the Game Adapter Port or Joystick Port.  It is
+ not supported by the <span class="c2">PC/XT</span> BIOS, but <span class="c2">AT</span> BIOS service <a href="219-int_15h_84h__joystick_support.html">INT 15H 84H</a> provides
+ an easy-to-use interface for the adapter.
+
+ It is an analog-to-digital converter which can be used by scientific
+ measuring tools and other devices which present an analog (resistive)
+ input to the interface.  It accepts up to four digital inputs (on/off data
+ such as the press of a button) and up to four resistive inputs (such as an
+ X-ordinate of a joystick or a temperature value from an electronic
+ thermometer).
+
+ The value obtained by an IN from 201H is as diagrammed:
+
+  ╓─7┬─6┬─5┬─4╥─3┬─2┬─1┬─0╖
+  ║B2│B1│A2│A1║By│Bx│Ay│Ax║
+  ╙──┴──┴──┴──╨──┴──┴──┴──╜
+   ╚════╦════╝ ╚═════════╩═► Coordinates (resistive, time-dependent inputs)
+        ╚══════════════════► Buttons/Triggers (digital inputs)
+
+ You can read the buttons (digital inputs)  with:
+
+        mov   dx,201H
+        out   dx,al      ;initiate transaction; AL=anything
+        in    al,dx      ;read bits 4-7 for buttons: 0=pressed, 1=open
+
+ The joysticks, paddles, measuring devices (resistive inputs) are read by
+ tracking the time that an X or Y bit stays high (1) after an OUT 201,xxx.
+ To read an individual resistive input (e.g., joystick A, X ordinate):
+
+        mov   dx,201H
+        out   dx,al      ;initiate transaction  AL=anything
+        mov   cx,-1      ;set resistance counter for first loop
+ again: in    al,dx      ;read the settings
+        inc   cx         ;bump counter
+        test  al,1       ;has X-ordinate for joystick A gone low?
+        jnz   again      ;loop until it does (when bit=0, we're done)
+
+ The delay value accumulated in CX will indicate the X-ordinate position of
+ joystick A.  The resulting value is CPU-dependent.  To ensure accuracy, it
+ would be better to use a hardware timer, rather than a loop counter.
+
+See Also: <a href="219-int_15h_84h__joystick_support.html">INT 15H 84H</a> (joystick support)
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

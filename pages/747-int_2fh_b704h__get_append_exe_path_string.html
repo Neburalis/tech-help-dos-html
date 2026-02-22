@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH b704H: Get APPEND.EXE Path String - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH b704H: Get APPEND.EXE Path String</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    b704H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:DI</span> Address of the ASCIIZ<a href="913-qasciiz.html">▲</a> &quot;data search path&quot;
+          ──────────────────────────────────────────────────────────────────
+    Info: This returns the address of the APPEND search path.  It is in a
+          form similar to the DOS command search path (maintained by the
+          <span class="c2">Path</span> command).
+
+          The APPEND path is a series of directory names, separated by
+          semi-colons (<span class="c2">;</span>) and ending with a byte of 00H; for instance:
+
+            c:\mydata<span class="c2">;</span>d:\data\old<span class="c2">;</span>d:\utils\config\ini<span class="c2">0</span>
+
+    Note: A quick check shows that this returns the address of a buffer
+          that appears be at least 128 bytes long.  Thus, it may be
+          possible to add directories to the append path by modifying this
+          buffer.
+
+See Also: <a href="744-int_2fh_b7xxh__append_exe_functions.html">INT 2fH b7xxH: APPEND.EXE Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

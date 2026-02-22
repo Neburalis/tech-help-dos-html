@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS Error Codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS Error Codes</h1><pre>
+ Upon return from <a href="944-xms_functions.html">XMS Functions</a>, the <span class="c2">AX</span> register indicates success or
+ failure:
+
+     AX=0000H = success
+     AX=0001H = failure
+
+ When a function fails, the <span class="c2">BL</span> register will contain an error code.  All
+ XMS error codes have bit 7 set; so BL will be &gt;= 80H.
+
+    BL   Meaning
+    ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    80H  Function not implemented
+    81H  A VDISK device is detected (screws up allocations...)
+    82H  An A20 error occurred
+
+    8eH  General XMM driver error
+    8fH  Unrecoverable XMM driver error
+
+    90H  HMA does not exist
+    91H  HMA is already in use
+    92H  DX is less than /HMAMIN= parm
+    93H  HMA is not allocated
+    94H  A20 line is still enabled
+
+    a0H  All extended memory is allocated
+    a1H  All XMS handles are in use
+    a2H  Invalid handle
+
+    a3H  WSrcHandle is bad
+    a4H  LSrcOffset is bad
+    a5H  WDestHandle is bad
+    a6H  LDestOffset is bad
+    a7H  Length is invalid
+    a8H  Invalid overlap in move
+
+    a9H  Parity error
+    aaH  Block is not locked
+    abH  Block is locked
+    acH  Lock count has overflowed
+    adH  Lock failed
+
+    b0H  A smaller UMB is available
+    b1H  No UMBs are available
+    b2H  UMB segment number is invalid
+    90H  Attribute type undefined
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

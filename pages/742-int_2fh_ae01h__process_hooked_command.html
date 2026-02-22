@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH ae01H: Process Hooked Command - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH ae01H: Process Hooked Command</h1><pre>                                                 Compatibility: <a href="912-_undocumented_.html">◄Undoc►</a> <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    ae01H
+          <span class="c2">DS:SI</span> address of an 8-byte upshifted, blank-padded command name
+                (save command-line text addr from previous <a href="741-int_2fh_ae00h__notify_pending_command.html">INT 2fH ae00H</a>)
+          ──────────────────────────────────────────────────────────────────
+ Returns:       Previously-passed command buffer should be modified:
+                Set the length field to 00H to indicate command completed.
+          ──────────────────────────────────────────────────────────────────
+    Info: This is part two of a system that lets TSRs intercept commands
+          typed at the DOS command prompt.
+
+          See <a href="741-int_2fh_ae00h__notify_pending_command.html">INT 2fH ae00H</a> for details on what happens in part one.  After
+          you return AL=ffH from that notification, COMMAND.COM immediately
+          calls this function (AX=ae01H) to give you a crack at processing
+          the command.
+
+          Important: This command does <span class="c1">not</span> supply the full command-line
+          text.  You must save the <span class="c2">DS:BX</span> value passed in the previous
+          AX=ae00H notification.
+
+          <span class="c2">█▌Handling a Command Internally▐█</span>
+          Examine the command line text (as pointed to by the <span class="c2">DS:BX</span>
+          obtained in the earlier ae00H call).  Take whatever action you
+          deem necessary.  Set the command length to 0 (DS:BX+1) and IRET
+          to return control to COMMAND.COM.
+
+          <span class="c2">█▌Cancelling a Command▐█</span>
+          Just set the saved DS:[BX+1] to 00H and IRET to return control to
+          COMMAND.COM.
+
+          <span class="c2">█▌Pre-processing a Command▐█</span>
+          It is possible to examine command-line switches and options, make
+          some changes, and then pass the result on to be handled by
+          COMMAND.COM or some other INT 2fH handler.  In this case, use a
+          FAR JMP to pass control down the chain of INT 2fH handlers, to
+          give them a crack at the command.  In any case, if the command-
+          line length is non-zero, it will be processed eventually --
+          either by another INT 2fH handler or by COMMAND.COM.
+
+   Notes: ■ If <span class="c2">Doskey</span> is installed (see <a href="702-int_2fh_4800h__is_doskey_com_installed_.html">INT 2fH 4800H</a>), then Doskey will
+            get a crack at the command-line before you do.  You might
+            consider chaining into that service as well.
+
+          ■ Note that batch file commands <span class="c1">are</span> passed through this system,
+            so you can make a bullet-proof connad filter.
+
+See Also: <a href="740-int_2fh_aexxh__command_processor_command_line_hook.html">INT 2fH aexxH</a> Command Processor Hook
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

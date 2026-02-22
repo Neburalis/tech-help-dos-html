@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 14H: Serial Port I/O - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 14H: Serial Port I/O</h1><pre>
+                <span class="c2">AH</span>  BIOS Service
+                ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                <a href="207-int_14h_00h__initialize_asynchronous_communication_port.html">00H</a> Initialize communications port
+
+                <a href="208-int_14h_01h__send_a_character.html">01H</a> send a character
+
+                <a href="209-int_14h_02h__receive_a_character.html">02H</a> receive a character
+
+                <a href="210-int_14h_03h__query_serial_port_status.html">03H</a> Query communications port status
+
+ These functions provide access to the four RS-232 ports supported by BIOS.
+
+    Note: BIOS provides only the most rudimentary of unbuffered serial I/O
+          (DOS is just as bad) and can initialize only up to 9600 baud.
+          For performance reasons, most communications programs perform
+          direct I/O port access.
+
+ The base address of each of up to four serial ports is stored starting at
+ 0040:0000.  If the <a href="264-power_on_self_test.html">POST</a> does not detect a serial port, it writes 0000H
+ into the corresponding <a href="93-rom_bios_variables.html">BIOS Data Area</a> variable.  Also, POST quits checking
+ as soon as it hits an unused port (it will never find COM3 if there is no
+ COM2).
+
+See Also: <a href="895-asynchronous_adapter_ports.html">Asynchronous Adapter Ports</a>
+          <a href="7-character_i_o_functions.html">Character I/O Functions</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          DOS Fn <a href="449-dos_fn_4403h__ioctl_send_control_data_to_character_device.html">4403H</a> (IOCTL write control data)
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

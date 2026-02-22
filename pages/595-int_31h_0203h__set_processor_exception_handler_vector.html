@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0203H: Set Processor Exception Handler Vector - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0203H: Set Processor Exception Handler Vector</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0203H
+          <span class="c2">BL</span>    exception number (00h-ffH)
+          <span class="c2">CX:DX</span> (or <span class="c2">CX:EDX</span>) selector:offset of exception handler
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the vector for the code to be executed during a CPU
+          exception.
+
+    Note: When using a <span class="c2">DPMI 1.0</span> host, use <a href="600-int_31h_0212h__set_exception_handler_vector__prot__mode_.html">INT 31H 0212H</a> and <a href="601-int_31h_0213h__set_exception_handler_vector__real_mode_.html">INT 31H 0213H</a>
+          rather than this 0.9-spec fn.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

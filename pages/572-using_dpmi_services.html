@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Using DPMI Services - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Using DPMI Services</h1><pre>
+ DOS Extenders such as PharLap's (used in Lotus 1-2-3) and many popular
+ compilers support DPMI-aware libraries and toolkits.  You are advised to
+ use such library calls rather than access DPMI services directly.
+
+ Write or call... Intel Literature JP26  (Phone: 800-548-4725)
+                  3065 Bowers Ave.
+                  P.O. Box 58065
+                  Santa Clara CA 95051-8065
+
+ ...for a printed version of the DPMI spec (with required background and
+ some semi-tutorial information).
+
+ ■ DPMI INT 31H Services <span class="c1">are only available while in protected mode</span>.
+   Use <a href="573-int_2fh_1687h__get_real_to_protected_mode_switch_address.html">INT 2fH 1687H</a> to obtain the address you must call to switch to
+   protected mode.
+ ■ Set up the registers and call that address (see example, below).
+ ■ When in protected mode, use INT 31H <a href="571-dpmi_services.html">DPMI Services</a>.
+ ■ To exit back to real mode, use DOS Fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> (terminate).
+
+ The following code fragment illustrates switching into protected mode:
+
+  ;--------------------- get the DPMI entry-address for mode switch
+  dd   pfpDpmiSwitch    ;we'll put the mode-switch entry address here
+   .
+   .
+   .
+  mov  AX, 1687h        ;see <a href="573-int_2fh_1687h__get_real_to_protected_mode_switch_address.html">INT 2fH 1687H</a> (get switch fn addr)
+  int  2fH
+  cmp  AX,0
+  jne  no_DPMI          ;bail out -- no DPMI host present
+
+  mov  pfpDpmiFns,di    ;save the addr of API entry point
+  mov  pfpDpmiFns+2,es
+  ;--------------------- allocate the memory needed by the host
+  mov  BX,SI            ;required memory, in paragraphs
+  mov  AH,48H           ;DOS fn <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">48H</a> allocates memory
+  int  21H
+  jc   err_exit         ;bail out, no mem available
+
+  mov  ES,AX            ;AX is the segment of the allocation
+  mov  AX,0             ;specify that caller is a 16-bit client
+  call pfpDpmiSwitch    ;call the switch address (see <a href="573-int_2fh_1687h__get_real_to_protected_mode_switch_address.html">INT 2fH 1687H</a>)
+  jc   cantSwitch       ;bail out on error
+
+  ;--------------------- try a fn call
+  mov  AX,0400H         ;see <a href="609-int_31h_0400h__query_dpmi_version.html">INT 31H 0400H</a> (get DPMI version)
+  int  31H
+  jc   errHandler
+   .
+   .
+   .
+  mov AX,4c00H          ;DOS fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> terminates prog &amp; switches to real mode
+  int 21H
+
+See Also: <a href="571-dpmi_services.html">DPMI Services</a>
+          <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH</a> (Enh386 Windows Services &amp; Notifications)
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

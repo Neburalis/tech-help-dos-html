@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Video Graphics Array I/O Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Video Graphics Array I/O Ports</h1><pre>
+ The <a href="70-video_graphics_array__vga_.html">VGA</a> is upwardly-compatible with the CGA, MDA, and EGA in that all
+ commonly-used I/O activities are emulated at the expected port addresses.
+
+ Video programming at the hardware port level has become increasingly
+ difficult and risky while the BIOS programming interface has become
+ flexible and comprehensive.  It is recommended that you use the BIOS
+ functions when possible.  See <a href="113-int_10h__video_services.html">INT 10H</a> (video services).
+
+ The following table lists ports and indexes for the VGA without providing
+ full details.  Since the VGA uses the same port range as the EGA, you may
+ refer to <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a> and <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a> for related information.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+3c0H  Attribute Address Register (read/write)
+──── ───────────────────────────────────────────────────────────────────────
+3c0H  Palette Registers / Other Attribute Registers (write)
+       Index: 00H∙∙∙0fH  Palette registers
+              10H  mode control
+              11H  overscan (border) color
+              12H  enable color planes
+              13H  horizontal pixel panning
+              14H  color select register
+──── ───────────────────────────────────────────────────────────────────────
+3c1H  Palette Registers (read)
+──── ───────────────────────────────────────────────────────────────────────
+3c2H  Miscellaneous Output Register (write)
+──── ───────────────────────────────────────────────────────────────────────
+3c2H  Input Status Register 0 (read)
+──── ───────────────────────────────────────────────────────────────────────
+3c3H  VGA Enable Register (read/write)
+──── ───────────────────────────────────────────────────────────────────────
+3c4H  Sequencer Address Register (read/write)
+──── ───────────────────────────────────────────────────────────────────────
+3c5H  Other Sequencer Registers (read/write)
+      Index: 00H  reset
+             01H  Clocking Mode
+             02H  Map Mask
+             03H  Character Map Select
+             04H  Memory Mode
+──── ───────────────────────────────────────────────────────────────────────
+3c6H  PEL Mask Register
+──── ───────────────────────────────────────────────────────────────────────
+3c7H  PEL Address Register for Read Mode (write)
+──── ───────────────────────────────────────────────────────────────────────
+3c7H  DAC State Register (read)
+──── ───────────────────────────────────────────────────────────────────────
+3c8H  PEL Address Register for Write Mode (read)
+──── ───────────────────────────────────────────────────────────────────────
+3c9H  PEL Data Register
+──── ───────────────────────────────────────────────────────────────────────
+3caH  Feature Control Register (read)
+──── ───────────────────────────────────────────────────────────────────────
+3ccH  Miscellaneous Output Register (read)
+──── ───────────────────────────────────────────────────────────────────────
+3ceH  Graphics Address Register
+──── ───────────────────────────────────────────────────────────────────────
+3cfH  Other Graphics Registers
+      Index: 00H  set/reset
+             01H  enable set/reset
+             02H  color compare
+             03H  data rotate
+             04H  read map select
+             05H  graphics mode register
+             06H  miscellaneous graphics control
+             07H  color don't care
+             08H  plane bit mask
+──── ───────────────────────────────────────────────────────────────────────
+3?4H  CRT controller address (<span class="c2">3b4H</span>=MDA emulation, <span class="c2">3d4H</span>=CGA emulation)
+3?5H  CRT controller internal registers
+      Index: 00H  horizontal total
+             02H  start horizontal blanking (character count)
+             03H  end horizontal blanking
+             04H  start horizontal retrace (character position)
+             05H  end horizontal retrace
+             06H  vertical total (scan lines)
+             07H  overflow (bit 8 for certain CRTC registers)
+             08H  preset row scan; first scan line after vertical retrace
+             09H  maximum scan line
+             0aH  cursor start
+             0bH  cursor end
+             0cH  regen start address (high)
+             0dH  regen start address (low)
+             0eH  Cursor location (high)
+             0fH  Cursor location (low)
+             10H  vertical retrace start
+             11H  vertical retrace end
+             12H  vertical displayed end (scan line)
+             13H  vertical displayed adjustment
+             14H  underline location.  Bits 0-5 are scan line number.
+             15H  start vertical blanking (scan line)
+             16H  end vertical blanking
+             17H  mode control
+             18H  line compare (scan line)  Used for split screen
+──── ───────────────────────────────────────────────────────────────────────
+3?aH  Feature Control Register (write) (3baH=mono emulation, 3daH=CGA emul.)
+──── ───────────────────────────────────────────────────────────────────────
+3?aH  Input Status Register 1 (read)
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+          <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+          <a href="113-int_10h__video_services.html">INT 10H</a> (BIOS video services)
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

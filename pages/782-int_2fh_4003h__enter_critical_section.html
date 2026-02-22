@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4003H: Enter Critical Section - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4003H: Enter Critical Section</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    4003H
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This signals to the VDD that the VM-aware application is entering
+          a critical section, during which time the video registers should
+          not be reprogrammed.  It cause the VDD to delay that action for
+          up to 1 second.
+
+          You should use <a href="783-int_2fh_4004h__exit_critical_section.html">INT 2fH 4004H</a> (exit critical section) within
+          1000ms (1 second) of making this call.  It 1000ms elapse without
+          the VDD getting an INT 2fh 40004H call, it goes ahead and
+          reprograms the video registers anyway.
+
+See Also: <a href="778-int_2fh_40xxh__virtual_display_driver_functions.html">INT 2fH 40xxH: Virtual Display Driver Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH ae00H: Notify Pending Command - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH ae00H: Notify Pending Command</h1><pre>                                                 Compatibility: <a href="912-_undocumented_.html">◄Undoc►</a> <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    ae00H
+          <span class="c2">DX</span>    ffffH
+          <span class="c2">DS:BX</span> address of length-prefixed command-line buffer
+          <span class="c2">DS:SI</span> address of an 8-byte upshifted, blank-padded command name
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    flag: 00H = no, ISR does not want to intercept
+                      ffH = yes, ISR will process the command
+          ──────────────────────────────────────────────────────────────────
+    Info: This is intended as a way to intercept commands typed at the DOS
+          command prompt before COMMAND.COM gets a chance to process them.
+
+          A TSR program hooks INT 2fH and watches for <span class="c2">AX</span>=ae00H.  Then it
+          compares the text at <span class="c2">DS:SI</span> with a command that it wishes to
+          intercept.  If it wants to handle that command, it sets <span class="c2">AL</span>=ffH
+          and executes an IRET.  If it has no interest, it just passes
+          control to the next INT 2fH handler.
+
+          Don't process the command yet.  When you signal interest in a
+          command, COMMAND.COM will immediately execute <a href="742-int_2fh_ae01h__process_hooked_command.html">INT 2fH ae01H</a> and
+          you should take action only upon that event.
+
+    <span class="c2">DS:BX</span> On entry, DS:BX points to a command line buffer in the form:
+          <span class="c2">RawCmdLineRec</span>
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      1  <span class="c1">bBufLen</span>   length of the buffer
+            +1      1  <span class="c1">bTextLen</span>  length of the command-line text (<span class="c1">abText</span>)
+            +2      <span class="c1">n</span>  <span class="c1">abText</span>    text of the command line
+            2+<span class="c1">n</span>     1  bCr       one byte of <span class="c2">0dH</span> (Carriage Return)
+                  3+<span class="c1">n</span>            size of a RawCmdLineRec structure
+
+          Note that this is layout is similar to that used in DOS fn <a href="383-dos_fn_0ah__buffered_string_input.html">0aH</a>
+          (get buffered string input), which COMMAND.COM uses to obtain
+          user input.
+
+          When intercepting commands, you must save a copy of this buffer.
+          See Notes, below.
+
+    <span class="c2">DS:SI</span> On entry, DS:SI points to an upshifted, blank-padded version of
+          the first word on the command line.  This text will be exactly
+          eight characters long; space characters (ASCII 20H) are appended
+          to the text to fill-out the 8-character buffer:
+          <span class="c2">CmdNameRec</span>
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      8  <span class="c1">abCmd</span>     blank-padded command name
+                    8            size of a CmdNameRec structure
+
+       <span class="c2">AL</span> If you wish to intercept this command, set <span class="c2">AL</span> to <span class="c2">ffH</span> and return
+          to DOS via an IRET.  COMMAND.COM will issue an INT 2fH with
+          AX=<a href="742-int_2fh_ae01h__process_hooked_command.html">ae01H</a> immediately, and you can take action then.
+
+          If you do not wish to intercept this command, you should pass it
+          down the chain by using a FAR JMP to the address which originally
+          handled INT 2fH when your TSR was installed.
+
+   Notes: When COMMAND.COM issues the subsequent <a href="742-int_2fh_ae01h__process_hooked_command.html">INT 2fH ae01H</a>, it does <span class="c1">not</span>
+          supply the <span class="c2">DS:BX</span> pointer to the full command line; therefore, you
+          must save this address for use in the ae01H subfunction.
+
+
+See Also: <a href="740-int_2fh_aexxh__command_processor_command_line_hook.html">INT 2fH aexxH</a> Command Processor Hook
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

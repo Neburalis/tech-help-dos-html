@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Load Program Record (ExecLoadRec) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Load Program Record (ExecLoadRec)</h1><pre>
+ This structure is used in fn <a href="505-dos_fn_4b01h__load_program.html">4b01H</a> (load a program without executing).
+
+<span class="c2">ExecParamRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wEnvSeg</span>      segment of <a href="346-dos_environment.html">environment</a> for child (0000=current)
+   +2      4  <span class="c1">pfCmdTail</span>    address of command line text to place at <a href="371-psp__program_segment_prefix.html">PSP</a>:0080
+   +6      4  <span class="c1">pfrFCB_1</span>     address of an <a href="360-fcb__file_control_block.html">FCB</a> to be placed at PSP:005c
+  +0ah     4  <span class="c1">pfrFCB_2</span>     address of an FCB to be placed at PSP:006c
+  +0eh     4  <span class="c1">lCsIp</span>        Dword to receive program entry address
+  +12h     4  <span class="c1">lSsSp</span>        Dword to receive program stack pointer address
+          22               length of an ExecLoadRec
+
+     <span class="c1">wEnvSeg</span>  and...
+   <span class="c1">pfCmdTail</span>  and...
+    <span class="c1">pfrFCB_1</span>  and...
+    <span class="c1">pfrFCB_2</span>  are as described for <a href="355-exec_parameter_block__execparamrec_.html">ExecParamRec</a>.
+
+       <span class="c1">lCsIp</span>  is filled with the 32-bit address that should be used as the
+              entry point for the program.  DOS calculates this as it loads
+              the program.  Use a FAR JMP to this address to begin executing
+              the child.
+       <span class="c1">lSsSp</span>  is filled with the 32-bit address that should be used for the
+              stack segment and stack pointer for the program (as calculated
+              by DOS).
+
+See Also: <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="371-psp__program_segment_prefix.html">PSP: Program Segment Prefix</a>
+          <a href="346-dos_environment.html">DOS Environment</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

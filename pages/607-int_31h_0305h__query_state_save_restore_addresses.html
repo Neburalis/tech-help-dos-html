@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0305H: Query State Save/Restore Addresses - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0305H: Query State Save/Restore Addresses</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0305H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (this fn always succeeds)
+          <span class="c2">AX</span>    size of buffer, in bytes, required to save the state
+          <span class="c2">BX:CX</span> real-mode address of routine to save/restore state
+          <span class="c2">SI:DI</span> (or SI:EDI) protected mode addr of save/restore routine
+          ──────────────────────────────────────────────────────────────────
+    Info: This is used by applications which perform low-level mode
+          switching.  It obtains the addresses of the DPMI routine which
+          saves and restores the task state.
+
+          See <a href="608-int_31h_0306h__query_raw_mode_switch_address.html">INT 31H 0306H</a> (query raw mode-switch address) for related
+          info.
+
+       <span class="c2">AX</span> When you perform the call the &quot;save/restore&quot; state routine, you
+          will need to supply this much memory (in bytes).
+
+    <span class="c2">BX:CX</span> this address can be called by real-mode applications to save the
+          state of a protected-mode task's registers, stack, etc.
+
+ <span class="c2">SI:(E)DI</span> this address can be called by protected-mode applications to save
+          the state of a real-mode task's registers, stack, etc.
+
+          Both of these routines are accessed via FAR CALL and expect:
+
+                   <span class="c2">AL</span> = requested action: 00H = save the state
+                                          01H = restore the state
+             <span class="c2">ES:(E)DI</span> = address of save/restore buffer
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

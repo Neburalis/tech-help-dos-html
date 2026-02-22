@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>InDOS Flag - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>InDOS Flag</h1><pre><span class="c2">█▌Overview▐█</span>
+  When your program gets control via a timer interrupt <a href="105-int_08h__timer_interrupt.html">INT 08H</a> or <a href="254-int_1ch__user_timer_interrupt.html">INT 1cH</a>
+  or the keyboard interrupt <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a> or any asynchronously-generated event,
+  you must be very careful about using DOS functions.
+
+  The reason is that DOS is not reentrant.  DOS might be processing a
+  service call at the time of the interrupt.  If you then issue another
+  <a href="560-int_21h__dos_functions.html">INT 21H</a>, you risk disaster.
+
+  In general, when InDOS is set, you may use only DOS fns <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a> (low-level
+  character I/O).  When it is clear, you can use all DOS fns.  An exception
+  occurs during <a href="567-int_28h__dos_idle.html">INT 28H</a> (see below).
+
+<span class="c2">█▌InDOS Detection▐█</span>
+  Your program can check the state of the InDOS Flag as follows:
+    ■ Early on (before you need it!) use DOS fn <a href="425-dos_fn_34h__get_indos_address__dos_reentrancy_status_.html">34H</a> (Get InDOS addr).  Save
+      the value returned in <span class="c2">ES:BX</span>.
+
+    ■ Before popping up, check the byte at the InDOS address.  <span class="c1">A non-zero</span>
+      <span class="c1">value means beware!</span>.  When InDOS is non-zero, DOS is processing an
+      <a href="560-int_21h__dos_functions.html">INT 21H</a> service call and you must NOT use any DOS services except the
+      low-level character I/O fns <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a>.
+
+<span class="c2">█▌INT 28H: OK to ignore InDOS▐█</span>
+  DOS invokes <a href="567-int_28h__dos_idle.html">INT 28H</a> (DOS Idle) when it is waiting for keyboard input and
+  it takes special precautions before making the call.  It switches stacks,
+  making available all DOS functions <span class="c1">except fns</span> <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a>.
+
+  Thus, your TSR can hook INT 28H and popup with <span class="c1">almost</span> full availability of
+  DOS services <span class="c2">regardless of the InDOS setting</span> -- you can open/read/close
+  files, etc.
+
+  But when taking control under INT 28H, <span class="c1">do</span> remember to <span class="c1">avoid DOS fns</span>
+  <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a>.  For instance, to display text, use fn <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> or drop down to BIOS
+  fn <a href="129-int_10h_0eh__write_character_as_tty.html">INT 10H 0eH</a>.  If you simply must use fns 01H-0cH, you must set the
+  <a href="353-errormode_flag.html">ErrorMode Flag</a> to 1 beforehand (and use only fns 01H-0cH while it is set).
+
+See Also: DOS fn <a href="425-dos_fn_34h__get_indos_address__dos_reentrancy_status_.html">34H</a> (get InDOS and ErrorMode address)
+          DOS fn <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0CH</a> (low-level character I/O)
+          <a href="353-errormode_flag.html">ErrorMode Flag</a>
+          <a href="564-int_24h__critical_error_handler.html">INT 24H</a> (Critical Error Handler)
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

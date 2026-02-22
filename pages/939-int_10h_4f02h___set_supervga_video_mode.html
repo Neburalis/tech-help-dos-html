@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 4f02H - Set SuperVGA Video Mode - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 4f02H - Set SuperVGA Video Mode</h1><pre>
+ Expects: <span class="c2">AX</span>    4f02H
+          <span class="c2">BX</span>    <a href="85-vesa_svga_video_modes.html">VESA/SVGA Video Mode</a> number (may also be std modes 00-13H)
+                (bit 15 set = don't clear video memory on mode set)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    VESA status: AH=0 means successful (else failed)
+                             AL=4fH means function supported
+          ──────────────────────────────────────────────────────────────────
+    Info: Initializes the display adaptor for a specified video mode.
+
+          You can use this call to initialize for non-VESA mode numbers
+          (e.g., <a href="70-video_graphics_array__vga_.html">VGA</a> modes 10H-13H) just by setting the mode number in <span class="c2">BL</span>
+          and clearing <span class="c2">BH</span>.
+
+          By default, this call clears all video memory to spaces or black
+          pixels.  You can request to leave the video memory buffer as is
+          by setting bit 15 of <span class="c2">BX</span>.
+
+          Use <a href="937-int_10h_4f00h___query_supervga_support.html">INT 10H 4f00H</a> to see what mode numbers are valid for <span class="c2">BX</span>.
+
+See Also: <a href="69-supervga_display_adapters__svga_.html">SVGA</a>
+          <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

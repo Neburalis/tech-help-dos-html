@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 1aH: Set Disk Transfer Address (DTA) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 1aH: Set Disk Transfer Address (DTA)</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    1aH
+          <span class="c2">DS:DX</span> address for the DTA
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets the Disk Transfer Address for use in subsequent DOS
+          function calls.
+
+   Notes: ■ All FCB-type file accesses take place at the DTA
+
+          ■ File-finding fns <a href="390-dos_fn_11h__find_1st_matching_file_via_fcb.html">11H</a>, <a href="391-dos_fn_12h__find_next_matching_file_via_fcb.html">12H</a>, <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> and <a href="511-dos_fn_4fh__find_next_matching_file.html">4fH</a> place data into the DTA
+
+          ■ The DTA is global, so be careful when setting it in a recursive
+            or re-entrant procedure or when acting as a <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>
+
+          ■ When a program is started, its DTA is at offset 80H in the <a href="371-psp__program_segment_prefix.html">PSP</a>.
+            Be wary of operations which will put more than 128 bytes in the
+            DTA since that would transfer data over top of whatever follows
+            the PSP in memory.
+
+See Also: Fn <a href="416-dos_fn_2fh__query_disk_transfer_address__dta_.html">2Fh</a> Get DTA
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

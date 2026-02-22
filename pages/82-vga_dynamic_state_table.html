@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>VGA Dynamic State Table - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>VGA Dynamic State Table</h1><pre>
+ BIOS function <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">INT 10H 1bH</a> provides a mechanism for obtaining a bunch of
+ information about the <span class="c1">capabilities of</span> and the <span class="c1">current state of</span> the active
+ display.  That information is generated dynamically when called and
+ returned in the 64-byte buffer addressed by <span class="c2">ES:DI</span>.  It is formatted as
+ follows:
+
+<span class="c2">VgaDynamicStateRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      4  <span class="c1">pfrFnality</span>   address of a <a href="83-vga_static_functionality_table.html">VgaStaticFnalityRec</a>.  This is a
+                           static (unchanging) table in ROM that describes
+                           your VGA system's capabilities.
+   +4      1  <span class="c1">bCurMode</span>     current <a href="114-video_modes.html">video mode</a>
+   +5      2  <span class="c1">bCrtClms</span>     screen columns (e.g., 80)
+   +7      2  <span class="c1">wCrtBufLen</span>   size of displayed portion of video buffer
+   +9      2  <span class="c1">pCrtPgStart</span>  starting address (offset) in regen buffer
+  +0bH    16  <span class="c1">awCrsrPos</span>    cursor positions for pages 0-7 (row,column,
+                           row,column,...)
+  +1bH     2  <span class="c1">wCrsrType</span>    cursor shape (start/end) as CX in <a href="116-int_10h_01h__set_cursor_shape___size.html">INT 10H 01H</a>
+  +1dH     1  <span class="c1">bCurPg</span>       current active video page
+  +1eH     2  <span class="c1">wCrtcPort</span>    CGA/MDA CRT ctrlr port addr (3b?=mono; 3d?=color)
+  +20H     1  <span class="c1">bModeSetReg</span>  current setting of 3?8 reg (CGA Mode Select reg)
+  +21H     1  <span class="c1">bClrSetReg</span>   current setting of 3?9 reg (CGA Color Select reg)
+  +22H     1  <span class="c1">bCrtRows</span>     character rows on screen
+  +23H     2  <span class="c1">bCrtPoints</span>   height of character matrix (scan lines per
+                           character cell; e.g., 14 or 8)
+  +25H     1  <span class="c1">bCurDcc</span>      active Display Combination Code (see <a href="177-int_10h_1ah__set_or_query_display_combination_code.html">INT 10H 1aH</a>)
+  +26H     1  <span class="c1">bAltDcc</span>      alternate DCC (<span class="c2">00</span> if only one video system)
+  +27H     2  <span class="c1">wMaxClrs</span>     colors in current video mode (<span class="c2">0000</span>=monochrome)
+  +29H     1  <span class="c1">bMaxPgs</span>      count of display pages in current video mode
+  +2aH     1  <span class="c1">bScanLnsCode</span> scan lines in current video mode:
+                             <span class="c2">0</span>=200, <span class="c2">1</span>=350, <span class="c2">2</span>=400, <span class="c2">3</span>=480
+  +2bH     1  <span class="c1">bFont1</span>       primary font block (based on <a href="155-int_10h_1103h__activate_font_block.html">INT 10H 1103H</a>)
+  +2cH     1  <span class="c1">bFont2</span>       secondary font block
+  +2dH     1  <span class="c1">rMiscFlags</span>   miscellaneous state information
+              ┌7┬6┬5┬4┬3┬2┬1┬0┐
+              │0 0│<span class="c1">b</span>│<span class="c1">c</span>│<span class="c1">p</span>│<span class="c1">m</span>│<span class="c1">g</span>│ │
+              └─┴─┴╥┴╥┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+                   ║ ║ ║ ║ ║ ╚══► 0: 01H  all modes on all displays active
+                   ║ ║ ║ ║ ╚════► 1: 02H  gray-scale summing is active
+                   ║ ║ ║ ╚══════► 2: 04H  monochrome display attached
+                   ║ ║ ╚════════► 3: 08H  default palette loading disabled
+                   ║ ╚══════════► 4: 10H  cursor emulation active
+                   ╚════════════► 5: 20H  blinking enabled; 0=bold bkgnd
+  +2eH     3  <span class="c1">res</span>          (reserved)
+  +31H     1  <span class="c1">bVidMemCode</span>  video memory available:
+                             0=64K, 1=128K, 2=192K, 3=256K
+  +32H     1  <span class="c1">rSaveStatus</span>  status of <a href="74-egasaveptrrec.html">EgaSavePtrRec</a> information
+              ┌7┬6┬5┬4┬3┬2┬1┬0┐
+              │0 0│<span class="c1">d</span>│<span class="c1">p</span>│<span class="c1">g</span>│<span class="c1">t</span>│<span class="c1">s</span>│<span class="c1">c</span>│
+              └─┴─┴╥┴╥┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+                   ║ ║ ║ ║ ║ ╚══► 0: 01H  512-character set active
+                   ║ ║ ║ ║ ╚════► 1: 02H  dynamic save area active
+                   ║ ║ ║ ╚══════► 2: 04H  text font override active
+                   ║ ║ ╚════════► 3: 08H  graphics font override active
+                   ║ ╚══════════► 4: 10H  palette override active
+                   ╚════════════► 5: 20H  DCC extension active
+  +33H    0dH <span class="c1">res</span>          (reserved)
+          64               size of a VgaDynamicStateRec
+
+See Also: <a href="177-int_10h_1ah__set_or_query_display_combination_code.html">INT 10H 1aH</a>
+          <a href="83-vga_static_functionality_table.html">VgaStaticFnalityRec</a>
+          <a href="71-ega_vga_data_areas.html">VGA Data Areas</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

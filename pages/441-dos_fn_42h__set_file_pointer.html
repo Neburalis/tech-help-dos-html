@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 42H: Set File Pointer - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 42H: Set File Pointer</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    42H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>
+          <span class="c2">CX:DX</span> distance to move file pointer: offset is (CX * 65536) + DX
+          <span class="c2">AL</span>    subfn: <span class="c2">0</span> = move pointer to start of file + CX:DX
+                       <span class="c2">1</span> = move pointer to current position + CX:DX
+                       <span class="c2">2</span> = move pointer to end of file + CX:DX
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">DX:AX</span> new position of file read/write pointer (if no error)
+          ──────────────────────────────────────────────────────────────────
+    Info: This moves the logical read/write pointer to the desired address.
+          All file reads and writes will start from the new address.
+
+   Notes: ■ One way to <span class="c1">obtain the size of a file</span> is to call with AL=2,
+            CX=0, DX=0 (the length is returned in DX:AX --DX is the most
+            significant word--actual length is (DX * 65536) + AX.
+
+            A faster way is to use fn <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> (find file).
+
+          ■ To truncate a file, use LSEEK to move to the desired position,
+            and use Fn <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> with CX=0.
+
+          ■ To pre-allocate disk space to a file, use LSEEK to move to the
+            desired file length, then use Fn <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> with CX=0.  Then close the
+            file (Fn <a href="437-dos_fn_3eh__close_a_file_handle.html">3eH</a>).
+
+            (!) When you use this technique on a <a href="787-doublespace_overview.html">DoubleSpace</a> compressed
+            drive, DoubleSpace does not actually allocate disk storage from
+            the physical medium.  It considers these bytes to be
+            &quot;infinitely compressible&quot;.  See <a href="808-cvf_region__mdfat.html">MDFAT</a>.
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

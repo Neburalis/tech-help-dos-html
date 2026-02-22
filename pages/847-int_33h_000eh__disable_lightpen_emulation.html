@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 000eH: Disable Lightpen Emulation - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 000eH: Disable Lightpen Emulation</h1><pre>
+ Expects: <span class="c2">AX</span>    000eH
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This tells the mouse support to stop emulating a light pen.  You
+          would use this to keep the mouse movement from interfering with
+          the operation of an attached light pen.
+
+          When enabled via <a href="846-int_33h_000dh__enable_lightpen_emulation.html">INT 33H 000dH</a>, the mouse support apparently
+          intercepts <a href="119-int_10h_04h__query_light_pen.html">INT 10H 04H</a>.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

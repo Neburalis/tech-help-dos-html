@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>PSP: Program Segment Prefix - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>PSP: Program Segment Prefix</h1><pre>
+ This structure is created for each program that DOS executes.
+
+<span class="c2">PspRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       2  <span class="c1">wInt20</span>       INT 20H instruction (<span class="c1">cd 20</span>) (old way to exit)
+  +2       2  <span class="c1">wNextSeg</span>     Segment addr just beyond end of program image
+  +4       1  <span class="c1">res1</span>         (reserved)
+  +5       5  <span class="c1">abDispatch</span>   FAR CALL to DOS function dispatcher (obs)
+ +0aH      4  <span class="c1">pfTerminate</span>  terminate address.       See <a href="562-int_22h__terminate_address.html">INT 22H</a>
+ +0eH      4  <span class="c1">pfCtlBrk</span>     Ctrl-Break handler address   <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a>
+ +12H      4  <span class="c1">pfCritErr</span>    Critical Error handler addr  <a href="564-int_24h__critical_error_handler.html">INT 24H</a>
+ +16H     22  <span class="c1">res2</span>         DOS reserved area
+           2  <span class="c1">wParentPsp</span>   <a href="912-_undocumented_.html">◄undoc►</a> segment of parent's PSP
+ +2cH      2  <span class="c1">wEnvSeg</span>      segment address of DOS <a href="346-dos_environment.html">environment</a>
+ +2eH     46  <span class="c1">res3</span>         DOS reserved area (handle table, et al.)
+ +5cH     16  <span class="c1">rFCB_1</span>       an unopened <a href="360-fcb__file_control_block.html">FCB</a> for 1st cmd parameter
+ +6cH     20  <span class="c1">rFCB_2</span>       an unopened FCB for 2nd cmd parameter
+ +80H      1  <span class="c1">bCmdTailLen</span>  count of characters in command tail at 81H (also
+                           default setting for the <a href="351-dta__disk_transfer_address.html">DTA</a>)
+ +81H     127 <span class="c1">abCmdTail</span>    characters from DOS command line
+          256              size of a PspRec structure
+
+      <span class="c1">wInt20</span>  An obsolete way to terminate a program is to JMP here.
+    <span class="c1">wNextSeg</span>  Segment address of the paragraph just above the end of the
+              program.  This can be used to calculate the size of the load
+              block (by subtracting the segment of the PSP itself).  Memory
+              at this address is NOT free for use.
+  <span class="c1">abDispatch</span>  An obsolete way to call DOS fns was to JMP here.
+
+ <span class="c1">pfTerminate</span>  On exit, DOS copies this to <a href="562-int_22h__terminate_address.html">INT 22H</a> vector
+   <span class="c1">pfCtrlBrk</span>  On exit, DOS copies this to <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> vector
+   <span class="c1">pfCritErr</span>  On exit, DOS copies this to <a href="564-int_24h__critical_error_handler.html">INT 24H</a> vector
+
+  <span class="c1">wParentPsp</span>  This <a href="912-_undocumented_.html">undocumented</a> 2-byte field at (offset 16H) contains the
+              segment of the parent process's PSP (usually COMMAND.COM).  By
+              tracing backward along this chain, you can locate a <span class="c1">wParentPsp</span>
+              which is the same as the PSP in which it resides.  The <span class="c1">wEnvSeg</span>
+              in that PSP points to the <span class="c2">master environment</span>, and careful
+              manipulation of that data area will make changes to the
+              <a href="346-dos_environment.html">DOS Environment</a> that are remembered after your program exits
+              (just changing your own copy of the environment will only
+              affect you and your own spawns).
+
+     <span class="c1">wEnvSeg</span>  At program startup, DOS creates a copy of the <a href="346-dos_environment.html">DOS Environment</a>
+              area and places its segment address in this field.
+
+      <span class="c1">rFCB_1</span>  The first filename in the command tail is formatted into an
+              unopened <a href="360-fcb__file_control_block.html">FCB</a> and placed here.
+      <span class="c1">rFCB_1</span>  The second filename (note: no path info, so rarely used)
+
+ <span class="c1">bCmdTailLen</span>  The length of the command-line text tail.
+              Also: The default address of the <a href="351-dta__disk_transfer_address.html">DTA</a> is here (PSP:0080)
+   <span class="c1">abCmdTail</span>  The text of command-line parameters, not including the command
+              name (except I/O redirection info has been removed).  A CR
+              (0dH) is appended, but not included in <span class="c1">aCmdTailLen</span>.
+
+   Notes: ■ When a program starts running, <span class="c2">DS</span> and <span class="c2">ES</span> point to the start of
+            that program's PSP.  You may also obtain the PSP address via
+            fn <a href="513-dos_fn_51h__query_current_psp.html">51H</a>.
+
+          ■ The PSP segment address is used as the &quot;process ID&quot; in fns <a href="512-dos_fn_50h__set_psp.html">50H</a>,
+            <a href="513-dos_fn_51h__query_current_psp.html">51H</a>, and <a href="542-dos_fn_62h__query_current_psp.html">62H</a>; it is used as the <span class="c1">wOwnerID</span> in an <a href="368-mcb__memory_control_block.html">MemBlockRec</a>.
+
+          ■ Use the PSP information to parse filenames and options from the
+            command line tail, learn how much RAM is available, find the
+            <a href="346-dos_environment.html">environment</a> etc.   See <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>.
+
+See Also: <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR Functions</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>FAT: DOS File Allocation Table - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>FAT: DOS File Allocation Table</h1><pre>
+ The FAT is a linked-list table that DOS uses to keep track of the physical
+ position of data on a disk and for locating free space for storing new
+ files.
+
+ The word at offset 1aH in a <a href="344-directory_entry_layout.html">directory entry</a> is a cluster number of the
+ first cluster in an allocation chain.  If you locate that cell in the FAT,
+ it will  either indicate the end of the chain or the next cell, etc.
+ Observe:
+                                    <span class="c1">starting cluster number</span> <span class="c2">══╗</span>
+<span class="c1">Directory</span> ╓───────────────────┬─┬───────────────────┬───┬───┬─<span class="c2">▼</span>─┬───────╖
+<span class="c1">Entry</span> ══► ║M Y F I L E   T X T│a│                   │tim│dat│08 │ size  ║
+          ╙─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─<span class="c2">║</span>─┴─┴─┴─┴─╜
+                                    <span class="c2">╔═════════════════════════╝</span>
+    00  01  02  03  04  05  06  07  <span class="c2">║</span>8  09  0a  0b  0c  0d  0e  0f
+   ┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌<span class="c2">▼</span>─┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐
+0x │ID││ff││03<span class="c2">═►</span>04<span class="c2">═►</span>05<span class="c2">═►</span>ff││00││00││09<span class="c2">═►</span>0a<span class="c2">═►</span>0b<span class="c2">═►</span>15││00││00││00││00│
+   └──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└──┘└<span class="c2">║</span>─┘└──┘└──┘└──┘└──┘
+                        <span class="c2">╔═══════════════════════╝</span>
+   ┌──┐┌──┐┌──┐┌──┐┌──┐┌<span class="c2">▼</span>─┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐┌──┐
+1x │00││00││00││00││00││16<span class="c2">═►</span>17<span class="c2">═►</span>19││f7││1a<span class="c2">═►</span>1b<span class="c2">═►</span>ff││00││00││00││00│
+   └──┘└──┘└──┘└──┘└──┘└──┘└──┘└<span class="c2">║</span>─┘└──┘└<span class="c2">▲</span>─┘└──┘└──┘└──┘└──┘└──┘└──┘
+                                <span class="c2">╚═══════╝</span>
+ This diagram illustrates the main concepts of reading the FAT.  In it:
+
+ ■ The file, MYFILE.TXT, is 10 clusters long.  The first byte is in
+   cluster 08 and the last is in cluster 1bH.  The chain is
+   8,9,0a,0b,15,16,17,19,1a,1b.  Each entry indicates the next entry in
+   the chain, with a special code in the last entry.
+
+ ■ Cluster 18H is marked bad and is not part of any allocation chain.
+
+ ■ Clusters 6,7, 0cH-14H, and 1cH-1fH are empty and available for
+   allocation.
+
+ ■ Another chain starts at cluster 2 and ends at cluster 5.
+
+   Notes: The diagram is simplified in that it shows the FAT as if it held
+          8-bit values (00-nn).  A FAT actually contains 12-bit or 16-bit
+          entries (see below).
+
+ To read the data associated with a FAT cluster number, you must do some
+ math and use <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a>.  See Converting a Cluster Number, below.
+
+<span class="c2">█▌FAT Facts▐█</span>
+  The FAT normally starts at DOS logical sector 0001H in the DOS partition
+  (i.e., you can read it with <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a> with <span class="c2">DX</span>=0001H).  One way to locate the
+  FAT is to read the boot sector (DX=0000H), and examine the <span class="c1">wResSects</span> field
+  of the <a href="337-boot_sector_layout.html">BootSectorRec</a> (offset 0eH).  This tells how many boot and reserved
+  sectors come before the FAT.  Use that number (usually 1) in DX to read
+  the FAT via INT 25H.  You may also use DOS fn  <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> or <a href="401-dos_fn_1fh__get_drive_parameter_block__current_disk_.html">1fH</a> (get drive
+  parameter block) and examine the word at offset 6 of the <a href="350-dpb__drive_parameter_block.html">DPBRec</a>.
+
+  There are usually two complete copies of the FAT.  If so, they are always
+  adjacent (the second FAT directly follows the first).  The number of FATs
+  is in <span class="c1">wFatCnt</span> and the size, in sectors, of one FAT is in <span class="c1">wFatSects</span> of the
+  <a href="337-boot_sector_layout.html">BootSectorRec</a> or <a href="350-dpb__drive_parameter_block.html">DPBRec</a>.
+
+  You have the following services available to help you obtain information
+  about the FAT:
+
+  ■ Use DOS Fn <a href="427-dos_fn_36h__get_disk_free_space.html">36H</a> or <a href="400-dos_fn_1ch__get_drive_info__any_disk_.html">1cH</a> to determine total disk sectors and clusters
+  ■ Use <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a> to read the <a href="337-boot_sector_layout.html">Boot Sector</a> and examine the data therein
+  ■ Use DOS Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (if the device driver supports Generic IOCTL)
+  ■ Use DOS Fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> to get all kinds of useful information
+
+   Notes: ■ The boot sector of non-booting disks (such as network block
+            devices and very old hard disks) may contain nothing but
+            garbage.  Use DOS fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> to get info on these devices.
+
+          ■ <a href="787-doublespace_overview.html">DoubleSpace</a> simulates all disk data structures and all of the
+            above-mentioned services work transparently for a mounted,
+            compressed volume.  See <a href="805-doublespace_compressed_volume_file_layout.html">Compressed Volume File Layout</a> and
+            <a href="814-mapping_dos_fat_to_mdfat.html">Mapping DOS FAT to MDFAT</a> for details on how it manages this.
+
+<span class="c2">█▌12-bit/16-bit▐█</span>
+ The FAT can contain 12-bit or 16-bit entries.
+
+ <span class="c2">12-bit entries</span> are efficient for media less than 384K--the entire FAT can
+ fit in a single 512-byte disk sector.  A 12-bit fat can map only 4086
+ clusters (2^12=4096 and ff7H-fffH have special meaning--see below).
+
+ The DOS Format command creates a 12-bit FAT when the partition is less
+ than 10 MB.  It could actually handle larger disks, but the clusters would
+ need to be very large and wasteful.  For instance, on a 32 MB disk, the
+ clusters would need to be 8K (averaging 4K of cluster slack<a href="930-qslack.html">▲</a> per file).
+
+ <span class="c2">16-bit entries</span> were introduced with <span class="c2">DOS 3.0</span> with the necessity of
+ efficient handling the AT's &quot;whopping&quot; 20-Megabyte hard disk.   A 16-bit
+ FAT can track 65530 data clusters.  Assuming a 16-sector cluster, that
+ maxes out at 512 MB of storage.  <a href="787-doublespace_overview.html">DoubleSpace</a>'s &quot;virtual clusters&quot; hit this
+ FAT max.
+
+ <span class="c2">To determine if the FAT is 12-bit or 16-bit:</span> The correct way (according to
+ Microsoft) is to check the total clusters (e.g., via fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a>).  If there
+ are 4086 or more, then it is a 16-bit fat.
+
+ This should always work for partitions created/formatted after DOS 3.3.
+ As a sanity check, you should consider looking at the <span class="c1">abFileSysID</span> field of
+ the <a href="337-boot_sector_layout.html">BootSectorRec</a> and/or validating by seeing how big a FAT is (<span class="c1">wFatSects</span>)
+ compared to the number of entries it contains (<span class="c1">wTotSects</span>/<span class="c1">bClustSects</span>) and
+ you might look at the <span class="c1">bFileSysCode</span> field of the <a href="345-disk_partition_table.html">PartitionEntryRec</a>.
+
+    Note: It's a common misconception that it was that creation of the
+          16-bit FAT that first let DOS work with disks larger than 32
+          Megabytes.  In fact, the limiting factor is that <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a>
+          (through which DOS performs its disk I/O) is unable to access
+          a <span class="c1">SECTOR</span> number higher than 65535.  Normally, sectors are 512
+          bytes (½-K), so that sets the 32M limit.
+
+          In <span class="c2">DOS 4.0+</span>, <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> supports a technique for accessing
+          sector numbers higher than 65535, and thus supports trans-32MB
+          partitions.  This has no effect on the layout of the FAT itself.
+          Using 16-bit FAT entries and 16-sector clusters, DOS supports
+          partitions up to 512 MB (twice that for 32-sector clusters,
+          etc.).
+
+<span class="c2">█▌Reading the FAT▐█</span>
+  To read the value of any entry in a FAT (as when following a FAT chain),
+  first read the entire FAT into memory and obtain a starting cluster number
+  from a directory.
+
+  Then, for <span class="c2">12-bit entries:</span>
+    ■ Multiply the cluster number by 3 ═╗
+    ■ Divide the result by 2   ═════════╩═► (each entry is 1.5 (3/2) bytes)
+    ■ Read the WORD at the resulting address (offset from start of the FAT)
+    ■ If the cluster number was even, mask the value by 0fffH (keep the low
+      12 bits). If the cluster number was odd, shift the value right by 4
+      bits (keep the upper 12 bits)
+    ■ The result is the entry for the next cluster in the chain (0fffH=the
+      end).
+
+    Note: A 12-bit entry can cross over a sector boundary, so be careful
+          with 1-sector FAT-buffering schemes.
+
+  For <span class="c2">16-bit entries</span>, the action is simpler--each entry contains the 16-bit
+  offset (from the start of the FAT) of the next entry in the chain (ffffH
+  indicates the end of the chain).
+
+<span class="c2">█▌FAT Entries▐█</span>
+  The first byte of the FAT is called the <a href="370-media_descriptor.html">Media Descriptor</a> (AKA the FAT ID
+  byte).  The next 2 bytes (12-bit FATs) or 3 bytes (16-bit FATs) are 0ffH.
+  The rest of the FAT is composed of 12-bit or 16-bit cells that each
+  represent one disk cluster.  These cells will contain one of the following
+  values:
+
+    ■ <span class="c1">0</span>000H ................. an available cluster
+    ■ <span class="c1">f</span>ff0H through <span class="c1">f</span>ff7H ... a reserved cluster
+    ■ <span class="c1">f</span>ff7H ................. a bad cluster
+    ■ <span class="c1">f</span>ff8H through <span class="c1">f</span>fffH ... the end of an allocation chain
+    ■ <span class="c1">0</span>002H through <span class="c1">f</span>fefH ... the number of the next cluster in a chain
+
+   Notes: ■ The high nibble of the value is used only in 16-bit FATs; for
+            instance, a bad cluster is marked with <span class="c2">ff7H</span> in 12-bit FATs,
+            and <span class="c2">fff7H</span> with 16-bit FATs.
+          ■ Cluster numbers <span class="c1">0</span>001H and <span class="c1">0</span>002H should never appear in a FAT
+            chain.  You can think of the first two FAT entries as being
+            &quot;symbolic representations&quot; of the FAT and root directory.
+
+<span class="c2">█▌Converting a Cluster Number to a Sector Number▐█</span>
+  After you obtain a file's starting cluster number from a <a href="344-directory_entry_layout.html">directory entry</a>
+  you will want to locate to actual disk sector that holds the file (or
+  subdirectory) data.
+
+  A diskette (or a DOS partition of a hard disk) is laid out like so:
+
+   ■ Boot and reserved sector(s)
+   ■ FAT #1
+   ■ FAT #2 (optional -- not used on RAM disks; simulated by Dblspace)
+   ■ root directory
+   ■ data area (all file data reside here, including files for directories)
+
+  Every section of this layout is variable and the sizes of each section
+  must be known in order to perform a correct cluster-to-sector conversion.
+  The following formulae represent all of the steps:
+
+         RootDirSectors = <span class="c1">wSecSize</span> / (<span class="c1">wRootEntries</span> * 32)
+         FatSectors     = <span class="c1">bFatCnt</span> * <span class="c1">wFatSects</span>
+         DataStart      = <span class="c1">wResSects</span> + FatSectors + RootDirSectors
+
+    <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25h/26h</a> Sector  = DataStart + ((AnyClusterNo-2) * <span class="c1">bClustSects</span>)
+
+  Where the variables in <span class="c1">thisColor</span> are obtained from the <a href="337-boot_sector_layout.html">Boot Sector</a> or
+  from a <a href="338-bpb__bios_parameter_block.html">BPB</a> or <a href="350-dpb__drive_parameter_block.html">DPBRec</a>.  The resulting sector number can be used in DX for
+  <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> DOS absolute disk access.
+
+  <span class="c2">Easier method</span>: DOS fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> (first documented with <span class="c2">DOS 5.0</span>, but available
+  with <span class="c2">2.0+</span>) returns a <a href="350-dpb__drive_parameter_block.html">DPBRec</a> containing a field named <span class="c1">wFirstData</span> at offset
+  0bH.  It is simply a pre-calculation of &quot;DataStart&quot; in the above formulae.
+
+<span class="c2">█▌So What???▐█</span>
+  All this information about the FAT is irrelevant to most applications.
+  However, writers of disk utilities must know this stuff in order to
+  recover deleted files and lost data.
+
+  Also, a <a href="787-doublespace_overview.html">DoubleSpace</a>-aware program must look through the FAT and compare it
+  to the <a href="808-cvf_region__mdfat.html">MDFAT</a> in order to report the actual compression ratio obtained for
+  a file (that's how COMMAND.COM does it).
+
+  Finally, a high-speed file management program may find use for this
+  information.  For instance, to create a list all files on a disk, it is
+  roughly twice as fast to read the directory sectors yourself (compared to
+  using DOS fns to find files via <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a>).
+
+See Also: <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> (direct disk read/write)
+          <a href="814-mapping_dos_fat_to_mdfat.html">Mapping DOS FAT to MDFAT</a>
+          <a href="337-boot_sector_layout.html">Boot Sector Layout</a>
+          <a href="338-bpb__bios_parameter_block.html">BPB: BIOS Parameter Block</a>
+          <a href="350-dpb__drive_parameter_block.html">DPB: Drive Parameter Block</a>
+          <a href="344-directory_entry_layout.html">Directory Entry</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="9-disk_drive_functions.html">Disk Drive Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

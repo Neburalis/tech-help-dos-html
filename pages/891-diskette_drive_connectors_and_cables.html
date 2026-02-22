@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Diskette Drive Connectors and Cables - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Diskette Drive Connectors and Cables</h1><pre>
+
+          ┌─────────────────────────────────┐
+          │          Diskette Drive         │
+          \                                 \
+          │                                 │
+          \        └┘ <span class="c2">DskChng jumper</span>        \
+          │                          <span class="c2">Drive </span> │
+          │ <span class="c2">power</span>     <span class="c2">Cable</span>          <span class="c2">Select</span> │
+          └┬────┬─┬┬┬┬┬┬┬┬┬┬┬┬┬─┬┬─────┬┬┬┬─┘
+           │oooo│ │││││││││││││ ││       X
+           \────┘ └┴┴┴┴┴┴┴┴┴┴┴┘▲└┘
+                               └────────────── <span class="c2">Key Slot</span>
+      <span class="c2">Key</span>
+     <span class="c2">Slot</span> The cable is keyed with a plug at the position of the key slot,
+          but I've seen cables in which the plug has fallen out.
+
+          Attach the cable with <span class="c1">pin 1</span> (which has a <span class="c2">colored wire</span>) toward the
+          slot.
+
+    <span class="c2">power</span> A separate power cable is needed for each drive.  The connector
+          is keyed to avoid improper orientation.
+
+    <span class="c2">Cable</span> Diskette drives are connected by only one cable.  Most systems
+          have two connectors on the <span class="c2">Cable</span>:
+          ┌─────────────────┐  ┌
+          │ Connected to the│◄═╡ Connect with the <span class="c2">colored wire</span> to pin 1 on
+          │ controller      │  │ the controller card.  See below.
+          └<span class="c2">╥</span>─┬─┬─┬─┬─┬─┬─┬─┬┘  └
+<span class="c2">colored</span>    <span class="c2">║</span> │ │ │ │ │ │ │ │
+   <span class="c2">wire</span>═╦═►<span class="c2">║</span> │ │ │ │ │ │ │ │
+   (key ║  <span class="c2">║</span> │ │ │ │ │ │ │ │
+   slot ║ ┌<span class="c2">╨</span>─┴─┴─┴─┴─┴─┴─┴─┴┐
+   side)║ │ Connected to the│
+        ║ │ <span class="c1">second</span> drive (<span class="c2">B</span>)│
+        ║ └<span class="c2">╥</span>─┬─┬─┬─┬─┬─┬─┬─┬┘
+        ║  <span class="c2">║</span> │ │ │ │ │\t/│ │  ┌
+        ╚═►<span class="c2">║</span> │ │ │ │ │ w │ │  │If your cable does not have this twist,
+           <span class="c2">║</span> │ │ │ │ │ i │ │◄═╡then drive A must have the <span class="c2">Drive Select</span>
+           <span class="c2">║</span> │ │ │ │ │ s │ │  │jumper in the first position.
+           <span class="c2">║</span> │ │ │ │ │/t\│ │  └
+          ┌<span class="c2">╨</span>─┴─┴─┴─┴─┴─┴─┴─┴┐
+          │ Connected to the│
+          │ <span class="c1">first</span> drive (<span class="c2">A</span>) │
+          └─────────────────┘
+
+    <span class="c2">Drive</span> Some, but not all diskette drives have a double row of pins
+   <span class="c2">Select</span> (usually four sets) with a jumper across one set.  The jumper
+          should be across <span class="c2">the second set</span> for both diskette drives.
+
+          If you can see any printing on the circuit board, you can usually
+          figure out which is the side with the first position (D0 or
+          pin 1, etc.).  Or you can tell the end with pin 1 by looking at
+          the back of the controller.  It is the side that has a <span class="c1">square</span>
+          <span class="c1">solder mark</span>.
+
+ <span class="c2">DiskChng</span> A few drives let you choose whether the drive should
+   <span class="c2">Jumper</span> detect when the drive door has been opened (indicating the
+          likelihood that a disk has been swapped).
+
+          DOS device drivers have supported Disk Change or &quot;change line&quot;
+          for many years, and you should enable this feature (usually by
+          placing the jumper).
+
+          If DOS thinks that the drive does detect Disk Change, but it
+          actually does not, then DOS may not be able to tell when a new
+          diskette is inserted in the drive (for instance, the <span class="c2">Dir</span> command
+          will show the directory of the previous diskette).  This is
+          dangerous.
+
+<span class="c2">█▌Controller Card Connection▐█</span>
+  Many controller cards support both hard disk and diskettes.  Be sure to
+  connect the disketted drive cable to the pin-set marked <span class="c1">FDD</span> or floppy
+  disk.
+
+  Cables often have a plug to match a missing pin, to ensure the proper
+  orientation.
+
+  The side of the cable that has a <span class="c2">colored wire</span> is the one to connect to
+  pin 1.  To locate pin 1 on the controller, try:
+
+    ■ Look for a <span class="c1">1</span> printed on the circuit board.  Or...
+    ■ If there is a square solder mark on the back side of the controller
+      where the pins are connected, this is pin 1. Or...
+    ■ Refer to your controller documentation.
+
+See Also: <a href="890-hard_disk_connectors_and_cables.html">Hard Disk Cables</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Color/Graphics Adapter I/O Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Color/Graphics Adapter I/O Ports</h1><pre>
+ This describes the I/O control ports for the Color/Graphics Adapter.  The
+ CGA is built around the Motorolla 6845 CRT controller chip.
+
+   ■ The CGA decodes ports <span class="c2">3d0H</span> through 3dfH (actually using 3d2H-3dcH)
+
+    Note: These ports overlap the <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a> for upward compatibility.
+          With some exceptions, the CGA information applies to the EGA.
+
+ An early Tech Ref indicated that the CGA could force hardware interrupt
+ level 2 (IRQ 2) upon vertical retrace.  However, the CGA has never had
+ this ability (but EGA/VGA supports this feature).
+
+    Note: BIOS stores &quot;mirrors&quot; of the current CRTC port values in the
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>.  To change a single bit, you should read the
+          appropriate variable, set the bit, perform the OUT, and store the
+          new value in the variable.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+3d4H  Write: CRT Controller register select.  Use this port to select any of
+      the 18 CRTC registers.  Do an OUT 3d4H,reg_no followed by a read from
+      or write to port 3d5H.
+──── ───────────────────────────────────────────────────────────────────────
+3d5H  CRT Controller registers.  After selecting via port 3d4H, output or
+      input here to access the CRTC internal registers.
+
+      Write: See <a href="90-video_initialization_table.html">Video Initialization Table</a> for a summary of the CRTC
+             registers and a way to look up standard BIOS settings for the
+             display modes.
+
+      Read:  Registers R12 through R17 can be read to determine the current
+             video page address, cursor address, and light pen information.
+──── ───────────────────────────────────────────────────────────────────────
+3d8H  Write: Mode Select Register (BIOS keeps current value at 40:0065)
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║   │b│r│v│c│g│w║
+      ╙─┴─┴╥┴╥┴╥┴╥┴╥┴╥╜ bit
+           ║ ║ ║ ║ ║ ╚═► 0: width (text modes): 0=40 clms; 1=80 clms
+           ║ ║ ║ ║ ╚═══► 1: 1=enable graphics modes; 0=text modes
+           ║ ║ ║ ╚═════► 2: 1=disable color burst on composite monitor
+           ║ ║ ╚═══════► 3: 1=enable video signal; 0=disable (all black)
+           ║ ╚═════════► 4: dot resolutn: 0=320 2-bit dots; 1=640 1-bit dots
+           ╚═══════════► 5: enable blink: 1=text attribute bit 7 blinks fgnd
+                                          0=attr bit 7 is bkgd intensity
+──── ───────────────────────────────────────────────────────────────────────
+3d8H  Write: Color Select Register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║   │b│i│I│R│G│B║
+      ╙─┴─┴╥┴╥┴─┴─┴─┴─╜ bit
+           ║ ║ ╚═════╩═► 0-3: color. Text modes: IRGB of border
+           ║ ║                       Graphics modes: IRGB of background
+           ║ ╚═════════► 4: intensity. Text: bkgd intensity
+           ║                           Mid-res graphics: pixel intensity
+           ╚═══════════► 5: blue. Select grafx palette 0 or 1 (1 adds blue)
+──── ───────────────────────────────────────────────────────────────────────
+3daH  Read: Status Register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║       │ │ │ │ ║
+      ╙─┴─┴─┴─┴╥┴╥┴╥┴╥╜ bit
+               ║ ║ ║ ╚═► 0: retrace.  1=display in vert or horiz retrace.
+               ║ ║ ╚═══► 1: 1=light pen trigger is triggered; 0=armed
+               ║ ╚═════► 2: 1=light pen switch is open; 0=closed
+               ╚═══════► 3: 1=vertical sync pulse is occurring.  Display is
+                              in vertical retrace--access won't cause &quot;snow&quot;
+──── ───────────────────────────────────────────────────────────────────────
+3dbH  Read/Write: Light Pen Latch Reset.  Any OUT clears light pen latch.
+3dcH  Read/Write: Light Pen Latch Set.  Any OUT sets the light pen latch.
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="90-video_initialization_table.html">Video Initialization Table</a>
+          <a href="113-int_10h__video_services.html">INT 10H</a> (BIOS video services)
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 17xxH: Windows Clipboard Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 17xxH: Windows Clipboard Functions</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+   
+     See: <a href="752-int_2fh_1700h__is_clipboard_available_.html">1700H</a> (IdentifyWinOldApVersion / is clipboard available?)
+          <a href="753-int_2fh_1701h__get_access_to_clipboard.html">1701H</a> (OpenClipboard / lock access)
+          <a href="754-int_2fh_1702h__discard_clipboard_contents.html">1702H</a> (EmptyClipboard)
+          <a href="755-int_2fh_1703h__put_data_into_the_clipboard.html">1703H</a> (SetClipboardData / put data into clipboard)
+          <a href="756-int_2fh_1704h__query_size_of_clipboard_data.html">1704H</a> (GetClipboardDataSize)
+          <a href="757-int_2fh_1705h__copy_clipboard_data_to_buffer.html">1705H</a> (GetClipboardData / get data from clipboard)
+
+          <a href="758-int_2fh_1708h__release_control_of_the_clipboard.html">1708H</a> (CloseClipboard / unlock access)
+          <a href="759-int_2fh_1709h__see_if_data_will_fit_in_clipboard.html">1709H</a> (ClipboardCompact / will my data fit?)
+          <a href="760-int_2fh_170ah__obtain_device_capabilities.html">170aH</a> (GetDeviceCaps)
+
+   Notes: These functions are available to programs running in a DOS
+          session under Windows.
+
+          Accessible data formats are limited; this API <span class="c1">does not</span> support
+          RegisterClipboardFormat and EnumClipboardFormats, so custom data
+          layouts can't be used.
+
+ <span class="c2">To obtain data from the Windows clipboard:</span>
+  ■ Use <a href="752-int_2fh_1700h__is_clipboard_available_.html">INT 2fH 1700H</a> to see if clipboard fns are available.
+  ■ Use <a href="753-int_2fh_1701h__get_access_to_clipboard.html">INT 2fH 1701H</a> to gain ownership of the clipboard.
+  ■ Use <a href="756-int_2fh_1704h__query_size_of_clipboard_data.html">INT 2fH 1704H</a> to see how much of a specific type of data is in the
+    clipboard.
+  ■ Prepare a buffer to receive that data.
+  ■ Use <a href="757-int_2fh_1705h__copy_clipboard_data_to_buffer.html">INT 2fH 1705H</a> to obtain a copy of the data into your buffer.
+  ■ Use <a href="758-int_2fh_1708h__release_control_of_the_clipboard.html">INT 2fH 1708H</a> to release ownership of the clipboard.
+
+ <span class="c2">To store data into the Windows clipboard:</span>
+  ■ Use <a href="752-int_2fh_1700h__is_clipboard_available_.html">INT 2fH 1700H</a> to see if clipboard fns are available.
+  ■ Use <a href="753-int_2fh_1701h__get_access_to_clipboard.html">INT 2fH 1701H</a> to gain ownership of the clipboard.
+  ■ Use <a href="754-int_2fh_1702h__discard_clipboard_contents.html">INT 2fH 1702H</a> to clear out the current contents.
+  ■ Use <a href="759-int_2fh_1709h__see_if_data_will_fit_in_clipboard.html">INT 2fH 1709H</a> to see if your data will fit in the clipboard.
+  ■ Use <a href="755-int_2fh_1703h__put_data_into_the_clipboard.html">INT 2fH 1703H</a> to copy your data to the clipboard.
+  ■ Use <a href="758-int_2fh_1708h__release_control_of_the_clipboard.html">INT 2fH 1708H</a> to release ownership of the clipboard.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1bH: Get VGA Functionality and State Info - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1bH: Get VGA Functionality and State Info</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1bH
+          <span class="c2">BX</span>    0000H (implementation type; must be 0)
+          <span class="c2">ES:DI</span> address of 64-byte buffer to receive a <a href="82-vga_dynamic_state_table.html">VgaDynamicStateRec</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:DI</span> buffer filled with data
+          <span class="c2">AL</span>    1bH (if this fn and implementation type is supported)
+          ──────────────────────────────────────────────────────────────────
+    Info: This returns a wheelbarrow full of info about the overall
+          capabilities of a VGA system and about the current settings such
+          as video mode, cursor size, ATC and CRTC register settings, etc.
+
+          See <a href="82-vga_dynamic_state_table.html">VGA Dynamic State Table</a> and <a href="83-vga_static_functionality_table.html">VGA Static Functionality Table</a>
+          for the layout of the returned information.
+
+   Notes: ■ You will find it much easier to use this fn than to examine the
+            various bits and pieces in the <a href="93-rom_bios_variables.html">BIOS Data Area</a> or by direct port
+            I/O.
+
+          ■ A common program initialization sequence requests this
+            function, and if not available (i.e, not a VGA), collects info
+            from other <a href="113-int_10h__video_services.html">INT 10H</a> calls and from the <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a> to
+            fill in the missing info.
+
+See Also: <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>EgaDynamicSaveRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>EgaDynamicSaveRec</h1><pre>
+ One field of the <a href="74-egasaveptrrec.html">EgaSavePtrRec</a> points to an <span class="c2">EgaDynamicSaveRec</span>.  Initially,
+ this structure does not exist, but may be installed by task switching or
+ other TSR code.
+
+<span class="c2">EgaDynamicSaveRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0     16  <span class="c1">abCtrPal</span>     current contents Graphics Controller Palette regs
+  +10H     1  <span class="c1">bCrtOvrScan</span>  current contents Graphics Controller Overscan reg
+  +11H   239  <span class="c1">res</span>          (reserved)
+         256               size of an EgaDynamicSaveRec
+
+See Also: <a href="71-ega_vga_data_areas.html">EGA Data Areas</a>
+          <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+          <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

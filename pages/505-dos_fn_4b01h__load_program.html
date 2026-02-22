@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4b01H: Load Program - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4b01H: Load Program</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AX</span>    4b01H
+          <span class="c2">DS:DX</span> address of an ASCIIZ<a href="913-qasciiz.html">▲</a> filespec of the program to load
+          <span class="c2">ES:BX</span> address of an <a href="367-load_program_record__execloadrec_.html">ExecLoadRec</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">ES:BX</span> some information is returned in the <a href="367-load_program_record__execloadrec_.html">ExecLoadRec</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: This allocates memory and loads a program.  It builds a <a href="371-psp__program_segment_prefix.html">PSP</a> and
+          performs all needed segment fixups in preparation for executing
+          the code, but does not actually begin execution.
+
+    <span class="c2">DS:DX</span> points to an ASCIIZ string in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">◄0►</span>
+          If the drive or path is omitted, defaults are assumed.
+
+    <span class="c2">ES:BX</span> points to a block of memory prepared as an <a href="367-load_program_record__execloadrec_.html">ExecLoadRec</a> that has
+          been filled with the information needed, similar to the needs of
+          fn <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> (exec).
+
+          On return the ExecLoadRec contains the required entry point
+          (<span class="c1">lCsIp</span>) and stack address (<span class="c1">lSsSp</span>) to use when starting the
+          program.
+
+   Notes: ■ There must be enough free memory for DOS to load the program.
+
+See Also: Fn <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> (execute program)
+          Fn <a href="506-dos_fn_4b03h__load_overlay.html">4b03H</a> (load overlay)
+          Fn <a href="507-dos_fn_4b05h__set_execution_state.html">4b05H</a> (set execution state)
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 34H: Get InDOS Address (DOS Reentrancy Status) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 34H: Get InDOS Address (DOS Reentrancy Status)</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    34H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> addr of the 1-byte <a href="365-indos_flag.html">InDOS flag</a> (if ES:[BX]=0, OK to pop up)
+                addr+1 of the <a href="353-errormode_flag.html">ErrorMode flag</a> (if ES:[BX-1]!=0, use no fns)
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the address of a DOS status flag that indicates the
+          current state of <a href="560-int_21h__dos_functions.html">INT 21H</a> processing.
+
+          DOS is not built to be re-enterable.  For instance, if DOS is
+          performing an INT 21H function and a program gains control via a
+          timer or other interrupt, then that program should refrain from
+          making DOS calls (otherwise, DOS static internal variables and
+          stack data will become scrambled).
+
+          However, there are times when DOS is prepared for possible
+          reentrancy (it has switched to a secondary stack).  When that's
+          the case, DOS clears the <span class="c1">InDOS</span> flag, thereby signalling that it
+          is OK for programs to make DOS calls.
+
+          When ES:[BX] is non-zero, a background program (<a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>, or popup)
+          MUST NOT use any INT 21H functions.
+
+Versions: Undocumented until DOS 5.0, but functional since DOS 2.0.
+
+   Notes: ■ You may ignore this flag if you are running as an <a href="567-int_28h__dos_idle.html">INT 28H</a>
+            handler.  When INT 28H is called, DOS is in a stable state and
+            it's OK to do disk I/O and use other DOS fns (though you must
+            avoid Fns <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01h-0cH</a> unless you set the <a href="353-errormode_flag.html">ErrorMode Flag</a> to 1).
+
+See Also: <a href="365-indos_flag.html">InDOS Flag</a>
+          <a href="353-errormode_flag.html">ErrorMode Flag</a>
+          <a href="105-int_08h__timer_interrupt.html">INT 08H</a>
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR/Popup Functions</a>
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

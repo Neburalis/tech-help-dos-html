@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CVF Region: MDBPB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CVF Region: MDBPB</h1><pre>
+ This region occupies the first sector of the CVF<a href="919-qcvf.html">▲</a>.  It contains the
+ following structure which describes the size and layout of the CVF.
+
+<span class="c2">MdBpbRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      3  <span class="c1">abJmpCode</span>    JMP opcode to start of boot code
+   +3      8  <span class="c1">abOem</span>        OEM name= &quot;<span class="c2">MSDSP6.0</span>&quot;
+              <span class="c2">──────────────────────────────────────────── Standard </span><a href="338-bpb__bios_parameter_block.html">BPBRec</a>
+
+  +0bH     2  <span class="c1">wSectSize</span>    bytes per sector (always <span class="c2">512</span>; 200H)
+  +0dH     1  <span class="c1">bClustSects</span>  sectors per cluster (always <span class="c2">16</span>; 10H)
+  +0eH     2  <span class="c1">wResSects</span>    boot and reserved sectors
+  +10H     1  <span class="c1">bFatCnt</span>      number of FATs (always <span class="c2">1</span>; see note)
+  +11H     2  <span class="c1">wRootEntries</span> max <a href="344-directory_entry_layout.html">DirEntryRec</a>s in root (always <span class="c2">512</span>; 200H)
+  +13H     2  <span class="c1">wTotSects</span>    total number of sectors in media
+                           0000H means &gt;32 MB, so use <span class="c1">lBigTotSects</span>
+  +15H     1  <span class="c1">bMedia</span>       <a href="370-media_descriptor.html">media descriptor</a> (always <span class="c2">F8H</span>; i.e., hard disk)
+  +16H     2  <span class="c1">wFatSects</span>    number of sectors in one <a href="359-fat__dos_file_allocation_table.html">FAT</a>
+  +18H     2  <span class="c1">wSectsPerTrk</span> sectors per track (random, ignored)
+  +1aH     2  <span class="c1">wHeads</span>       number of read/write heads  (random, ignored)
+  +1cH     4  <span class="c1">lHidSects</span>    hidden sectors)
+  +20H     4  <span class="c1">lBigTotSects</span> 32-bit TotSects in volume
+              <span class="c2">───────────────────────────────────── DoubleSpace Extensions</span>
+
+  +24H     2  <span class="c1">wMdFatStart</span>  logical sector of start of <a href="808-cvf_region__mdfat.html">MDFAT</a>
+  +26H     1  <span class="c1">bSectShift</span>   sector-to-bytes shift (sector is 2<span class="c1">ⁿ</span> bytes)
+  +27H     2  <span class="c1">wMdResSects</span>  number of sectors before <a href="809-cvf_region__bootsect.html">BootSect</a>
+  +29H     2  <span class="c1">wRootStart</span>   logical sector of start of root directory
+  +2bH     2  <span class="c1">wHeapStart</span>   logical sector of start of <a href="812-cvf_region__sector_heap.html">Sector Heap</a>
+  +2dH     2  <span class="c1">wFirstData</span>   Number of MDFAT entries (clusters) which are
+                           occupied by the DOS boot sector, reserved, and
+                           root directory.
+  +2fH     1  <span class="c1">bBitFatPgs</span>   size of the <a href="807-cvf_region__bitfat.html">BitFAT</a>, in 2K pages
+  +30H     2  <span class="c1">wRes1</span>        (reserved)
+  +32H     1  <span class="c1">bClustShift</span>  cluster-to-sector shift (cluster is 2<span class="c1">ⁿ</span> sectors)
+  +33H     2  <span class="c1">wRes2</span>        (reserved)
+  +35H     4  <span class="c1">lRes3</span>        (reserved)
+  +39H     4  <span class="c1">lRes4</span>        (reserved)
+  +3dH     1  <span class="c1">bFlag12Bit</span>   <span class="c2">01H</span>=12-bit FAT, <span class="c2">00H</span>=16-bit FAT
+  +3eH     2  <span class="c1">wMaxMBs</span>      Maximum CVF uncompressed capacity, in Megabytes
+                           (not actual size; see below)
+          64               size of an MdBpbRec structure
+              <span class="c2">───────────────────────────────────────────── sector padding</span>
+  +40H    450 <span class="c1">res5</span>         reserved (empty space to end of sector)
+
+   <span class="c1">abJmpCode</span>  through ...
+<span class="c1">lBigTotSects</span>  The first fields line up with a standard BPB.  Additional
+              details can be found in <a href="337-boot_sector_layout.html">BootSectorRec</a> and <a href="338-bpb__bios_parameter_block.html">BpbRec</a>.
+
+     <span class="c1">bFatCnt</span>  A CVF &quot;disk&quot; is unusual in that it contains only one copy of
+              the standard FAT.  DoubleSpace &quot;virtualizes&quot; this, making it
+              seem as though two identical copies exist.  See <a href="810-cvf_region__fat.html">FAT</a>.
+
+ <span class="c1">wMdFatStart</span>  logical sector (from start of CVF) of the <a href="808-cvf_region__mdfat.html">MDFAT</a>; seek to
+              (<span class="c1">wMdFatStart</span>+1)*<span class="c1">wSectSize</span> bytes from the start of the CVF to
+              read this.
+
+  <span class="c1">bSectShift</span>  Log base 2 of <span class="c1">wSectSize</span>; handy for calculating how many bytes
+              can fit in a sector (one sector = 2<span class="c1">ⁿ</span> bytes).
+
+ <span class="c1">wMdResSects</span>  This describes how many sectors are reserved before the DOS
+              Boot sector in the compressed volume.
+
+  <span class="c1">wRootStart</span>  logical sector (from start of CVF) of the first sector of the
+              root directory.  Seek to (<span class="c1">wMdResSects</span>+<span class="c1">wRootStart</span>)*<span class="c1">wSectSize</span>
+              bytes from the start of the CVF to get to the start of this.
+
+  <span class="c1">wHeapStart</span>  logical sector (from start of CVF) of the first data sector.
+              Data in the sector heap is usually compressed.  See <a href="812-cvf_region__sector_heap.html">SectHeap</a>.
+
+  <span class="c1">wFirstData</span>  tells how many 4-byte entries in the <a href="808-cvf_region__mdfat.html">MDFAT</a> are reserved for
+              non-data allocations, including DOS boot sector, reserved, and
+              root directory.  Thus, the first meaningful <a href="808-cvf_region__mdfat.html">MdFatEntryRec</a> is
+              really (<span class="c1">wFirstData</span>*4) bytes from the start of the MDFAT.
+
+  <span class="c1">bBitFatPgs</span>  Size of the <a href="807-cvf_region__bitfat.html">BitFAT</a>, in 2K units; i.e., the BitFAT is
+              (<span class="c1">bBitFatPgs</span>*2048) bytes long.
+
+ <span class="c1">bClustShift</span>  Log base 2 of <span class="c1">bClustSects</span>; handy for calculating how many
+              sectors are in a cluster (one cluster = 2<span class="c1">ⁿ</span> sectors).
+
+        <span class="c1">res3</span>  contains &quot;16  &quot; on my system
+
+  <span class="c1">bFlag12Bit</span>  indicates whether the <a href="359-fat__dos_file_allocation_table.html">FAT</a> is represented with 12-bit entries
+              or 16-bit entries (<span class="c2">00H</span>=16-bit; <span class="c2">01H</span>=12-bit).
+
+     <span class="c1">wMaxMBs</span>  Capacity of the CVF, in Megabytes.  It is the basis that was
+              used when DoubleSpace calculated the size of the variable-
+              length <a href="807-cvf_region__bitfat.html">BitFAT</a>, <a href="808-cvf_region__mdfat.html">MDFAT</a>, and <a href="810-cvf_region__fat.html">FAT</a> regions.
+
+              This is also the upper limit on the size of the <a href="812-cvf_region__sector_heap.html">Sector Heap</a>,
+              in the case where all the data stored in the CVF is
+              incompressible.
+
+              Note that it is NOT the actual size of the CVF--only the
+              capacity of the internal bookkeeping regions.  In most cases,
+              this specifies a much larger size than is actually used, but
+              it makes it easier for DoubleSpace to grow and shrink the
+              volume.  DoubleSpace typically wastes several hundred Kbytes
+              of disk space when it prepares a large CVF (for instance, it
+              set up a 512 MB-capacity CVF on my 350 MB disk).
+
+   Notes: Although the first part of this structure is formatted as a DOS
+          4.0+ boot sector, this sector is never booted or executed as
+          code.
+
+See Also: <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 05H: Select Video Page - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 05H: Select Video Page</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    05H
+          <span class="c2">AL</span>    video page number (0-based)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This selects a different video page.  CGAs,EGAs, and VGAs support
+          eight video pages, but most MDAs<a href="933-qvidmda.html">▲</a> support only one.
+
+          Historically, some text-mode programs have gotten a performance
+          boost by using multiple video pages.  For instance, you can make
+          a series of changes to the second video page and then use this fn
+          to display the entire page all at once.
+
+   Notes: ■ On VGAs, you may use <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">INT 10H 1bH</a> (get functionality/state info)
+            to see how many pages the active display supports.
+
+          ■ Most programmers select page 0 and leave it there for these
+            reasons:
+            • Page-switching is not possible with MDAs.
+            • All newer computers are fast enough to update the screen in
+              place (see <a href="89-video_memory_layouts.html">Video Memory Layouts</a>).
+            • On older CGAs, writing to non-visible pages still causes
+              <a href="92-cga_video_snow_and_cls_flash.html">Video Snow</a> (so there is no performance gain).
+            • Some popular mouse support driver will honor only page 0.
+
+            However, <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>s should be aware of page-switching techniques in
+            order to avoid screwing up the interrupted application.
+
+          ■ The active video page number can be obtained via <a href="130-int_10h_0fh__query_current_video_info.html">INT 10H 0fH</a>.
+
+          ■ The starting address of the start of the active page can be
+            found in the 2-byte word at <span class="c2">0040:004e</span>.  See <a href="93-rom_bios_variables.html">BIOS Data Area</a>.
+
+See Also: <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

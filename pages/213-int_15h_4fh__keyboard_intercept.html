@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 4fH: Keyboard Intercept - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 4fH: Keyboard Intercept</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    4fH
+          <span class="c2">AL</span>    keyboard scan code received from hardware
+          <span class="c2">CX</span>    process ID
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    keyboard scan code
+                <span class="c2">CF</span> = CY: replace input scan code with the one on <span class="c2">AL</span>
+                <span class="c2">CF</span> = NC: no change; use hardware scan code
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn is called by <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a> when it obtains a keystroke from the
+          hardware, but before processing it or placing it in the keyboard
+          buffer.
+
+          Programs can intercept this fn to provide keyboard remapping or
+          to disable certain keystrokes, etc.
+
+          When unintercepted, the BIOS simply leaves the CF clear so
+          INT 09H will process the scan code without change.
+
+   Notes: This intercept is available only in later versions of XT and AT
+          BIOSes.  Use <a href="227-int_15h_c0h__get_system_parameters.html">INT 15H c0H</a> to see if this intercept is available.
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

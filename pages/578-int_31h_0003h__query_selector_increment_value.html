@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0003H: Query Selector Increment Value - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0003H: Query Selector Increment Value</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0003H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) always successful
+          <span class="c2">AX</span>    selector increment value
+          ──────────────────────────────────────────────────────────────────
+    Info: When the host allocates a consecutive block of descriptors via
+          <a href="575-int_31h_0000h__allocate_ldt_descriptors.html">INT 31H 0000H</a> (allocate LDT descriptors) or <a href="589-int_31h_0100h__allocate_dos_memory_block.html">INT 31H 0100H</a>
+          (allocate DOS memory block), it returns only a single, <span class="c1">base</span>
+          <span class="c1">selector</span>.
+
+          The value returned in <span class="c2">AX</span> can be added to that base selector (or
+          others in the series) in order to obtain the valid value of the
+          next selector in the series.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

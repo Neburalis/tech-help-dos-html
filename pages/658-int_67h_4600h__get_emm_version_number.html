@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 4600H: Get EMM Version Number - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 4600H: Get EMM Version Number</h1><pre>                                                     Compatibility: <span class="c2">EMS 3.2+</span>
+ Expects: <span class="c2">AX</span>    4600H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">AL</span>    EMM version number in BCD (e.g., 32H is EMM 3.2; 40H = 4.0)
+          ──────────────────────────────────────────────────────────────────
+    Info: Use this to ensure that the installed version supports any
+          special features you wish to access.
+
+   Notes: EMM 4.0 has been standard since 1987 and it is usually quite safe
+          to assume 4.0 is present.  Furthermore, in most cases, you can
+          get by without using any of the features unique to 4.0.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

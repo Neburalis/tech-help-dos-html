@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 23H: Ctrl-Break Exit Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 23H: Ctrl-Break Exit Address</h1><pre>
+ The INT 23H vector (0000:008c) points to the code that will receive
+ control when DOS senses that the user has pressed Ctrl-Break.
+
+ The address at the INT 23H vector is copied into the <span class="c1">pfCtlBrk</span> field of the
+ <a href="371-psp__program_segment_prefix.html">PSP</a> by DOS fn <a href="407-dos_fn_26h__create_program_segment_prefix.html">26H</a> (create PSP) and fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> (EXEC).  The original address of
+ the Ctrl-Break handler is restored from the PSP when a program exits.
+ Thus, the parent's Ctrl-Break handler will be restored upon exit from the
+ child process.
+
+<span class="c2">█▌Break Sensing▐█</span>
+  DOS invokes INT 23H when it senses that the user has pressed Ctrl+C
+  (ASCII 03H) Ctrl-Break.  The level of DOS Ctrl-Break sensing can be
+  checked or set via fn <a href="420-dos_fn_33h__set_query_break_check__query_dos_info.html">33H</a> as follows:
+
+  ■ If Break sensing is <span class="c2">OFF</span>, DOS senses Ctrl-Break only during console,
+    printer, and serial device I/O.
+
+  ■ If Break sensing is <span class="c2">ON</span>, DOS senses Ctrl-Break during all fns except <a href="379-dos_fn_06h__console_i_o.html">06H</a>
+    and <a href="380-dos_fn_07h__no_echo_unfiltered_console_input.html">07H</a>.
+
+<span class="c2">█▌Custom Break Handling▐█</span>
+  Normal DOS break-handling is handled by COMMAND.COM.  It causes a program
+  to terminate immediately.  If you use network file-locking or want avoid
+  the ugly DOS <span class="c2">^C</span> display, you should intercept INT 23H and handle
+  Ctrl+Break in your own program.  Please note:
+
+  ■ Use Fn <a href="406-dos_fn_25h__set_interrupt_vector.html">25H</a> to set the INT 23H vector to point to your own code.
+
+  ■ Upon entry to your Ctrl-Break handler:
+    • All registers are set as they were upon entry to the DOS function
+      that sensed Ctrl-Break.
+    • SS:SP is set to a DOS internal stack.  The top of stack will contain
+      the CS:IP/Flags for an IRET to get back to DOS; below that is the
+      CS:IP/Flags for an IRET to get back to your program (you might use
+      this to figure out what part of your code was active when the user
+      pressed Break).
+    • DOS clears internal variables <a href="365-indos_flag.html">InDOS</a> and <a href="353-errormode_flag.html">ErrorMode</a>, so that your
+      program can use DOS fns in the Break handler.
+  
+  ■ If you want <span class="c2">to ignore Ctrl-Break, just issue an IRET</span>.  DOS restarts the
+    DOS fn that was interrupted, and eventually returns to your program.
+
+  ■ If you want to do something (e.g., halt a repeat action), then be sure
+    to save all registers before taking action and restore all registers
+    afterwards.
+
+    Exit via an IRET.  There are no restrictions on what your break handler
+    may do -- all DOS functions are allowed.  However, if the break handler
+    itself performs character I/O, and the user presses Ctrl-Break again,
+    DOS crashes and burns.
+
+  ■ If you want to abort (exit to the parent process), then set the carry
+    flag and return via a FAR RET.  This causes DOS to perform normal
+    cleanup and exit to the parent.
+
+  ■ An easy way to ensure that a process notices an occurrence of
+    Ctrl-Break is to perform DOS Fn <a href="384-dos_fn_0bh__check_input_status.html">0bH</a> every once in a while.
+
+See Also: <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          fn <a href="420-dos_fn_33h__set_query_break_check__query_dos_info.html">33H</a> (query/set Break-checking)
+          <a href="253-int_1bh__keyboard_break.html">INT 1bH</a> (invoked by BIOS on Ctrl+Break)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

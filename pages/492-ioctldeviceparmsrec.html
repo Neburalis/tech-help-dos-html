@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IoctlDeviceParmsRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IoctlDeviceParmsRec</h1><pre>
+ This structure is used in the following IOCTL fns:
+    <a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">440dH 40H</a> (set device parameters)
+    <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">440dH 60H</a> (query device parameter)
+    <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>  (generic IOCTL for block devices)
+
+<span class="c2">IoctlDeviceParmsRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0     1  <span class="c1">rSpclFns</span>     bit flags select options
+    +1     1  <span class="c1">bDevType</span>     device type code (returned from driver)
+    +2     2  <span class="c1">rDevAttr</span>     bit 0: 0=removable; 1=non-removable
+                           bit 1: 0=change-line not supported; 1=is
+    +4     2  <span class="c1">wCylCnt</span>      number of cylinders (returned from driver)
+    +6     1  <span class="c1">bDevMedia</span>    bit 0: 0=accepts high density (1.2MB) media
+                                  1=accepts low-density (320K/360K) media
+    +7    19H <span class="c1">rDevBPB</span>      Same as a <a href="338-bpb__bios_parameter_block.html">BPBRec</a> (25 bytes)
+   +20H    ?  <span class="c1">rTrkLayout</span>   variable-length <a href="496-tracklayoutrec.html">TrackLayoutRec</a>
+           ?+20H           size of an IoctlDeviceParmsRec
+
+    <span class="c1">rSpclFns</span>  contain bit flags that specify options for fn <a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">440dH 40H</a>:
+                bit 0: 0=use <span class="c1">rDevBPB</span> to set new defaults
+                       1=use current BPB
+                bit 1: 0=use all fields of this record
+                       1=use just the <span class="c1">rTrkLayout</span> data
+                bit 2: 0=(never use)
+                       1=sectors are all the same size and sector numbers
+                         begin with 0 (always set this bit)
+
+    <span class="c1">bDevType</span>  identifies the device and medium.  It is one of:
+
+              00H = 320/360K 5-¼ inch drive
+              01H = 1.2M 5-¼ inch drive
+              02H = 720K 3-½ inch drive
+              03H = 8 inch single density drive
+              04H = 8 inch double density drive
+              05H = hard disk
+              06H = tape drive
+              07H = 1.44 MB
+              08H = 2.88 MB
+              09H = other
+
+    <span class="c1">rDevAttr</span>  some more device info flags:
+              bit 0: 0=removable
+                     1=non-removable
+              bit 1: 0=change-line not supported
+                     1=is supported (can sense when drive door opened)
+
+     <span class="c1">wCylCnt</span>  maximum cylinder supported (e.g., for <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">440dH 41H</a> Write Track)
+
+      <span class="c1">bMedia</span>  one bit of media info:
+              bit 0: 0=accepts high density (1.2MB) media
+                     1=accepts low-density (320K/360K) media
+
+     <span class="c1">rDevBPB</span>  an entire <a href="338-bpb__bios_parameter_block.html">BPBRec</a> structure (all 25 bytes).
+              If <span class="c1">rSpclFns</span> bit 0 is clear, then this data is taken as the new
+              default settings for the drive.
+              If <span class="c1">rSpclFns</span> bit 1 is set, then this data is to be used by the
+              driver when it gets a <a href="303-device_request_02h__build_bpb.html">DvRq 02H</a> (Build BPB) request.
+
+  <span class="c1">rTrkLayout</span>  an entire <a href="496-tracklayoutrec.html">TrackLayoutRec</a> structure (variable length).
+              If <span class="c1">rSpclFns</span> bit 1 is set, then only this track layout
+              information is used.
+
+See Also: fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (Generic IOCTL for block devices)
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

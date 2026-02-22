@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 4f01H - Query SuperVGA Mode Information - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 4f01H - Query SuperVGA Mode Information</h1><pre>
+ Expects: <span class="c2">AX</span>    4f01H
+          <span class="c2">CX</span>    <a href="85-vesa_svga_video_modes.html">VESA/SVGA Video Mode</a> number (may also be std modes 00-13H)
+          <span class="c2">ES:DI</span> Addr of buffer to receive an <a href="86-supervga_mode_info_block.html">SvgaModeInfoRec</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    VESA status: AH=0 means successful (else failed)
+                             AL=4fH means function supported
+          <span class="c2">ES:DI</span> buffer contains returned data (if successful)
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains information about the capabilities, resolution, memory
+          access model, etc. for a particular SuperVGA video mode.
+
+          The buffer at <span class="c2">ES:DI</span> must be 256 bytes long (though only the first
+          29 bytes are defined).  See <a href="86-supervga_mode_info_block.html">SvgaModeInfoRec</a> for a layout of the
+          returned information.
+
+   Notes: ■ VESA implementations may not return the entire data structure.
+            Be sure to check bit 1 of the byte at offset 0.
+
+See Also: <a href="69-supervga_display_adapters__svga_.html">SVGA</a>
+          <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 14H 00H: Initialize Asynchronous Communication Port - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 14H 00H: Initialize Asynchronous Communication Port</h1><pre>
+ Expects: <span class="c2">AH</span>    00H
+          <span class="c2">AL</span>    initialization bit flags (see below)
+          <span class="c2">DX</span>    COMM port number (0 to 3)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    line status  ═╦══► see <a href="211-bios_com_status_codes.html">BIOS COM status codes</a>
+          <span class="c2">AL</span>    modem status ═╝
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the speed, word length, etc for the specified COM port.
+
+       <span class="c2">AL</span> on entry, <span class="c2">AL</span> specifies the COM settings:
+
+          ┌7┬6┬5┬4┬3┬2┬1┬0┐
+          │<span class="c1">baud</span> │<span class="c1">par</span>│<span class="c1">s</span>│<span class="c1">len</span>│
+          └─┴─┴─┴─┴─┴╥┴─┴─┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+           ╚═╦═╝ ╚╦╝ ║ ╚═╩═►0-1: 03H  word length: <span class="c2">10</span>=7 bits; <span class="c2">11</span>=8 bits
+             ║    ║  ╚═════►  2: 04H  stop bits:  <span class="c2">0</span>=1; <span class="c2">1</span>=2;
+             ║    ╚════════►3-4: 18H parity code: <span class="c1">x</span><span class="c2">0</span>=none; <span class="c2">01</span>=odd; <span class="c2">11</span>=even
+             ╚═════════════►5-7: e0H baud rate  <span class="c2">000</span>=110; <span class="c2">100</span>=1200
+                                                <span class="c2">001</span>=150; <span class="c2">101</span>=2400
+                                                <span class="c2">010</span>=300; <span class="c2">110</span>=4800
+                                                <span class="c2">011</span>=600; <span class="c2">111</span>=9600
+
+   Notes: BIOS does not support speeds beyond 9600 baud, even though most
+          hardware is capable of much higher rates.
+
+See Also: <a href="206-int_14h__serial_port_i_o.html">INT 14H: Serial Port I/O</a>
+          <a href="895-asynchronous_adapter_ports.html">Asynchronous Adapter Ports</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

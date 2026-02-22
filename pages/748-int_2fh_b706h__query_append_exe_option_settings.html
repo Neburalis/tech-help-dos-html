@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH b706H: Query APPEND.EXE Option Settings - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH b706H: Query APPEND.EXE Option Settings</h1><pre>                                                         Compatibility: <span class="c2">4.0+</span>
+ Expects: <span class="c2">AX</span>    b706H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    Carry Flag clear (NC) if no error
+          <span class="c2">BX</span>    current APPEND.EXE option settings (see below)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the APPEND option flags which affect how APPEND
+          operates:
+
+       <span class="c2">BX</span> On return, BX contains the settings as follows:
+          <span class="c2">AppendOptsRec</span>
+            1 1 1 1 1
+           ╓5┬4┬3┬2┬1- ┬1┬0╖
+           ║<span class="c1">x</span>│<span class="c1">e</span>│<span class="c1">p</span>│0 0...0 <span class="c1">n</span>║
+           ╙╥┴╥┴╥┴─┴── ┴─┴╥╜ bit   mask
+            ║ ║ ║         ╚═►  0: 0001H enabled (0=APPEND is disabled)
+            ║ ║ ╚═══════════► 13: 2000H /PATH:ON option is in effect
+            ║ ╚═════════════► 14: 4000H /E option is in effect
+            ╚═══════════════► 15: 8000H /X:ON option is in effect
+
+    <span class="c1">bit 0</span> is always 1 (if APPEND is loaded), unless a program has used
+          <a href="749-int_2fh_b707h__set_append_exe_options___disable_append.html">INT 2fH b707H</a> to clear this bit and thereby disable APPEND.
+
+   <span class="c1">bit 13</span> When /PATH:ON is in effect, APPEND will search the APPEND
+          directories for a file, even if a path was given in the filespec.
+
+   <span class="c1">bit 14</span> When /E is in effect, APPEND maintains a copy of the append path
+          in the <a href="346-dos_environment.html">DOS Environment</a> (in the form <span class="c2">APPEND=</span><span class="c1">path</span><span class="c2">;</span><span class="c1">path</span><span class="c2">;</span><span class="c1">...</span>)
+
+   <span class="c1">bit 14</span> When /X:ON is in effect, APPEND will search the APPEND path for
+          DOS fns that execute programs (such as <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a>) and for fns that
+          search for files (<a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a>)  When <span class="c1">bit 15</span> is 0, APPEND searches only
+          for file open requests (<a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a> and <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a>).
+
+   Notes: You may change settings and/or disable APPEND altogether via
+          <a href="749-int_2fh_b707h__set_append_exe_options___disable_append.html">INT 2fH b707H</a> (set APPEND options).
+
+See Also: <a href="744-int_2fh_b7xxh__append_exe_functions.html">INT 2fH b7xxH: APPEND.EXE Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

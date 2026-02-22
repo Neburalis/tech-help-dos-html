@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0021H: Reset Mouse Driver - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0021H: Reset Mouse Driver</h1><pre>
+ Expects: <span class="c2">AX</span>    0021H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0021H=success
+                        ffffH=can't reset (no driver)
+          <span class="c2">BX</span>    number of mouse buttons
+          ──────────────────────────────────────────────────────────────────
+    Info: This performs a &quot;software reset&quot; of the mouse support.  It sets
+          all internal variables to their standard defaults, as described
+          under <a href="833-int_33h_0000h__reset_query_installed_state.html">INT 33H 0000H</a>.
+
+          This works like <a href="833-int_33h_0000h__reset_query_installed_state.html">INT 33H 0000H</a> except that it does not perform a
+          reset of the mouse hardware or of any hardware-related variables
+          (some older mouse hardware takes several seconds to reset).
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS 00H: Get XMS Version Number - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS 00H: Get XMS Version Number</h1><pre>                                                     Compatibility: <span class="c2">XMS 2.0+</span>
+ Expects: <span class="c2">AH</span>    00H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0000H = successful
+                        0001H = error and <span class="c2">BL</span>=<a href="963-xms_error_codes.html">XMS error code</a> (if BL &gt;= 80H)
+                        else  = XMS version number in BCD; e.g., 0234H=2.34
+          <span class="c2">BX</span>    driver internal version number
+          <span class="c2">DX</span>    HMA flag: 0001H = HMA<a href="926-qmemhma.html">▲</a> exists; 0000H=HMA does not exist
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn obtains the version number of the Extended Memory
+          Specification that is supported by the installed driver.
+
+          The return value in <span class="c2">DX</span> indicates the existence of the HMA (use
+          <a href="946-xms_01h__request_high_memory_area.html">XMS 01H</a> to test its availability).
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

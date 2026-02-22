@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>TrackLayoutRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>TrackLayoutRec</h1><pre>
+ This structure is used (at the end of an <a href="492-ioctldeviceparmsrec.html">IoctlDeviceParmsRec</a> in the
+ following IOCTL fns:
+
+    <a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">440dH 40H</a> (set device parameters)
+    <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">440dH 60H</a> (query device parameter)
+    <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>  (generic IOCTL for block devices)
+
+<span class="c2">TrackLayoutRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0     2  <span class="c1">rSectCnt</span>     sectors per track
+    +2    n*4 <span class="c1">arLayout</span>     variable-length array of 2-word sector
+                           descriptors.
+                           Each element is: WORD: sector number
+                                            WORD: sector size
+          2+(n*4)          size of a TrackLayoutRec structure
+
+   Notes: This structure is needed to create &quot;sector interleave&quot; in which
+          the sectors are not numbered sequentially on the physical medium.
+          The idea is to let the disk spin for a partial rotation while the
+          hardware is processing the data, with the ultimate goal being to
+          access an entire track without wasting time waiting for the data
+          to come under the head.
+
+          Example layout:
+
+             DW  9      ; nine sectors per track
+             DW  1,512  ; first sector is #1 (size is 512 bytes)
+             DW  5,512  ; next sector is #5
+             DW  2,512  ; next sector
+             DW  6,512  ; next sector
+             DW  3,512  ; next sector
+             DW  7,512  ; next sector
+             DW  4,512  ; next sector
+             DW  8,512  ; next sector
+             DW  9,512  ; next sector
+
+          DOS <a href="298-installable_device_drivers.html">device drivers</a> do not keep a track layout table for each
+          logical device.  A generic IOCTL Set Parameters (<a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">440dH 40H</a>) call
+          must be made when the attributes of the media change.
+
+See Also: fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (Generic IOCTL for block devices)
+          <a href="191-int_13h_05h__format_track.html">INT 13H 05H</a> (format track)
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

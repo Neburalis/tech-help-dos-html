@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 5bxxH: Alternate Map Register Set - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 5bxxH: Alternate Map Register Set</h1><pre>                                                     Compatibility: <span class="c2">EMS 4.0+</span>
+ Expects: <span class="c2">AH</span>    5bH
+          <span class="c2">AL</span>    subfn: 00H=Query alternate map register set
+                       01H=Set alternate map register set
+                           <span class="c2">BL</span> = new alternate map register set number
+                           <span class="c2">ES:DI</span> =&gt; buffer to receive data
+                       02H=Query alternate map register set array size
+                       03H=Allocate alternate map register set
+                       04H=Deallocate alternate map register set
+                       05H=Allocate DMA register set
+                       06H=Enable DMA on alternate map register set
+                           <span class="c2">BL</span> = DMA register set number
+                           <span class="c2">DL</span> = DMA channel number
+                           <span class="c2">ES:DI</span> =&gt; buffer to receive data
+                       07H=Disable DMA on alternate map register set
+                           <span class="c2">BL</span> = alternate map register set number
+                       08H=Deallocate DMA register set
+                           <span class="c2">BL</span> = DMA register set number
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">BL</span>    (5b00H) current active alternate register map set
+                (5b03H) alternate map registers set number
+                (5b05H) DMA register set number
+          <span class="c2">ES:DI</span> (5b00H) map register context save area (if <span class="c2">BL</span>=0)
+          <span class="c2">DX</span>    (5b02H) size of array
+          ──────────────────────────────────────────────────────────────────
+    Info: This is designed <span class="c1">for use by operating systems only</span> and may be
+          disabled at any time.
+
+          These fns are used by an operating system in support of low-level
+          functions such as tampering with DMA.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

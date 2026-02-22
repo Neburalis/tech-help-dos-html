@@ -1,0 +1,12 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 35H: Get Interrupt Vector - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 35H: Get Interrupt Vector</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    35H
+          <span class="c2">AL</span>    interrupt number (00H to 0ffH)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> address of the interrupt handler
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the value of the interrupt vector for INT (AL). It loads
+          BX with 0000:[AL*4], and ES with 0000:[(AL*4)+2].
+
+See Also: Fn <a href="406-dos_fn_25h__set_interrupt_vector.html">25H</a> (set INT Vector)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

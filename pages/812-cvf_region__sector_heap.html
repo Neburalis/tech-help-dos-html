@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CVF Region: Sector Heap - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CVF Region: Sector Heap</h1><pre>
+  The <span class="c2">Sector Heap</span> is a variable-length region that contains all of the file
+  data for the CVF &quot;disk&quot;.  When DoubleSpace needs to store data in a
+  compressed volume, it gets a free sector from the sector heap and sets the
+  corresponding bit in the <a href="807-cvf_region__bitfat.html">BitFAT</a> to indicate the sector is in use.
+
+  The Sector Heap is located 2 sectors after the end of the <a href="811-cvf_region__rootdir.html">RootDir</a>; its
+  location can be obtained from the <span class="c1">wHeapStart</span> field (offset 2bH) of the
+  <a href="806-cvf_region__mdbpb.html">MdBpbRec</a>.
+
+  DoubleSpace will not create a volume smaller than about 600K (about 1.2M
+  of storage), so expect the Sector Heap to be at least 1200 sectors long.
+
+<span class="c2">█▌Cluster Allocations▐█</span>
+  Sectors are allocated individually, but always in sequential groups that
+  represent a cluster (16 sectors= 8K of uncompressed data) in the FAT.
+
+  This provides DoubleSpace with &quot;bonus&quot; compression since it gives very
+  little physical storage for cluster slack<a href="930-qslack.html">▲</a>--the up to 8191 bytes of disk
+  storage that can be left empty in the last cluster of a file.  In the
+  worst-case scenario, a 1-byte file uses only one sector (512 bytes) of the
+  CVF while on a regular disk, a 1-byte file uses 8092 bytes (16 sectors).
+
+  Therefore, a 1-byte file (actually any file containing less than 513
+  bytes) yields DoubleSpace's maximum compression ratio, 16-to-1.
+
+  Stand-alone compression tools such as PKZIP can take maximum advantage of
+  saving on file slack when they compress a series of short files.  For
+  instance, ten 1-byte files compress into a file not much longer than
+  10 bytes, yielding a ratio of around 8000-to-1.
+
+<span class="c2">█▌Cluster Tags▐█</span>
+  Most sectors in the heap contain compressed data, but some do not.  For
+  instance, DoubleSpace does not bother compressing data in files smaller
+  than 512 bytes.  Also, the DoubleSpace compression algorithm cannot
+  squeeze any air out of most types of previously-compressed data, such a
+  .ZIP and .ARC compressed files.
+
+  Entries in the <a href="808-cvf_region__mdfat.html">MDFAT</a> identify which clusters are stored in compressed form
+  and which are stored raw.  As an additional safeguard and aid to data
+  recovery, the first sector in each cluster begins with one of the
+  following 4-byte tags (as documented):
+
+     '<span class="c2">DS</span>00'  (4DH, 44H, 00H, <span class="c2">00</span>H) IHV Level 2
+     '<span class="c2">DS</span>0<span class="c2">☺</span>'  (4DH, 44H, 00H, <span class="c2">01</span>H) &quot;MaxCompressed&quot; (IHV Level Max)
+     '<span class="c2">DS</span>0<span class="c2">☻</span>'  (4DH, 44H, 00H, <span class="c2">02</span>H) &quot;StandardCompressed&quot;
+     '<span class="c2">DS</span>0<span class="c2">♥</span>'  (4DH, 44H, 00H, <span class="c2">03</span>H) IHV Level 3
+     '<span class="c2">DS</span>0<span class="c2">♦</span>'  (4DH, 44H, 00H, <span class="c2">04</span>H) IHV Level 4
+
+     IHV might be &quot;Independent Hardware Vendor&quot;.  Could be anything.
+
+  In actual use, I have not seen the <span class="c2">00H</span> version and presume that it is
+  obsolete.  The <span class="c2">01H</span> and <span class="c2">02H</span> versions appear in my CVFs.  The <a href="817-mrci_fn_0001h__compress_data.html">MRCI Fn 0001H</a>
+  (compress) starts with a similar '<span class="c2">MD</span>0<span class="c2">☻</span>' tag.  And data backed up by
+  Msbackup stores some data as <span class="c1">??</span>,<span class="c1">??</span>,<span class="c1">??</span>,'<span class="c2">M</span>','<span class="c2">D</span>',00, <span class="c2">02</span>.
+
+  Uncompressed (incompressable) clusters have no initial tag.  Since it is
+  possible for an incompressible cluster to begin with one of these tags,
+  you should refer to the MDFAT rather than making any assumptions.
+
+See Also: <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

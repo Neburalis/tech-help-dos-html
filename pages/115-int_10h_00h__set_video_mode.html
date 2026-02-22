@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 00H: Set Video Mode - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 00H: Set Video Mode</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    00H
+          <span class="c2">AL</span>    <a href="114-video_modes.html">video mode</a> number (optionally, +80H for don't clear data)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This initializes the video hardware to display in the specified
+          video mode.
+
+          See <a href="114-video_modes.html">Video Modes</a> for a list of standard video modes.
+
+          See <a href="89-video_memory_layouts.html">Video Memory Layouts</a> for info on accessing screen memory.
+
+See Also: <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a02H: Suballocate HMA Memory - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a02H: Suballocate HMA Memory</h1><pre>                                                 Compatibility: <a href="912-_undocumented_.html">◄Undoc►</a> <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    4a02H  <a href="912-_undocumented_.html">◄Undocumented►</a>
+          <span class="c2">BX</span>    Requested size, in bytes
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:DI</span> Address of free space in the HMA<a href="926-qmemhma.html">▲</a>
+                <span class="c2">FFFF:FFFF</span> (error) DOS is not high or insufficient memory
+          ──────────────────────────────────────────────────────────────────
+    Info: Applications, device drivers, and TSRs may use this function as
+          to obtain a smallish chunk of memory outside of conventional
+          memory without using any UMB<a href="927-qmemumb.html">▲</a> space.
+
+          On return, <span class="c2">ES:DI</span> is the address of the allocation, if the request
+          succeeded.  If DOS is not loaded high (so this fn is not
+          supported) of if <span class="c2">BX</span> is larger than the available HMA space, then
+          ES:DI returns with <span class="c2">FFFF:FFFF</span>.
+
+          Before attempting this call, use <a href="705-int_2fh_4a01h__query_hma_free_space_and_address.html">INT 2fH 4a01H</a> to check how much
+          HMA space is available.
+
+   Notes: ■ This service is undocumented, but has been available since
+            DOS 5.0.
+
+          ■ Before accessing the HMA addreses, be sure that A20 is enabled.
+            See <a href="952-xms_07h__query_a20_state.html">XMS 07H</a>.  It is normally enabled all of the time when DOS
+            is high.  When using an HMA suballocation in a TSR or device
+            driver, you should be sure to restore the stat of the A20
+            before terminating or otherwise releasing control.
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

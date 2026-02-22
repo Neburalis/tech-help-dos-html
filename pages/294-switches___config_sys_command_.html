@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SWITCHES= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SWITCHES= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 5.0+</span>
+ Purpose: Selects some DOS low-level options.
+
+    Uses: ■ Keep users from using F5 or F8 to bypass or single-step through
+            the commands in CONFIG.SYS.
+          ■ Lets you move <span class="c2">WINA20.386</span> to a directory other than the root of
+            your boot disk.
+          ■ Speed up the boot sequence.
+          ■ Make some older programs interpret keystrokes correctly.
+
+  Syntax: SWITCHES= [/F] [/K] [/N] [/W]
+
+<span class="c3">█▌Parameters▐█</span>
+
+       <span class="c1">/F</span> forces DOS to skip the normal 2-second delay seen after the
+          <span class="c2">Starting MS-DOS...</span> message (<span class="c2">6.0+</span>).
+
+       <span class="c1">/K</span> makes an enhanced keyboard behave as a conventional keyboard.
+
+       <span class="c1">/N</span> disables the <span class="c2">F5</span> <a href="269-clean_boot.html">Clean Boot</a> and <span class="c2">F8</span> <a href="270-interactive_boot.html">Interactive Boot</a> features of
+          CONFIG.SYS processing (<span class="c2">6.0+</span>).
+
+       <span class="c1">/W</span> lets users of Microsoft Windows place WINA20.386 in a directory
+          other than the root of the boot drive (<span class="c2">6.0+</span>).
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ The <span class="c1">/K</span> option causes DOS keyboard handlers to map such <a href="57-keyboard_scan_codes.html">scan codes</a> as
+    <span class="c2">0e 49</span> (the separate PageUp key) to <span class="c2">49</span> (the PgUp key on the numeric
+    keypad, when numlock is not active).  This is needed only on the oldest
+    PC BIOSes and keyboards.
+
+  ■ When <span class="c1">/N</span> is used, you can still abort AUTOEXEC.BAT by pressing
+    Ctrl+Break repeatedly during startup.
+
+See Also: <a href="269-clean_boot.html">Clean Boot</a>
+          <a href="270-interactive_boot.html">Interactive Boot</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

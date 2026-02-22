@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 150dH: Query CD-ROM Drive Letters - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 150dH: Query CD-ROM Drive Letters</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    150dH
+          <span class="c2">ES:BX</span> address of buffer to receive drive letters
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> buffer contains data
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains a list of DOS logical drive letters that are mapped to
+          CD-ROMs.
+
+    <span class="c2">ES:BX</span> <span class="c1">on entry</span>, this buffer must be at least as long, in bytes, as the
+          value obtained by a previous call to <a href="695-int_2fh_1500h__is_mscdex_installed__count_drive_letters.html">INT 2fH 1500H</a> (count
+          drives).
+
+          <span class="c1">On return</span>, the buffer contains a series of one-byte values
+          identifying the CD-ROM drives, where 0=A, 1=B, 2=C, etc.
+
+          For instance, if there are two CD-ROM drives, and ES:[BX+0]=0cH
+          and ES:[BX+1]=12H, then drives M and S are CD-ROMs (i.e.,
+          '<span class="c2">A</span>'+0cH='<span class="c2">M</span>' and '<span class="c2">A</span>'+12H='<span class="c2">S</span>').
+
+See Also: <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

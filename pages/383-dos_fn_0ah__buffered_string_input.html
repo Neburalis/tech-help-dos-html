@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 0aH: Buffered String Input - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 0aH: Buffered String Input</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    0aH
+          <span class="c2">DS:DX</span> address of a length-prefixed input buffer (see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DS:DX</span> the buffer contains input terminated with CR (ASCII 13H) and
+                identifies the length of the actual input
+          ──────────────────────────────────────────────────────────────────
+    Info: Reads a line of text (up to 254 bytes) from the <a href="828-standard_i_o_and_i_o_redirection.html">Standard Input</a>
+          into a caller-supplied buffer.  You must specify the maximum
+          input length.
+
+          On entry, the buffer at DS:DX must be set up as:
+           ┌───┬───┬───┬───┬───┬───┬─ -
+           │<span class="c1">max</span>│ ? │ ?   ?   ?   ?   ?    <span class="c1">max</span> is maximum acceptable input
+           └───┴───┴───┴───┴───┴───┴ -    (range: 1 to 254)
+          On exit, the buffer is filled:
+           ┌───┬───┬───┬───┬───┬───┬─ -
+           │<span class="c1">max</span>│<span class="c1">len</span>│ H   I  0dH           <span class="c1">len</span> is actual length of input,
+           └───┴───┴───┴───┴───┴───┴ -    less the terminating CR (e.g.,
+          02H)
+
+          Characters are read from the <a href="828-standard_i_o_and_i_o_redirection.html">Standard Input</a> up to a CR
+          (ASCII 0dH) or up to the value of <span class="c1">max</span>-1.  If <span class="c1">max</span>-1 is reached,
+          the console bell rings (beeps) for each character until Enter
+          (CR) is read.
+
+          The second byte of the buffer is filled with the actual length of
+          the input, less the terminating CR.  The final character in the
+          buffer is always CR (which is not counted in the length byte).
+
+   Notes: The DOS &quot;template&quot; editing keystrokes are in effect:
+          ■ The initial contents of the buffer (up to <span class="c1">len</span>) are used as the
+            &quot;current template string&quot;.  Special keys are handled as they
+            are at a standard DOS prompt, for instance:
+             [Esc] displays &quot;\&quot; and restarts the edit;
+             [F3] displays to the end of the template;
+             [F5] displays &quot;@&quot; and stores the line as the template; etc.
+             [Ins] toggles insert mode, [←] backs up and deletes, etc.
+
+          ■ If <span class="c1">len</span> is set to 0 when called, then no template exists.
+
+          ■ If Ctrl-Break is detected, <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> is executed and the buffer
+            is left unchanged.  The default Ctrl+Break handler displays ^C.
+
+          ■ You may also obtain a &quot;cooked&quot; string of standard input using
+            DOS Fn <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> (with BX set to 00H).
+
+See Also: <a href="7-character_i_o_functions.html">Character I/O Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 16H 00H: Read (Wait for) Next Keystroke - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 16H 00H: Read (Wait for) Next Keystroke</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    00H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="57-keyboard_scan_codes.html">scan code</a>
+          <span class="c2">AL</span>    <a href="45-ascii.html">ASCII</a> character code or <a href="55-extended_ascii_keystrokes.html">extended ASCII</a> keystroke
+          ──────────────────────────────────────────────────────────────────
+    Info: If a keystroke is available in the keyboard buffer, this removes
+          it from the queue and returns it in <span class="c2">AH</span> and <span class="c2">AL</span>.
+
+          If no key is available, this waits for a keystroke.  If you want
+          to avoid the wait, use <a href="230-int_16h_01h__query_keyboard_status___preview_key.html">INT 16H 01H</a> to see if a key is ready.
+
+   Notes: ■ On ATs, when the keyboard buffer is empty, this invokes
+            <a href="225-int_15h_90h__device_busy.html">INT 15H 90H</a>, allowing an operating system to switch tasks or
+            whatever, when awaiting a keystroke.
+
+          ■ Also on ATs, this updates the keyboard LEDs to match the
+            current shift status.
+
+          ■ <span class="c2">Extended key filtering:</span> For compatibility with older 83-key
+            'boards, this converts duplicated keys into their older
+            equivalent keys.  Use <a href="234-int_16h_10h__read_extended_keyboard_input.html">INT 16H 10H</a> to get unfiltered key codes.
+
+See Also: <a href="228-int_16h__keyboard_services.html">INT 16H</a> (BIOS keyboard services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

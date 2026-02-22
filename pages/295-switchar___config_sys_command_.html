@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SWITCHAR= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SWITCHAR= (CONFIG.SYS Command)</h1><pre>                                                     Compatibility:<span class="c2"> 2.0 only</span>
+ Purpose: An <a href="912-_undocumented_.html">undocumented</a> CONFIG.SYS command supported by DOS 2.x ONLY.
+          It was intended to let users choose a character other than
+          slash (<span class="c2">/</span>) as the character to begin DOS command-line options
+          (switches).
+
+          Some sort of perverse compatibility with UNIX (and its <span class="c2">-</span><span class="c1">opts</span>
+          format) was no-doubt intended.  It was never really supported,
+          even by DOS commands (let alone third-party programs).
+
+  Syntax: SWITCHES=<span class="c1">c</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+        <span class="c1">c</span> is the desired switch character; e.g., SWITCHAR=<span class="c2">-</span> sets the
+          character to a dash (<span class="c2">-</span>).
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ If you want your command-line parser to look for a character other
+    than <span class="c2">/</span>, be my guest; but it's of no interest to DOS or me.  See <a href="371-psp__program_segment_prefix.html">PSP</a>.
+
+  ■ DOS fn <a href="429-dos_fn_3700h__query_switchar.html">3700H</a> (query switch character) is also obsolete, but remains
+    supported through DOS 6.0.  It always returns 2fH (<span class="c2">/</span>).
+
+  ■ DOS fn <a href="430-dos_fn_3701h__set_switchar.html">3701H</a> (set switch character) is obsolete and unsupported.
+    Calling it is a NOP; it does not return an error, but has no effect.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="831-dos_versions.html">DOS Versions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

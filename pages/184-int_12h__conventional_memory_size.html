@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 12H: Conventional Memory Size - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 12H: Conventional Memory Size</h1><pre>
+ Expects: none  (just execute <span class="c2">INT 12H</span>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    conventional<a href="924-qmemconv.html">▲</a> memory size, in Kbytes
+          ──────────────────────────────────────────────────────────────────
+    Info: This returns the amount of RAM in the conventional memory area.
+
+          This is not particularly useful.  On most computers it always
+          returns 0280H (640 decimal).  This is the same as the value found
+          at 0040:0013 in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>.
+
+          It does not include expanded<a href="925-qmemems.html">▲</a> memory or extended<a href="928-qmemxms.html">▲</a> memory above
+          1 MB.  See <a href="651-emm_functions.html">EMM Functions</a>, <a href="944-xms_functions.html">XMS Functions</a> and <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> for ways to
+          obtain that information.
+
+          On PCs, this value is taken from the switch settings.  PCjrs,
+          XTs, and most clones perform a memory scan during the <a href="264-power_on_self_test.html">POST</a> to
+          determine how much memory is installed.  The AT reads its
+          <a href="60-cmos_storage_layout.html">CMOS Memory</a> to determine the amount of conventional memory, as
+          determined via a &quot;setup utility&quot;.
+
+          The <a href="371-psp__program_segment_prefix.html">PSP: Program Segment Prefix</a> of any program also contains a
+          memory-size value; accessing PSP:0002 is one way to determine how
+          much RAM is available for a program to use.  (DOS or a control
+          program way wish to give your program less than the full amount
+          of RAM).  See <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>.
+
+See Also: <a href="13-memory_management_functions.html">Memory Control Functions</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

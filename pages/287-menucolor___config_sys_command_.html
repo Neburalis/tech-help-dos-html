@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MENUCOLOR= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MENUCOLOR= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 6.0+</span>
+ Purpose: Chooses screen colors for <a href="271-multiconfig_menus.html">MultiConfig Menu</a> display.
+
+  Syntax: MENUCOLOR=<span class="c1">frgnd</span>[,<span class="c1">bkgnd</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+    <span class="c1">frgnd</span> specifies a foreground (text) color number (0 to 15).
+    <span class="c1">bkgnd</span> specifies a background color number (0 to 15; default=0).
+                      ┌───┬─────────────┬────┬────────────────┐
+          <span class="c2">Color Codes</span> │ 0 │ Black       │ 8  │ Gray           │
+                      │ 1 │ Blue        │ 9  │ Bright Blue    │
+                      │ 2 │ Green       │ 10 │ Bright Green   │
+                      │ 3 │ Cyan        │ 11 │ Bright Cyan    │
+                      │ 4 │ Red         │ 12 │ Bright Red     │
+                      │ 5 │ Magenta     │ 13 │ Bright Magenta │
+                      │ 6 │ Brown       │ 14 │ Bright Yellow  │
+                      │ 7 │ White       │ 15 │ Bright White   │
+                      └───┴─────────────┴────┴────────────────┘
+
+    <span class="c2">Note</span>: Don't put any spaces after the comma; use <span class="c1">frgnd</span>,<span class="c1">bkgnd</span> with no
+          intervening spaces (it's a bug in DOS 6.0, folks).
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ Notice that the color codes correspond to <a href="87-screen_attributes.html">Video Attributes</a>.
+
+  ■ At system startup, the video system is still in its default setting in
+    which character-blink is active rather than background-bold (see
+    <a href="140-int_10h_1003h__select_foreground_blink_or_bold_background.html">INT 10H 1003H</a>).  Thus, if you use 8-15 as <span class="c1">bkgnd</span>, you will actually see
+    a background with the corresponding 0-7 color and the foreground
+    characters will blink.
+
+  ■ Screen colors are reset when ANSI.SYS device driver is loaded.  You may
+    want to rearrange the order of your <a href="276-device___config_sys_command_.html">DEVICE=</a> lines to minimize the
+    visual impact.  Or use something like...
+
+      <span class="c2">@Echo ←[</span><span class="c1">nn</span><span class="c2">m</span>   (<span class="c1">nn</span> is an ANSI color code. See <a href="50-ansi_console_escape_sequences.html">ANSI Escape Sequences</a>)
+
+    ...in your AUTOEXEC.BAT file.
+
+See Also: <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

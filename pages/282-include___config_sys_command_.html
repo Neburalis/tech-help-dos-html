@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INCLUDE= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INCLUDE= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 6.0+</span>
+ Purpose: Causes a block of CONFIG.SYS commands to be executed.  This lets
+          you avoid repeating a series of commands that are the same in two
+          or more configurations.
+
+  Syntax: INCLUDE=<span class="c1">blockName</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+<span class="c1">blockName</span> is the name of a block of CONFIG.SYS commands.
+
+          [<span class="c1">blockName</span>] (the same text, enclosed in square brackets, on a
+          line by itself) must appear elsewhere in the CONFIG.SYS file.  If
+          it cannot be found, an error message is displayed.
+
+          The commands below [<span class="c1">blockName</span>] are executed to the next <a href="271-multiconfig_menus.html">[block]</a>
+          line or the end of the CONFIG.SYS file.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 68H: Commit File - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 68H: Commit File</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AH</span>    68H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a> of file to flush
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This function forces DOS to flush its RAM buffers of file data
+          for the selected file handle.
+
+          DOS normally avoids disk I/O by writing data to RAM buffers until
+          a sector is full or the file is closed.  This provides a way to
+          force DOS to write the buffered data to disk.
+
+Versions: ■ Prior to DOS <span class="c2">3.3</span>, you can force a file flush by closing, then
+            reopening the file.  But by using fn <a href="497-dos_fn_45h__duplicate_a_file_handle.html">45H</a> to duplicate the
+            handle and then close the duplicate.
+
+          ■ Starting with DOS <span class="c2">4.0</span>, you can force a flush on each write by
+            opening the file via fn <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a> (extended file open/create).
+
+   Notes: ■ This does NOT flush the <span class="c2">Smartdrv</span> cache buffers (the data may
+            sit in memory for a few seconds).  You can force Smartdrv to
+            write all data by using fn <a href="386-dos_fn_0dh__reset_disk.html">0dH</a> (reset disk).
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

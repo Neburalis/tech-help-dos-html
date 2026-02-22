@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH b702H: Get APPEND.EXE Version - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH b702H: Get APPEND.EXE Version</h1><pre>                                                         Compatibility: <span class="c2">4.0+</span>
+ Expects: <span class="c2">AX</span>    b702H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    Carry Flag clear (NC) if no error
+          <span class="c2">AX</span>    ffffH means this version compatible with DOS <span class="c2">4.0+</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Returned values <span class="c1">other than ffffH</span> indicate some version older than
+          that of DOS 4.0.
+
+          The interface to APPEND.EXE has not changed, up to and including
+          DOS 6.0.
+
+See Also: <a href="744-int_2fh_b7xxh__append_exe_functions.html">INT 2fH b7xxH: APPEND.EXE Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CDS: Current Directory Structure - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CDS: Current Directory Structure</h1><pre>
+ This is the <a href="912-_undocumented_.html">undocumented</a> format of a structure DOS maintains for each
+ logical drive (as set via the <a href="285-lastdrive___config_sys_command_.html">LASTDRIVE=</a> command in <a href="267-the_config_sys_file.html">CONFIG.SYS</a>).
+
+ Use DOS fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a> (get ListOfLists) to locate the first of these structures
+ and to find how many there are.  The second follows directly after the
+ first, and so forth.
+
+<span class="c2">CurDirRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0     67  <span class="c1">szPath</span>       ASCIIZ<a href="913-qasciiz.html">▲</a> <span class="c2">d:\path</span> of current default directory
+  +43H     2  <span class="c1">rFlags</span>       bit-flags describing this drive
+  +45H     4  <span class="c1">pfDPB</span>        FAR address of the <a href="350-dpb__drive_parameter_block.html">DPB</a> for this drive
+  +49H     2  <span class="c1">wClustNo</span>     cluster number of start of default dir
+                             or FAR address of a network redirector record
+  +4bH     4  <span class="c1">pRes</span>         unknown; always ffffffffH
+  +4dH     2  <span class="c1">wNetUsrCode</span>  network user code as stored via fn <a href="539-dos_fn_5f03h__make_network_connection.html">5f03H</a>
+  +4fH     2  <span class="c1">wSlashOffset</span> offset of first '\' in <span class="c1">abPath</span> (to skip <span class="c2">d:</span>)
+  +51H     1  <span class="c1">bRes</span>         unknown
+  +52H     4  <span class="c1">pIFSDrvr</span>     points to IFS (Installable File System) driver
+  +56H     2  <span class="c1">wRes</span>         unknown
+          88               size of this structure (<span class="c2">DOS 4.0+</span>)
+
+      <span class="c1">szPath</span>  This is an ASCIIZ<a href="913-qasciiz.html">▲</a> string giving the entire name of the
+              current default directory for this logical drive, starting
+              with the drive ID (e.g., C:\DOS\UTILS<span class="c2">◄0►</span>).
+
+              On <span class="c2">Subst</span> drives, this is the true name of the directory on the
+              actual drive in which it resides.
+
+      <span class="c1">rFlags</span>  I don't have the layout of these flags but C000H is a network
+              drive, 5000H is a Subst drive, and 0000H is an invalid drive.
+
+       <span class="c1">pfDPB</span>  Address of the <a href="350-dpb__drive_parameter_block.html">Drive Parameter Block</a> (DPB) for this drive.
+
+    <span class="c1">wClustNo</span>  on non-network drives, this is the cluster number of the first
+              cluster of the current default directory for this drive.
+
+              On network drives, this is the address of a network redirector
+              record.
+
+ <span class="c1">wNetUsrCode</span>  on network drives, this is the &quot;user code&quot; that was passed in
+              <span class="c2">CX</span> to DOS fn <a href="539-dos_fn_5f03h__make_network_connection.html">5f03H</a> (make network connection).
+
+<span class="c1">wSlashOffset</span>  This is usually <span class="c2">0002H</span>; it is the offset of the first backslash
+              (<span class="c2">\</span>) in the <span class="c1">szPath</span> field (you add this to the addr of the start
+              of the record and viola, you are past the d: drive ID.
+
+    <span class="c1">pIFSDrvr</span>  For drives that are part of an &quot;Installable File System&quot;, this
+              is the address of the IFS driver.  Sorry, I have no info on
+              IFSs.
+
+See Also: fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a> (get DOS vars address/ListOfLists)
+          fn <a href="499-dos_fn_47h__query_default_directory.html">47H</a> (query default directory)
+          fn <a href="434-dos_fn_3bh__set_dos_default_directory____chdir.html">3bH</a> (set default directory -- CHDIR)
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

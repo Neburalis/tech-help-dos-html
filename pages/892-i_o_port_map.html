@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>I/O Port Map - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>I/O Port Map</h1><pre>
+   • Ports 000H-0ffH are reserved for and used by the system board
+   • Ports 100H-3ffH are decoded on the I/O bus for use by adapter cards
+   • Ports 400H and up are not available on the system bus
+
+ The following table summarizes I/O port usage for the PC/XT and AT.
+ Individual ports covered in greater detail are marked with a hyperlink.
+ Additional info is covered in <a href="893-i_o_port_detail.html">I/O Port Detail</a>.  See <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+ for info on hardware connectors.
+
+  AT      PC/XT   Description                              More Information
+▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+000-01f  000-00f  DMA controller #1, 8237A-5.              <a href="908-dma_ports.html">DMA Ports</a>
+020-03f  020-021  Interrupt controller, 8259A.             <a href="905-interrupt_controller_ports.html">Int Controller</a>
+040-05f  040-043  Timer 8253-5 (AT: 8254.2).               <a href="904-timer_ports.html">Timer Ports</a>
+         060-063  PPI (Programmable Peripheral Interface)  <a href="906-programmable_peripheral_interface__ppi__ports.html">PPI Ports</a>
+                  keyboard, equipment switches, timer
+060-06f           Keyboard controller 8042                 <a href="894-at_keyboard_functions.html">AT Keyboard</a>
+070-07f           Real-time clock, CMOS Memory, NMI mask   <a href="60-cmos_storage_layout.html">CMOS Memory</a>
+080               manufacture's diagnostic checkpoint
+080-09f  080-083  DMA page register 74LS612                <a href="908-dma_ports.html">DMA Ports</a>
+         0a0      NMI (Non-maskable Interrupt) mask
+0a0-0bf           Interrupt Controller #2, 8259A
+0c0-0df           DMA controller #2, 8237A-5               <a href="908-dma_ports.html">DMA Ports</a>
+0f0-0ff           Math Coprocessor
+
+102               PS/2 Programmable Option Select
+
+170-177           Hard disk (secondary)                    <a href="897-at_hard_disk_ports.html">AT Hard Disk Ports</a>
+1f0-1f7           Hard disk                                <a href="897-at_hard_disk_ports.html">AT Hard Disk Ports</a>
+200-207  200-20f  Game I/O (joystick A/D port)             <a href="902-game_i_o_adapter_port.html">Joystick Port</a>
+         210-217  Expansion Box
+278-27f  278-27f  Parallel Printer #2 (#3 with MDA)        <a href="907-parallel_printer_adapter_ports.html">Printer Ports</a>
+2c0-2df  2c0-2df  EGA #2                                   <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+2e8-2ef           Asynchronous Adapter Port #4             <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+2f8-2ff  2f8-2ff  Asynchronous Adapter Port #2             <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+300-31f           Prototype card
+         320-32f  Hard disk                                <a href="898-xt_hard_disk_ports.html">XT Hard Disk Ports</a>
+370-377           Diskette Controller (secondary)          <a href="896-diskette_controller_ports.html">FDC Ports</a>
+378-37f  378-37f  Parallel Printer #1 (#2 with MDA)        <a href="907-parallel_printer_adapter_ports.html">Printer Ports</a>
+380-38f  380-38f  Synchronous Data Link Control (SDLC)
+3a0-3af  3a0-3a9  Bisynchronous port #1
+
+3b0-3df  3b0-3df  Video Graphics Array (VGA)               <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+3b0-3bf  3b0-3bf  Monochrome Display Adapter/Printer #1    <a href="907-parallel_printer_adapter_ports.html">Printer Ports</a>
+3c0-3cf  3c0-3cf  Enhanced Graphics Adapter (EGA) #1       <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+3d0-3df  3d0-3df  Color/Graphics Adapter (CGA) and EGA     <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+
+3f0-3f7  3f0-3f7  Diskette controller                      <a href="896-diskette_controller_ports.html">FDC Ports</a>
+3ef-3ff           Asynchronous Adapter Port #3             <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+3f8-3ff  3f8-3ff  Asynchronous Adapter Port #1             <a href="895-asynchronous_adapter_ports.html">Serial Ports</a>
+
+See Also: <a href="893-i_o_port_detail.html">I/O Port Detail</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

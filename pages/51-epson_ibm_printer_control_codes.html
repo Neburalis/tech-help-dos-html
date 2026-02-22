@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Epson/IBM Printer Control Codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Epson/IBM Printer Control Codes</h1><pre>
+  These are the printer control codes for IBM/Epson - compatible printers.
+
+  Hex Dec  Description
+  ▀▀▀ ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  07    7  (BEL) sounds a beep
+  09    9  (HT) move to next tab stop  (See ESC D)
+  0a   10  (LF) Linefeed: moves the paper up on line
+  0b   11  (VT) feed lines to next vertical tab stop (See ESC B)
+  0c   12  (FF) Formfeed: advance to top of page (See ESC C)
+  0d   13  (CR) Carriage Return: prints line (no linefeed)
+  0e   14  start DOUBLE-WIDTH printing (ends on CR or LF.  See ESC W)
+  0f   15  start COMPRESSED mode printing
+  11   17  select printer
+  12   18  end COMPRESSED mode printing
+  13   19  deselect printer
+  14   20  end DOUBLE WIDTH printing
+  18   24  (CAN) clears the printer buffer
+  1b   27  (ESC) lead-in code for multi-character sequences (See below)
+  7f  127  (DEL) clears the printer buffer
+
+ These ESC sequences are arranged by rough functional groups.  Values shown
+ in the form <span class="c2">◄n►</span> indicate binary codes.
+
+ ASCII      Hex          Description
+ ▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+                         <span class="c1">Fonts / Print Options</span>
+ ESC - <span class="c2">◄1►</span>  1b 2d 01     begin UNDERLINE
+ ESC - <span class="c2">◄0►</span>  1b 2d 00     end underline
+
+ ESC E      1b 45        start EMPHASIZED-MODE printing
+ ESC F      1b 46        end emphasized-mode printing
+
+ ESC G      1b 47        start DOUBLE-STRIKE printing
+ ESC H      1b 48        end double-strike printing
+
+ ESC S <span class="c2">◄0►</span>  1b 53 00     start SUPERSCRIPT printing
+ ESC S <span class="c2">◄1►</span>  1b 53 01     start SUBSCRIPT printing
+ ESC T      1b 54        end Superscript or Subscript printing
+
+ ESC W <span class="c2">◄1►</span>  1b 57 01     start DOUBLE-WIDTH printing (not canceled by LF)
+ ESC W <span class="c2">◄0►</span>  1b 57 00     end double-width printing
+
+ ESC 6      1b 36        select character set 2
+ ESC 7      1b 37        select character set 1
+
+                         <span class="c1">Line Spacing / Page Length</span>
+ ESC 0      1b 30        8 LPI: start 1/8-inch line height
+ ESC 1      1b 31        start 7/72-inch line height
+
+ ESC 3 <span class="c2">◄n►</span>  1b 33 xx     set variable line spacing to ◄n►/216-inch
+ ESC J <span class="c2">◄n►</span>  1b 4a xx     set line height to ◄n►/216-inch for next LF (0aH)
+ ESC 2      1b 32        execute variable-height line feed (See ESC A) also
+                         6 LPI: set 1/6&quot; line height (if no prior ESC 2)
+ ESC A <span class="c2">◄n►</span>  1b 41 xx     select a line height of ◄n►/72-inch.
+                           (this is a one-shot linefeed triggered by ESC 2)
+
+ ESC C <span class="c2">◄n►</span>  1b 43 xx     set lines per page to n (0-7fH)
+ ESC N <span class="c2">◄n►</span>  1b 4e xx     set skip perforation to ◄n► lines
+ ESC O      1b 4f        cancel perforation skip
+
+                         <span class="c1">Miscellaneous</span>
+ ESC 8      1b 38        ignore end of paper
+ ESC 9      1b 39        cancel ignore end of paper
+ ESC &lt;      1b 3c        home head
+ ESC U <span class="c2">◄1►</span>  1b 55 01     start uni-directional printing
+ ESC U <span class="c2">◄0►</span>  1b 55 00     start bi-directional printing
+
+ ESC B <span class="c2">◄n..0►</span>            set VERTICAL TAB STOPS (send ESC B followed by a
+            1b 42 xx..00    series of binary values, ending in a byte of 0)
+ ESC D <span class="c2">◄n..0►</span>            set HORIZONTAL TAB STOPS (send ESC D followed by a
+            1b 44 xx..00    series of binary values, ending in a byte of 0)
+
+                         <span class="c1">Graphics</span>
+ ESC K <span class="c2">◄n1►◄n2►◄b1..bn►</span>  480-dot bit-image grafix.  Print n1+(256*n2) bytes
+            1b 4b xx xx yy..yy   (top dot for bit 0, bottom dot for bit 7)
+
+ ESC L ...  1b 4c ...    960-dot graphics--slow mode (See ESC K, ESC Y)
+
+ ESC Y ...  1b 59 ...    960-dot bit-image graphics--fast mode  (See ESC K)
+                           (can't print in consecutive dot positions)
+ ESC Z ...  1b 59 ...    1920-dot bit-image graphics (See ESC K for format)
+                           (can print only every third consecutive dot)
+
+See Also: <a href="48-ascii_control_codes.html">ASCII Control Codes</a>
+          <a href="47-character_set_matrix.html">Character Set Matrix</a>
+          <a href="46-ascii_decimal_hex_binary_cross_reference.html">ASCII■Decimal■Hex■Binary XRef</a>
+          <a href="45-ascii.html">ASCII</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

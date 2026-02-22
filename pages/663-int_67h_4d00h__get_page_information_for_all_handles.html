@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 4d00H: Get Page Information For All Handles - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 4d00H: Get Page Information For All Handles</h1><pre>                                                     Compatibility: <span class="c2">EMS 3.2+</span>
+ Expects: <span class="c2">AX</span>    4d00H
+          <span class="c2">ES:DI</span> buffer to receive return information
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">BX</span>    count of active handles
+          <span class="c2">ES:DI</span> buffer contains (<span class="c2">BX</span>*4) bytes of data
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the size of allocations for all currently-open EMM
+          handles.
+
+    <span class="c2">ES:DI</span> <span class="c1">on entry</span>, the buffer at this address should be large enough to
+          hold the returned data.  You need 4 bytes for each handle.  Use
+          <a href="662-int_67h_4c00h__count_active_handles.html">INT 67H 4c00H</a> to see how many handles exist.
+
+          <span class="c1">On return</span>, this buffer contains <span class="c2">BX</span> entries in the form:
+
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      2  <span class="c1">wHandle</span>    the handle number
+            +2      2  <span class="c1">wAllocdPgs</span> size of allocation, in 16K units
+                    4             size of one record
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

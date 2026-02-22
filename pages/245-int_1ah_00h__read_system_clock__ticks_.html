@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1aH 00H: Read System Clock (Ticks) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1aH 00H: Read System Clock (Ticks)</h1><pre>                                                              [PC] [XT] [AT]
+ Expects: <span class="c2">AH</span>    00H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0 if timer has not overflowed past 24 hrs since reset
+          <span class="c2">CX,DX</span> Ticks since last reset; CX is high, DX is low
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the current tick-count.  The tick count is stored at
+          0040:006E in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>.  It is incremented about once
+          every 55 ms by <a href="105-int_08h__timer_interrupt.html">INT 08H</a>:
+
+            clock updates at 1193180/65536 (about 18.2) ticks per second.
+            counts per second ≈ 18
+            counts per minute ≈ 1092
+            counts per hour   ≈ 65543
+            counts per day    ≈ 1573040
+
+See Also: <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH</a> (BIOS Time I/O)
+          DOS fn <a href="413-dos_fn_2ch__query_dos_time.html">2cH</a> (get system time)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CVF Region: BootSect - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CVF Region: BootSect</h1><pre>
+ The <span class="c2">BootSect</span> is one-sector long (512 bytes).  It is located 31 sectors
+ after the end of the <a href="808-cvf_region__mdfat.html">MDFAT</a>; its location can be obtained from the
+ <span class="c1">wMdResSects</span> field (offset 27H) of the <a href="806-cvf_region__mdbpb.html">MdBpbRec</a>.
+
+ It is identical to a standard <a href="337-boot_sector_layout.html">Boot Sector</a>, as it would exist for a
+ physical drive of the (estimated) disk size except that it does NOT
+ necessarily contain any executable boot code.  It exists as part of the
+ DoubleSpace &quot;simulation&quot; of a real disk.
+
+ One Boot Sector field bears mention:  the <span class="c1">bFatCnt</span> (offset 10H) contains
+ 02H, even though the CVF does not maintain a duplicate of the <a href="359-fat__dos_file_allocation_table.html">FAT</a>.  When
+ programs request a sector which would be part of the second FAT,
+ DoubleSpace returns a sector from the &quot;first&quot; (only) FAT.
+
+See Also: <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

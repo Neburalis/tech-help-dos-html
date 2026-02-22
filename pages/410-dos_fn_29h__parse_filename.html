@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 29H: Parse Filename - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 29H: Parse Filename</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    29H
+          <span class="c2">AL</span>    bit-flags to select parsing options (see below)
+          <span class="c2">DS:SI</span> address of source text line to parse
+          <span class="c2">ES:DI</span> address of buffer to hold resulting unopened <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0    if result FCB has no wildcard characters  
+                1    if result FCB does contain wildcards<a href="935-qwildcard.html">▲</a>
+                0ffH if invalid drive ID in filespec
+          <span class="c2">DS:SI</span> updated: points to the character just past the filename
+          <span class="c2">ES:DI</span> preserved: points to the unopened FCB
+          ──────────────────────────────────────────────────────────────────
+    Info: Creates an unopened <a href="360-fcb__file_control_block.html">FCB</a> from a text line or command parameter.
+          The text starting at DS:SI is parsed for a filespec in the format
+          D:FILENAME.EXT and the buffer at ES:DI is filled in as a
+          properly-formatted, unopened FCB.
+
+     <span class="c2">═══► This Fn is NOT useful for a text line containing a pathname.</span>
+          Basically, this is a quick way to skip leading spaces, upshift
+          and remove the dot (.) from a filename input from the keyboard.
+          It converts <span class="c1">*</span> into a series of <span class="c1">?</span>s and it allows you to pre-set a
+          default in the destination FCB (e.g., extension = &quot;WKS&quot;).
+
+          The parsing action depends upon these bit flags in AL:
+          ╓7┬6┬5┬4┬3┬2┬1┬0╖
+          ║0 0 0 0│ │ │ │ ║
+          ╙─┴─┴─┴─┴╥┴╥┴╥┴╥╜ <span class="c3">bit</span>                                  <span class="c3">mask value</span>
+                   ║ ║ ║ ╚═► 0: 1=scan off leading separators     (a | 01H)
+                   ║ ║ ╚═══► 1: 1=use FCB drive byte as a default (a | 02H)
+                   ║ ╚═════► 2: 1=use FCB filename as a default   (a | 04H)
+                   ╚═══════► 3: 1=use FCB extension as a default  (a | 08H)
+
+See Also: Fn <a href="541-dos_fn_60h__query_truename.html">60H</a> (Get Truename)
+          <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

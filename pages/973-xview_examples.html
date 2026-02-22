@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>xView■Examples - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>xView■Examples</h1><pre>                                                           <a href="974-xview_notes.html">Notes</a> │ <a href="972-xview_syntax.html">Syntax</a>
+ <span class="c2">xview</span>
+  starts TECH Help! for interactive browsing.  It is not made RAM-resident.
+
+ <span class="c2">xview mouse /H</span>
+  starts TECH Help! and immediately turns to &quot;INT 33H: Mouse Support&quot; topic
+  and sets the screen to 43-line mode on EGA and 50-line mode on VGAs (<span class="c1">/H</span>).
+  xView is not made RAM-resident.
+
+ <span class="c2">xview &quot;file alloc&quot;</span>
+  starts TECH Help! and immediately turns to &quot;File Allocation Table&quot; topic.
+  Quotes are used to keep the <span class="c1">topic</span> as a single lookup parameter.
+
+ <span class="c2">XVIEW /I /K=CH,CL</span>
+  installs TECH Help! as a RAM-resident TSR<a href="917-qtsr.html">▲</a> using about 140K of
+  conventional memory (<span class="c1">/I</span>).  It displays the logo screen and then
+  returns to DOS.  The hot keys are set to <span class="c1">Ctrl+H</span> and <span class="c1">Ctrl+L</span> (<span class="c1">/K=CH,CL</span>).
+
+ <span class="c2">Loadhigh XVIEW /I</span>
+  installs TECH Help! as a TSR.  On many systems, this will use about 90K
+  of conventional memory and about 50K of upper memory.  Your results can
+  vary, depending upon UMB availability.
+
+ <span class="c2">xview /IX /Q</span>
+  installs TECH Help! as a RAM-resident TSR using about 5K of memory and
+  will swap to and from extended memory (<span class="c1">/IX</span>).  It will not make a big
+  production about going resident (<span class="c1">/Q</span>).  It will use the default keys (<span class="c1">Alt+H</span>
+  and <span class="c1">Alt+L</span>) for popping up.
+
+ <span class="c2">┌─────────────────────────────────────────────────(ED.BAT)</span>
+ <span class="c2">│</span>@Echo off
+ <span class="c2">│</span>REM ------ make TECH Help! resident while editing
+ <span class="c2">│xview /M=c:\help\tech60.h! /I /Q /K=cF1,cF2</span>
+ <span class="c2">│</span>Edit %1
+ <span class="c2">│xview /U /Q</span>
+ <span class="c2">└─────────────────────────────────────────────────────────</span>
+  This batch file loads TECH Help! as a TSR, setting its hot keys to
+  Ctrl+F1 and Ctrl+F2 (<span class="c1">/K=CF1,CF2</span>) to avoid conflict with keys used by the
+  MS-DOS Edit program.  It then runs Edit, passing it a filename to edit.
+  When you exit from Edit, the batch file then unloads TECH Help! from
+  memory.  Example...
+
+    <span class="c2">ed myprog.asm</span>
+
+  ...will edit MYPROG.ASM and let you use Ctrl+F1 to popup TECH Help!
+  while editing.
+
+See Also: <a href="974-xview_notes.html">Notes</a>
+          <a href="972-xview_syntax.html">Syntax</a>
+          <a href="970-installing_tech_help_.html">Installing TECH Help!</a>
+          <a href="971-popup_help_.html">Popup Help!</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

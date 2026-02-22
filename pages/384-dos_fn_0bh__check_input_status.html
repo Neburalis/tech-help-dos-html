@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 0bH: Check Input Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 0bH: Check Input Status</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    0bH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0ffH if a character is available from the <a href="828-standard_i_o_and_i_o_redirection.html">Standard Input</a>
+                0    if no character is available
+          ──────────────────────────────────────────────────────────────────
+    Info: Checks the status of the Standard Input.
+
+          If Ctrl-Break is detected, <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> is executed.
+
+   Notes: ■ Use before Fns <a href="374-dos_fn_01h__keyboard_input.html">01H</a>, <a href="380-dos_fn_07h__no_echo_unfiltered_console_input.html">07H</a>, and <a href="381-dos_fn_08h__no_echo_console_input.html">08H</a> to avoid having DOS wait for a
+            key.
+
+          ■ This is a simple, non-destructive way to check for Ctrl-Break
+            during long calculations or other processing that does not
+            normally look for input.  It lets the user abort from such a
+            sequence.
+
+See Also: <a href="228-int_16h__keyboard_services.html">INT 16H</a>
+          <a href="7-character_i_o_functions.html">Character I/O Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

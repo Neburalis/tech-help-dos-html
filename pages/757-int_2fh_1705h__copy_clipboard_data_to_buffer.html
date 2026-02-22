@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1705H: Copy Clipboard Data to Buffer - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1705H: Copy Clipboard Data to Buffer</h1><pre>                                                    Compatibility:  <span class="c2">WIN 3.0+</span>
+ Expects: <span class="c2">AX</span>    1705H
+          <span class="c2">DX</span>    WinOldApp-supported <a href="761-clipboard_data_formats.html">clipboard data format code</a>
+          <span class="c2">ES:BX</span> address of buffer to receive data (see NOTE, below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000h = fn failed (DX-type data not present)
+                else  = success; data was copied to buffer
+          ──────────────────────────────────────────────────────────────────
+    Info: This copies data from the clipboard to a local buffer.
+          Equivalent to <span class="c2">GetClipboardData</span>.
+
+   <span class="c2">NOTE!:</span> You <span class="c1">must</span> be certain that your buffer is large enough to hold the
+          data.  Use <a href="756-int_2fh_1704h__query_size_of_clipboard_data.html">INT 2fH 1704H</a> (GetClipboardDataSize) to see how large
+          the buffer must be.  There is no sanity check--and clipboard data
+          can be very large.
+
+See Also: <a href="751-int_2fh_17xxh__windows_clipboard_functions.html">INT 2fH 17xxH: Windows Clipboard Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

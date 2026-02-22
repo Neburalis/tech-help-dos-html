@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>BREAK= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>BREAK= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 1.0+</span>
+ Purpose: Sets how often DOS checks for Ctrl+Break (Ctrl+C).
+
+          A similar command can be executed in batch files or at the DOS
+          command prompt (the <span class="c2">Break</span> command).
+
+  Syntax: BREAK=<span class="c1">ON</span>
+      or: BREAK=<span class="c1">OFF</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+      <span class="c1">OFF</span> (default setting) DOS checks for Ctrl+Break only during console
+          or printer I/O (while getting keyboard input, displaying text on
+          the screen, or outputting to the printer).
+
+       <span class="c1">ON</span> DOS checks for Ctrl+Break more often, including during disk I/O.
+
+          The default setting is BREAK=OFF.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ This is equivalent to calling DOS fn <a href="422-dos_fn_3301h__set_break_check_level.html">3301H</a>.
+
+  ■ Ctrl+C or Ctrl+Break are handled by <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a>.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

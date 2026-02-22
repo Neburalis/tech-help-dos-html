@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Load Overlay Record (ExecOverlayRec) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Load Overlay Record (ExecOverlayRec)</h1><pre>
+ This structure is used in fn <a href="506-dos_fn_4b03h__load_overlay.html">4b03H</a> (load an overlay).
+
+<span class="c2">ExecParamRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wStartSeg</span>    segment to load the overlay (at offset 0)
+   +2      2  <span class="c1">wReloFactor</span>  Relocation factor
+           4               length of an ExecOverlayRec
+
+   <span class="c1">wStartSeg</span>  The segment address at which to load the overlay.  This memory
+              must be owned by the caller.
+
+ <span class="c1">wReloFactor</span>  The factor to be added to each segment reference on the load
+              module during segment fixup.  For .EXE-format overlays, this
+              is normally the same as <span class="c1">wStartSeg</span>.  For .COM files (binary
+              images that need no fixups), this should be 0.
+
+See Also: <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="371-psp__program_segment_prefix.html">PSP: Program Segment Prefix</a>
+          <a href="346-dos_environment.html">DOS Environment</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

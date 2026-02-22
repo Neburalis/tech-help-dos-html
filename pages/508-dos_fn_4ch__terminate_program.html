@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4cH: Terminate Program - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4cH: Terminate Program</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    4cH
+          <span class="c2">AL</span>    <a href="920-qexitcode.html">exit code▲</a> to return to parent (or for ERRORLEVEL)
+          ──────────────────────────────────────────────────────────────────
+ Returns: none  (not applicable)
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns control of a child process to its parent, setting an exit
+          code value that may be queried by DOS Fn <a href="509-dos_fn_4dh__get_program_exit_code.html">4dH</a>.
+
+          Control is passed to the Terminate Address of <a href="371-psp__program_segment_prefix.html">PSP</a> of the exiting
+          program.  Ctrl-Break and Critical Error handler vectors are
+          restored to the addresses from the parent's PSP.
+
+   Notes: ■ The <span class="c1">ERRORLEVEL</span> value (used in DOS batch files) can be used to
+            check the exit code of the most recent program.
+
+See Also: <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwNtfy Fn 0006H: Switcher Is Destroying a Session - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwNtfy Fn 0006H: Switcher Is Destroying a Session</h1><pre>
+  Expect: <span class="c2">AX</span>    0006H
+          <span class="c2">BX</span>    ID of the session
+          <span class="c2">ES:DI</span> addr of switcher's service-entry address
+          ──────────────────────────────────────────────────────────────────
+  Return: <span class="c2">AX</span>    0000H (you must return 0 in all cases)
+          ──────────────────────────────────────────────────────────────────
+    Info: Task switchers call this to let you know that a session is about
+          to be destroyed.  It gives you a chance perform any cleanup
+          needed to process the end of a session.
+
+          When called, interrupts are enabled you may use all DOS fns.
+
+       <span class="c2">BX</span> will contain the session ID of the session that is about to be
+          destroyed. (<span class="c2">Note</span>: it need <span class="c1">not</span> be the current active session).
+
+    <span class="c2">ES:SI</span> will contain the task switcher's service entry address.  Use this
+          address if you need to call any task-switcher service fns.
+
+  Return: <span class="c2">AX</span>=0000H you must return 0.  Tasks have not veto power here.
+
+   Notes: You may get this call without first seeing a <a href="721-swntfy_fn_0006h__switcher_is_destroying_a_session.html">SwNtfyFn 0006H</a>
+          (session is being created).  That call is broadcasted when some
+          task has vetoed the new session.  In that case, you may ignore
+          this call.
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

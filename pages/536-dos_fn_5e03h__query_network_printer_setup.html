@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5e03H: Query Network Printer Setup - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5e03H: Query Network Printer Setup</h1><pre>                                                         Compatibility: <span class="c2">3.1+</span>
+ Expects: <span class="c2">AX</span>    5e03H
+          <span class="c2">BX</span>    network assign-list index (as obtained via fn <a href="538-dos_fn_5f02h__network_query_assign_list_entry.html">5f02H</a>)
+          <span class="c2">ES:DI</span> address of 64-byte buffer to receive printer setup data
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">CX</span>    length of printer setup data, in bytes
+          ──────────────────────────────────────────────────────────────────
+    Info: This function obtains the setup data to be used for a particular
+          network printer (as set by a previous call to fn <a href="535-dos_fn_5e02h__set_network_printer_setup.html">5e02H</a>).  DOS
+          will send this data to the printer each time it prints a file.
+
+          The value for <span class="c2">BX</span> is obtained by calling fn <a href="538-dos_fn_5f02h__network_query_assign_list_entry.html">5f02H</a> one or more
+          times until the network name of the desired printer is found.
+          This index value can change at any time, so be sure to get it
+          directly before calling this fn.
+
+See Also: fn <a href="538-dos_fn_5f02h__network_query_assign_list_entry.html">5f02H</a> (get network assign-list entry)
+          <a href="16-network_and_file_sharing_functions.html">Network Functions</a>
+          <a href="17-printer_functions.html">Printer Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

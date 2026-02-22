@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>AT Keyboard Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>AT Keyboard Functions</h1><pre>
+ The keyboard of the <a href="830-system_compatibility.html">AT</a> (and its Intel 8042 microcomputer interface) is
+ programmable.  You can set the key-repeat rate and delay and control the
+ &quot;lock&quot; key LED display.
+
+ The keyboard controller generates interrupt level 1 (<a href="96-irqs__hardware_interrupts.html">IRQ</a> 1) on each press
+ and release of a key.  IRQ 1 is vectored to <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a> and handled by BIOS.
+
+ Port <span class="c2">60H</span> is for writing data and is maintained for compatibility with
+ earlier models.  If the examples using port <span class="c2">64H</span> don't work, try using 60H.
+
+ Port 64H is for writing commands and data and for reading keyboard status.
+ Before sending a command to the keyboard, the BIOS tests its status
+ (IN AL,64H) and makes sure a key isn't being pressed or the internal
+ buffer isn't full, etc.  There's a small risk if you just go ahead and
+ send the command:
+
+     mov   al,cmd_code
+     out   64H,al
+
+ For a two-part command such as setting the typeamatic rate, it's wise to
+ delay a little while between OUTs:
+
+       mov   al,cmd_code
+       out   64H,al
+       mov   cx,2000H  ;arbitrary
+delay: loop  delay
+       mov   al,data_value
+       out   64H,al
+
+Cmd  Description
+▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+0ffH Reset the keyboard and start internal diagnostics
+0feH Resend the last transmission
+0fdH-0f7H (NOP)
+0f6H Set keyboard to defaults and continue scanning
+0f5H Set keyboard to defaults and disable keyboard scanning
+0f4H Enable keyboard. Kybd sends 'ACK', clears buffer, and starts scanning
+──── ───────────────────────────────────────────────────────────────────────
+0f3H Set typeamatic rate and delay.  First send 0f3H, then send data byte:
+     ╓7┬6┬5┬4┬3┬2┬1┬0╖
+     ║0│<span class="c1">dly</span>│ <span class="c1">reptRate</span>║
+     ╙╥┴─┴─┴─┴─┴─┴─┴─╜
+      ║ ╚╦╝ ╚═══════╩═► bits 0-4 set the repeat rate (see below)
+      ║  ╚════════════► bits 5-6 set initial delay before first repeat:
+      ║                          00=250ms; 01=500ms; 10=750ms; 11=1000ms
+      ╚═══════════════► bit 7 is always 0
+                                                    Value Rate    Value Rate
+     This chart is a partial guide for the repeat    0  = 30.0    0aH = 10.0
+     rate (bits 0-4).  You can interpolate for       1  = 26.7    0dH =  9.2
+     values not shown, but let's face it, you're     2  = 24.0    10H =  7.5
+     only interested in the fastest rates.           4  = 20.0    14H =  5.0
+                                                     8  = 15.0    1fH =  2.0
+
+     The keyboard is initially set to begin repeating after 1/2-second and
+     repeat at 10 repeats per second.  This is much too slow.  A data byte
+     of 01H sets the delay to 1/4-second with 26 repeats per second.
+     See <a href="232-int_16h_03h__set_keyboard_typematic_rate_and_delay.html">INT 16H 03H</a> (set keyboard rate and delay)
+──── ───────────────────────────────────────────────────────────────────────
+0f2H-0efH (NOP)
+0eeH Echo.  Diagnostics aid.  Simply sends 0eeH right back.
+──── ───────────────────────────────────────────────────────────────────────
+0edH Turn LED 'lock key' lights on or off. First send 0edH, then send byte:
+     ╓7┬6┬5┬4┬3┬2┬1┬0╖
+     ║ not used│c│n│s║
+     ╙─┴─┴─┴─┴─┴╥┴╥┴╥╜
+                ║ ║ ╚═► ScrollLock light 01H=turn on
+                ║ ╚═══► NumLock light    02H=turn on
+                ╚═════► CapsLock light   04H=turn on
+
+     The bit positions 0-3 correspond to bits 4-6 of the <a href="58-keyboard_shift_status_flags.html">keyboard flags</a>
+     variable in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>.  You should make an effort to keep the
+     flags in sync with the lights.  For instance, if you do a big favor for
+     the user and set his ten-key pad into NumLock mode (by setting bit 5 of
+     0:0417) then be sure to turn on the corresponding LED (e.g., bit 1).
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="228-int_16h__keyboard_services.html">INT 16H</a> (BIOS keyboard services)
+          <a href="58-keyboard_shift_status_flags.html">Keyboard Flags</a>
+          <a href="57-keyboard_scan_codes.html">Keyboard Scan Codes</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

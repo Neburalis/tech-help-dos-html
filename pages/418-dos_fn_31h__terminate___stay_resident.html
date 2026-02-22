@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 31H: Terminate &amp; Stay Resident - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 31H: Terminate &amp; Stay Resident</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    31H
+          <span class="c2">AL</span>    exit code<a href="920-qexitcode.html">▲</a> to be made available to fn <a href="509-dos_fn_4dh__get_program_exit_code.html">4dH</a>
+          <span class="c2">DX</span>    memory size to keep resident, in 16-byte paragraphs
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>  (not applicable)
+          ──────────────────────────────────────────────────────────────────
+    Info: Exits to the parent process, leaving code and data in memory and
+          setting the exit code in AL.  See <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> for related topics.
+
+          DOS sets the initial memory allocation (at your <a href="371-psp__program_segment_prefix.html">PSP</a> segment
+          address) to the size specified by <span class="c2">DX</span> and returns control to the
+          parent process, keeping that much memory resident (bytes
+          remaining resident = <span class="c2">DX * 16</span>).
+
+          This function also performs the following actions:
+          ■ Flushes file buffers and closes all open files.
+          ■ Sets the <a href="562-int_22h__terminate_address.html">INT 22H</a> vector to the value at PSP:000AH.
+          ■ Sets the <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> vector to the value at PSP:000EH.
+          ■ Sets the <a href="564-int_24h__critical_error_handler.html">INT 24H</a> vector to the value at PSP:0012H (<span class="c2">2.0+</span>).
+
+   Notes: ■ This DOES NOT free up any other blocks allocated via Fn <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">48H</a>.
+
+            It's wise to free your <a href="346-dos_environment.html">environment</a> block beforehand (call
+            Fn <a href="501-dos_fn_49h__free_allocated_memory_block.html">49H</a> with ES= the WORD at <a href="371-psp__program_segment_prefix.html">PSP</a> offset 2cH).
+
+          ■ This function supersedes <a href="566-int_27h__terminate_but_stay_resident.html">INT 27H</a> which does not return an exit
+            code and can't install resident programs larger than 64K.
+
+See Also: <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>
+          <a href="18-process_control_functions.html">Process Control</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

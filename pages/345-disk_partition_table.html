@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Disk Partition Table - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Disk Partition Table</h1><pre>
+ The very first sector of a <span class="c2">hard disk</span> (head 0, cylinder 0, sector 1)
+ contains the <span class="c1">Master Boot Record</span> which is loaded into memory at 0:7c00 and
+ executed by the ROM-BIOS during the <a href="263-system_startup_sequence.html">System Startup Sequence</a>.
+
+ The last part of this sector contains the partition table--a 4-entry table
+ with each entry being 16 bytes long.  This table is manipulated by FDISK
+ (or the equivalent utility of a non-DOS operating system).
+
+ At boot time, the ROM-BIOS loads the Master Boot Record and jumps to its
+ code.  That code examines the Partition Table to determine which partition
+ is marked as active.  It then reads the correct boot sector into memory
+ and executes it.
+
+<span class="c2">MasterBootRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0    1beH <span class="c1">abBootCode</span>   master boot executable code
+ +1beH    10H <span class="c1">rPrtnInfo_1</span>  partition 1 entry  (see below)
+ +1ceH    10H <span class="c1">rPrtnInfo_2</span>  partition 2 entry
+ +1deH    10H <span class="c1">rPrtnInfo_3</span>  partition 3 entry
+ +1eeH    10H <span class="c1">rPrtnInfo_4</span>  partition 4 entry
+ +1feH     2  <span class="c1">wPrtnTblSig</span>  partition table signature (<span class="c2">aa55H</span>)
+         512               size of the master boot sector
+
+  <span class="c1">abBootCode</span>  The first part of the sector (446 bytes) contains executable
+              code.  This code examines the partition table (starting at
+              offset 1beH) and learns which partition is active.  It then
+              seeks to that portion of the disk and reads the first sector
+              of that partition.  That sector is laid out as a
+              <a href="337-boot_sector_layout.html">BootSectorRec</a>.
+
+ <span class="c1">rPrtnInfo_</span>n  These four entries define the partitions allocated on the
+              disk.  Their layout is described below.
+
+ <span class="c1">wPrtnTblSig</span>  The final two bytes of the sector contain AA55H.  This
+              signature identifies the sector as a Master Boot Record.
+
+<span class="c2">PartitionEntryRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bBootFlag</span>    0=not active, 80H = active (boot this partition)
+   +1      1  <span class="c1">bBeginHead</span>   partition begins at this head...
+   +2      2  <span class="c1">rBeginSecCyl</span> ...and this sector and cylinder (see below)
+   +4      1  <span class="c1">bFileSysCode</span> file system type
+   +5      1  <span class="c1">bEndHead</span>     partition ends at this head...
+   +6      2  <span class="c1">bEndSecCyl</span>   ...and this sector and cylinder (see below)
+   +8      4  <span class="c1">lBeginAbsSec</span> partition begins at this <span class="c1">absolute sector #</span>
+  +0cH     4  <span class="c1">lTotalSects</span>  total sectors in this partition
+          16               size of a PartitonEntryRec
+  +10H                     start of next entry or AA55H if last entry
+
+   <span class="c1">bBootFlag</span>  specifies if this partition is the active, bootable partition.
+                <span class="c2">00H</span> means not active (or not bootable)
+                <span class="c2">80H</span> means this is the partition to boot
+              Only one entry can be set to 80H.
+
+  <span class="c1">bBeginHead</span>  the head number to use as the start of this partition.
+<span class="c1">rBeginSecCyl</span>  the sector and cylinder number of the first sector in this
+              partition.
+
+              Sector and Cylinder values are actually <span class="c2">6 bits</span> and <span class="c2">10 bits</span>:
+                 1 1 1 1 1 1
+                ╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+                ║c c c c c c c c C c S s s s s s║
+                ╙─┴─┴─┴─┴─┴─┴─┴─╨─┴─┴─┴─┴─┴─┴─┴─╜
+              The high two bits of the second byte are used as the high bits
+              of a 10-bit value.  This allows for as many as 1024 cylinders
+              and 64 sectors per cylinder.
+
+              This is ordered so that when you load CX with the 16-bit
+              value, it will be set up for a call to <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> to read the
+              desired portion of the disk.
+
+<span class="c1">bFileSysCode</span>  The following codes are recognized by DOS:
+               <span class="c2">00H</span>  unknown file system type
+               <span class="c2">01H</span>  DOS 12-bit <a href="359-fat__dos_file_allocation_table.html">FAT</a>; partition smaller than 10 MB
+               <span class="c2">04H</span>  DOS 16-bit FAT; partition smaller than 32 MB
+               <span class="c2">05H</span>  <a href="358-extended_dos_partition.html">Extended DOS Partition</a> (see notes, below)
+               <span class="c2">06H</span>  DOS 16-bit FAT; partition larger than or exactly 32 MB
+
+              Other codes may exist; for instance, in non-DOS partitions.
+
+              Types 1, 4, and 6, are given their own drive ID.  Type 5
+              provides a way to have more than 4 DOS partitions on a drive.
+
+    <span class="c1">bEndHead</span>  the head number for identifying the end of the partition
+  <span class="c1">bEndSecCyl</span>  the sector and cylinder number of the last sector in this
+              partition (see <span class="c1">rBeginSecCyl</span>, above)
+
+<span class="c1">lBeginAbsSec</span>  the partition starts at the <span class="c1">absolute sector #</span> (just another
+              way to express <span class="c1">rBeginHead</span> and <span class="c1">rBeginSecCyl</span>; see notes, below).
+ <span class="c1">lTotalSects</span>  total number of sectors in this partition.
+
+   Notes: ■ The <span class="c1">absolute sector</span> value at offset 08H of each entry is
+            equivalent to the head, sector, and cylinder of the partition
+            start address:
+
+            Relative sector 0 is equal to cylinder 0, head 0, sector 1.
+            The relative sector number increments first for each
+            sector-per-track, next for each head, and finally for each
+            cylinder.  This formula applies:
+
+              relSec =  (CylNo * SecsPerTrack * Heads)
+                       + (HeadNo * SecsPerTrack)
+                       + (SecNo - 1)
+
+            Use SecNo-1 since sectors are always numbered starting with 1.
+
+            You can obtain low-level information such as sectors-per-track
+            by using <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a>, fn 08H.
+
+          ■ Partitions begin on an even cylinder number, except for the
+            first partition which may begin on cylinder 0, head 0, sector 2
+            (since sector 1 is occupied by the Master Boot Record).
+
+          ■ When the boot record of a partition receives control, its
+            partition table entry is pointed to by DS:SI.
+
+<span class="c2">█▌Logical Volumes and DOS Extended Partitions▐█</span>
+  Prior to <span class="c2">DOS 3.3</span> DOS was incapable of accessing a drive larger than 32 MB
+  (see <a href="359-fat__dos_file_allocation_table.html">FAT</a> and <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> for reasons).  You could define four DOS
+  partitions, but that maxed out at 128 MB.  DOS 3.3 added the concept of
+  &quot;logical volumes, so that one disk could define more than 4 partitions.
+
+    Note: Starting with <span class="c2">DOS 4.0</span>, the 32 MB limit went away, and the
+          extended DOS Partition concept is useful only of you need to
+          access more than 4 DOS partitions.
+
+          With DOS 6, you may find it advantageous to make the entire disk
+          as one large volume and use <a href="787-doublespace_overview.html">DoubleSpace</a> to break it up into
+          several drives.
+
+  When a partition table entry <span class="c1">bFileSysCode</span> contains a 05H, then the
+  partition defined by the entry is treated as if it were the start of
+  another physical drive; that is, the Master Boot code reads the table to
+  learn about additional partitions.  Each extended partition can define up
+  to four DOS partitions.
+
+   See <a href="358-extended_dos_partition.html">Extended DOS Partition</a> for a detailed discussion of this topic.
+
+<span class="c2">█▌Logical Volumes and DOS Extended Partitions▐█</span>
+  The trans-32M support in DOS 4.0 caused no changes in the partition table
+  or the 3.3 logical volume support.  The significant differences are found
+  in the <a href="337-boot_sector_layout.html">Boot Sector Layout</a> at the start of each DOS 4.0-formatted
+  partition, in the changes to <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a>, and in the new functionality
+  required in block <a href="298-installable_device_drivers.html">device drivers</a>.
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> (disk I/O
+          <a href="243-int_19h__bootstrap_loader.html">INT 19H</a> (bootstrap)
+          <a href="337-boot_sector_layout.html">Boot Sector</a>
+          <a href="358-extended_dos_partition.html">Extended DOS Partition</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

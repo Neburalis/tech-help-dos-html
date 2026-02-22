@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5d0aH: Set Extended Error - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5d0aH: Set Extended Error</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    5d0aH
+          <span class="c2">DS:SI</span> address of an <a href="352-errorinforec.html">ErrorInfoRec</a> containing error info for fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the error class, location, suggested action, and other
+          information that will be returned by the next call to fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> (get
+          extended error info).
+
+See Also: Fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> (get extended error)
+          <a href="352-errorinforec.html">ErrorInfoRec</a> (data layout for DS:DI)
+          <a href="19-system_information_functions.html">System Information Functions</a>
+          <a href="347-dos_error_codes.html">DOS Error Codes</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

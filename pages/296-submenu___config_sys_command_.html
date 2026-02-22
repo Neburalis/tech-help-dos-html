@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SUBMENU= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SUBMENU= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 6.0+</span>
+ Purpose: Specify that a menu item in a <a href="271-multiconfig_menus.html">MultiConfig Menu</a> actually opens a
+          submenu.
+
+  Syntax: SUBMENU=<span class="c1">blockName</span> [,<span class="c1">text</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+<span class="c1">blockName</span> is the name of a block of CONFIG.SYS commands which contains one
+          or more <a href="286-menuitem___config_sys_command_.html">MENUITEM=</a> or SUBMENU= commands.
+
+          <span class="c1">blockName</span> can be up to 70 characters long.  It may contain most
+                characters except for:
+            <span class="c2">\</span>   backslashes
+            <span class="c2">/</span>   slashes
+            <span class="c2">,</span>   commas
+            <span class="c2">;</span>   semicolons
+            <span class="c2">=</span>   equal signs
+            <span class="c2">[ ]</span> square brackets
+
+          [<span class="c1">blockName</span>] (the same text, enclosed in square brackets, on a
+          line by itself) must appear elsewhere in the CONFIG.SYS file.  If
+          it cannot be found, an error message is displayed, and the
+          submenu will not be shown in the menu.
+
+     <span class="c1">text</span> is some text to be displayed as a menu choice.  If omitted,
+          <span class="c1">blockName</span> is displayed as the menu item.
+
+          The <span class="c1">text</span> can be up to 70 characters long, including displayable
+          characters (<a href="45-ascii.html">ASCII</a> 32-255).
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ Each submenu can have its own <a href="288-menudefault___config_sys_command_.html">MENUDEFAULT=</a> and time-out value, so you
+    can automate even multiply-nested menus.  But are you sure your really
+    need this?
+
+  ■ Its not documented anywhere, but <span class="c2">you can backtrack from a submenu</span> to a
+    higher-level menu by pressing the <span class="c1">BACKSPACE</span> key.
+
+See Also: <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

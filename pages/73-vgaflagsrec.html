@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>VgaFlagsRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>VgaFlagsRec</h1><pre>
+  The byte at <span class="c2">0040:0089</span> in the <a href="93-rom_bios_variables.html">BIOS Data Area</a> is a set of bit flags
+  containing information pertaining to the status of the VGA<a href="934-qvidvga.html">▲</a>.
+
+ <span class="c2">VgaFlagsRec</span>
+ ╓7┬6┬5┬4┬3┬2┬1┬0╖
+ ║<span class="c3">r</span>│<span class="c1">s</span>│0│<span class="c3">r</span>│<span class="c1">p</span>│<span class="c1">m</span>│<span class="c1">g</span>│<span class="c1">a</span>║           0040:0089 -- VGA Miscellaneous Flags
+ ╙<span class="c3">╥</span>┴╥┴─┴<span class="c3">╥</span>┴╥┴╥┴╥┴╥╜ <span class="c1">bit</span> <span class="c1">mask</span>
+  <span class="c3">║╔</span>║<span class="c3">═══╝</span> ║ ║ ║ ╚═►  0: 01H  VGA is active; 0=VGA is disabled/inactive
+  <span class="c3">║║</span>║     ║ ║ ╚═══►  1: 02H  gray-scale summing is enabled; 0=disabled
+  <span class="c3">║║</span>║     ║ ╚═════►  2: 04H  using monochrome monitor; 0=color display
+  <span class="c3">║║</span>║     ╚═══════►  3: 08H  default palette loading; 0=keeps same colors
+  <span class="c3">║║</span>╚═════════════►  5: 20H  DCC display switching enabled; 0=not enabled
+  <span class="c3">╚╩══════════════►</span>7,4: 90H  text mode scan lines (bits 7 and 4 together)
+                             <span class="c1">bit7</span>  <span class="c1">bit4</span>  <span class="c1">masked</span>
+                               0    0     00H    350-line mode
+                               0    1     10H    400-line mode
+                               1    0     80H    200-line mode
+                               1    1     90H    (reserved)
+See Also: <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

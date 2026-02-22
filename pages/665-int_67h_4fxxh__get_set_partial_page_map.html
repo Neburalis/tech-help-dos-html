@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 4fxxH: Get/Set Partial Page Map - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 4fxxH: Get/Set Partial Page Map</h1><pre>                                                     Compatibility: <span class="c2">EMS 4.0+</span>
+ Expects: <span class="c2">AH</span>    4fH
+          <span class="c2">AL</span>    subfn: 00H=Save some mapping registers
+                           <span class="c2">DS:SI</span>=list of registers to query
+                           <span class="c2">ES:DI</span>=buffer to receive data
+                       01H=Restore some mapping registers
+                           <span class="c2">DS:SI</span>=data obtained via subfn 00H
+                       02H=Query buffer size for subfns 00H and 01H
+                           <span class="c2">BX</span>=count of pages to be saved/restored
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">AL</span>    (subfn 02H) size, in bytes of buffer for data buffers
+          <span class="c2">ES:DI</span> (subfn 00H) buffer contains returned information
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn is similar to <a href="664-int_67h_4exxh__get_set_entire_page_map.html">INT 67H 4exxH</a>, in that it saves/restores
+          the page mapping registers.  This version lets you specify a
+          subset (e.g., save/restore just one or two pages).
+
+          Before using subfn 4f00H, you should use subfn 4f02H to see how
+          large of a buffer you will need.
+
+    <span class="c2">DS:SI</span> (subfn 4f00H) is a list that identifies which mapping registers
+          you wish to save.  The list is formatted as:
+
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      2  <span class="c1">wPgCnt</span>    number of 16K pages to save
+            +2      2  <span class="c1">wSeg1</span>     segment of first physical pg to save
+            +4      2  <span class="c1">wSeg2</span>     segment of second physical pg to save
+             .
+             :
+            etc.
+
+    <span class="c2">ES:SI</span> (subfn 4f00H) is a buffer to receive mapping-register data.  You
+          should use subfn 4f02H to see how large this should be.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

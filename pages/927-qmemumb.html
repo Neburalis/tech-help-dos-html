@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MemUMB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MemUMB</h1><pre>                       UMB
+               Upper Memory Block
+─────────────────────────────────────────────────
+Traditionally, memory between 640K and 1 MB has
+been &quot;reserved&quot; for special purposes such as
+video memory and ROM.
+
+On 386+ computers, it is possible to map extended
+memory into the unused areas of reserved memory.
+
+The resulting islands of memory are called
+Upper Memory Blocks, or UMBs.
+─────────────────────────────────────────────────
+■ DOS fn 5803H (along with fn 48H) provide
+  access to UMBs.  See UMB in the Index.
+■ DEVICE=HIMEM.SYS   ─┐ use in CONFIG.SYS
+  DEVICE=EMM386.EXE   │ to enable access
+  DOS=UMB            ─┘ to UMBs
+■ DEVICEHIGH= load device drivers into UMBs</pre></body></html>

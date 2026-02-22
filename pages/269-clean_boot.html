@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Clean Boot - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Clean Boot</h1><pre>                             <span class="c2">┌───╖</span>    <span class="c2">┌┬─────╥╖</span>
+                             <span class="c2">│F5 ║</span> or <span class="c2">││SHIFT║║</span>
+                             <span class="c2">╘═══╝</span>    <span class="c2">╘╧═════╩╝</span>
+  This feature of DOS 6.0+ lets you bypass all commands in CONFIG.SYS and
+  AUTOEXEC.BAT.  <span class="c2">DOS 6.2:</span> <span class="c1">Ctrl+F5</span> bypasses loading of <a href="787-doublespace_overview.html">DoubleSpace</a> support.
+
+  During the <a href="263-system_startup_sequence.html">System Startup Sequence</a>, the message...
+
+     <span class="c2">Starting MS-DOS...</span>
+
+  ...appears and the system pauses for 2 seconds.  If you press and release
+  F5 at this point, OR <span class="c1">press and hold SHIFT</span>, DOS displays...
+
+     <span class="c2">MS-DOS is bypassing your CONFIG.SYS and AUTOEXEC.BAT files.</span>
+
+  ...and goes directly to a DOS command prompt.  If the CONFIG.SYS file
+  contains a <a href="271-multiconfig_menus.html">MultiConfig Menu</a>, you can press F5 at the menu prompt.
+
+<span class="c3">█▌Skipping DBLSPACE.BIN▐█</span>
+  The DoubleSpace support driver, DBLSPACE.BIN, is automatically loaded
+  <span class="c1">before</span> CONFIG.SYS is executed.  If you need to disable DoubleSpace
+  support, you would need to rename it on the host drive before booting.
+                                                   <span class="c2">┌────╖</span> <span class="c2">┌───╖</span>
+  However, if you are running <span class="c2">DOS 6.2+</span>, just press <span class="c2">│Ctrl║</span>+<span class="c2">│F5 ║</span> at boot
+  time.  Of course, DOS won't be able to find your <span class="c2">╘════╝</span> <span class="c2">╘═══╝</span>
+  normal CONFIG.SYS and AUTOEXEC.BAT files (assuming that your drive C is a
+  swapped DoubleSpace volume).  So you may wish to make special &quot;emergency&quot;
+  versions in the root of the host drive (often drive H or I).
+
+See Also: <a href="270-interactive_boot.html">Interactive Boot</a>
+          <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+          <a href="294-switches___config_sys_command_.html">SWITCHES=</a> (/N disables Clean Boot; /F skips the 2-second delay)
+                                    <span class="c3">-♦-</span></pre></body></html>

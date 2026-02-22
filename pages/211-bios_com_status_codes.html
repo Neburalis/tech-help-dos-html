@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>BIOS COM status codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>BIOS COM status codes</h1><pre>
+ INT 13H fns return communications port status in AH and AL.
+
+ <span class="c2">LineStatusRec</span>  -- returned in AH by all fns
+ ┌7┬6┬5┬4┬3┬2┬1┬0┐
+ │ │ │ │ │ │ │ │ │
+ └╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span> <span class="c1">mask</span>
+  ║ ║ ║ ║ ║ ║ ║ ╚═► 0:  01H data ready status
+  ║ ║ ║ ║ ║ ║ ╚═══► 1:  02H overrun error
+  ║ ║ ║ ║ ║ ╚═════► 2:  03H parity error
+  ║ ║ ║ ║ ╚═══════► 3:  08H framing error
+  ║ ║ ║ ╚═════════► 4:  10H break detect
+  ║ ║ ╚═══════════► 5:  20H trans holding reg empty
+  ║ ╚═════════════► 6:  40H trans shift reg empty
+  ╚═══════════════► 7:  80H time-out (or used to flag <span class="c1">any</span> error)
+
+ <span class="c2">ModemStatusRec</span>  -- returned in AL by fns 00H, 01H, and 03H.
+ ┌7┬6┬5┬4┬3┬2┬1┬0┐
+ │ │ │ │ │ │ │ │ │
+ └╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span> <span class="c1">mask</span>
+  ║ ║ ║ ║ ║ ║ ║ ╚═► 0:  01H delta clear to send
+  ║ ║ ║ ║ ║ ║ ╚═══► 1:  02H delta data set ready
+  ║ ║ ║ ║ ║ ╚═════► 2:  03H trailing edge ring detector
+  ║ ║ ║ ║ ╚═══════► 3:  08H delta recv line signal detect
+  ║ ║ ║ ╚═════════► 4:  10H clear to send
+  ║ ║ ╚═══════════► 5:  20H data set ready
+  ║ ╚═════════════► 6:  40H ring indicator
+  ╚═══════════════► 7:  80H received line detect signal
+
+See Also: <a href="206-int_14h__serial_port_i_o.html">INT 14H: Serial Port I/O</a>
+          <a href="895-asynchronous_adapter_ports.html">Asynchronous Adapter Ports</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

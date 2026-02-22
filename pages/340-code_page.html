@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Code Page - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Code Page</h1><pre>
+ A <span class="c1">code page</span> is simply a <span class="c2">character set</span>.  Code page support was added to
+ <span class="c2">DOS 3.3</span> to make it possible for DOS to be translated into international
+ languages.  DOS also makes it possible for a program to be written in a
+ &quot;language-independent&quot; manner; for instance, there are DOS functions which
+ help you to sort a list of text strings that contain international
+ characters such as É and Ç.
+
+ Code page support provides a &quot;behind-the-scenes&quot; way to process non-
+ English keystrokes and a way to reprogram <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> and <a href="70-video_graphics_array__vga_.html">VGA</a> adapters to display
+ certain characters that are not defined by standard IBM-compatible
+ hardware.  It also provides some limited printer font-definition support.
+
+ Code pages (character sets) defined and supported in DOS include:
+
+           CodePage Language
+           ▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+           437      US et.al.
+           850      Multilingual (Latin I)
+           852      Slavic (Latin II)
+           860      Portuguese
+           863      Canadian French
+           866      Norwegian and Danish
+
+ Here is some information relevant to code pages:
+
+ ■ The <a href="267-the_config_sys_file.html">CONFIG.SYS</a> file contains a <a href="274-country___config_sys_command_.html">COUNTRY=</a> directive which selects a
+   default code page and country information file.  See also fn <a href="543-dos_fn_65h__extended_country_information_functions.html">65H</a>.
+
+ ■ One or more <a href="276-device___config_sys_command_.html">DEVICE=</a> directives in CONFIG.SYS install 'code page
+   aware' device drivers DISPLAY.SYS or PRINTER.SYS.
+
+ ■ The '.CPI' files that come with DOS contain 'Code Page Information'
+   for a selected device.  See <a href="341-code_page_font_files.html">Code Page Font Files</a>.
+
+ ■ The <span class="c2">Nlsfunc</span> command installs code page switching (optionally
+   overriding the country information file set in CONFIG.SYS) and must
+   be used before any code page activities take place.
+
+ ■ The <span class="c2">Mode</span> and <span class="c2">Chcp</span> commands (3.3+) can prepare and select a code page.
+   You can perform the same functions as Mode via fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (but it is a
+   pain). And you can use fn <a href="554-dos_fn_6602h__activate_code_page.html">6602H</a> to activate a prepared code page.
+
+ ■ When you 'prepare' a code page via the Mode command, the information
+   in the .CPI file is used to redefine a font.  For instance, the '$'
+   character can be changed into the '£' character.  This takes place at
+   the device driver level via Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL) commands.  For the EGA,
+   the appropriate <a href="113-int_10h__video_services.html">INT 10H</a> BIOS calls are made to redefine the character
+   set.  For a printer, a character set can be downloaded into it and
+   selected as the default.
+
+ <a href="341-code_page_font_files.html">Code Page Font Files</a> describes the layout of the font-definition files
+ used by code page aware device drivers.
+
+See Also: <a href="15-national_language_support_functions.html">National Language Support</a>
+          fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL functions)
+          fn <a href="552-dos_fn_66h__set_or_query_active_code_page.html">66H</a> (code page switching)
+          <a href="341-code_page_font_files.html">Code Page Font Files</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

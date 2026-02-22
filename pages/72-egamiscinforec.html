@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>EgaMiscInfoRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>EgaMiscInfoRec</h1><pre>
+  The bytes at <span class="c2">0040:0087</span> and <span class="c2">0040:0088</span> in the <a href="93-rom_bios_variables.html">BIOS Data Area</a> are bit flags
+  containing information pertaining to the status of the EGA<a href="932-qvidega.html">▲</a> and
+  VGA<a href="934-qvidvga.html">▲</a>.  Most of this can be obtained via <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">INT 10H 12H</a>.
+
+ <span class="c2">EgaMiscInfoRec</span>
+ ╓7┬6┬5┬4┬3┬2┬1┬0╖
+ ║ │<span class="c1">ram</span>│0│<span class="c1">a</span>│0│<span class="c1">m</span>│<span class="c1">c</span>║       0040:0087 -- EGA Miscellaneous Information
+ ╙╥┴─┴─┴─┴╥┴─┴╥┴╥╜ bit
+  ║ ╚╦╝   ║   ║ ╚═► 0: 1=cursor emulation enabled; see <a href="174-int_10h_12h_bl_34h__cursor_emulation__scaling_.html">INT 10H 12H BL=34H</a>
+  ║  ║    ║   ╚═══► 1: 1=EGA is attached to a Monochrome Display
+  ║  ║    ╚═══════► 3: 1=EGA is not active
+  ║  ╚════════════► 5-6: EGA total RAM (00=64K; 01=128K; 10=192K; 11=246K)
+  ╚═══════════════► 7: high bit of video mode (1=screen is not cleared)
+
+ <span class="c2">EgaMiscInfo2Rec</span>
+ ╓7┬6┬5┬4┬3┬2┬1┬0╖
+ ║<span class="c1">feature</span>│ <span class="c1">DIPs</span>  ║       0040:0088 -- son of EGA Miscellaneous Information
+ ╙─┴─┴─┴─┴─┴─┴─┴─╜ bit
+  ╚══╦══╝ ╚═════╩═► 0-3: DIP switch settings.  See <a href="65-ega_switch_settings.html">EGA Switch Settings</a>
+     ╚════════════► 4-7: Feature bits
+
+See Also: <a href="71-ega_vga_data_areas.html">EGA Data Areas</a>
+          <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>
+          <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

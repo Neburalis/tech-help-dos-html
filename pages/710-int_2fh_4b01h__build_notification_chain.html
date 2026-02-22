@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4B01H: Build Notification Chain - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4B01H: Build Notification Chain</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    4B01H  (<a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a>)
+          <span class="c2">CX:DX</span> address of switcher service function handler
+          <span class="c2">ES:BX</span> 0000:0000 (on initial call; see below)
+                ...or...
+                address of a <a href="731-swcallbackinforec.html">SwCallbackInfoRec</a> needing processing (when
+                intercepting this INT 2fH fn; see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> 0000:0000 (on initial call)
+                ...or...
+                address of a local SwCallBackInfoRec (when intercepting)
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn creates a linked list of notification function handlers.
+          Applications which need to be notified of task-switcher
+          activities may intercept this fn and process subsequent calls
+          (made by other programs) as follows:
+
+          If you don't need to process switcher notifications, just JMP to
+          the previous INT 2fH handler.
+
+          If you <span class="c1">do</span> need notifications, your INT 2fH handler should:
+
+          ■ First, chain to any previously-installed handlers by pushing
+            the FLAGS register and performing a FAR CALL to the previous
+            handler.
+
+          ■ On return from that CALL, create a <a href="731-swcallbackinforec.html">SwCallbackInfoRec</a> from local
+            memory and fill it in (including the address of your code that
+            will handle switcher notifications).   Copy the returned value
+            of <span class="c2">ES:BX</span> into the <span class="c1">pfNextHandler</span> field of the structure.
+
+          ■ Place the address of your own <a href="731-swcallbackinforec.html">SwCallbackInfoRec</a> into <span class="c2">ES:BX</span> and
+            execute an IRET.
+
+          These steps result in a chain of INT 2fH handlers, each of which
+          can process subsequently-installed handlers.
+
+See Also: <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4BxxH: Task Switcher Functions</a>
+          <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

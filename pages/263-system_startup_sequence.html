@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>System Startup Sequence - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>System Startup Sequence</h1><pre>
+ When you turn your computer on, it runs through some built-in diagnostic
+ tests (called the POST or <a href="264-power_on_self_test.html">Power-On Self-Test</a>).  If it detects a problem
+ during these tests, you may see an error code (see <a href="265-power_on_error_codes.html">POST Error Codes</a>) or
+ perhaps a full-screen interactive configuration utility will appear (this
+ varies from machine to machine, depending on the brand of computer you
+ have and the maker of its ROM-BIOS).
+
+ After the POST, but before booting the disk, the ROM-BIOS performs
+ <a href="266-rom_scan.html">ROM-Scan</a> to see if any hardware adaptors have installed ROM into the
+ areas between c000:0 and e000:0.
+
+ Once the system gets past the POST and ROM-Scan, the sequence is basically
+ the same for all IBM-compatible computers.  The following steps occur
+ after the POST or whenever you press Ctrl+Alt+Del to reboot:
+
+   1) <span class="c1">If a diskette is in drive A</span>, the boot sector of that drive is read
+      and the system attempts to boot using system files from the diskette.
+      If it is not a system disk, a message such as...
+
+           Non-System disk or disk error
+           Replace and press any key when ready
+
+      ...appears.  You can do as it requests, or just press any key to boot
+      from your hard disk.
+
+      <span class="c1">If no diskette is in drive A</span>, the system attempts to boot from your
+      first hard disk (always drive C).  The <a href="345-disk_partition_table.html">Master Boot Record</a> (MBR)
+      of the hard disk is read into memory and executed.
+
+      The program code in MBR looks at the <a href="345-disk_partition_table.html">disk partition table</a> (also in
+      the MBR) and determines which operating system to start.  For most of
+      us, the hard disk contains a single operating system -- MS-DOS 6 (you
+      may use <span class="c2">Fdisk</span> to activate a different operating system).  The first
+      sector of the active partition is used as the boot sector for that
+      operating system.  From here on, the boot sequence is the same for
+      hard disks and diskettes.
+
+   2) The boot sector is read into memory and executed.  It contains
+      instructions to look for two files in the root of the startup disk.
+
+      <span class="c2">IO.SYS</span> contains the standard device drivers along with code that
+      processes the rest of the boot sequence (<span class="c2">IBMBIO.SYS</span> in PC-DOS).
+
+      <span class="c2">MSDOS.SYS</span> contains the code to handle DOS low-level function calls,
+      including INT 21h services (<span class="c2">IBMDOS.SYS</span> in PC-DOS).
+
+      The files are loaded into memory and control passes to IO.SYS.
+
+   3) IO.SYS looks for <span class="c2">DBLSPACE.BIN</span> in the root of the boot disk.  If
+      found, it is loaded into the upper part of conventional<a href="924-qmemconv.html">▲</a> memory.
+
+      DBLSPACE.BIN intercepts all disk I/O services.  When it initializes,
+      it looks for <a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a> (also in the root) and using information it
+      contains, it may swap one or more drive IDs.
+
+      If either DBLSPACE.BIN or DBLSPACE.INI is not found, then <a href="787-doublespace_overview.html">DoubleSpace</a>
+      support will not be present.
+
+      Note:    With <span class="c2">DOS 6.2+</span>, you can bypass this early load of
+      DBLSPACE.BIN by pressing <span class="c1">Ctrl+F5</span> when you boot.
+
+   4) IO.SYS displays:
+
+           Starting MS-DOS...
+
+      It then looks for a text file<a href="916-qstdtextfile.html">▲</a> named <a href="267-the_config_sys_file.html">CONFIG.SYS</a> in the root of the
+      boot disk.  If found, it is read and processed as a series of
+      configuration commands.  If <span class="c2">SWITCHES=/F</span> is not found, there is a
+      2-second delay.  In this interval, you can press F5 (see <a href="269-clean_boot.html">Clean Boot</a>)
+      or F8 (see <a href="270-interactive_boot.html">Interactive Boot</a>) to control the rest of the boot
+      sequence.
+
+      Note that when DoubleSpace is active, DBLSPACE.BIN has already
+      intercepted disk I/O calls (and swapped drive C), so IO.SYS will find
+      CONFIG.SYS on the compressed volume.
+
+   5) If CONFIG.SYS contains a <a href="271-multiconfig_menus.html">MultiConfig menu</a>, then the menu is
+      displayed:
+          MS-DOS 6 Startup Menu
+          ═════════════════════
+          1. <span class="c1">option</span>
+          2. <span class="c1">option</span>
+          <span class="c1">... etc. ...</span>
+
+          Enter a choice: _
+
+      It prompts for user input.  The <a href="288-menudefault___config_sys_command_.html">MENUDEFAULT=</a> command can specify a
+      time-out value to continue the boot without waiting for a keystroke.
+
+      The <a href="369-predefined_environment_variables.html">CONFIG</a> e-var is set to match the option chosen.
+
+   6) IO.SYS executes all commands in <a href="271-multiconfig_menus.html">[COMMON]</a> sections (including the
+      &quot;implied [COMMON]&quot; area before the first section or the <a href="271-multiconfig_menus.html">[MENU]</a> line).
+      It then proceeds to execute the particular commands specified in the
+      selected (or default) section.
+
+      Note that IO.SYS does not necessarily run commands in the order they
+      appear in CONFIG.SYS.  It internally reorders commands into groups
+      and then executes the groups in this order:
+    
+      ■ DOS=, SWITCHES=, SET etc. general configuration commands.
+    
+      ■ DEVICE= and DEVICEHIGH= <a href="298-installable_device_drivers.html">device driver</a> installation commands.
+        Note that drive letters are assigned according to the order in
+        which the device drivers are loaded in CONFIG.SYS.
+    
+      ■ INSTALL= and INSTALLHIGH= TSR installation commands.
+
+      MultiConfig menu sections cannot override this general order; for
+      instance, you can't run an <a href="283-install___config_sys_command_.html">INSTALL=</a> line before a <a href="276-device___config_sys_command_.html">DEVICE=</a> line.
+
+   7) If a <a href="292-shell___config_sys_command_.html">SHELL=</a> command appears in CONFIG.SYS, then the program it
+      identifies will be used as the DOS command processor.  If not, then
+      the file <span class="c2">COMMAND.COM</span> will be used.  IO.SYS will look for COMMAND.COM
+      in the root of the boot disk, and if not found, it will search \DOS
+      and \MSDOS.
+
+      IO.SYS sets the <a href="369-predefined_environment_variables.html">COMSPEC</a> e-var to identify the command processor.
+
+   8) COMMAND.COM initially sets up a minimal <a href="346-dos_environment.html">DOS environment</a> containing a
+      simple path (<span class="c2">PATH=C:\DOS</span>) and a standard prompt (<span class="c2">PROMPT=$p$g</span>).
+
+   9) By default, COMMAND.COM looks for a text file<a href="916-qstdtextfile.html">▲</a> named <span class="c2">AUTOEXEC.BAT</span> in
+      the root of the boot disk and begins executing the commands it
+      contains.
+
+    Note: with DOS 6.0+, You can force COMMAND.COM to execute a different
+          startup batch by using <a href="292-shell___config_sys_command_.html">SHELL=</a>d:\path\command.com /K=<span class="c1">batfile.bat</span>
+          in CONFIG.SYS.
+
+ AUTOEXEC.BAT can be tailored to execute a different set of commands for
+ each of the MultiConfig menu options by testing the <a href="369-predefined_environment_variables.html">CONFIG</a> e-var.
+
+ Finally, the command processor displays the command prompt and you may
+ begin interactive computing.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="269-clean_boot.html">Clean Boot</a>
+          <a href="270-interactive_boot.html">Interactive Boot</a>
+          <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+          <a href="787-doublespace_overview.html">DoubleSpace</a>
+          <a href="369-predefined_environment_variables.html">Predefined Environment Variables</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

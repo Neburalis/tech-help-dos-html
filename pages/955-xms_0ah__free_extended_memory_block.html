@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS 0aH: Free Extended Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS 0aH: Free Extended Memory Block</h1><pre>                                                     Compatibility: <span class="c2">XMS 2.0+</span>
+ Expects: <span class="c2">AH</span>    0aH
+          <span class="c2">DX</span>    XMS handle (as obtained via <a href="954-xms_09h__allocate_extended_memory_block.html">XMS 09H</a>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0000H = successful
+                        0001H = error and <span class="c2">BL</span>=<a href="963-xms_error_codes.html">XMS error code</a> (if BL &gt;= 80H)
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn frees a block of extended memory that was previously
+          allocated via <a href="954-xms_09h__allocate_extended_memory_block.html">XMS 09H</a> (allocate XMB).
+
+          When an XMB is freed, its handle and all data in it become
+          invalid and should not be accessed.
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

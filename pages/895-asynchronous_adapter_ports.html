@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Asynchronous Adapter Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Asynchronous Adapter Ports</h1><pre>
+ The <a href="93-rom_bios_variables.html">BIOS Data Area</a> contains a list of up to four COM port base addresses.
+ During <a href="264-power_on_self_test.html">POST</a> the older BIOSes tests for and initialize COM1 and COM2; newer
+ ones also handle COM 3 and COM 4.
+
+   ■ The COM<span class="c2">1</span> adapter decodes ports <span class="c2">3f8H</span> through 3ffH
+   ■ The COM<span class="c2">2</span> adapter decodes ports <span class="c2">2f8H</span> through 2ffH
+   ■ The COM<span class="c2">3</span> adapter decodes ports <span class="c2">3e8H</span> through 3efH
+   ■ The COM<span class="c2">4</span> adapter decodes ports <span class="c2">2e8H</span> through 2efH
+
+ The ROM BIOS <a href="206-int_14h__serial_port_i_o.html">INT 14H</a> will work with any of the four ports, as long as you
+ store the port's base address into the COMn port table starting at
+ 0040:0000.  It is critical that no two adapters share the same physical
+ port addresses or neither will work.
+
+ BIOS supports a simple polling-style serial I/O.  The adapter is able to
+ force a hardware interrupt on a variety of conditions, depending upon the
+ values in the Interrupt Enable Register (3f9H or 2f9H).
+
+   ■ COM<span class="c2">1</span> forces interrupt level 4 (<a href="96-irqs__hardware_interrupts.html">IRQ</a> 4 is handled by <a href="109-int_0ch__irq_4_com1_3___stack_overflow.html">INT 0cH</a> vector)
+   ■ COM<span class="c2">2</span> forces interrupt level 3 (IRQ 3 is handled by <a href="108-int_0bh__irq_3_com2_4___segment_not_present.html">INT 0bH</a> vector)
+   ■ COM<span class="c2">3</span> shares IRQ4.  BIOS checks the Int ID regs to see who rang
+   ■ COM<span class="c2">4</span> shares IRQ3.  BIOS checks the Int ID regs to see who rang
+
+ In the following chart, <span class="c1">pb</span>+<span class="c2">n</span> is one of 3f8H+<span class="c2">n</span>, 2f8H+<span class="c2">n</span>, 3e8H+<span class="c2">n</span>, 2e8H+<span class="c2">n</span>,
+ depending upon the port.  For instance, for COM1, <span class="c1">pb</span>+3=3fbH.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+<span class="c1">pb</span>+0  Write: transmitter holding register.  8 bits of character to be sent.
+      Read:  receiver buffer register. 8 bits of character received.
+
+      Write: (<span class="c2">if DLAB=1</span>) divisor latch low byte  Baud Divisor▐▌Baud Divisor
+             After OUT <span class="c1">pb</span>+3,80H this port holds  ▀▀▀▀ ▀▀▀▀▀▀▀▐▌▀▀▀▀ ▀▀▀▀▀▀▀
+             the low byte of the clock divisor    110    1040▐▌1200      96
+             which, together with the high byte   150    768 ▐▌2400      48
+             (port <span class="c1">pb</span>+1) constitute 16-bit value  300    384 ▐▌4800      24
+             that sets the baud rate as shown:    600    192 ▐▌9600      12
+──── ───────────────────────────────────────────────────────────────────────
+<span class="c1">pb</span>+1  Write: divisor latch high byte (<span class="c2">when DLAB=1</span>; i.e., after OUT <span class="c1">pb</span>+3,80H)
+      Write: interrupt enable register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║0 0 0 0│ │ │ │ ║
+      ╙─┴─┴─┴─┴╥┴╥┴╥┴╥╜ bit
+               ║ ║ ║ ╚═► 0: 1=enable interrupt when rec'd data is available
+               ║ ║ ╚═══► 1: 1=enable interrupt when transmit buffer is empty
+               ║ ╚═════► 2: 1=enable int on rec'r line status (err or break)
+               ╚═══════► 3: 1=enable int on modem status (CTS,DSR,RI,RLSD)
+──── ───────────────────────────────────────────────────────────────────────
+<span class="c1">pb</span>+2  Read: interrupt identification reg.  When an interrupt occurs, read
+            this register to find what caused it.
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║   │0 0│ │   │ ║
+      ╙─┴─┴─┴─┴╥┴─┴─┴╥╜ bit
+       ╚╦╝     ║ ╚╦╝ ╚═►  0: 1=no interrupt pending; can be used in polling
+        ║      ║  ╚════►1-2: 00=receiver line status interrupt.  Occurs on:
+        ║      ║               overrun, parity, or framing error, or break
+        ║      ║               Reset by reading line status (port <span class="c1">pb</span>+5)
+        ║      ║            01=received data available
+        ║      ║               Reset by reading receiver buffer (port <span class="c1">pb</span>+0)
+        ║      ║            10=transmitter buffer empty
+        ║      ║               Reset by writing transmitter buffer (<span class="c1">pb</span>+0)
+        ║      ║            11=modem status.  Occurs upon:
+        ║      ║               Clear To Send, Data Set Ready, Ring Ind, or
+        ║      ║               Rec'd Line Signal Detect.
+        ║      ║               Reset by reading modem status (port <span class="c1">pb</span>+6).
+        ║      ╚═══════►  3: (<span class="c2">16550 UARTs</span>) 1=Receiver FIFO time-out
+        ╚══════════════►6-7: (<span class="c2">16550 UARTs</span>) 00=FIFOs disabled (or old 8250)
+                                           11=FIFOs enabled
+                                           01=FIFOs enabled and DMA mode
+
+      Write: (<span class="c2">16550 UARTs</span>) FIFO control register (write only)
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║   │0 0│ │ │ │ ║
+      ╙─┴─┴─┴─┴╥┴╥┴╥┴╥╜ bit
+       ╚╦╝     ║ ║ ║ ╚═►  0: 1=enable FIFO mode
+        ║      ║ ║ ╚═══►  1: 1=clear receiver FIFO
+        ║      ║ ╚═════►  2: 1=clear transmit FIFO
+        ║      ╚═══════►  3: DMA mode select
+        ╚══════════════►6-7: FIFO interrupt triggger level: 00=1 byte;
+                             01=four bytes; 10=8 bytes; 11=16 bytes
+──── ───────────────────────────────────────────────────────────────────────
+<span class="c1">pb</span>+3  Read/Write: line control register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │par│s│len║
+      ╙╥┴╥┴╥┴─┴─┴╥┴─┴─╜ bit
+       ║ ║ ║ ╚╦╝ ║ ╚═╩═► 0-1: word length: 00=5, 01=6, 10=7, 11=8
+       ║ ║ ║  ║  ╚═════► 2: stop bits: 0=1,1=2 (some oddball exceptions)
+       ║ ║ ║  ╚══════► 3-4: parity: x0=None, 01=Odd, 11=Even
+       ║ ║ ╚═══════════► 5: stuck parity  (not used by BIOS)
+       ║ ╚═════════════► 6: enable break control. 1=start sending 0s (spcs)
+       ╚═══════════════► 7: <span class="c2">DLAB</span> (Divisor Latch Access Bit)  Determines mode
+                            of ports <span class="c1">pb</span>+1 and <span class="c1">pb</span>+2.  1=set baud, 0=normal
+──── ───────────────────────────────────────────────────────────────────────
+<span class="c1">pb</span>+4  Write: modem control register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║0 0 0│ │ │ │ │ ║
+      ╙─┴─┴─┴╥┴╥┴╥┴╥┴╥╜ bit
+             ║ ║ ║ ║ ╚═► 0: 1=activate -DTR (-data trmnl rdy), 0=deactivate
+             ║ ║ ║ ╚═══► 1: 1=activate -RTS (-request to send), 0=deactivate
+             ║ ║ ╚═════► 2: 1=activate -OUT1 (spare, user-designated output)
+             ║ ╚═══════► 3: 1=activate -OUT2
+             ╚═════════► 4: 1=activate loopback for diagnostic testing
+──── ───────────────────────────────────────────────────────────────────────
+<span class="c1">pb</span>+5  Read: line status register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │ │ │ │ ║ Note: bits 1-4 cause interrupt if enabled (<span class="c1">pb</span>+1)
+      ╙╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜ bit
+       ║ ║ ║ ║ ║ ║ ║ ╚► 0: 1=data ready (DR). Reset by reading recv'r buffer
+       ║ ║ ║ ║ ║ ║ ╚══► 1: 1=overrun error (OE).  Previous character is lost
+       ║ ║ ║ ║ ║ ╚════► 2: 1=parity error (PE). Reset by reading line status
+       ║ ║ ║ ║ ╚══════► 3: 1=framing error (FE). Bad stop bit in character
+       ║ ║ ║ ╚════════► 4: 1=break indicated (BI).  Sustained space received
+       ║ ║ ╚══════════► 5: 1=transmitter holding register empty.  OK to send
+       ║ ╚════════════► 6: 1=transmitter empty.  No data being processed.
+       ╚══════════════► 7: (<span class="c2">16450 UARTs</span>) 1=Receiver FIFO error
+──── ───────────────────────────────────────────────────────────────────────
+<span class="c1">pb</span>+6  Read: modem status register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │ │ │ │ ║ Note: bits 0-3 cause an interrupt if enabled (<span class="c1">pb</span>+1)
+      ╙╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜ bit
+       ║ ║ ║ ║ ║ ║ ║ ╚═► 0: 1=Delta Clear To Send (DCTS) has changed state
+       ║ ║ ║ ║ ║ ║ ╚═══► 1: 1=Delta Data Set Ready (DDSR) has changed state
+       ║ ║ ║ ║ ║ ╚═════► 2: 1=Trailing Edge Ring Indicator (TERI) is active
+       ║ ║ ║ ║ ╚═══════► 3: 1=Delta Data Carrier Detect (DDCD) has changed
+       ║ ║ ║ ╚═════════► 4: 1=Clear To Send (CTS) is active
+       ║ ║ ╚═══════════► 5: 1=Data Set Ready (DSR) is active
+       ║ ╚═════════════► 6: 1=Ring Indicator (RI) is active
+       ╚═══════════════► 7: 1=Data Carrier Detect (DCD) is active
+──── ───────────────────────────────────────────────────────────────────────
+<span class="c1">pb</span>+7  Read/Write scratch pad
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="206-int_14h__serial_port_i_o.html">INT 14H</a> (serial port I/O)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

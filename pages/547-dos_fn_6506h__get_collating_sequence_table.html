@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 6506H: Get Collating Sequence Table - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 6506H: Get Collating Sequence Table</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AX</span>    6506H
+          <span class="c2">BX</span>    <a href="340-code_page.html">Code Page</a> (0ffffH = current code page for console)
+          <span class="c2">CX</span>    size of data to return (must be &gt;= 5)
+          <span class="c2">DX</span>    <a href="342-country_id_codes.html">Country ID</a>
+          <span class="c2">ES:DI</span> address of buffer to receive the table address
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">ES:DI</span> buffer is filled with 5 bytes of return information
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the address of a table containing the collating weights
+          of all characters for the specified country and code page.  This
+          is used in sorting strings of text that contain international
+          characters.
+
+          Upon return <span class="c2">ES:DI</span> points to a 5-byte structure.  The first byte
+          is a table identifier (06H) and the next 4 bytes are a 32-bit
+          address in standard address format (offset, then segment).
+
+          At that address is up to 258 bytes of data.  The first two bytes
+          describe the length of the table in bytes.  That is followed by a
+          character array containing 256 elements.  Each element is the
+          <span class="c1">collating weight</span> of the corresponding character code.  For
+          instance, characters such as â,ä,à,Ä, and Å all have the same
+          weight as 'A' and 'a'.
+
+See Also: <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

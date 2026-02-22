@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwSrvc Fn 0000H: Get Switcher Version - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwSrvc Fn 0000H: Get Switcher Version</h1><pre>
+ Expects: <span class="c2">AX</span>    0000H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    Carry Flag is clear (NC) is successful and...
+          <span class="c2">ES:BX</span> address of a <a href="734-swversionrec.html">SwVersionRec</a> structure
+          ──────────────────────────────────────────────────────────────────
+    Info: Use a FAR call to the switcher entry address (see <a href="711-int_2fh_4b02h__is_switcher_installed____get_service_addr.html">INT 2fH 4b02H</a>)
+          to obtain info about the active task switcher, including its
+          name, version number, and the APIs it supports.
+
+          See <a href="734-swversionrec.html">SwVersionRec</a> for a layout of the returned data.
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

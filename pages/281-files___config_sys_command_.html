@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>FILES= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>FILES= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 2.0+</span>
+ Purpose: Sets the maximum number of files that may be opened and accessed
+          at one time.
+
+    Uses: ■ Many applications run into problems when the FILES= setting is
+            left at the default.  Add this command to CONFIG.SYS (or
+            increase its value) when an application reports there are &quot;not
+            enough file handles&quot;.
+
+          ■ Avoid &quot;inexplicable&quot; file open errors when using word
+            processors, spreadsheets, and database management programs.
+
+  Syntax: FILES=<span class="c1">n</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+        <span class="c1">n</span> specifies how many files can be open at one time.  <span class="c1">n</span> can range
+          from 8 to 255.  The default value is 8 <span class="c1">which is often too small</span>.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ By default, the handle table is located in a reserved portion of the
+    <a href="371-psp__program_segment_prefix.html">PSP</a> of every app.
+
+  ■ Starting with <span class="c2">DOS 3.3+</span>, it is possible for any application program to
+    increase the available handles.  See DOS fn <a href="555-dos_fn_67h__set_file_handle_count.html">67H</a> (set handle count).
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="280-fcbs___config_sys_command_.html">FCBS=</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

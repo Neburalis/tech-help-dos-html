@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Secondary Opcode Space - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Secondary Opcode Space</h1><pre>
+ This table identifies operations for the instruction groups which contain
+ the opcode in bits 3-5 of the second byte (normally the addressing mode
+ byte).
+         ╔═══════╤═══════╤═══════╤═══════╤═══════╤═══════╤═══════╤═══════╕
+         ║md000rm│md001rm│md010rm│md011rm│md100rm│md101rm│md110rm│md111rm│
+  ═══════╬═══════╪═══════╪═══════╪═══════╪═══════╪═══════╪═══════╪═══════╡
+  ArOp1  ║ ADD   │ OR    │ ADC   │ SBB   │ AND   │ SUB   │ XOR   │ CMP   │
+  ───────╫───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+  ArOp2  ║ ADD   │       │ ADC   │ SBB   │       │ SUB   │       │ CMP   │
+  ───────╫───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+  ShftOp ║ ROL   │ ROR   │ RCL   │ RCR   │SHL/SAL│ SHR   │       │ RAR   │
+  ───────╫───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+  Grp1   ║ TEST  │       │ NOT   │ NEG   │ MUL   │ IMUL  │ DIV   │ IDIV  │
+  ───────╫───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+  Grp2   ║ INC   │  DEC  │CALL nr│CALL fr│JMP nr │JMP far│ PUSH  │       │
+  ───────╫───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┤
+  Grp3   ║ INC   │  DEC  │       │       │       │       │       │       │
+  ═══════╩═══════╧═══════╧═══════╧═══════╧═══════╧═══════╧═══════╧═══════╛
+                                   <a href="867-instruction_set_matrix.html">Instruction Set Matrix</a>   <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

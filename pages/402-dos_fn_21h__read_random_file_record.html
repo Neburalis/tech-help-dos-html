@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 21H: Read Random File Record - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 21H: Read Random File Record</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    21H
+          <span class="c2">DS:DX</span> address of an opened <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0 if read was successful (and <a href="351-dta__disk_transfer_address.html">DTA</a> is filled with data)
+                1 if EOF was reached and no data was read
+                2 if <a href="351-dta__disk_transfer_address.html">DTA</a> + <a href="360-fcb__file_control_block.html">FCB</a> RecSize would overrun a segment (no read)
+                3 if EOF and a partial record was read (padded with 0s)
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets <a href="360-fcb__file_control_block.html">FCB</a> <span class="c1">curBlk</span> and <span class="c1">curRec</span> to the agree with <span class="c1">randomRec</span> then reads
+          <span class="c1">recSize</span> bytes from the specified file address, placing the data
+          into memory starting at the DTA.
+
+   Notes: ■ Be sure to set <span class="c1">recSize</span> to the record length and <span class="c1">randomRec</span> in
+            the <a href="360-fcb__file_control_block.html">FCB</a> to the desired record number.
+
+See Also: Fn <a href="438-dos_fn_3fh__read_from_file_via_handle.html">3fH</a> (read file via handle)
+          <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

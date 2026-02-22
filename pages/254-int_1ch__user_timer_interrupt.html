@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1cH: User Timer Interrupt - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1cH: User Timer Interrupt</h1><pre>
+ This vector (0:0070) is taken by BIOS upon each tick of the hardware clock
+ (every 55ms; approximately 18.2 times per second).  It initially points to
+ a dummy IRET, but may be changed by a user program to point to a timer-
+ based background task.
+
+ Since INT 1cH is executed during the lower hardware-based timer interrupt
+ (<a href="96-irqs__hardware_interrupts.html">IRQ</a> 0), you must remember that the system has not yet reset the interrupt
+ controller.  Therefore <span class="c1">other hardware interrupts, notably the keyboard</span>
+ <span class="c1">interrupt, will not occur while INT 1cH is in progress</span> (you can't get user
+ input).
+
+ Most <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> popup programs prefer to intercept the lower-level <a href="105-int_08h__timer_interrupt.html">INT 08H</a>
+ vector, call the original vector, then perform the timer-based operation
+ after BIOS has finished its housekeeping chores.
+
+ See <a href="105-int_08h__timer_interrupt.html">INT 08H</a> for suggestions and recommendations.
+
+See Also: <a href="20-terminate_and_stay_resident__tsr_.html">Terminate and Stay Resident (TSR)</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

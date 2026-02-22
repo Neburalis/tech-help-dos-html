@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 6507H: Get Double-Byte Character Set - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 6507H: Get Double-Byte Character Set</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AX</span>    6507H
+          <span class="c2">BX</span>    <a href="340-code_page.html">Code Page</a> (0ffffH = current code page for console)
+          <span class="c2">CX</span>    size of data to return (must be at least 5)
+          <span class="c2">DX</span>    <a href="342-country_id_codes.html">Country ID</a>
+          <span class="c2">ES:DI</span> address of buffer to receive the table address
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">ES:DI</span> buffer is filled with 5 bytes of return information
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the address of some information used in working with
+          double-byte character sets (DBCS).  The return information tells
+          which bytes are <span class="c1">lead characters</span> of two-byte sequences.  Such
+          two-byte sequences must be treated as an unbreakable unit in
+          DBCS-aware programs.
+
+          Upon return <span class="c2">ES:DI</span> points to a 5-byte structure.  The first byte
+          is a table identifier (07H) and the next 4 bytes are a 32-bit
+          address in standard address format (offset, then segment).
+
+          At that address is a variable-length table.  The first two bytes
+          describe the length of the table in bytes.  That is followed by a
+          series of byte-pairs which each describe a run of lead
+          characters.   The table is terminated by two bytes of 00H.   For
+          instance...
+
+            06,00, dc,df, f1,ff,00,00
+
+          ...indicates the table is 6 bytes long and that characters dcH,
+          deH, dfH and deH and f1H through ffH are lead characters in DBCS
+          byte-pairs.
+
+See Also: <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

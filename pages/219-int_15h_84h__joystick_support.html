@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 84H: Joystick Support - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 84H: Joystick Support</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    84H
+          <span class="c2">DX</span>    subfn code: 0 = read buttons (switches) into <span class="c2">AL</span>
+                            1 = read joystick positions into <span class="c2">AX</span>,<span class="c2">BX</span>,<span class="c2">CX</span>,<span class="c2">DX</span>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    84H
+          <span class="c2">AL</span>    (DX=0) bits 4-7 indicate state of joystick buttons
+          <span class="c2">AX</span>    (DX=1) joystick A horizontal coordinate
+          <span class="c2">BX</span>           joystick A vertical coordinate
+          <span class="c2">CX</span>           joystick B horizontal coordinate
+          <span class="c2">DX</span>           joystick B vertical coordinate
+          <span class="c2">CF</span>    CY (1) if DX was invalid
+                NC (0) no error
+          ──────────────────────────────────────────────────────────────────
+    Info: This reads the current buttons or resistive inputs of the
+          joystick (or other general analog-to-digital device).
+
+          See <a href="902-game_i_o_adapter_port.html">Game I/O Adapter Port</a> (201H) for layout of the bits for the
+          switches (buttons) and related info.
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

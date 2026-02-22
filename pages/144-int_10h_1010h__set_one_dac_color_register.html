@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1010H: Set One DAC Color Register - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1010H: Set One DAC Color Register</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1010H
+          <span class="c2">BX</span>    color register to set (0-255)
+          <span class="c2">CH</span>    green value (00H-3fH)
+          <span class="c2">CL</span>    blue value  (00H-3fH)
+          <span class="c2">DH</span>    red value   (00H-3fH)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets a specified DAC color register on a VGA card to a
+          specified 18-bit value.  It allows you to make very subtle
+          changes to color settings--the VGA can display 256 of the 262,144
+          different colors at once (when in a 256-color <a href="114-video_modes.html">video mode</a>).
+
+       <span class="c2">BX</span> selects one of the 256 DAC color registers (00H-ffH).  The high-
+          order 8 bits are ignored.
+
+          In text modes, DAC registers 00-0fH normally represent palette
+          registers 00-0fH (and thereby affect the color settings of text-
+          mode <a href="87-screen_attributes.html">video attribute</a>s).  You can use <a href="146-int_10h_1013h__dac_color_paging_functions.html">INT 10H 1013H</a> to set the 256
+          color registers as 16 banks of 16 colors and then activate any of
+          the 16 banks for instant redefinition of the entire palette.
+
+ <span class="c2">DH</span>,<span class="c2">CH</span>,<span class="c2">CL</span> are Red, Green, and Blue settings.  Only the low 6 bits of each
+          element are used, so each can range from 0 to 3fH (64 possible
+          shades).  Thus, there are 64x64x64=262,144 possible RGB settings.
+
+   Notes: Use <a href="147-int_10h_1015h__read_one_dac_color_register.html">INT 10H 1015H</a> to obtain the RGB values of a DAC register.
+          Use <a href="145-int_10h_1012h__set_a_block_of_dac_color_register.html">INT 10H 1012H</a> to set a block of DAC registers all at once.
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

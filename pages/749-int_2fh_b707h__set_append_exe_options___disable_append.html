@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH b707H: Set APPEND.EXE Options / Disable APPEND - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH b707H: Set APPEND.EXE Options / Disable APPEND</h1><pre>                                                         Compatibility: <span class="c2">4.0+</span>
+ Expects: <span class="c2">AX</span>    b707H
+          <span class="c2">BX</span>    an <a href="748-int_2fh_b706h__query_append_exe_option_settings.html">AppendOptsRec</a> bit-record defining desired settings (clear
+                bit 0 to disable APPEND).
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    Carry Flag clear (NC) if no error
+          ──────────────────────────────────────────────────────────────────
+    Info: This changes the various APPEND.EXE option settings.
+
+          <a href="748-int_2fh_b706h__query_append_exe_option_settings.html">INT 2fH b706H</a> for the layout of the bits in the <span class="c2">BX</span> register.
+
+   Notes: These settings are system-global.  Before making changes, use
+          <a href="748-int_2fh_b706h__query_append_exe_option_settings.html">INT 2fH b706H</a> (query settings) and save the result.  Then restore
+          the saved settings before terminating your program.
+
+See Also: <a href="744-int_2fh_b7xxh__append_exe_functions.html">INT 2fH b7xxH: APPEND.EXE Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

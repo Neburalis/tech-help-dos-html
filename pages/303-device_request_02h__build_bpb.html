@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Request 02H: Build BPB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Request 02H: Build BPB</h1><pre>                                                                      <a href="328-_blk_.html">◄Blk►</a>
+ This tells the driver to return the BIOS Parameter Block for the medium
+ that's currently in the drive.
+
+<span class="c2">DevReq02Rec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bLen</span>         16H (length of this request packet)
+   +1      1  <span class="c1">bUnitNo</span>      unit number of interest
+   +2      1  <span class="c1">bCmd</span>         <span class="c2">02H</span> (command code)
+   +3      2  <span class="c1">rStatus</span>      OUTPUT: <a href="325-device_status_word.html">Device Status Word</a> must fill before exit
+   +5H     8  <span class="c1">res</span>          (reserved)
+  +0dH     1  <span class="c1">bMediaID</span>     INPUT: <a href="370-media_descriptor.html">Media Descriptor</a> DOS thinks is there
+  +0eH     4  <span class="c1">pfFatSect</span>    INPUT: far addr of first sector of FAT
+  +12H     4  <span class="c1">pfBPB</span>        OUTPUT: far addr of <a href="338-bpb__bios_parameter_block.html">BPBRec</a>
+          22               size of this structure
+
+     <span class="c1">rStatus</span>  On exit, the driver must place a <a href="325-device_status_word.html">DevStatusWord</a> here.  Always
+              set the Done bit (<span class="c1">bit 8</span>).  On an error, set the Done bit and
+              the Error bit (<span class="c1">bit 15</span>) and put a <a href="326-device_driver_errors.html">Device Error Code</a> in the low
+              byte.
+
+    <span class="c1">bMediaID</span>  On entry, this contains the <a href="370-media_descriptor.html">Media Descriptor</a> byte of the disk
+              that DOS thinks is in the drive.
+
+   <span class="c1">pfFatSect</span>  When <a href="323-device_attribute.html">Device Attribute</a> <span class="c1">bit 13</span> is set, this will contain the
+              address of a 512-byte FAT sector of the disk that DOS thinks
+              is in the drive.  You can use it to see if the disk has
+              changed.
+
+       <span class="c1">pfBPB</span>  You must set this to a filled-in <a href="338-bpb__bios_parameter_block.html">BPBRec</a> structure that
+              describes the current media.
+
+   Notes: ■ If the driver supports Removable Media (see <a href="323-device_attribute.html">Device Attribute</a>),
+            you should save a copy of the Volume ID of the disk for use in
+            later <a href="302-device_request_01h__media_check.html">DvRq 01H</a> requests.
+
+          ■ DOS fns <a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">440dH 40H</a> and <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">440dH 60H</a> (set/query device parameters)
+            are passed to your <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a> (generic IOCTL) handler and
+            settings there will affect values you return here.
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">DevRequestHdrRec</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

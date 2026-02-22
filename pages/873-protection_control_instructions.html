@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Protection Control Instructions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Protection Control Instructions</h1><pre>
+All instructions on this page require <span class="c2">286</span> or higher CPU.
+
+LGDT src       load Global Descriptor Table from 6-byte table at <span class="c1">src</span>
+SGDT dest      store 6-byte Global Descriptor Table to memory at <span class="c1">dest</span>
+
+LIDT src       load Interrupt Descriptor Table from 6-byte table at <span class="c1">src</span>
+SIDT dest      store 6-byte Interrupt Descriptor Table to memory at <span class="c1">dest</span>
+
+LLDT src       load Local Descriptor Table (GDT selector) from reg/mem16
+SLDT dest      store Local Descriptor Table register into <span class="c1">dest</span> (r/m16)
+
+LMSW src       load Machine Status Word (use to enter protected mode)
+SMSW src       store Machine Status Word to reg/mem16
+
+LTR  src       load Task Register (GDT selector) from reg/mem16
+STR  dest      store Task Register to reg/mem16
+
+LAR  dest,<span class="c1">src</span>  load high-byte of dest with Access Rights of <span class="c1">src</span> descriptor
+
+LSL  dest,<span class="c1">src</span>  load dest with Segment Limit of descriptor named by <span class="c1">src</span>
+
+ARPL lvl       Adjust Requested Privilege Level to higher of current or <span class="c1">lvl</span>
+
+VERR seg       Sets ZF to ZR if task has read privileges for segment <span class="c1">seg</span>
+
+VERW seg       Sets ZF to ZR if task has write privileges for segment <span class="c1">seg</span>
+────────────────────────────────────────────────────────────────────────────
+                                                            <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

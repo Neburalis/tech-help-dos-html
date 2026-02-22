@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0500H: Query Free Memory Information - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0500H: Query Free Memory Information</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0500H
+          <span class="c2">ES:DI</span> (or ES:EDI) sel:off of 48-byte buffer to receive info
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (this fn always succeeds)
+          <span class="c2">ES:DI</span> buffer contains returned info
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains information about available physical memory, page
+          swapping space, etc.
+
+          <span class="c2">DPMI 1.0</span> users should use <a href="622-int_31h_050bh__query_memory_information.html">INT 31H 050bH</a> instead.
+
+ <span class="c2">ES:</span>(<span class="c2">E</span>)<span class="c2">DI</span> must point to a 48-byte buffer.  On return, it contains:
+
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      4  <span class="c1">lAvailBytes</span>  largest free block, in bytes
+             +4      4  <span class="c1">lUnlockedPgs</span> pages available if left unlocked
+             +8      4  <span class="c1">lLockedPgs</span>   pages available if locked
+            +0cH     4  <span class="c1">lTotLinPgs</span>   linear address space size, in pages
+            +10H     4  <span class="c1">lTotUnlkPgs</span>  number of unlocked pages
+            +14H     4  <span class="c1">lTotFreePgs</span>  number of free pages
+            +18H     4  <span class="c1">lTotPhysPgs</span>  number of physical pages
+            +1cH     4  <span class="c1">lFreeLinPgs</span>  free linear address space, in pages
+            +20H     4  <span class="c1">lTotSwapPgs</span>  size of page swapping file, in pages
+            +24H    12  <span class="c1">res</span>          (reserved)
+                    48               size of this structure
+
+   Notes: ■ In multi-tasking environments, these values may change at any
+            time, so they should be considered as &quot;advisory.&quot;
+
+          ■ Use <a href="627-int_31h_0604h__query_page_size.html">INT 31H 0604H</a> to learn the size of the virtual-memory pages
+            used by the host.
+
+          ■ Only the first field is guaranteed to contain meaningful data.
+            Other fields may contain -1 (ffffffffH) if the host doesn't
+            know the true values.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

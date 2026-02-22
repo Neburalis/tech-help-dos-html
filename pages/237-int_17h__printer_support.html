@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 17H: Printer Support - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 17H: Printer Support</h1><pre>
+ These functions provide access to the parallel printer ports (LPT1, etc.)
+
+ The printer port addresses are stored starting at 0040:0008.  Printer
+ time-out intervals start at 0040:0078.  See <a href="93-rom_bios_variables.html">BIOS Data Area</a>.
+
+          <span class="c2">AH</span>  BIOS Service
+          ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+          <a href="238-int_17h_00h__print_one_character.html">00H</a> print a character
+          <a href="239-int_17h_01h__initialize_printer_port.html">01H</a> setup printer port
+          <a href="240-int_17h_02h__query_printer_status.html">02H</a> query printer status
+
+    Note: The BIOS offers no support for bidirectional parallel
+          communications (though standard PC hardware has supported it
+          since about 1987).
+
+See Also: <a href="907-parallel_printer_adapter_ports.html">Parallel Printer Adapter Ports</a>
+          <a href="102-int_05h__print_screen___bounds_exception.html">INT 05H</a> (print screen)
+          <a href="17-printer_functions.html">Printer Functions</a> (DOS fns)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 50H: Set PSP - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 50H: Set PSP</h1><pre>                                            Compatibility: <span class="c2">2.0+</span> (doc'd: 5.0)
+ Expects: <span class="c2">AH</span>    50H
+          <span class="c2">BX</span>    Process ID (i.e, <a href="371-psp__program_segment_prefix.html">PSP</a> segment) to make current
+          ──────────────────────────────────────────────────────────────────
+ Returns:       none   
+          ──────────────────────────────────────────────────────────────────
+    Info: This function tells DOS that the <a href="929-qpid.html">PID▲</a> in <span class="c2">BX</span> identifies the
+          current active process.  It is used in <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> programs to inform DOS
+          which process is running; i.e., after popping up.
+
+          Several DOS fns (including file handle operations and memory
+          allocation functions), refer to and make changes to the <a href="371-psp__program_segment_prefix.html">PSP</a> of
+          the current process.
+
+          A <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> should call Fn <a href="513-dos_fn_51h__query_current_psp.html">51H</a> and save its PSP during initialization.
+          Before popping up, the TSR should use fn <a href="513-dos_fn_51h__query_current_psp.html">51H</a> to get the ID of the
+          interrupted program, then use fn <a href="512-dos_fn_50h__set_psp.html">50H</a> to set the PID to the saved
+          value.  Be sure to change the PID back before popping down.
+
+See Also: <a href="371-psp__program_segment_prefix.html">PSP</a> (Program Segment Prefix)
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="346-dos_environment.html">DOS Environment</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

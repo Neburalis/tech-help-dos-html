@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 00H: Division Overflow - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 00H: Division Overflow</h1><pre>
+ The CPU automatically executes this interrupt after a DIV or IDIV is
+ performed and the result (quotient) of a division operation will not fit
+ into the destination.  This includes division by 0.  For instance...
+
+            mov   ax,4000H  ;dividend
+            mov   bl,2      ;divisor is byte so destination is byte (AL)
+            div   bl        ;4000H/2 is 2000H which will not fit in AL
+                            ;  so INT 00H is executed
+ ...or simply:...
+            mov   bx,0
+            div   bx        ;any division by 0
+
+    Note: Division-by-0 errors on the numeric coprocessor may be routed
+          through the NMI.  See <a href="99-int_02h__non_maskable_interrupt.html">INT 02H</a>.
+
+See Also: <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

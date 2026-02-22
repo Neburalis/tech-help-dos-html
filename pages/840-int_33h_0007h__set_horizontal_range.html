@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0007H: Set Horizontal Range - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0007H: Set Horizontal Range</h1><pre>
+ Expects: <span class="c2">AX</span>    0007H
+          <span class="c2">CX</span>    minimum X coordinate (horizontal pixel position)
+          <span class="c2">DX</span>    maximum X coordinate (horizontal pixel position)
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets a horizontal range out of which the mouse pointer will
+          not be able to move.  Attempts by the user (or the program via
+          <a href="837-int_33h_0004h__set_mouse_pointer_position.html">INT 33H 0004H</a>) to move to the left of <span class="c2">CX</span> or the right of <span class="c2">DX</span> will
+          cause the pointer to remain at the minimum or maximum value in
+          the range.
+
+          Use <a href="841-int_33h_0008h__set_vertical_range.html">INT 33H 0008H</a> to limit motion on the vertical axis.
+
+   Notes: All X,Y coordinates are <span class="c1">virtual</span> coordinates and when working with
+          text mode, you must divide each value by 8 to get a character
+          clm,row.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

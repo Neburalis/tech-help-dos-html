@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1c01H: VGA Save Video State - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1c01H: VGA Save Video State</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1c01H
+          <span class="c2">CX</span>    type(s) of video-state info to save (see below)
+          <span class="c2">ES:BX</span> address of buffer to hold video-state info
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    1cH (if this fn is supported)
+          ──────────────────────────────────────────────────────────────────
+    Info: This saves the current state of the VGA video system.  Use
+          <a href="182-int_10h_1c02h__vga_restore_video_state.html">INT 10H 1c02H</a> to restore the system state later on.
+
+       <span class="c2">CX</span> is a set of bit-flags indicating what types of video-state
+          information you need to save:
+           1 1
+          ╓5┬4┬  ┬7┬6┬5┬4┬3┬2┬1┬0╖
+          ║0 0•••│0 0 0 0 0│<span class="c1">c</span>│<span class="c1">d</span>│<span class="c1">h</span>║
+          ╙─┴─┴  ┴─┴─┴─┴─┴─┴╥┴╥┴╥╜ bit mask
+                            ║ ║ ╚═► 0: 01H  video hardware state info
+                            ║ ╚═══► 1: 02H  video BIOS data area info
+                            ╚═════► 2: 04H  DAC state and color registers
+
+    <span class="c2">ES:BX</span> The size of the buffer that this address varies, depending upon
+          the value in <span class="c2">CX</span>.  Be sure to use <a href="180-int_10h_1c00h__vga_query_size_of_state_save_buffer.html">INT 10H 1c00H</a> (with <span class="c2">CX</span> having
+          the same value!) to obtain the required size and then be sure
+          your buffer is large enough to hold the returned information.
+
+          The layout of the video-state information is not documented.
+
+   Notes: This is very handy for task-switching software such as the DOS
+          Shell and can be useful in systems that switch in-and-out of
+          graphics modes.
+
+          Alas, EGA, CGAs, and MDAs do not support this fn, so if your
+          program needs to save/restore the video state for other types of
+          video systems, you still need to do some manual labor to collect
+          the information.
+
+See Also: <a href="179-int_10h_1ch__vga_state_save_restore_functions.html">INT 10H 1cH</a> (VGA Save/Restore Functions)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Access Mode / Open Mode - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Access Mode / Open Mode</h1><pre>
+ DOS version <span class="c2">3.0</span> added networking and file-locking capabilities to the DOS
+ file system.  The additional complications will normally affect only those
+ programs which expect to be used in a network environment.
+
+                ┌─────────────────────────────────────────┐
+                │  DOS 2.x (non-networking) Access Modes  │
+                ├─────────────────────────────────────────┤
+                │ 00H = open for reading                  │
+                │ 01H = open for writing                  │
+                │ 02H = open for both reading and writing │
+                └─────────────────────────────────────────┘
+
+ DOS 3.0+ is upwardly compatible with previous versions.  The Access/Open
+ Mode is treated as a set of bit-flags:
+
+ <span class="c2">OpenModeRec</span>
+  ╓7┬6┬5┬4┬3┬2┬1┬0╖
+  ║<span class="c1">i</span>│<span class="c1">share</span>│0│ <span class="c1">r/w</span> ║
+  ╙╥┴─┴─┴─┴─┴─┴─┴─╜ bits mask
+   ║ ╚═╦═╝   ╚═══╩═► 0-2: 03H Network Access Rights required for access
+   ║   ║                       000 = read
+   ║   ║                       001 = write
+   ║   ║                       010 = read and write
+   ║   ╚═══════════► 4-6: 70H Sharing Mode:
+   ║                           000 = compatibility mode            00H
+   ║                           001 = deny read/write(exclusive)    10H
+   ║                           010 = deny write                    20H
+   ║                           011 = deny read                     30H
+   ║                           100 = deny none                     40H
+   ╚═══════════════►   7: 80H Inheritance:
+                               1 = file is private to this process 80H
+                               0 = inherited by spawned processes
+
+   Notes: ■ If the <a href="361-file_attribute.html">file attribute</a> indicates Read-Only, then it overrides
+            these flags.
+
+          ■ The Network Access Rights and Sharing Mode bits have an effect
+            if the DOS SHARE program has been installed or other file
+            sharing support is installed.
+
+          ■ The DOS <span class="c2">4.0+</span> Fn <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a> uses this mode byte as the low-byte of an
+            Extended Open Mode word.  It provides flags that let you avoid
+            critical errors and force disk-caching write-through.
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          fn <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a> (open file)
+          fn <a href="529-dos_fn_5ch__lock_unlock_file_access.html">5cH</a> (lock)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

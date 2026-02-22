@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 1fH: Get Drive Parameter Block (current disk) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 1fH: Get Drive Parameter Block (current disk)</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AH</span>    1fH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0ffh on error, else...
+                0 no error and...
+          <span class="c2">DS:BX</span> address of a <a href="350-dpb__drive_parameter_block.html">Drive Parameter Block</a> for the default drive
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns a block of information that is useful for applications
+          and utilities which perform sector-level access of disk drives
+          supported by device drivers.
+
+          This returns the pointer for the current default drive.  A more
+          flexible version is DOS Fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> (which see for related details).
+
+ <span class="c3">Warning:</span> ■ Alters DS.
+
+Versions: ■ This known to work starting with <span class="c2">3.0</span>, but has only been
+            documented since <span class="c2">5.0</span>.
+
+See Also: Fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> (get drive parameter block)
+          <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a>
+          <a href="350-dpb__drive_parameter_block.html">Drive Parameter Block</a>
+          <a href="9-disk_drive_functions.html">Disk Drive Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

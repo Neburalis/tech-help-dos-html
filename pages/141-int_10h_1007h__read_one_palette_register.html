@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1007H: Read One Palette Register - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1007H: Read One Palette Register</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1007H
+          <span class="c2">BL</span>    palette register to read (00H-0fH)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">BH</span>    current <span class="c1">rgbRGB</span> value of specified register
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the current value of <span class="c1">rgbRGB</span> of the specified VGA
+          palette register.  See <a href="137-int_10h_1000h__set_one_palette_register.html">INT 10H 1000H</a> and <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a> for info
+          on rgbRGB palette register settings.
+
+   Notes: BIOS does not check the validity of <span class="c2">BL</span> on this fn and will return
+          any of the ATC registers (00H-14H).  See <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>.
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

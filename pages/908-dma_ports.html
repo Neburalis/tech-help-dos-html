@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DMA Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DMA Ports</h1><pre>
+ DMA (Direct Memory Access) is used for high-speed data transfers between
+ I/O devices and memory without intervention of the CPU.  It is typically
+ employed by diskette and hard disk drivers, but it could be used for
+ streaming tape or any other device as long as it does not interfere with
+ the operation of other standard devices.
+
+ The original PC supports four 8-bit DMA channels, across a 20-bit address
+ space, using an Intel 8237A DMA controller chip.  The AT supports seven
+ DMA channels by cascading a second 8237A DMA controller.  The differences
+ between PC and AT DMA are covered at the end of this section.
+
+ Channel  Usage in PC and XT
+ ▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    0     memory refresh    (highest priority)
+    1     not used
+    2     diskette adapter
+    3     hard disk adapter (lowest priority)
+
+    Note: All PC-compatibles use DMA channel 0 for memory refresh.  If
+          memory is not refreshed as set by the BIOS, data in RAM will
+          degrade within a few hundredths of a second.  It is wise to avoid
+          monkeying with DMA port settings.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+000H-007H DMA base address an offset registers
+      All are 16-bit registers: read/write the low byte, then the high byte
+      at the same I/O port.  Base addresses are offsets from a DMA Page
+      (see below).
+
+000H  Write: DMA channel 0 base address (also sets current address)
+      Read:  DMA channel 0 current address
+001H  Write: DMA channel 0 base address and word count
+      Read:  DMA channel 0 current word count
+002H  Write: DMA channel 1 base address
+      Read:  DMA channel 1 current address
+003H  Write: DMA channel 1 base address and word count
+      Read:  DMA channel 1 current word count
+004H  Write: DMA channel 2 base address           (diskette adapter)
+      Read:  DMA channel 2 current address              &quot;
+005H  Write: DMA channel 2 base address and word count  &quot;
+      Read:  DMA channel 2 current word count           &quot;
+006H  Write: DMA channel 3 base address          (hard disk adapter)
+      Read:  DMA channel 3 current address              &quot;
+007H  Write: DMA channel 3 base address and word count  &quot;
+      Read:  DMA channel 3 current word count           &quot;
+──── ───────────────────────────────────────────────────────────────────────
+008H-00fH DMA control/status registers
+008H  Write: DMA command register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │ │ │ │ ║
+      ╙╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜ bit
+       ║ ║ ║ ║ ║ ║ ║ ╚═► 0: 1=enable memory-to-memory DMA (ch0◄═►ch1)
+       ║ ║ ║ ║ ║ ║ ╚═══► 1: 1=enable Ch0 address hold
+       ║ ║ ║ ║ ║ ╚═════► 2: 1=disable controller
+       ║ ║ ║ ║ ╚═══════► 3: 1=select compressed timing mode
+       ║ ║ ║ ╚═════════► 4: 1=enable rotating priority
+       ║ ║ ╚═══════════► 5: 1=select extended write mode; 0=late write
+       ║ ╚═════════════► 6: 1=select DRQ sensing as active high; 0=low
+       ╚═══════════════► 7: 1=select DACK sensing as active high; 0=low
+      Read:  DMA status register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │ │ │ │ ║
+      ╙─┴─┴─┴─┴─┴─┴─┴─╜ bit
+       ╚══╦══╝ ╚═════╩═► 0-3: channel 0-3 has reached terminal count
+          ╚════════════► 4-7: channel 0-3 has a request pending
+
+009H  Write: request register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║  unused │ │   ║
+      ╙─┴─┴─┴─┴─┴╥┴─┴─╜ bit
+                 ║ ╚═╩═► 0-1: select channel (00=0; 01=1; 10=2; 11=3)
+                 ╚═════►   2: 1=set request bit for channel; 0=reset request
+
+00aH  Write: single mask bit register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║  unused │ │   ║
+      ╙─┴─┴─┴─┴─┴╥┴─┴─╜ bit
+                 ║ ╚═╩═► 0-1: select channel (00=0; 01=1; 10=2; 11=3)
+                 ╚═════►   2: 1=set mask for channel; 0=clear mask (enable)
+
+00bH  Write: mode register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │ │ │ │ ║
+      ╙─┴─┴╥┴╥┴─┴─┴─┴─╜ bit
+       ╚╦╝ ║ ║ ╚╦╝ ╚═╩═► 0-1: select channel (00=0; 01=1; 10=2; 11=3)
+        ║  ║ ║  ╚══════► 2-3: xfer type: 00=verify (nop); 01=write; 10=read
+        ║  ║ ╚═════════►   4: 1=enable auto-initialization
+        ║  ╚═══════════►   5: 1=select addr increment; 0=address decrement
+        ╚══════════════► 6-7: 00=demand mode; 01=single
+                              10=block; 11=cascade
+
+00cH  Write: clear byte pointer flip-flop.  Any write clears the flip-flop
+             so that the next write to any of the 16-bit registers is
+             decoded as the low byte.  The next is the high byte, then next
+             is low, etc.
+
+00dH  Write: master clear.  Any OUT clears the ctrlr (must be re-init'd)
+      Read:  temporary reg.  Last byte in memory-to-memory xfer (not used)
+
+00eH  Write: Clear mask registers.  Any OUT enables all 4 channels.
+
+00fH  Write: master clear.  Clear or mask any or all of the channels.
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║       │ │ │ │ ║
+      ╙─┴─┴─┴─┴╥┴╥┴╥┴╥╜ bit
+               ║ ║ ║ ╚═► 0: 1=mask channel 0; 0=enable
+               ║ ║ ╚═══► 1: 1=mask channel 1;
+               ║ ╚═════► 2: 1=mask channel 2;
+               ╚═══════► 3: 1=mask channel 3;
+      Read:  temporary reg.  Last byte in memory-to-memory xfer (not used)
+
+081H-08fH DMA page registers.
+      To select a starting address for a DMA operation, do an OUT to the
+      page register (ports 81H-83H) for the selected channel then set the
+      base address (ports 00H-07H) for the channel.  A page register is set
+      with a 4-bit value that represents bits 16-19 of the 20-bit DMA
+      address.  Since the current address is a 16-bit value, it is not
+      possible to cross a 64K boundary (e.g., address 1000:0, 2000:0, etc.)
+      with a DMA operation.
+
+081H  Channel 2 page register  (diskette DMA)
+
+082H  Channel 3 page register  (hard disk DMA)
+
+083H  Channel 1 page register
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+<span class="c2">█▌AT DMA▐█</span>
+  The DMA system on the AT is basically upwardly-compatible with PC and XT
+  DMA.  In addition to the four 8-bit channels of the PC, the AT adds a
+  second 8237A-5 DMA controller which supports channels 4-7.
+
+Channel  Usage in AT
+▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   0     spare                                   ─┐
+   1     SDLC (Synchronous Data Link Control)     ╞═► 8-bit DMA channels
+   2     diskette adapter                         │
+   3     hard disk adapter                       ─┘
+   4     (controller 2) cascade for controller 1 ─┐
+   5     spare                                    ╞═► 16-bit DMA channels
+   6     spare                                    │
+   7     spare                                   ─┘
+
+──── ───────────────────────────────────────────────────────────────────────
+081H-08fH DMA page registers.  On the AT, all 8 bits of the Page registers
+      are used.  They become the high 8-bits of a 24-bit address space
+      (with the low 16-bits being set in a channel's base/current address
+      register). The page size is 128K (64K words) so DMA transfers must not
+      cross a 128K boundary (e.g., address 2000:0, 4000:0, 6000:0, etc.)
+
+081H  Channel 2 page register  (diskette DMA)  (address bits 16-23)
+082H  Channel 3 page register  (hard disk DMA) (address bits 16-23)
+083H  Channel 1 page register                  (address bits 16-23)
+087H  Channel 0 page register                  (address bits 16-23)
+089H  Channel 6 page register  (address bits 17-23)
+08bH  Channel 5 page register  (address bits 17-23)
+08aH  Channel 7 page register  (address bits 17-23)
+08fH  refresh
+──── ───────────────────────────────────────────────────────────────────────
+0c0H-0dfH <span class="c2">AT</span> DMA controller registers for 16-bit DMA I/O.  Channels 0-3 work
+      with 8-bit I/O as in the PC.  Additional channels 4-7 support 16-bit
+      device-to-memory and memory-to-device transfers.  Transfers for these
+      channels always start on a word boundary and all addresses and counts
+      are for 16-bit words (e.g., a base address of 123H actually refers to
+      offset 246H from the page for that channel).
+
+0c0H  Channel 4 base and current address (bits 1-16; bit 0 assumed 0)
+0c2H  Channel 4 current word count
+0c4H  Channel 5 base and current address (bits 1-16)
+0c6H  Channel 5 current word count
+0c8H  Channel 6 base and current address (bits 1-16)
+0caH  Channel 6 current word count
+0ccH  Channel 7 base and current address (bits 1-16)
+0ceH  Channel 7 current word count
+──── ───────────────────────────────────────────────────────────────────────
+0d0H-0dfH AT DMA control/status registers
+0d0H  Write: command register
+      Read:  status register
+0d2H  Write request register
+0d4H  Write single mask register bit
+0d6H  Write Mode register
+0d8H  Clear byte pointer flip-flop
+0daH  Write: master clear
+      Read:  temporary register
+0dcH  Clear mask register
+0deH  Write all mask register bits
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

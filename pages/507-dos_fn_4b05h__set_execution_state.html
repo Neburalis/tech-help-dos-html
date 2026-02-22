@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4b05H: Set Execution State - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4b05H: Set Execution State</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    4b05H
+          <span class="c2">DS:DX</span> address of an <a href="356-exec_state_record.html">ExecStateRec</a> containing execution state info
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This function sets up DOS for executing a loaded program.
+          Specifically, it prepares DOS to correctly handle calls to Fn <a href="417-dos_fn_30h__get_dos_version_number.html">30H</a>
+          (get DOS version), as set up by the DOS <span class="c2">Setver</span> program.
+
+    <span class="c2">DS:DX</span> points to a block of memory prepared as an <a href="356-exec_state_record.html">ExecStateRec</a> that has
+          been filled with the information needed.
+
+   Notes: ■ This function is required by programs which intercept (and
+            replace) fn <a href="504-dos_fn_4b00h__execute_a_program.html">4B00H</a> (exec).
+
+          ■ After return, the caller should immediately begin executing the
+            program, specifically avoiding any DOS or BIOS fn calls.
+
+          ■ When DOS is installed in the HMA<a href="926-qmemhma.html">▲</a>, this function turns off the
+            A20 line (making the HMA inaccessible).  DOS normally turns A20
+            on and leaves it on while executing other system functions.
+
+See Also: Fn <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> (execute program)
+          Fn <a href="505-dos_fn_4b01h__load_program.html">4b01H</a> (load program)
+          Fn <a href="506-dos_fn_4b03h__load_overlay.html">4b03H</a> (load overlay)
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

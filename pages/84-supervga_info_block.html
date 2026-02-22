@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SuperVGA Info Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SuperVGA Info Block</h1><pre>
+ This structure describes the capabilities of a VESA SuperVGA-compliant
+ video system.  Use <a href="937-int_10h_4f00h___query_supervga_support.html">INT 10H 4f00H</a> to obtain this information.
+
+<span class="c2">SvgaInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      4  <span class="c1">abSignature</span>  will contain 'VESA'
+   +4      2  <span class="c1">wVersion</span>     VESA version number; hi-byte=major; low=minor
+   +6      4  <span class="c1">pfszOEMStr</span>   ASCIIZ<a href="913-qasciiz.html">▲</a> Manufacture ID or other text info
+  +0aH     4  <span class="c1">rAbilities</span>   four bytes of bit flags
+  +0eH     4  <span class="c1">pfawModes</span>    address of a list of 16-bit supported mode values
+          18               size of formatted portion of an SvgaInfoRec
+  +12H   238  <span class="c1">abData</span>       may be filled with mode data
+         256               required size for return buffer
+
+ <span class="c1">abSignature</span>  must be 'VESA' (that is, 56H, 45H, 53H, 42H)
+
+    <span class="c1">wVersion</span>  version number for compatibilities test.  The high byte
+              (offset 5) is the major number and the low byte (offset 4) is
+              the minor revision number (e.g., 0201h is version 1.2).
+              Higher-numbered versions are guaranteed to be fully-compatible
+              with lower-numbered versions.
+
+  <span class="c1">pfszOEMStr</span>  32-bit far address of an ASCIIZ<a href="913-qasciiz.html">▲</a> string defined by the
+              manufacturer.  This may contain the OEM's name and any other
+              info desired, such as the name of the video chip, developers
+              names, whatever.
+
+  <span class="c1">rAbilities</span>  This is a 32-bit bit array, presumable with each bit
+              identifying some capability of this implementation of VESA.
+              With version 1.0, all bits are reserved and must be 0.
+
+   <span class="c1">pfawModes</span>  far address of a variable-length list of supported video
+              modes.  These are 16-bit VESA mode numbers, followed by ffffH
+              to indicate the end of the list.
+
+              See <a href="85-vesa_svga_video_modes.html">VESA/SVGA Video Modes</a> for related information.
+
+See Also: <a href="937-int_10h_4f00h___query_supervga_support.html">INT 10H 4F00H</a>
+          <a href="85-vesa_svga_video_modes.html">VESA/SVGA Video Modes</a>
+          <a href="86-supervga_mode_info_block.html">SvgaModeInfoRec</a>
+          <a href="69-supervga_display_adapters__svga_.html">SVGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

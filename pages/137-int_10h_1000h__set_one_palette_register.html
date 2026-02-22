@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1000H: Set One Palette Register - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1000H: Set One Palette Register</h1><pre>                                                      Compatibility: <span class="c2">EGA</span> <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1000H
+          <span class="c2">BL</span>    register number to set (a 4-bit attribute nibble: 00-0fH)
+          <span class="c2">BH</span>    6-bit RGB color to display for that attribute
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets a specified palette register on and EGA/VGA card to a
+          specified 6-bit RGB value; thereby changing the color that is
+          displayed for a graphics-mode color and a text-mode attribute.
+
+       <span class="c2">BL</span> is a palette register, 00H=0fH.  By default the palette is
+          programmed with the 16 colors described in the <a href="87-screen_attributes.html">Video Attributes</a>
+          topic.
+
+       <span class="c2">BH</span> is a 6-bit <span class="c1">rgbRGB</span> color setting, as follows:
+
+          ╓7┬6┬5┬4┬3┬2┬1┬0╖
+          ║   │r│g│b│R│G│B║             Note: R,G,B are 2/3-intensity
+          ╙─┴─┴╥┴╥┴╥┴╥┴╥┴╥╜ bit               r,g,b are 1/3-intensity
+               ║ ║ ║ ║ ║ ╚═► 0: 01H Blue
+               ║ ║ ║ ║ ╚═══► 1: 02H Green
+               ║ ║ ║ ╚═════► 2: 04H Red
+               ║ ║ ╚═══════► 3: 08H blue' (also MDA-emulation underline)
+               ║ ╚═════════► 4: 10H green' (also CGA-emulation intensity)
+               ╚═══════════► 5: 20H red'
+
+          For example, video attribute 07H usually means white-on-black.
+          But after calling this with <span class="c2">BL</span>=00H and <span class="c2">BH</span>=24H, you have changed
+          all &quot;black&quot; attributes to mean &quot;bright red&quot;, so video attribute
+          07H now displays as white characters on a bright red background
+          and 70H displays as bright red on white.
+
+   Notes: EGA/VGA BIOS does not check the validity of <span class="c2">BL</span> and will program
+          any of the ATC registers to the value in <span class="c2">BH</span>.  Thus, you can use
+          this to modify the border color, mode control and other ATC
+          registers at port 3c0H.  See <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a>.
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

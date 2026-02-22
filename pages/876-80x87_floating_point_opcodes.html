@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>80x87 Floating Point Opcodes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>80x87 Floating Point Opcodes</h1><pre>
+ These instructions can be executed when a 8087/80287/80387 numeric
+ coprocessor is available or when using a (real) <span class="c2">486+</span> CPU.
+
+                      <span class="c2">█▌Data Transfer and Constants▐█</span>
+FLD <span class="c1">src</span>                 Load real: st(0) ← <span class="c1">src</span> (mem32/mem64/mem80)
+FILD <span class="c1">src</span>             Load integer: st(0) ← <span class="c1">src</span> (mem16/mem32/mem64)
+FBLD <span class="c1">src</span>                 Load BCD: st(0) ← <span class="c1">src</span> (mem80)
+
+FLDZ                    Load zero: st(0) ← 0.0
+FLD1                       Load 1: st(0) ← 1.0
+FLDPI                     Load pi: st(0) ← π (i.e., pi)
+FLDL2T              Load log2(10): st(0) ← log2(10)
+FLDL2E               Load log2(e): st(0) ← log2(e)
+FLDLG2              Load log10(2): st(0) ← log10(2)
+FLDLN2               Load loge(2): st(0) ← loge(2)
+
+FST <span class="c1">dest</span>               Store real: <span class="c1">dest</span> ← st(0) (mem32/64)
+FSTP <span class="c1">dest</span>                          <span class="c1">dest</span> ← st(0) (mem32/64/80); pop stack
+FIST <span class="c1">dest</span>           Store integer: <span class="c1">dest</span> ← st(0) (mem32/64)
+FISTP <span class="c1">dest</span>                         <span class="c1">dest</span> ← st(0) (mem16/32/64); pop stack
+FBST <span class="c1">dest</span>               Store BCD: <span class="c1">dest</span> ← st(0) (mem80)
+FBSTP <span class="c1">dest</span>                         <span class="c1">dest</span> ← st(0) (mem80); pop stack
+
+                                <span class="c2">█▌Compare▐█</span>
+FCOM                 Compare real: Set flags as for st(0) - st(1)
+FCOM <span class="c1">op</span>                            Set flags as for st(0) - <span class="c1">op</span> (mem32/mem64)
+FCOMP <span class="c1">op</span>                           Compare st(0) to <span class="c1">op</span> (reg/mem); pop stack
+FCOMPP                             Compare st(0) to st(1); pop stack twice
+
+FICOM <span class="c1">op</span>          Compare integer: Set flags as for st(0) - <span class="c1">op</span> (mem16/mem32)
+FICOMP <span class="c1">op</span>                          Compare st(0) to <span class="c1">op</span> (mem16/32); pop stack
+
+FTST                Test for zero: Compare st(0) to 0.0
+
+FUCOM st(<span class="c1">i</span>)     Unordered Compare: st(0) to st(i)                      <span class="c2">486+</span>
+FUCOMP st(<span class="c1">i</span>)                       Compare st(0) to st(i) and pop stack
+FUCOMPP st(<span class="c1">i</span>)                      Compare st(0) to st(i); pop stack twice
+
+FXAM                      Examine: Eyeball st(0) (set condition codes)
+
+                               <span class="c2">█▌Arithmetic▐█</span>
+FADD                     Add real: st(0) ← st(0) + st(1)
+FADD <span class="c1">src</span>                           st(0) ← st(0) + <span class="c1">src</span> (mem32/mem64)
+FADD st(<span class="c1">i</span>),st                      st(<span class="c1">i</span>) ← st(<span class="c1">i</span>) + st(0)
+FADDP st(<span class="c1">i</span>),st                     st(<span class="c1">i</span>) ← st(<span class="c1">i</span>) + st(0); pop stack
+FIADD <span class="c1">src</span>             Add integer: st(0) ← st(0) + <span class="c1">src</span> (mem16/mem32)
+
+FSUB                Subtract real: st(0) ← st(0) - st(1)
+FSUB <span class="c1">src</span>                           st(0) ← st(0) - <span class="c1">src</span> (reg/mem)
+FSUB st(<span class="c1">i</span>),st                      st(<span class="c1">i</span>) ← st(<span class="c1">i</span>) - st(0)
+FSUBP st(<span class="c1">i</span>),st                     st(<span class="c1">i</span>) ← st(<span class="c1">i</span>) - st(0); pop stack
+FSUBR st(<span class="c1">i</span>),st  Subtract Reversed: st(0) ← st(<span class="c1">i</span>) - st(0)
+FSUBRP st(<span class="c1">i</span>),st                    st(0) ← st(<span class="c1">i</span>) - st(0); pop stack
+FISUB <span class="c1">src</span>        Subtract integer: st(0) ← st(0) - <span class="c1">src</span> (mem16/mem32)
+FISUBR <span class="c1">src</span>     Subtract Rvrsd int: st(0) ← <span class="c1">src</span> - st(0) (mem16/mem32)
+
+FMUL                Multiply real: st(0) ← st(0) * st(1)
+FMUL st(<span class="c1">i</span>)                         st(0) ← st(0) * st(<span class="c1">i</span>)
+FMUL st(<span class="c1">i</span>),st                      st(<span class="c1">i</span>) ← st(0) * st(<span class="c1">i</span>)
+FMULP st(<span class="c1">i</span>),st                     st(<span class="c1">i</span>) ← st(0) * st(<span class="c1">i</span>); pop stack
+FIMUL <span class="c1">src</span>        Multiply integer: st(0) ← st(0) * <span class="c1">src</span> (mem16/mem32)
+
+FDIV                  Divide real: st(0) ← st(0) ÷ st(1)
+FDIV st(<span class="c1">i</span>)                         st(0) ← st(0) ÷ t(<span class="c1">i</span>)
+FDIV st(<span class="c1">i</span>),st                      st(<span class="c1">i</span>) ← st(0) ÷ st(<span class="c1">i</span>)
+FDIVP st(<span class="c1">i</span>),st                     st(<span class="c1">i</span>) ← st(0) ÷ st(<span class="c1">i</span>); pop stack
+FIDIV <span class="c1">src</span>          Divide integer: st(0) ← st(0) ÷ <span class="c1">src</span> (mem16/mem32)
+FDIVR st(<span class="c1">i</span>),st  Divide Rvrsd real: st(0) ← st(<span class="c1">i</span>) ÷ st(0)
+FDIVRP st(<span class="c1">i</span>),st                    st(0) ← st(<span class="c1">i</span>) ÷ st(0); pop stack
+FIDIVR <span class="c1">src</span>       Divide Rvrsd int: st(0) ← <span class="c1">src</span> ÷ st(0) (mem16/mem32)
+
+FSQRT                 Square Root: st(0) ← √ st(0)
+
+FSCALE        Scale by power of 2: st(0) ← 2 ↑ st(0)
+
+FXTRACT          Extract exponent: st(0) ← exponent of st(0); gets pushed
+                                   st(0) ← significand of st(0)
+
+FPREM           Partial remainder: st(0) ← st(0) MOD st(1)
+FPREM1   Partial Remainder (IEEE): same as FPREM, but in IEEE standard <span class="c2">486+</span>
+
+FRNDINT      Round to nearest int: st(0) ← INT( st(0) ); depends on RC flag
+
+FABS           Get absolute value: st(0) ← ABS( st(0) ); removes sign
+FCHS                  Change sign: st(0) ← -st(0)
+
+                             <span class="c2">█▌Transcendental▐█</span>
+FCOS                       Cosine: st(0) ← COS( st(0) )
+FPTAN             Partial tangent: st(0) ← TAN( st(0) )
+FPATAN         Partial Arctangent: st(0) ← ATAN( st(0) )
+FSIN                         Sine: st(0) ← SIN( st(0) )
+FSINCOS           Sine and Cosine: st(0) ← SIN( st(0) ) and pushed to st(1)
+                                   st(0) ← COS( st(0)
+F2XM1         Calculate (2 ↑ x)-1: st(0) ← (2 ↑ st(0)) - 1
+FYL2X       Calculate Y * log2(X): st(0) is Y; st(1) is X; replaces st(0)
+                                   and st(1) with: st(0) * log2( st(1) )
+FYL2XP1   Calculate Y * log2(X+1): st(0) is Y; st(1) is X; replaces st(0)
+                                   and st(1) with: st(0) * log2( st(1)+1 )
+
+                           <span class="c2">█▌Processor Control▐█</span>
+FINIT              Initilaize FPU
+FSTSW AX        Store Status Word: AX ← MSW
+FSTSW <span class="c1">dest</span>                         <span class="c1">dest</span> ← MSW (mem16)
+
+FLDCW <span class="c1">src</span>       Load control word: FPU CW ← <span class="c1">src</span> (mem16)
+FSTCW <span class="c1">dest</span>     Store control word: <span class="c1">dest</span> ← FPU CW
+
+FCLEX            Clear exceptions
+
+FSTENV <span class="c1">dest</span>     Store environment: store status, control and tag words and
+                                   exception pointers into memory at <span class="c1">dest</span>
+FLDENV <span class="c1">src</span>       Load environment: load environment from memory at <span class="c1">src</span>
+
+FSAVE <span class="c1">dest</span>        Store FPU state: store FPU state into 94-bytes at <span class="c1">dest</span>
+FRSTOR <span class="c1">src</span>         Load FPU state: restore FPU state as saved by FSAVE
+
+FINCSTP   Increment FPU stack ptr: st(6)←st(5); st(5)←st(4),...,st(0)←?
+FDECSTP   Decrement FPU stack ptr: st(0)←st(1); st(1)←st(2),...,st(7)←?
+
+FFREE st(<span class="c1">i</span>)    Mark reg st(<span class="c1">i</span>) as unused
+
+FNOP                 No operation: st(0) ← st(0)
+
+WAIT/FWAIT  Synchronize FPU &amp; CPU: Halt CPU until FPU finishes
+                                   current opcode
+────────────────────────────────────────────────────────────────────────────
+                                                            <a href="866-8088_286_386_486_pentium_instruction_set.html">Instruction Set</a></pre></body></html>

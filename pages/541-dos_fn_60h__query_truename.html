@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 60H: Query TrueName - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 60H: Query TrueName</h1><pre>                                                 Compatibility: <a href="912-_undocumented_.html">◄Undoc►</a> <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    60H
+          <span class="c2">DS:SI</span> ASCIIZ<a href="913-qasciiz.html">▲</a> string of a partial filespec
+          <span class="c2">ES:DI</span> buffer to receive ASCIIZ<a href="913-qasciiz.html">▲</a> fully-qualified &quot;true name&quot;
+          ──────────────────────────────────────────────────────────────────
+ Returns:       (none ??)
+          ──────────────────────────────────────────────────────────────────
+    Info: This <a href="912-_undocumented_.html">undocumented</a> function converts a partial filespec into a
+          fully-qualified filespec.  If the <span class="c1">filename</span> or <span class="c1">ext</span> portion
+          contains an asterisk (<span class="c2">*</span>) wildcard<a href="935-qwildcard.html">▲</a>, it is replaced with a series
+          of question marks (<span class="c2">?</span>).
+
+          This is a quick way to convert an ambiguous filespec such as
+          <span class="c2">MYFILE.TXT</span> or <span class="c2">D:MYFILE</span> or even <span class="c2">..\DEC\ABC.DAT</span> into a fully-
+          qualified ASCIIZ<a href="913-qasciiz.html">▲</a> filespec, suitable for use with many DOS fns.
+
+          The main idea is that if you change default drives or
+          directories, a name such as MYFILE.TXT will become invalid but a
+          name such as C:\OLD\OCT94\MYFILE.TXT will be correct.
+
+   Notes: ■ Though officially undocumented, this is so handy that it has
+            been widely discussed, even by Microsoft publications such as
+            MSJ.  It should be OK to use this one.
+
+          ■ The buffer at <span class="c2">ES:DI</span> must be large enough to handle the largest
+            possible path and filename (about 80 bytes).
+
+          ■ This function does NOT confirm that the input value (at <span class="c2">DS:SI</span>)
+            is valid or if such a file exists.  It simply parses the text
+            and creates a name that looks good.  It saves you the need of
+            obtaining the current default drive and directory and
+            prepending them to the name, etc.
+
+See Also: <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XT Switch Settings - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XT Switch Settings</h1><pre>
+ <span class="c1">This topic discusses the switches as defined for IBM logoed PCs only</span>.  On
+ PC-compatible computers, there may be more or fewer switches and they may
+ have different meanings.
+
+ The <span class="c2">IBM XT</span> has a single bank of DIP switches.  They are summarized as
+ follows:
+
+      SW1 (XT)
+ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+ ↑ ║▄│ │   │   │   ║
+   ╙╥┴╥┴─┴─┴─┴─┴─┴─╜
+    ║ ║ ╚╦╝ ╚╦╝ ╚═╩═► 7-8: diskette drives
+    ║ ║  ║   ╚══════► 5-6: initial active display monitor
+    ║ ║  ╚══════════► 3-4: system board RAM
+    ║ ╚═════════════► 2: 8087
+    ╚═══════════════► 1: <a href="264-power_on_self_test.html">POST</a> loop (always OFF)
+
+ Positions 2,5-6,and 7-8 are the same as on the PC. See <a href="62-pc_switch_settings.html">PC Switch Settings</a>
+
+<span class="c2">█▌XT RAM▐█</span>
+ The XT <a href="264-power_on_self_test.html">POST</a> determines the total system memory by scanning RAM address
+ space to locate 32K blocks (it displays numbers in the top left corner of
+ the screen as it does this).  Therefore, you do not need to change switch
+ settings when you add or remove memory option cards.  Moreover, you need
+ not populate the system board fully (above 128K) to add additional memory
+ option cards.
+
+ Switches 3-4 indicate the memory on the XT <span class="c1">system board</span> as follows:
+
+       SW1 (XT)
+ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+ ↑ ║ │ │▄│▀│ │ │ │ ║  128K
+   ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+ ↑ ║ │ │▀│▄│ │ │ │ ║  192K
+   ╙─┴─┴─┴─┴─┴─┴─┴─╜
+ON ╓1┬2┬3┬4┬5┬6┬7┬8╖
+ ↑ ║ │ │▄│▄│ │ │ │ ║  256K
+   ╙─┴─┴─┴─┴─┴─┴─┴─╜
+
+See Also: <a href="59-equipment_list.html">Equipment List</a>
+          <a href="61-switch_settings.html">Switch Settings</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

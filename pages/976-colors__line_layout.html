@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Colors= Line Layout - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Colors= Line Layout</h1><pre>
+ In XVIEW.INI, a line beginning with <span class="c2">colors=</span> may appear in each [section].
+ It identifies the colors for the viewer to use on the various parts of the
+ xView window when the specified database is active.
+
+    Note: The normal way to change this line is to choose Custom Colors
+          from the <a href="1003-configure_colors_menu.html">Configure/Colors menu</a> and then choose Save Setup from
+          the <a href="1000-configure_menu.html">Configure menu</a>.
+
+          However, the &quot;Set colors&quot; dialog does not provide <span class="c1">complete</span>
+          control over all parts of the screen.  Some additional color
+          variations are available if you choose to hack away in <a href="923-qhex.html">hex</a>.
+          Here's the byte-by-byte layout of the colors= line:
+
+<span class="c2">colors=</span>  (note: must be all on one line)
+       <span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,<span class="c1">xx</span>,,,
+       ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘ ├┘└┬┘
+1 normal  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+2 hyperlink  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+3 reverse/crsr  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+4 -- highlight #1  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+5 ───── highlight #2  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+6 ──────── highlight #3  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+7 ─────────── highlight #4  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+8 ────────────── highlight #5  │  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+9 ───────────────── highlight #6  │  │  │  │  │  │  │  │  │  │  │  │  │  │
+10 ───────────────────── page title  │  │  │  │  │  │  │  │  │  │  │  │  │
+11 ───────────────────────────── frame  │  │  │  │  │  │  │  │  │  │  │  │
+12 ──────────────────────────── scrollbar  │  │  │  │  │  │  │  │  │  │  │
+13 ───────────────────────── scrollbar thumb  │  │  │  │  │  │  │  │  │  │
+14 ───────────────────────────────── button bar  │  │  │  │  │  │  │  │  │
+15 ────────────────────────────── button separator  │  │  │  │  │  │  │  │
+16 ───────────────────────────── button hot character  │  │  │  │  │  │  │
+17 ─────────────────────────────── menubar/menu interior  │  │  │  │  │  │
+18 ───────────────────────────────────── menu hot character  │  │  │  │  │
+19 ──────────────────────────────────────────── menu separator  │  │  │  │
+20 ─────────────────────────────────────────── disabled menu item  │  │  │
+21 ───────────────────────────────────────────────────── menu cursor  │  │
+22 ───────────────────────────────────────────────── window drop shadow  │
+23-24 ───────────────────────────────────────────────── reserved; not used
+
+Use information from the <a href="87-screen_attributes.html">Screen Attributes</a> topic or the <a href="88-color_table.html">Color Table</a> to
+formulate values for each <span class="c1">xx</span> that you wish to change.
+
+See Also: <a href="87-screen_attributes.html">Screen Attributes</a>
+          <a href="975-xview_ini.html">XVIEW.INI</a>
+                                    <span class="c2">-♦-</span></pre></body></html>

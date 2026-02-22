@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 28H: Write Random File Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 28H: Write Random File Block</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    28H
+          <span class="c2">CX</span>    number of records to write (if CX=0, set file's size)
+          <span class="c2">DS:DX</span> address of an opened <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0 if write was successful
+                1 if disk full error
+                2 if <a href="351-dta__disk_transfer_address.html">DTA</a> + <a href="360-fcb__file_control_block.html">FCB</a> (RecSize * CX) would overrun a segment
+          <span class="c2">CX</span>    actual number of records written
+          ──────────────────────────────────────────────────────────────────
+    Info: Writes multiple records to the file starting at the file address
+          specified by the <span class="c1">randomRec</span> field of the <a href="360-fcb__file_control_block.html">FCB</a>.  Data is taken from
+          memory starting at the <a href="351-dta__disk_transfer_address.html">DTA</a>.
+
+          Actual bytes written is (<span class="c1">recSize</span> * CX).
+
+          If CX = 0 on entry, the file's size is shrunk or expanded to
+          <span class="c1">randomRec</span>*<span class="c1">recSize</span> and no data is written.
+
+See Also: Fn <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> (write file via handle)
+          <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

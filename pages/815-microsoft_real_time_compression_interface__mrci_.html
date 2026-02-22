@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Microsoft Real-time Compression Interface (MRCI) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Microsoft Real-time Compression Interface (MRCI)</h1><pre>
+ Microsoft Real-Time Compression Interface (<span class="c2">MRCI</span>; pronounced &quot;mercy&quot;)
+ provides a means for application programs and system utilities to compress
+ and decompress data.
+
+ It is normally installed as part of DBLSPACE.BIN file which is loaded at
+ boot time (see <a href="787-doublespace_overview.html">DoubleSpace Overview</a>), but it may exist as ROM-based,
+ hardware-assisted server installed via <a href="266-rom_scan.html">ROM-Scan</a> at system powerup.
+
+     See: <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a> (see if MRCI is installed; get entry addr, etc.)
+          <a href="824-int_1ah_b001h__query_rom_hardware_based_mrci_support.html">INT 1aH b001H</a> (check for ROM-based MRCI server)
+
+          <a href="817-mrci_fn_0001h__compress_data.html">MRCI Fn 0001H</a> (compress data)
+          <a href="818-mrci_fn_0002h__decompress_data.html">MRCI Fn 0002H</a> (decompress data)
+          <a href="819-mrci_fn_0020h__incrementally_decompress_data.html">MRCI Fn 0020H</a> (incrementally decompress data)
+          <a href="820-mrci_fn_ffffh__deinstall_server.html">MRCI Fn ffffH</a> (deinstall server; not used)
+
+          <a href="821-mrci_api_error_return_codes.html">MRCI API Error/Return Codes</a> (codes returned by these fns)
+
+          <a href="822-mrcinforec.html">MRCInfoRec</a> structure
+          <a href="823-mrcrequestrec.html">MRCRequestRec</a> structure
+
+   Notes: ■ In order to use MRCI fns, you must obtain the API entry address
+            (and a <a href="822-mrcinforec.html">MRCInfoRec</a> used in every call) via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a>.
+
+          ■ The decompression services require knowledge of the original
+            (uncompressed) size of the data.
+
+          ■ Pragmatically, the uses of these fns are limited.  Since you
+            can assume that a disk compression system such as DoubleSpace
+            is installed, there is no reason to compress data for storage
+            on a local hard disk.
+
+            You might want to use MRCI for storing backup data to diskette
+            or perhaps for sending data across a network (or other
+            bandwidth bottleneck, such as a modem line).  <span class="c2">Msbackup</span> uses
+            MRCI fns to compress backup data.
+
+          ■ One novel idea is to use MRCI to compress screen data for
+            temporary storage in RAM.  For instance, a 4K text-mode screen
+            typically compresses to a few hundred bytes.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1687H: Get Real-to-Protected Mode Switch Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1687H: Get Real-to-Protected Mode Switch Address</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    1687H (INT 2fH MUX ID and subfn number)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000h = successful
+                else  = no DPMI host present
+          <span class="c2">BX</span>    flags:     bit 0: 0=32-bit programs are not supported
+                                  1=32-bit programs are supported
+                       bits 1-15: not used
+          <span class="c2">CL</span>    processor type:  02H = 80286
+                                 03H = 80386
+                                 04H = 80486
+                                 05H = Pentium
+                                 &gt;5  = reserved for future Intel CPUs
+          <span class="c2">DX</span>    DPMI major + minor version number  (e.g., 010aH=1.10)
+          <span class="c2">SI</span>    number of 16-byte pares needed for DPMI host private
+          <span class="c2">ES:DI</span> entry address to call to enter Protected Mode
+          ──────────────────────────────────────────────────────────────────
+    Info: DPMI clients are loaded in real mode and may use this call to
+          prepare for switching into protected mode.
+
+       <span class="c2">SI</span> on return, this is an amount of real-mode memory, in 16-byte
+          paragraphs, that you must supply when you process the switch (see
+          below).  It might be 0000H, indicating no memory needed.
+
+    <span class="c2">ES:DI</span> on return, this is the Entry Address you must call (via a
+          FAR CALL) in order to switch to protected mode.  The calling
+          parameters are:
+
+          <span class="c3">Entry:</span>
+            <span class="c2">AX</span>= 0000H = you'll be running as a 16-bit application
+                0001H = you'll be running as a 32-bit application
+            <span class="c2">ES</span>= the segment of the memory you're be supplying to DPMI host.
+                If SI was 0 after INT 2fH 1687H, then ES is ignored.
+          <span class="c3">Return:</span>
+            <span class="c2">CF</span> set (CY) if switch to protected mode failed
+               (and <span class="c2">AX</span> is a <a href="648-dpmi_error_codes.html">DPMI Error Code</a>)
+            <span class="c2">CS</span> = selector for your code segment (64K limit)
+            <span class="c2">SS</span> = selector for your stack segment (64K limit)
+            <span class="c2">DS</span> = selector for your data segment (64K limit)
+            <span class="c2">ES</span> = selector for your program's <a href="371-psp__program_segment_prefix.html">PSP</a> (256-byte limit)
+            <span class="c2">FS</span> = 0 (on 80386+ CPUs)
+            <span class="c2">GS</span> = 0 (on 80386+ CPUs)
+
+          Also, a selector has been prepared so that PSP:002e points to
+          your copy of the <a href="346-dos_environment.html">DOS Environment</a>.
+
+    Note: To exit from protected mode, simply terminate your program via
+          the standard DOS fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a>.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">INT 2fH 16xxH</a> (Enh386 Windows Services &amp; Notifications)
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

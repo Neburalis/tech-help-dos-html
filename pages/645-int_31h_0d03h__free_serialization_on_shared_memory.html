@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0d03H: Free Serialization on Shared Memory - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0d03H: Free Serialization on Shared Memory</h1><pre>                                                    Compatibility: <span class="c2">DPMI 1.0+</span>
+ Expects: <span class="c2">AX</span>    0d02H
+          <span class="c2">SI:DI</span> handle of shared memory block as obtained via <a href="642-int_31h_0d00h__allocate_shared_memory.html">INT 31H 0d00H</a>
+          <span class="c2">DX</span>    option flags: <span class="c1">bit 0</span>: 0=release exclusive serialization
+                                     1=release shared serialization
+                              <span class="c1">bit 1</span>: 0=don't free pending serialization
+                                     1=free pending serialization (see note)
+                               2-15: reserved, must be 0
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: This releases a access of a shared memory block that was obtained
+          by a previous call to <a href="644-int_31h_0d02h__serialize_on_shared_memory.html">INT 31H 0d02H</a> (serialize on shared memory).
+
+   Notes: ■ The host maintains four serialization counts for each VM
+            (exclusive, shared, pending shared, and pending exclusive).
+            This fn actually only decrements the relevant count -- the
+            serialization is actually freed only when the count goes to 0.
+
+          ■ A suspended client continues to receive interrupts and can use
+            this call in an interrupt handler to cancel a serialization
+            that has blocked a foreground client.  In that case, the call
+            made by the foreground client is returned an error code of
+            8005H (request canceled).
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

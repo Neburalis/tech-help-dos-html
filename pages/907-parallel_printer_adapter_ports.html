@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Parallel Printer Adapter Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Parallel Printer Adapter Ports</h1><pre>
+ The ROM-BIOS supports up to three parallel printer ports which are
+ assigned as LPT1-LPT3.  During <a href="264-power_on_self_test.html">POST</a> the BIOS tests these ports in this
+ order:
+
+   1) 3bcH   Port found on Monochrome Display / Printer Adapter
+   2) 378H   printer port adapter #1
+   3) 278H   printer port adapter #2
+
+ It assigns the ports as LPT1-LPT3, as they are discovered and stores the
+ port addresses that respond starting at 0040:08.  See <a href="93-rom_bios_variables.html">BIOS Data Area</a>.
+
+ BIOS service <a href="237-int_17h__printer_support.html">INT 17H</a> provides full printer support for up to 4 parallel
+ printers.  To add a forth printer, you would need to place its base
+ address into the BIOS data word at 0040:0010.
+
+ You can trick the system into thinking that one printer is another.  It is
+ a simple matter of swapping base port addresses in low memory:
+
+         ;─────── this example swaps LPT1 for LPT2
+         mov      ax,0
+         mov      ds,ax
+         mov      si,0408H  ;point to start of printer table at 0:0408
+         mov      ax,[si]   ;get base port for LPT1
+         xchg     ax,[si+2] ;swap with port for LPT2
+         mov      [si],ax   ;and put old LPT2 into LPT1 spot
+
+<span class="c2">█▌Bidirectional I/O▐█</span>
+  PS/2s and many later parallel-port adapters support high-speed
+  bidirectional I/O.  In this &quot;extended mode&quot;, you can set <span class="c1">bit 5</span> of <span class="c1">p</span>+2
+  (e.g., 37aH) and then read data via IN <span class="c1">p</span>+0 (e.g., 378H).
+
+  The BIOS does not provide support for bidirectional I/O.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+378H-
+37fH  Parallel Printer Adapter #1
+          3bcH is base of MDPA
+          278H is base of printer adapter #2
+──── ───────────────────────────────────────────────────────────────────────
+378H  Data Latch
+      Write: send byte to printer
+      Read:  (PC/XT/old:    Fetch last byte sent
+             Bidirectional: Read byte from connected device (when bit 5 of
+                            port <span class="c1">p</span>+2 (37aH) has been set to 1).
+──── ───────────────────────────────────────────────────────────────────────
+379H  Read-only: Printer Status
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │ │0 0 0║
+      ╙╥┴╥┴╥┴╥┴╥┴─┴─┴─╜ bit
+       ║ ║ ║ ║ ╚═══════► 3: -ERROR (pin 15) 0=printer signals an error
+       ║ ║ ║ ╚═════════► 4: +SLCT (pin 13)  1=printer is selected
+       ║ ║ ╚═══════════► 5: +PE (pin 12)    1=out of paper
+       ║ ╚═════════════► 6: -ACK (pin 10)   0=ready for next character
+       ╚═══════════════► 7: -BUSY (pin 11)  0=busy or off-line or error
+──── ───────────────────────────────────────────────────────────────────────
+37aH  Read/Write: Printer Controls
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║0 0│ │ │ │ │ │ ║
+      ╙─┴─┴╥┴╥┴╥┴╥┴╥┴╥╜ bit
+           ║ ║ ║ ║ ║ ╚═► 0: +Strobe (pin 1)         1 when sending byte
+           ║ ║ ║ ║ ╚═══► 1: +AUTO LineFeed (pin 14) 1 causes LF after CR
+           ║ ║ ║ ╚═════► 2: -INIT (pin 16)          0 resets the printer
+           ║ ║ ╚═══════► 3: +SLCT IN (pin 17)       1 selects the printer
+           ║ ╚═════════► 4: +IRQ Enable (hdwr INT when -ACK goes false)
+           ║                             LPT1═►<span class="c2">IRQ 7</span> (INT 0fH)
+           ║                             LPT2═►<span class="c2">IRQ 5</span> (INT 0dH)
+           ╚═══════════► 5: direction (<span class="c2">PS/2</span> and later ATs)
+                            0=write data to printer or device
+                            1=read data from device
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="237-int_17h__printer_support.html">INT 17H</a> (printer support)
+          <a href="879-parallel_port_connector.html">Parallel Port Connector</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

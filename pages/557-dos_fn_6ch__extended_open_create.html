@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 6cH: Extended Open/Create - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 6cH: Extended Open/Create</h1><pre>                                                         Compatibility: <span class="c2">4.0+</span>
+ Expects: <span class="c2">AH</span>    6cH
+          <span class="c2">BX</span>    extended open mode flags (see below)
+          <span class="c2">CX</span>    <a href="361-file_attribute.html">file attribute</a> (used only if file gets created)
+          <span class="c2">DX</span>    action: 00-0h = if file exists, fail the call
+                        00-1h = if file exists, open it
+                        00-2h = if file exists, replace and open it
+                        000-h = if doesn't exist, fail the call
+                        001-h = if doesn't exist, create and open it
+          <span class="c2">DS:SI</span> address of an ASCIIZ<a href="913-qasciiz.html">▲</a> string of a filespec to open
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+                <a href="362-file_handle.html">file handle</a> if no error
+          <span class="c2">CX</span>    action taken: 0 file was opened
+                              1 file was created and opened
+                              2 file was replaced and opened
+          ──────────────────────────────────────────────────────────────────
+    Info: This function opens (or creates and opens) a file.  Think of it
+          as a smart <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a> Open which can optionally <a href="435-dos_fn_3ch__create_a_file_via_handle.html">3cH</a> Create the file if
+          it doesn't exist.
+
+          Additionally, this call can <span class="c2">disable normal</span> <a href="564-int_24h__critical_error_handler.html">INT 24h</a> <span class="c2">critical error</span>
+          <span class="c2">handling</span> and can force all writes to go direct to the disk.
+
+    <span class="c2">DS:DX</span> points to an ASCIIZ string in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">0</span>
+          If the drive or path is omitted, defaults are assumed.
+
+       <span class="c2">BX</span> On entry, BX contains extended mode flags as follows:
+
+           1 1 1 1 1 1
+          ╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖       See <a href="336-access_mode___open_mode.html">Open Mode</a> for more
+          ║0│<span class="c1">d</span>│<span class="c1">f</span>│0 0 0 0 0║<span class="c1">i</span>│ <span class="c1">shr</span> │0│ <span class="c1">r/w</span> ║       info on bits 0-7
+          ╙─┴╥┴╥┴─┴─┴─┴─┴─╨╥┴─┴─┴─┴─┴─┴─┴─╜ bits
+             ║ ║           ║ ╚═╦═╝   ╚═══╩═► 0-2: read/write access mode
+             ║ ║           ║   ╚═══════════► 4-6: sharing mode
+             ║ ║           ╚═══════════════►   7: inheritance
+             ║ ╚═══════════════════════════►  13: 0=normal <a href="564-int_24h__critical_error_handler.html">INT 24H</a> use
+             ║                                    1=fail critical errors
+             ║                                      on open and all I/O
+             ╚═════════════════════════════►  14: 0=normal file buffering
+                                                  1=directly to disk
+
+          If bit 13 is set (2000H), then I/O through this handle will never
+          cause an <a href="564-int_24h__critical_error_handler.html">INT 24H</a> critical error.  If a drive door is open (etc.),
+          then the function which caused the error will fail with a regular
+          DOS error.  Use Fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> to find out what happened.
+
+          If bit 14 is set (4000H), then the normal DOS output buffering is
+          bypassed and all output goes directly to the disk (as if you had
+          called Fn <a href="556-dos_fn_68h__commit_file.html">68H</a> after each write).  This can hurt I/O performance,
+          but it maximizes safety.
+
+       <span class="c2">CX</span> When creating a new file, set CX to the desired  <a href="361-file_attribute.html">file attribute</a>
+          (read-only, hidden, etc.).  Use 0000H for normal files.  If the
+          file exists, CX is ignored.
+
+       <span class="c2">DX</span> This controls the open/create action, depending upon whether the
+          file exists at the time of the call.  Common combinations are:
+              0001H = open the file if it exists; otherwise fail the call
+              0011H = open the file if it exists; otherwise create it
+              0012H = if the file exists open and truncate it to length 0;
+                      otherwise create it and open it
+
+   Notes: ■ Perhaps the most useful feature here is the ability to avoid
+            special handling for <a href="564-int_24h__critical_error_handler.html">INT 24H</a> critical errors.  Of course, you
+            can only discard your INT 24H handler if you are sure that the
+            application is used only under DOS <span class="c2">4.0+</span>.
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="564-int_24h__critical_error_handler.html">INT 24H</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0d00H: Allocate Shared Memory - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0d00H: Allocate Shared Memory</h1><pre>                                                    Compatibility: <span class="c2">DPMI 1.0+</span>
+ Expects: <span class="c2">AX</span>    0d00H
+          <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>) address of 28-byte info structure (see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>) structure updated
+          ──────────────────────────────────────────────────────────────────
+    Info: This allocates a named block of memory that may be shared by DPMI
+          clients.  This may be used for interprocess communication.
+
+ <span class="c2">DS:</span>(<span class="c2">E</span>)<span class="c2">DI</span> this selector:offset must point to a 28-byte local structure
+          defined as follows:
+
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      4  <span class="c1">lReqSize</span>     desired size of block, in bytes
+             +4      4  <span class="c1">lActualSize</span>  actual size allocated (<span class="c2">returned</span>)
+             +8      4  <span class="c1">lHandle</span>      handle for the allocation (<span class="c2">returned</span>)
+            +0cH     4  <span class="c1">lLinAddr</span>     linear addr of allocation (<span class="c2">returned</span>)
+            +10H     6  <span class="c1">p48szName</span>    48-bit address of ASCIIZ<a href="913-qasciiz.html">▲</a> name for
+                                     the shared block.  First 4 bytes are
+                                     the offset; the last 2 are selector.
+            +16H     2  <span class="c1">wRes1</span>        reserved
+            +18H     4  <span class="c1">lRes2</span>        reserved; must be 0
+                    28               size of this structure
+
+          On entry, you must fill in <span class="c1">lReqSize</span> and set <span class="c1">p48szName</span> to a 48-bit
+          address of an ASCIIZ string that names the block.  The host
+          fills-in <span class="c1">lAllocSize</span>, <span class="c1">lHandle</span>, and <span class="c1">lLinAddr</span>.
+
+          For 16-bit clients, the high word of <span class="c1">p48szName</span> must be 0000H.
+
+    Note: ■ The second and subsequent client to use this fn with the same
+            ASCIIZ name, will be returned info about the initial
+            allocation.  For such subsequent &quot;allocations&quot;, the <span class="c1">lReqSize</span>
+            field is ignored.  Be sure to check the <span class="c1">lActualSize</span> field on
+            return.
+
+          ■ The first client to allocate a named block will find that the
+            first 16-bytes are 0.  It can gain exclusive ownership via
+            <a href="644-int_31h_0d02h__serialize_on_shared_memory.html">INT 31H 0d02H</a>, and store some non-zero values so that
+            subsequent clients can tell that it has been initialized.
+
+          ■ 0-length allocations are explicitly supported and can be used
+            as a way to implement semaphores (see <a href="644-int_31h_0d02h__serialize_on_shared_memory.html">INT 31H 0d02H</a>, for
+            instance).
+
+          ■ All of your shared memory allocations and serializations are
+            freed by the host automatically when you terminate.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

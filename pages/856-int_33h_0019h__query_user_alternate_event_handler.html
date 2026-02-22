@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0019H: Query User Alternate Event Handler - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0019H: Query User Alternate Event Handler</h1><pre>
+ Expects: <span class="c2">AX</span>    0019H
+          <span class="c2">CX</span>    event mask of desired handler (as used in <a href="855-int_33h_0018h__set_alternate_event_handler.html">INT 33H 0018H</a>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CX</span>    event mask of handler or...
+                0000H = no handler matches
+          <span class="c2">ES:DX</span> address of matching event handler
+          ──────────────────────────────────────────────────────────────────
+    Info: Use this function to obtain the address and mask of an alternate
+          event handler installed via <a href="855-int_33h_0018h__set_alternate_event_handler.html">INT 33H 0018H</a> (which see for the bit
+          values for CX).
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

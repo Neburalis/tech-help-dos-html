@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Hard Disk Parameter Table - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Hard Disk Parameter Table</h1><pre>
+ This 16-byte structure can be found at the vector address of INT 41H (the
+ 4-byte address at 0:0104).
+
+ The parameters for a second hard disk (if any) are found at the vector for
+ INT 46H.  These tables specify a variety of critical variables for hard
+ disk drive operations.
+
+       <span class="c2">XT</span> The switches on the controller board select one of four drive
+          types for each hard disk drive.  At boot time, the BIOS sets
+          <a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">INT 41H</a> and <a href="259-int_41h_and_int_46h__hard_disk_parameter_pointers.html">INT 46H</a> as indicated on these switches.
+
+       <span class="c2">AT</span> The INT 41H and INT 46H vectors are set according to the
+          <a href="54-at_bios_hard_disk_types.html">AT Drive Type</a> value which is a <a href="60-cmos_storage_layout.html">CMOS Memory</a> variable stored by
+          the &quot;Setup&quot; program.
+
+<span class="c2">HardDiskParmRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wMaxCyls</span>     maximum number of cylinders
+   +2      1  <span class="c1">bMaxHds</span>      maximum number of heads
+   +3      2  <span class="c1">wRWCyl</span>       starting reduced-write current cylinder
+   +5      2  <span class="c1">wWPCyl</span>       starting write precompensation cylinder
+   +7      1  <span class="c1">bECCLen</span>      maximum ECC data burst length
+   +8      1  <span class="c1">rOptFlags</span>    drive step options:
+                             bits 2-0: drive option
+                             bit    7: disable retries
+                             bit    6: disable ECC
+   +9      1  <span class="c1">bTimeOutStd</span>  standard timeout value
+  +0aH     1  <span class="c1">bTimeOutFmt</span>  timeout value for format drive
+  +0bH     1  <span class="c1">bTimeOutChk</span>  timeout value for check drive
+  +0cH     4  <span class="c1">res</span>          (reserved)
+          16               length of a HardDiskParmRec
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> (disk I/O)
+          <a href="52-diskette_parameter_table.html">Diskette Parameter Table</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 54xxH: Find Named Handle - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 54xxH: Find Named Handle</h1><pre>                                                     Compatibility: <span class="c2">EMS 4.0+</span>
+ Expects: <span class="c2">AH</span>    54H
+          <span class="c2">AL</span>    subfn: 00H=Query handle directory
+                           <span class="c2">ES:DI</span> addr buffer to receive data
+                       01H=Search for named handle
+                           <span class="c2">DS:SI</span> addr of 8-byte buffer containing name
+                       02H=Count all open handles
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">ES:DI</span> (fn 5400H) contains returned data (see below)
+          <span class="c2">DX</span>    (fn 5401H) handle with specified name
+          <span class="c2">BX</span>    (fn 5402H) count of handles; use a buffer size of <span class="c2">BX</span>*10
+          ──────────────────────────────────────────────────────────────────
+    Info: This lets applications work together, sharing EMS pages, as long
+          as each app knows an 8-character name.
+
+    <span class="c2">ES:DI</span> (fn 5400H) returns with this buffer filled with EMS handle names.
+          It is formatted as:
+
+          <span class="c2">EmsHandleNameRec</span>
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      2  <span class="c1">wHandle</span>   an EMM handle
+            +2      8  <span class="c1">abName</span>    8-bytes of the name
+                   10            size of one EmsHandleNameRec
+           +0aH     2  <span class="c1">wHandle2</span>
+           +0cH     8  <span class="c1">abName</span>
+             .
+             :
+            etc.
+
+          Before using fn 5400, use fn 5402H to see how large the buffer
+          should be.
+
+   Notes: Names can be any 8 byte.  When a handle has a name of all 0s, it
+          is considered to be unnamed.  See <a href="669-int_67h_53xxh__get_set_handle_name.html">INT 67H 53xxH</a> (get/set name).
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

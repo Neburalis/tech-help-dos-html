@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>EGA Switch Settings - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>EGA Switch Settings</h1><pre>
+ <span class="c1">This topic discusses the switches on older IBM-logoed EGA cards ONLY</span>.
+ On non-IBM EGA cards, there may be more or fewer switches and they may
+ have different meanings.
+
+ The DIP switches on the rear of the <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> indicate which display monitor
+ is connected to the card and which (if any) other adapters are in the
+ system at the same time.  The switches are mirrored in memory.  See
+ <a href="71-ega_vga_data_areas.html">EGA Data Areas</a>.
+
+ There is one CRITICAL thing to watch for:  never plug a Monochrome monitor
+ into the EGA adapter unless the switches are set to accept it.  A wrong
+ setting will actually do physical damage to the monitor!
+
+ In the following table, <span class="c1">Primary</span> indicates the adapter/monitor which is
+ first enabled when the computer is turned on.  <span class="c1">Secondary</span> indicates an
+ optional second adapter/monitor which may be connected.
+
+ON ╓4┬3┬2┬1╖ Primary EGA connected to 40x25 color monitor
+ ↑ ║▀│▄│▄│▀║ Secondary MDA
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary EGA connected to 80x25 color monitor
+ ↑ ║▀│▄│▄│▄║ Secondary MDA
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary EGA connected to enhanced color monitor (CGA emulation)
+ ↑ ║▄│▀│▀│▀║ Secondary MDA
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary EGA connected to enh. color monitor (best resolution)
+ ↑ ║▄│▀│▀│▄║ Secondary MDA
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary EGA connected to Monochrome monitor
+ ↑ ║▄│▀│▄│▀║ Secondary CGA connected to 40x25 color monitor
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary EGA connected to Monochrome monitor
+ ↑ ║▄│▀│▄│▄║ Secondary CGA connected to 80x25 color monitor
+   ╙─┴─┴─┴─╜
+
+ON ╓4┬3┬2┬1╖ Primary MDA
+ ↑ ║▀│▀│▀│▀║ Secondary EGA connected to 40x25 color monitor
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary MDA
+ ↑ ║▀│▀│▀│▄║ Secondary EGA connected to 80x25 color monitor
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary MDA
+ ↑ ║▀│▀│▄│▀║ Secondary EGA connected to enh. color monitor (CGA emulation)
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary MDA
+ ↑ ║▀│▀│▄│▄║ Secondary EGA connected to enh. monitor (best resolution)
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary CGA connected to 40x25 color monitor
+ ↑ ║▀│▄│▀│▀║ Secondary EGA connected to Monochrome monitor
+   ╙─┴─┴─┴─╜
+ON ╓4┬3┬2┬1╖ Primary CGA connected to 80x25 color monitor
+ ↑ ║▀│▄│▀│▄║ Secondary EGA connected to Monochrome monitor
+   ╙─┴─┴─┴─╜
+
+<span class="c2">█▌EGA Jumpers▐█</span>
+  The three jumpers on the <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> control various features of the card.  The
+  jumper/connectors are used as follows:
+    ╔P1═╗
+  1 ║┌•┐║ Supports enhanced color monitor
+  2 ║└•┘║ (640x350 and 64 color capability)
+  3 ║ • ║
+    ╚═══╝
+    ╔P1═╗
+  1 ║ • ║
+  2 ║┌•┐║ Supports color monitor only
+  3 ║└•┘║ (640x200 and 16 color capability)
+    ╚═══╝
+
+    P2 (not shown) is a connector for a light pen.
+
+    ╔P3═╗
+  1 ║┌•┐║ Sets <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O ports</a> to 3xxH
+  2 ║└•┘║ (normal setting)
+  3 ║ • ║
+    ╚═══╝
+    ╔P3═╗
+  1 ║ • ║
+  2 ║┌•┐║ Sets EGA I/O ports to 2xxH
+  3 ║└•┘║ NOT supported by EGA BIOS
+    ╚═══╝
+
+See Also: <a href="59-equipment_list.html">Equipment List</a>
+          <a href="71-ega_vga_data_areas.html">EGA Data Areas</a>
+          <a href="61-switch_settings.html">Switch Settings</a>
+          <a href="884-ega_video_adaptor_pin_outs.html">EGA Video Adaptor Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

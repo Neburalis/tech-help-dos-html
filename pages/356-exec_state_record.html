@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Exec State Record - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Exec State Record</h1><pre>
+ This structure is used in fn <a href="507-dos_fn_4b05h__set_execution_state.html">4b05H</a> (set execution state).
+
+<span class="c2">ExecStateRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">res</span>          reserved
+   +2      2  <span class="c1">wTypeFlags</span>   0=COM, 1=EXE, 2=COM overlay, 3=EXE overlay
+   +4      4  <span class="c1">pfszProgName</span> Address of ASCIIZ<a href="913-qasciiz.html">▲</a> program name
+   +6      2  <span class="c1">wPspSeg</span>      Segment of the program's <a href="371-psp__program_segment_prefix.html">PSP</a>
+   +8      4  <span class="c1">lStartAddr</span>   32-bit address of entry point (CS:IP)
+  +0aH     2  <span class="c1">lProgSize</span>    32-bit size of program, including PSP.
+          12               length of an ExecStateRec
+
+See Also: <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="371-psp__program_segment_prefix.html">PSP: Program Segment Prefix</a>
+          <a href="346-dos_environment.html">DOS Environment</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

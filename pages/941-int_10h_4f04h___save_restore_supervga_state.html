@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 4f04H - Save/Restore SuperVGA State - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 4f04H - Save/Restore SuperVGA State</h1><pre>
+ Expects: <span class="c2">AX</span>    4f04H
+          <span class="c2">CX</span>    bit flags indicate which states to save/restore
+          <span class="c2">DL</span>    SubFn number:  <span class="c2">00H</span> = Get save-state buffer size
+                               <span class="c2">01H</span> = Save SuperVGA state
+                               <span class="c2">02H</span> = Restore SuperVGA state
+          <span class="c2">ES:BX</span> addr of buffer (subfns 01H and 02H only)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    VESA status: AH=0 means successful (else failed)
+                             AL=4fH means function supported
+          <span class="c2">BX</span>    size of save-state buffer <span class="c1">in 64-byte blocks</span> (subfn 00H only)
+          ──────────────────────────────────────────────────────────────────
+    Info: Use this function to save the current state of the SuperVGA
+          system and to later restore that state.
+
+       <span class="c2">CX</span> describes what you want to save or restore as bit flags:
+           1
+          ┌5───4┬3┬2┬1┬0┐
+          │0...0│<span class="c1">s</span>│<span class="c1">c</span>│<span class="c1">b</span>│<span class="c1">h</span>│
+          └─────┴╥┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+                 ║ ║ ║ ╚══► 0: 01H save/restore video hardware state
+                 ║ ║ ╚════► 1: 02H save/restore video BIOS data state
+                 ║ ╚══════► 2: 04H save/restore DAC state; color regs
+                 ╚════════► 3: 08H save/restore entire SuperVGA state
+
+   Notes: ■ To use this function: first decide what info you need to save
+            and set the bits of <span class="c2">CX</span> and set <span class="c2">DL</span> to 00H to see how much memory
+            you'll need.  Then allocate a buffer of the needed size (it is
+            <span class="c2">BX</span> * 64 bytes lone).  Set <span class="c2">ES:BX</span> to point to the buffer and use
+            <span class="c2">DL=</span>01H to save the info into the buffer.
+
+          ■ The layout of the return information at <span class="c2">ES:BX</span> is not documented
+            and will be OEM-dependent.
+
+See Also: <a href="69-supervga_display_adapters__svga_.html">SVGA</a>
+          <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

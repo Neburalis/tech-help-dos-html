@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4810H: Get Keyboard Input with Doskey Editing - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4810H: Get Keyboard Input with Doskey Editing</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    4810H
+          <span class="c2">DS:DX</span> address of special-format 128-byte buffer to hold input
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 00H =success and...
+                             <span class="c2">DS:DX</span>     buffer contains input text or
+                             DS:DX[+1] contains 00H (means macro name was
+                                      used; call again to expand the macro)
+                       else =unsuccessful (bad input parms)
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn performs two services:
+
+          ■ Gets up to 126 bytes of text input from the keyboard (it can
+            edit an existing line of text, too).
+
+            It recognizes and handles all of the Doskey editing keys,
+            including arrow keys, F8 to search the history list, etc.
+
+          ■ Expands a Doskey macro to process parameters such as <span class="c2">$1</span>, or <span class="c2">$*</span>,
+            etc.
+
+    <span class="c2">DS:DX</span> <span class="c2">On entry</span>, this points to a buffer formatted as a DkLineRec:
+
+          <span class="c2">DkLineRec</span>
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      1  <span class="c1">bBufMax</span>     must be 80H
+             +1      1  <span class="c1">bTextLen</span>    size of input text less the CR at end
+             +2    126  <span class="c1">abText</span>      area to hold input text
+                   128              size of a DkLineRec structure
+
+
+          The <span class="c1">bBufMax</span> field must contain 80H.  The <span class="c1">bTextLen</span> must be the
+          length of the current line of text (use 00H to input new text).
+          For instance,
+
+            db 80H,00H, 126 dup (0)
+
+          <span class="c2">On return</span>, <span class="c1">bTextLen</span> will contain the length of the input, not
+          including a CR (ASCII 0dH) which is appended to the end.  And
+          <span class="c1">abText</span> will contain the characters of the input text.
+
+          If, the user started the line with the name of a Doskey macro.
+          then this fn set <span class="c1">bTextLen</span> to 00h.  In that case, you should
+          immediately call this fn again to obtain the expanded text of the
+          macro.  In that case, this fn displays the expanded text and
+          places its size in <span class="c1">bTextLen</span> and the text itself in <span class="c1">abText</span>.
+
+   Notes: ■ Doskey does not initially display <span class="c1">abText</span>.  When using this fn
+            to edit an existing line of text (i.e., when <span class="c1">bTextLen</span> is non-
+            zero on entry), you may want to use DOS fn <a href="382-dos_fn_09h__display_string.html">09H</a> or <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a> to
+            display the text before calling.
+
+          ■ There appears to be no way to differentiate between the case
+            where the user typed Enter only and the case where the user
+            typed a macro name.
+
+          ■ All Doskey keystrokes are supported, including those that
+            handle command-line history (such as up arrow to see
+            previously-typed commands).  When the user inputs text, that
+            line is added to the command-line history.  If you expect to
+            process macros, you must always call this fn again when the
+            <span class="c1">bTextLen</span> comes back containing 00H.
+
+          ■ Be sure to use <a href="702-int_2fh_4800h__is_doskey_com_installed_.html">INT 2fH 4800H</a> to verify that Doskey is loaded
+            before using this fn.
+
+See Also: <a href="701-int_2fh_48xxh__doskey_com_functions.html">INT 2fH 48xxH</a> (Doskey Functions)
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>ErrorMode Flag - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>ErrorMode Flag</h1><pre><span class="c2">█▌Overview▐█</span>
+  If you have control when a critical disk error occurs <span class="c1">you must not call</span>
+  <span class="c1">any system functions</span> (including <a href="560-int_21h__dos_functions.html">INT 21H</a> and other DOS services).
+
+  This situation can arise if your program hooks <a href="564-int_24h__critical_error_handler.html">INT 24H</a> (Critical Error
+  handler) or if your <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> gets control via a timer interrupt such as
+  <a href="105-int_08h__timer_interrupt.html">INT 08H</a> or <a href="254-int_1ch__user_timer_interrupt.html">INT 1cH</a> while a critical disk error is taking place.
+
+  Note that a similar caution is described about the <a href="365-indos_flag.html">InDOS Flag</a>, but when
+  that flag is set, it is still OK to use DOS fns <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a>.  The ErrorMode
+  Flag indicates a more dire situation, with DOS being in a very unstable
+  state.  When it is set, you must avoid all DOS fns.
+
+<span class="c2">█▌ErrorMode Detection▐█</span>
+  Your program can check the state of the ErrorMode Flag as follows:
+
+    ■ Early on (before you need it!) use DOS fn <a href="425-dos_fn_34h__get_indos_address__dos_reentrancy_status_.html">34H</a> (get InDOS addr).  The
+      address of the <span class="c2">ErrorMode Flag</span> is <span class="c1">one byte before</span> the address returned
+      by fn 34H.  Save it.
+
+    ■ Before popping up, check the byte at the ErrorMode Flag address.
+      <span class="c1">A non-zero value means beware!</span>.  When ErrorMode is non-zero, DOS is
+      processing a critical disk error and you must NOT use <span class="c1">any</span> DOS
+      services.
+
+<span class="c2">█▌INT 28H: Toggling ErrorMode▐█</span>
+  It is common for a pop-up <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> to take control by hooking <a href="567-int_28h__dos_idle.html">INT 28H</a> (DOS Idle
+  Handler).
+
+  When INT 28H is called, it is OK to use <span class="c1">most</span> DOS services (including disk
+  I/O and all higher-level fns.  But you must avoid fns <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a>.  If you
+  simply <span class="c1">must</span> use fns 01H-0cH, the DOS tech ref suggests that you first set
+  ErrorMode to 01H.
+
+  In general, it is pretty easy to avoid fns 01H-0cH by accessing CON or
+  PRN, etc. via <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a> or by dropping down to BIOS-level
+  services such as <a href="228-int_16h__keyboard_services.html">INT 16H</a> (keyboard services).
+
+See Also: DOS fn <a href="425-dos_fn_34h__get_indos_address__dos_reentrancy_status_.html">34H</a> (get InDOS and ErrorMode address)
+          DOS fns <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0CH</a> (low-level character I/O)
+          <a href="365-indos_flag.html">InDOS Flag</a>
+          <a href="564-int_24h__critical_error_handler.html">INT 24H</a> (Critical Error Handler)
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

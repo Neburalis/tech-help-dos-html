@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwSrvc Fn 0002H: Suspend Switcher - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwSrvc Fn 0002H: Suspend Switcher</h1><pre>
+ Expects: <span class="c2">AX</span>    0002H
+          <span class="c2">ES:DI</span> address of new service function handler
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    Carry Flag is clear (NC) is successful and...
+          <span class="c2">AX</span>    result code: 0000H = suspended
+                             0001H = not suspended, don't start
+                             0002H = not suspended, OK to start
+          ──────────────────────────────────────────────────────────────────
+    Info: This service is used ONLY by a task-switching program that wants
+          to suspend the active task switcher and provide task-switching
+          services.
+
+          Applications should not use this service.  If you need to keep a
+          switcher from suspending a session, you must hook into the
+          notification chain (via <a href="719-swntfy_fn_0004h__session_is_now_active.html">SwNtfyFn 0004H</a>) and handle <a href="716-swntfy_fn_0001h__can_switcher_suspend_your_session_.html">SwNtfyFn 0001H</a>
+          (query suspend) calls.
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

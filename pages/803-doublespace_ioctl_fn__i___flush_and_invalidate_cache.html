@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DoubleSpace IOCTL fn 'I': Flush and Invalidate Cache - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DoubleSpace IOCTL fn 'I': Flush and Invalidate Cache</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    <a href="450-dos_fn_4404h__ioctl_receive_control_data_from_block_device.html">4404H</a> (INT 21H IOCTL Read service number)
+          <span class="c2">BL</span>    any compressed drive number (1=A, 2=B, etc)
+          <span class="c2">CX</span>    10 (size of a <span class="c2">DsIoctlRec</span>; see below)
+          <span class="c2">DS:DX</span> address of a DsIoctlRec with an '<span class="c2">I</span>' (ASCII 49H) in
+                the <span class="c1">bCmdCode</span> field)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DS:DX</span> <span class="c1">bResult</span> contains a <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (00H=success)
+          ──────────────────────────────────────────────────────────────────
+    Info: DoubleSpace maintains internal caches for its cluster data,
+          BitFAT and MDFAT data (see <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>).
+
+          This IOCTL fn forces DoubleSpace to update the CVF<a href="919-qcvf.html">▲</a> on disk to
+          reflect the currently-cached data AND to <span class="c3">invalidate its cache</span> (so
+          it will read future data requests from the disk).
+
+          This is handy for disk utility programs which need to ensure that
+          changes they make to a CVF are recognized immediately.
+
+    <span class="c2">DS:DX</span> points to a DsIoctlRec as follows:
+
+          <span class="c2">DsIoctlRec</span>
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      2  <span class="c1">abSig</span>       must be 444dH ('M','D')
+             +2      1  <span class="c1">bCmd</span>        must be 46H ('<span class="c2">I</span>') flush &amp; Invalidate
+             +3      2  <span class="c1">bResult</span>     returns a <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a>
+             +5      5  <span class="c1">res</span>         (reserved; 0)
+                    10              size of a DsIoctlRec structure
+
+          To use this fn, set up the packet and the registers, and call
+          <a href="560-int_21h__dos_functions.html">INT 21H</a>.  See DOS fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (device I/O Control) for related DOS
+          functions.
+
+          <span class="c2">On return</span>, check <span class="c1">bResult</span> for an error code.  The value 4f4bH
+          ('OK') indicates success.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4004H: Exit Critical Section - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4004H: Exit Critical Section</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    4004H
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: After a previous call to <a href="782-int_2fh_4003h__enter_critical_section.html">INT 2fH 4003H</a> (enter critical section),
+          you should use this fn to signal the end of the critical session.
+
+          If the VDD has been delaying an update to the video registers, it
+          will perform it immediately upon receipt of this call.
+
+          Calls to this fn without a preceding call to INT 2fH 4003H are
+          ignored by the VDD.
+
+See Also: <a href="778-int_2fh_40xxh__virtual_display_driver_functions.html">INT 2fH 40xxH: Virtual Display Driver Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

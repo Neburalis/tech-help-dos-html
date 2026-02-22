@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5c01H: Unlock File Access - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5c01H: Unlock File Access</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    5c01H
+          <span class="c2">BX</span>    <a href="362-file_handle.html">file handle</a>
+          <span class="c2">CX:DX</span> file offset from start of file    (CX * 65536)+DX
+          <span class="c2">SI:DI</span> length in bytes of region to lock (SI * 65536)+DI
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This function unlocks access to a region of the file which was
+          previously locked.
+
+          See fn <a href="530-dos_fn_5c00h__lock_file_access.html">5c00H</a> for more details on file locking.
+
+   Notes: ■ The offset and length must match exactly with the parameters
+            used when the lock was applied.
+
+          ■ It is important that all locks be removed from a file before a
+            program is terminated.
+
+          ■ It is recommended that you unlock as soon as possible.  Always
+            try to lock, access the file, and unlock in one operation.
+
+See Also: <a href="16-network_and_file_sharing_functions.html">Network Functions</a>
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

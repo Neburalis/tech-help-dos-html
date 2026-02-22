@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MRCI API Error/Return Codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MRCI API Error/Return Codes</h1><pre>
+ The Microsoft Real-time Compression Interface (<a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>) functions may
+ return the following error codes:
+
+ <span class="c2">0000H</span> MRCI_NO_ERR             fn was successful
+
+ <span class="c2">0001H</span> MRCI_ERR_NOT_SUPPORTED  Unsupported fn number in AX
+
+ <span class="c2">0002H</span> MRCI_ERR_BUSY           MRCI support is busy.  This could happen,
+                               for instance, if a background task such as
+                               SmartDrv is using MRCI support.  Just try
+                               the operation again.
+
+ <span class="c2">0003H</span> MRCI_ERR_BUF_OVERFLOW   Destination buffer too small
+
+ <span class="c2">0004H</span> MRCI_ERR_INCOMPRESSIBLE Source data could not be compressed (MRCI
+                               returns this if it sees that compressing the
+                               data will not save at least one <span class="c1">wChunkLen</span>
+                               unit of data (see <a href="823-mrcrequestrec.html">MRCRequestRec</a>).
+
+                               When this error is returned, the content of
+                               the destination buffer is undefined.
+
+ <span class="c2">0005H</span> MRCI_ERR_BAD_FORMAT     Compressed data is in unrecognized format.
+                               This is returned when the source contains
+                               uncompressed data with no recognizable MRCI
+                               header.  It <span class="c1">may</span> occur on a source buffer
+                               overrun; but that is not guaranteed by the
+                               spec.
+
+See Also: <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Diskette Controller Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Diskette Controller Ports</h1><pre>
+ This describes I/O for the Floppy Disk Controller (FDC).  The main
+ component is the NEC µPD765 (or compatible FDC chip).
+
+ The AT FDC is incorporated on the same card as its hard disk controller,
+ but is compatible with the standard PC/XT FDC (except as noted below).
+ The main differences are that the AT FDC is capable of multiple data rates
+ but handles only two drives.
+
+   ■ Diskette controller 1 decodes ports <span class="c2">3f0H</span> through 3f7H
+   ■ Diskette controller 2 decodes ports <span class="c2">370H</span> through 377H (on AT only)
+
+ The FDC generates interrupt level 6 (<a href="96-irqs__hardware_interrupts.html">IRQ</a> 6) after each operation (read,
+ write, seek, recalibrate, etc.).  IRQ 6 is vectored to <a href="111-int_0eh__diskette_interrupt___page_fault.html">INT 0eH</a> and handled
+ by BIOS.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+3f2H  Write: digital output register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║D C B A│ │ │   ║
+      ╙─┴─┴─┴─┴╥┴╥┴─┴─╜ bit
+       ╚══╦══╝ ║ ║ ╚═╩═► 0-1: Drive to select 0-3 (AT: bit 1 not used)
+          ║    ║ ╚═════► 2: 0=reset diskette controller; 1=enable controller
+          ║    ╚═══════► 3: 1=enable diskette DMA and interrupts
+          ╚══════════► 4-7: drive motor enable.  Set bits to turn drive ON.
+                            (AT: bits 6-7 not used)
+──── ───────────────────────────────────────────────────────────────────────
+3f4H  Read-only: main status register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │D C B A║
+      ╙╥┴╥┴╥┴╥┴─┴─┴─┴─╜ bit
+       ║ ║ ║ ║ ╚═════╩═► 0: diskette drive busy (AT: bits 2-3 not used)
+       ║ ║ ║ ╚═════════► 4: 1=controller busy (read or write in progress)
+       ║ ║ ╚═══════════► 5: 1=non-DMA mode; 0=DMA mode active
+       ║ ╚═════════════► 6: Data direction: 1=ctrlr to CPU; 0 = CPU═►FDC
+       ╚═══════════════► 7: Req. for Master. 1=OK to send/recv cmd or data
+──── ───────────────────────────────────────────────────────────────────────
+3f5H  Read/Write: FDC command/data register
+      This port is used for all controller command operations.   First, a
+      command byte is output, then one or more data parameters are output.
+      The operation is performed, then 0 or more inputs return the results.
+      All of this I/O goes through this port and must take place in the
+      correct sequence.
+
+      This lists the commands used by BIOS for its standard functions, but
+      it does not show the parameters that follow or values of the results.
+      Sorry, but you'll need the Tech Ref if you want more information.
+
+      Cmd  Description
+      ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+      e6H  Read data (expects 8 parms to follow; 7 results when done)
+      c5H  Write data (expects 8 parms to follow; 7 results when done)
+      4dH  Format track (expects 5 parms to follow; 7 results when done)
+      07H  Recalibrate (expects 1 parm to follow; no results when done)
+      0fH  Seek Track (expects 2 parms to follow; no results when done)
+──── ───────────────────────────────────────────────────────────────────────
+3f6H  <span class="c2">AT</span>  Write: fixed disk register (no information available)
+──── ───────────────────────────────────────────────────────────────────────
+3f7H  <span class="c2">AT</span>  Write: diskette control register
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║           │   ║
+      ╙─┴─┴─┴─┴─┴─┴─┴─╜ bit
+       ╚════╦════╝ ╚═╩═► 0-1: data transfer rate
+            ║                 00=500 KBS, 01=300 KBS, 10=250 KBS, 11=res.
+            ╚══════════► 2-7: I can't find anything about these
+
+      Read: digital input register.  Used for diagnostics (except bit 7)
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║<span class="c1">c</span>│ │ <span class="c1">head</span>  │ │ ║
+      ╙╥┴╥┴─┴─┴─┴─┴╥┴╥╜ bit
+       ║ ║ ╚══╦══╝ ║ ╚═► 0: 1=select drive 0
+       ║ ║    ║    ╚═══► 1: 1=select drive 1
+       ║ ║    ╚══════► 2-5: Head select 0-3 (bit 2=hd 0, bit 3=hd 1, etc)
+       ║ ╚═════════════► 6: Write Gate
+       ╚═══════════════► 7: Change Line (1=diskette change line is ON)
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> (disk I/O)
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="897-at_hard_disk_ports.html">AT Hard Disk Ports</a>
+          <a href="898-xt_hard_disk_ports.html">XT Hard Disk Ports</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

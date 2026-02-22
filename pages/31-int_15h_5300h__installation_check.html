@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 5300H: Installation Check - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 5300H: Installation Check</h1><pre>
+ Expects: <span class="c2">AX</span>    5300H
+          <span class="c2">BX</span>    0000H (<a href="44-apm_device_id.html">power device ID</a> = System BIOS)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    86H = APM not installed (and CF=CY)
+                APM major version number, in BCD (if CF=NC)
+          <span class="c2">AL</span>    APM minor version number, in BCD
+          <span class="c2">BX</span>    504dH (<span class="c2">BH</span>='<span class="c2">P</span>' and <span class="c2">BL</span>='<span class="c2">M</span>')
+          <span class="c2">CX</span>    flags: bit 0: 1 = 16-bit protected-mode interface supported
+                       bit 1: 1 = 32-bit protected-mode interface supported
+                       bit 2: 1 = CPU Idle calls slow the CPU clock speed
+                       bit 3: 1 = BIOS power management is disabled
+                        4-15: (reserved)
+          ──────────────────────────────────────────────────────────────────
+    Info: This function checks to see whether the BIOS supports APM and
+          obtains the version of the APM spec that is supported.
+
+       <span class="c2">AX</span> the version number is in BCD; e.g., 0312H is version 3.12
+
+       <span class="c2">BX</span> See <a href="36-int_15h_5305h__cpu_idle.html">INT 15H 5305H</a> (CPU Busy) for info on bit 3.
+
+See Also: <a href="29-advance_power_management__apm__functions.html">APM API</a>
+          <a href="30-about_advanced_power_management.html">About APM</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

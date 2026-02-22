@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 62H: Query Current PSP - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 62H: Query Current PSP</h1><pre>                                            Compatibility: <span class="c2">3.0+</span> (doc'd: 5.0)
+ Expects: <span class="c2">AH</span>    52H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">BX</span>    PID<a href="929-qpid.html">▲</a> (Process ID) of current process
+          ──────────────────────────────────────────────────────────────────
+    Info: This function obtains the segment address of the <a href="371-psp__program_segment_prefix.html">PSP</a> (a.k.a, the
+          Process ID) of the currently-executing (most-recently started)
+          program.
+
+          A <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> should save its own PSP during initialization.  Then,
+          before popping up, the <span class="c1">TSR should use this fn to get the ID of</span>
+          <span class="c1">the interrupted program</span>, then use fn <a href="512-dos_fn_50h__set_psp.html">50H</a> to set the PID to its
+          own (saved) value.  Be sure to change the PID back before popping
+          down.
+
+   Notes: ■ On program startup, DS and ES both contain the PSP segment.
+
+          ■ MS-DOS documents claim you can use this fn interchangeably with
+            fn <a href="513-dos_fn_51h__query_current_psp.html">51H</a>.
+
+See Also: <a href="371-psp__program_segment_prefix.html">PSP</a> (Program Segment Prefix)
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="346-dos_environment.html">DOS Environment</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

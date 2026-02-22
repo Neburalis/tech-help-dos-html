@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Driver Basics - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Driver Basics</h1><pre><span class="c2">█▌Overview▐█</span>
+  An installable device driver is a specially-formatted program that is
+  loaded into memory via a <a href="276-device___config_sys_command_.html">DEVICE=</a> or <a href="277-devicehigh___config_sys_command_.html">DEVICEHIGH=</a> command in CONFIG.SYS.
+
+  The first part of the file must be an 18-byte <a href="322-device_header_layout.html">Device Header</a> structure.
+  The first four bytes are modified by DOS upon installation.  The file is
+  installed into a <span class="c1">chain</span> of device drivers:
+         ╔══════ <a href="322-device_header_layout.html">Device Header</a> ════════╗
+         ╓───┬───┬┬┬┬┬┬┬───────────────╥─ - - - - - - - - - - - - - ─┐
+  ╔═══════nextDev│     │N U L          ║ code and data of NUL device │
+  ║      ╙─┴─┴─┴─┴┴┴┴┴┴┴─┴─┴─┴─┴─┴─┴─┴─╨─ - - - - - - - - - - - - - ─┘
+  ║ <span class="c2">╔═══►</span>╓───┬───┬┬┬┬┬┬┬───────────────╥─ - - - - - - - - - - - - - - - ─┐
+  ║ <span class="c2">║</span> ╔═══nextDev│     │C O N          ║ code+data of standard CON device│
+  ║ <span class="c2">║</span> ║  ╙─┴─┴─┴─┴┴┴┴┴┴┴─┴─┴─┴─┴─┴─┴─┴─╨─ - - - - - - - - - - - - - - - ─┘
+  ║ <span class="c2">║</span> ╚═►╓───┬───┬┬┬┬┬┬┬───────────────╖
+  ║ <span class="c2">║</span> ╔═══nextDev│     │L P T 1        ║
+  ║ <span class="c2">║</span> ╚═►╟─┴─┴─┴─┼┴┴┴┴┴┴─┴─┴─┴─┴─┴─┴─┴─╫─ - - - - - - - - - - - ──┐
+  ║ <span class="c2">║</span>    ║   <span class="c1">ffff</span>│     │L P T 2        ║ code+data of LPT<span class="c1">n</span> devices│
+  ║ <span class="c2">║</span>    ╙─┴─┴─┴─┴┴┴┴┴┴┴─┴─┴─┴─┴─┴─┴─┴─╨─ - - - - - - - - - - - ──┘
+  ╚═════►╓───┬───┬┬┬┬┬┬┬───────────────╥─ - - - - - - - - - - - - - - - ─┐
+    <span class="c2">╚═════</span>nextDev│     │C O N          ║ code+data of <a href="50-ansi_console_escape_sequences.html">ANSI.SYS</a> CON device│
+         ╙─┴─┴─┴─┴┴┴┴┴┴┴─┴─┴─┴─┴─┴─┴─┴─╨─ - - - - - - - - - - - - - - - ─┘
+
+  When installing, DOS points <span class="c1">nextDev</span> of the NUL device to the new driver
+  (e.g., ANSI.SYS above) and stores whatever was in the NUL device's <span class="c1">nextDev</span>
+  into ANSI.SYS's <span class="c1">nextDev</span> field.
+
+  This process inserts the driver near the start of the chain.  In the
+  example, any access to the device name of <span class="c2">CON</span> is satisfied by the
+  installed driver, rather than the original.
+
+  The device driver file is a binary image file.  After assembling the
+  source code, use EXE2BIN to convert to a binary file (or link it as a
+  &quot;tiny model&quot; program).  Unlike a COM-format file, do not include an
+  ORG 100H at the start of the code and do not assume that a <a href="371-psp__program_segment_prefix.html">PSP</a> or
+  <a href="346-dos_environment.html">environment</a> has been prepared for you.
+
+    Note: It is possible to use the EXE file format for a device driver.
+          The trick it to put the device header at the very start of your
+          data segment.
+
+          However, some older versions of IBM's OEM version (PC-DOS) cannot
+          load an EXE file via the DEVICE= command.
+
+<span class="c2">█▌Strategy and Interrupt▐█</span>
+  Two of the fields in the <a href="322-device_header_layout.html">device header</a> are 16-bit pointers to within the
+  device driver code segment--the <span class="c2">Strategy</span> routine and the <span class="c2">Interrupt</span>
+  routine.
+
+  When an application uses a DOS function (such as <a href="560-int_21h__dos_functions.html">INT 21H</a> services) which
+  require action of a device, DOS makes two calls to the driver.  First, it
+  calls the Strategy routine, passing it information about the requested
+  action.  It then calls the Interrupt routine.
+
+  ■ When DOS calls the Strategy routine, it sets <span class="c2">ES:BX</span> to the address of a
+    <a href="300-device_requests.html">Device Request</a> information structure.  The &quot;request packet&quot; always
+    begins with a 13-byte <a href="324-device_request_header.html">DevRequestHdrRec</a>, followed by 0 or more bytes of
+    data that varies, depending upon the request command code.
+
+    The device driver should simply save the address passed in <span class="c2">ES:BX</span>, for
+    later use by the Interrupt routine.
+
+  ■ Then DOS calls the Interrupt routine, passing no parameters.  The
+    Interrupt routine inspects the data passed to the Strategy routine and
+    takes the requested action.
+
+    Upon completion of a request, the driver should set the <a href="325-device_status_word.html">DevStatusWord</a>
+    in the request structure to indicate completion (and any errors), then
+    return to DOS via a FAR return.
+
+  This two-call system was designed as a way for a &quot;smart device&quot; to enqueue
+  requests, with the idea of perhaps improving performance by acting on them
+  in a different order than originally requested.  To my knowledge, no DOS
+  device driver does this.  It is probably valid to assume that a call to
+  the Strategy routine will be followed immediately by a call to the
+  Interrupt routine.
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

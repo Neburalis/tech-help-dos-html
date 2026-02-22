@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4B05H: Identify Instance Data - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4B05H: Identify Instance Data</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    4B04H  (<a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a>)
+          <span class="c2">ES:BX</span> 0000:0000
+          <span class="c2">CX:DX</span> address of switcher service function handler
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> 0000:0000 if no instance data chain
+                else, address of a <a href="732-swstartupinforec.html">SwStartupInfoRec</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: This provides a way for application programs (such as TSRs) to
+          tell the switcher about any &quot;instance data&quot; (memory areas that
+          are unique for each task).  For example, Doskey preserves a
+          command-line history for each DOS session, even though the
+          program code need be in memory once.
+
+          This fn creates a linked list of Identify Instance Data handlers.
+          Application programs which need to preserve instance data must
+          intercept INT 2fH and process fn AX=4b05H as follows:
+
+          If you don't need to process Instance Data requests, just JMP to
+          the previous INT 2fH handler.
+
+          If you <span class="c1">do</span> need instance data, your INT 2fH handler should:
+
+          ■ First, chain to any previously-installed handlers by pushing
+            the FLAGS register and performing a FAR CALL to the previous
+            handler.
+
+          ■ On return from that CALL, create a <a href="732-swstartupinforec.html">SwStartupInfoRec</a> from local
+            memory and fill it in (including the address of your list of
+            <a href="733-swinstanceitemrec.html">SwInstanceItemRec</a> structures.   Copy the returned value of
+            <span class="c2">ES:BX</span> into the <span class="c1">pfNextDev</span> field of the structure.
+
+          ■ Place the address of your own <a href="731-swcallbackinforec.html">SwCallbackInfoRec</a> into <span class="c2">ES:BX</span> and
+            execute an IRET.
+
+          These steps result in a chain of INT 2fH handlers, each of which
+          can process subsequently-installed handlers.
+
+See Also: <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4BxxH: Task Switcher Functions</a>
+          <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

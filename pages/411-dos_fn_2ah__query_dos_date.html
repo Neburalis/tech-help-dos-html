@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 2aH: Query DOS Date - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 2aH: Query DOS Date</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    2aH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CX</span>    year (1980 to 2099)
+          <span class="c2">DH</span>    month (1 to 12)
+          <span class="c2">DL</span>    day (1 to 31)
+
+          <span class="c2">AL</span>    day of the week (0=Sun, 1=Mon,...6=Sat)  <span class="c2">DOS 1.1+</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns the current date as known to the system.
+
+Versions: ■ <span class="c2">DOS 2.x</span> technical manuals do not guarantee the return of the
+            <span class="c1">day</span> value in AL; however, all DOS versions after (1.0) do so.
+          ■ DOS Versions prior to 2.1 had problems rolling-over the date.
+
+See Also: Fn <a href="413-dos_fn_2ch__query_dos_time.html">2cH</a> (get time)
+          Fn <a href="412-dos_fn_2bh__set_dos_date.html">2bH</a> (set date)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

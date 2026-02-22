@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS 10H: Request Upper Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS 10H: Request Upper Memory Block</h1><pre>                                                     Compatibility: <span class="c2">XMS 2.0+</span>
+ Expects: <span class="c2">AH</span>    10H
+          <span class="c2">DX</span>    desired size of UMB<a href="927-qmemumb.html">▲</a>, in paragraphs (16-byte units)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0000H = successful
+                        0001H = error and <span class="c2">BL</span>=<a href="963-xms_error_codes.html">XMS error code</a> (if BL &gt;= 80H)
+          <span class="c2">BX</span>    segment of the UMB
+          <span class="c2">DX</span>    (success) Actual size of the UMB
+                (failure) Size of largest UMB available
+          ──────────────────────────────────────────────────────────────────
+    Info: This is a low-level way to gain ownership of a UMB<a href="927-qmemumb.html">▲</a> or to learn
+          the size of the largest available UMB.
+
+          See <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a> for the correct (DOS-blessed) way to
+          get a UMB when running <span class="c2">DOS 3.0+</span>.
+
+   Notes: ■ To learn the size of the largest available UMB, set <span class="c2">DX</span>=ffffH on
+            entry.
+
+          ■ UMBs are guaranteed not be affect the <a href="650-expanded_memory_specification__ems_.html">EMS</a> frame.
+
+          ■ UMBs are paragraph-aligned.
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

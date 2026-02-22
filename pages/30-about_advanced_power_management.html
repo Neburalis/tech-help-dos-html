@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>About Advanced Power Management - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>About Advanced Power Management</h1><pre>
+ As laptop computers gain in popularity the need to extend battery life has
+ become acute.  And as people become more environmentally aware, we are
+ seeing a greater need to conserve electricity, even on desktop models.
+
+ Laptop makers have been using power-management techniques for some years,
+ but it has been a haphazard affair, and there has been no way that an
+ operating system or an application program can cooperate in reducing power
+ consumption.
+
+ In 1993, Intel and Microsoft announced the <span class="c2">Advanced Power Management</span>
+ specification.  It describes a standard interface that allows the system
+ BIOS, the operating system, and applications to work together to save
+ power.
+
+ Here's how application programs can become power-aware:
+
+ ■ Use <a href="31-int_15h_5300h__installation_check.html">INT 15H 5300H</a> to see of APM services exist; if not forget it.
+ ■ Use <a href="32-int_15h_5301h__interface_connect.html">INT 15H 5301H</a> to inform the BIOS that you are savvy.
+ ■ Use <a href="36-int_15h_5305h__cpu_idle.html">INT 15H 5305H</a> (CPU Idle) when you're waiting around for a
+   keystroke or mouse click or other event.
+ ■ Use <a href="42-int_15h_530bh__get_power_management_event.html">INT 15H 530bH</a> (Get APM Event) and take action when requested.
+
+See Also: <a href="29-advance_power_management__apm__functions.html">APM API</a>
+          <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (AT Extended Services)
+                                    <span class="c3">-♦-</span></pre></body></html>

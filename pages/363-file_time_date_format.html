@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>File Time/Date Format - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>File Time/Date Format</h1><pre>
+<span class="c2">FileTimeRec</span>
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║   <span class="c1">hour</span>  │  <span class="c1">minute</span>   │  <span class="c1">sec/2</span>  ║
+╙─┴─┴─┴─┴─┴─┴─┴─╨─┴─┴─┴─┴─┴─┴─┴─╜  <span class="c1">bits</span>   <span class="c1">mask</span>
+ ╚═══╦═══╝ ╚════╦════╝ ╚═══════╩═►  0-4: 001fH  2-second units (0-30 valid)
+     ║          ╚════════════════► 5-10: 07e0H  minute         (0-59 valid)
+     ╚═══════════════════════════►11-15: f800H  hour           (0-23 valid)
+
+<span class="c2">FileDateRec</span>
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║    <span class="c1">year</span>     │ <span class="c1">month</span> │   <span class="c1">day</span>   ║
+╙─┴─┴─┴─┴─┴─┴─┴─╨─┴─┴─┴─┴─┴─┴─┴─╜  <span class="c1">bits</span>   <span class="c1">mask</span>
+ ╚═════╦═════╝ ╚══╦══╝ ╚═══════╩═►  0-4: 001fH  day              (0-31)
+       ║          ╚══════════════►  5-8: 01e0H  month            (1-12 valid)
+       ╚═════════════════════════► 9-15: e000H  years since 1980 (0-119 valid)
+
+   Notes: ■ These layouts are seen in directory entries (as when performing
+            absolute disk reads; see <a href="344-directory_entry_layout.html">DirEntryRec</a>), <a href="360-fcb__file_control_block.html">FCB</a>s, and in the
+            <a href="364-fileinforec.html">FileInfoRec</a> returned by DOS fns <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> and <a href="511-dos_fn_4fh__find_next_matching_file.html">4fH</a> (find file) and
+            <a href="518-dos_fn_57h__set_or_query_file_time_date.html">57H</a> (query/set file time/date).
+
+          ■ DOS uses a different format for fns <a href="411-dos_fn_2ah__query_dos_date.html">2aH</a>-<a href="414-dos_fn_2dh__set_dos_time.html">2dH</a> (system clock
+            functions).
+
+          ■ Remember that the date value is relative to 1980 (the
+            approximate beginning of the IBM-PC era).
+
+See Also: <a href="519-dos_fn_5700h__query_file_time_date.html">5700H</a> (query file time/date)
+          <a href="520-dos_fn_5701h__set_file_time_date.html">5701H</a> (set file time/date)
+          <a href="344-directory_entry_layout.html">DirEntryRec</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

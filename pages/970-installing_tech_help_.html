@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Installing TECH Help! - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Installing TECH Help!</h1><pre>
+  TECH Help! is composed of a program and a data file.  The hypertext
+  viewer is named <span class="c1">XVIEW.EXE</span>.  The accompanying &quot;hypertext database&quot; is
+  named <span class="c1">TECH60.H!</span>.
+
+  Installation is quite simple.  Just run the INSTALL program on the
+  distribution diskette.  When distributed on high-capacity diskettes, you
+  can install manually by simply copying the files <span class="c2">XVIEW.EXE</span> and <span class="c2">TECH60.H!</span>
+  to your hard disk.
+
+  The following sections describe some customization features and options.
+
+<span class="c2">█▌Multiple Help! databases▐█</span>
+  If you have more than one compatible hypertext data file, it is possible
+  that the XVIEW command will startup with the &quot;wrong&quot; file.  If that
+  happens, press F9 or select Open... from the <a href="994-file_menu.html">File menu</a> (<span class="c1">Alt+F</span>,<span class="c1">O</span>) and then
+  choose the other file.
+
+  The &quot;<span class="c2">xview</span> <span class="c1">topic</span>&quot; syntax causes the Help! viewer to look in all databases
+  for <span class="c1">topic</span>, stopping at the first one it locates.  You may wish to select
+  one of the databases as your &quot;primary&quot; database so that this syntax will
+  first look for <span class="c1">topic</span>s in that database.  There are two ways to do that:
+
+  ■ Use F9 to bring up the file list.
+    Choose the desired hypertext data file and press Enter.
+    Select &quot;Startup with this file&quot; from the <a href="1008-configure_options_menu.html">Configure/Options menu</a>.
+    Choose &quot;Save Setup&quot; from the <a href="1000-configure_menu.html">Configure Menu</a>.
+
+    ...or...
+
+  ■ Create two or more batch files like so...
+    <span class="c2">┌───────────────────────────────────────────(THELP.BAT)</span>
+    <span class="c2">│</span>REM start up with TECH Help!
+    <span class="c2">│</span>c:\help\XVIEW <span class="c2">/m=c:\help\tech60.H!</span> %1 %2
+    <span class="c2">└─────────────────────────────────────────────────────</span>
+    <span class="c2">┌───────────────────────────────────────────(DHELP.BAT)</span>
+    <span class="c2">│</span>REM start up with DOS 6.0 Help
+    <span class="c2">│</span>c:\help\XVIEW <span class="c2">/m=c:\help\dos60.H!</span> %1 %2
+    <span class="c2">└─────────────────────────────────────────────────────</span>
+
+    The <span class="c2">/M</span> option selects the primary database.  See <a href="972-xview_syntax.html">XVIEW Syntax</a>.
+
+<span class="c2">█▌Configuring Colors &amp; Options▐█</span>
+  The <a href="1000-configure_menu.html">Configure menu</a> provides a way to choose custom colors and other
+  options.  Just press <span class="c1">Alt+C</span> to drop-down the menu and use the arrow keys
+  and Enter to select options.
+
+  See <a href="990-help__menus_and_button_controls.html">Help! Menus</a> for information on each menu option.  Remember to choose
+  Save Setup from the Configure menu (<span class="c1">Alt+C</span>,<span class="c1">S</span>) to make the Help! viewer
+  remember your settings.
+
+<span class="c2">█▌Controlling the Printer▐█</span>
+  TECH Help! is primarily an on-screen media, so the printer support is
+  somewhat limited.  Pressing <span class="c1">F5</span> (or <span class="c1">Alt+F</span>,<span class="c1">P</span>) will send the text of the
+  current topic to the PRN device.  The following procedures provide some
+  control over printing:
+
+  ■ <span class="c2">Printer Filtering</span>:  If your printer cannot print box-and-line
+    characters, the printed output may contain a bunch of italic <span class="c1">M</span>s or
+    other characters where you expect to see the box-and-line characters.
+
+    In that case, choose Printer Filter from the <a href="1008-configure_options_menu.html">Configure/Options</a> menu
+    (<span class="c1">Alt+C</span>,<span class="c1">O</span>,<span class="c1">P</span>).  And then Save Setup (<span class="c1">Alt+C</span>,<span class="c1">S</span>).  That way XVIEW will use
+    universally-printable characters, such as <span class="c2">+---+</span> rather than <span class="c2">┌───┐</span>.
+
+    Alternatively, you may be able to set your printer to print the box-
+    and-line characters.  For instance, on HP LaserJets, use the front
+    panel to select the <span class="c2">PC-8</span> character set.
+
+  ■ <span class="c2">Printing to a different printer</span>:  By default, XVIEW prints to PRN
+    (LPT1).  To print to another printer, use Edit to modify the <span class="c2">prnName</span>
+    line of the xView configuration file.  See <a href="975-xview_ini.html">Modifying XVIEW.INI</a>.
+
+  ■ <span class="c2">Printing a setup string</span>:  You can set a string of control codes to be
+    sent to the printer before each topic.  Use Edit to modify the <span class="c2">prnSetup</span>
+    line.  See <a href="975-xview_ini.html">Modifying XVIEW.INI</a>.
+
+  ■ <span class="c2">Printing more or fewer lines per page</span>:  Use Edit to modify the <span class="c2">prnLines</span>
+    line.  You may also want to use a setup string to set your printer to
+    use a smaller font.  See <a href="975-xview_ini.html">Modifying XVIEW.INI</a>.
+
+  ■ <span class="c2">Early page eject; and blank pages</span>:  By default, XVIEW prints 59 lines
+    of text and then ejects the page.  If your printer has been set to
+    automatically eject at exactly 59 lines, xView will print a blank page
+    between each printed page.
+
+    To change this behavior, you may modify XVIEW.INI, as above, setting
+    <span class="c2">prnLines=</span> to a smaller number (say, <span class="c2">55</span>) <span class="c1">OR</span> send a <span class="c2">prnSetup</span> string to
+    tell your printer to print more lines before ejecting the page, <span class="c1">OR</span> use
+    your printer's front panel to set the default page length to 60 or more
+    lines.
+
+<span class="c2">█▌Installation Options▐█</span>
+  Here are several other installation options and tips:
+
+  ■ <span class="c2">Put XVIEW on your path</span>.  Add <span class="c1">c:\your_TechHelp_dir</span> to your command
+    search path so you can easily start XVIEW, regardless of your current
+    default directory.
+
+  ■ <span class="c2">Make a batch file to start TECH Help!</span>.  Many users find it convenient
+    to have a \BATCH directory on the command search path to hold often-
+    used batch files.  A batch file such as...
+
+     <span class="c2">┌────────────────────────────────────── (c:\BATCH\THELP.BAT)</span>
+     <span class="c2">│</span>c:\help\xview %1 /M=c:\help\tech60.h!
+
+    ...will start TECH Help! and ensure that it locates its data file.
+    See <a href="972-xview_syntax.html">xView■Syntax</a> for related details.
+
+  ■ XVIEW will find the TECH60.H! file if it's in the same directory as
+    XVIEW.EXE.  It will also find it if it's anywhere on the command search
+    path or if you have used <span class="c2">/M=</span><span class="c1">file</span> in the XVIEW command line.
+
+    Another way to ensure that it will find its data file is to store an
+    XVIEWPATH variable in the DOS environment like so:
+
+      <span class="c2">Set XVIEWPATH=c:</span><span class="c1">\yourTechHelp_dir</span> <span class="c2">◄─┘</span>
+
+    This is also handy if you have other hypertext data files created
+    with <a href="1030-flambeaux_software.html">Flambeaux Software</a>'s <a href="1033-xtext.html">xText</a> hypertext authoring system.
+
+  ■ TECH Help! will look for its configuration file (XVIEW.INI) in the
+    directory in which XVIEW.EXE is stored.  Another way to ensure that
+    it can find the file is to store an XVIEWINIT variable in the DOS
+    environment like so:
+
+      <span class="c2">Set XVIEWINIT=c:</span><span class="c1">\yourTechHelp_dir</span> <span class="c2">◄─┘</span>
+
+    This is important on <span class="c2">networks</span>, since it allows each user to have custom
+    colors and options.  Contact <a href="1030-flambeaux_software.html">Flambeaux Software</a> for information on
+    network licensing of TECH Help!.
+
+<span class="c2">█▌RAM-Resident Help!▐█</span>
+  You may wish to install TECH Help! as a TSR<a href="917-qtsr.html">▲</a>.  You may do so by executing
+  the command...
+
+      <span class="c2">xview /I</span>
+   or
+     <span class="c2">loadhigh xview /I</span>  <span class="c1">(386+ PCs after using DOS=UMB in CONFIG.SYS)</span>
+
+  ...or by placing that command in your AUTOEXEC.BAT.  You may then access
+  TECH Help! by pressing <span class="c1">Alt+H</span> OR put the cursor on the text of an indexed
+  topic (such as <a href="45-ascii.html">ASCII</a>) and press <span class="c1">Alt+L</span>.
+
+  There are several memory-saving options in which TECH Help! uses available
+  expanded or extended memory.  For instance, use...
+
+     <span class="c2">xview /IX</span>
+
+  ...to install TECH Help! so that it uses only about 5K of conventional
+  memory and swaps its code and data to extended memory.
+
+  It is possible to select different pop-up hot keys.  See <a href="971-popup_help_.html">Popup Help!</a> and
+  <a href="972-xview_syntax.html">xView■Syntax</a> for related details.
+
+<span class="c2">█▌Backups and Bootlegs▐█</span>
+  TECH Help! is not copy-protected.  Registered owners are expressly granted
+  the right to copy the TECH Help! files to a backup diskette and/or your
+  hard disk for support of a single user on a single computer, as provided
+  for in the License Agreement which accompanies this software.
+
+  <span class="c1">TECH Help! is a copyrighted, proprietary, commercial program</span> and
+  all rights, including distribution in any form, are reserved by
+  Flambeaux Software, Inc.
+
+  It is NOT NICE to give away copies of TECH Help!, since Dan Rollins and
+  the hard-working people at Flambeaux Software would not receive any money
+  for the effort that has gone into this product and Dan's two beautiful
+  children will be forced to live in the street, begging for scraps of
+  potatoes.
+
+  If you happened to get a bootleg copy of any of the Help! series, please
+  write or call:
+                          <a href="1030-flambeaux_software.html">Flambeaux Software, Inc.</a>
+                    1147 East Broadway Street, Suite 56
+                             Glendale, CA 91205
+                               (818) 500-0044
+
+ ...to obtain the full package at a SPECIAL DISCOUNT for BOOTLEG-BUSTERS.
+ You will not be asked to tell us the source of your copy.  And we accept
+ Visa, MasterCard, and American Express.
+
+ If you see TECH Help! on any BBS, we would appreciate it if you tell the
+ SysOp that TECH Help! is a copyrighted commercial product, <span class="c1">not</span> &quot;Freeware&quot;,
+ <span class="c1">not</span> &quot;Shareware&quot;, and <span class="c1">not</span> public domain.
+
+ Finally, we appreciate your feedback on this product and we apologize for
+ any errors and typos in this text.  The skinny TECH Help! disk represents
+ years of work researching, testing, cross-referencing, typing, and
+ proofreading; it's the equivalent of several large books.
+                    <span class="c2">To err is human; to forgive, divine.</span>
+────────────────────────────────────────────────────────────────────────────
+ <a href="971-popup_help_.html">Popup Help!</a>  <a href="970-installing_tech_help_.html">Installing &amp; Configuring Help!</a>  <a href="972-xview_syntax.html">xView■Syntax</a>        <a href="2-main_menu.html">Main Menu</a></pre></body></html>

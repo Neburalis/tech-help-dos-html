@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 3701H: Set Switchar - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 3701H: Set Switchar</h1><pre>                                        Compatibility: <a href="912-_undocumented_.html">◄Undoc►</a> <a href="909-_obsolete_.html">◄Obs►</a> <span class="c2">2.0-4.x</span>
+ Expects: <span class="c2">AX</span>    3701H
+          <span class="c2">DL</span>    desired DOS switch character
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: This <a href="909-_obsolete_.html">◄Obsolete►</a> function previously set a global &quot;switch
+          character&quot; and was even supported by the undocumented CONFIG.SYS
+          command <a href="295-switchar___config_sys_command_.html">SWITCHAR=</a>.
+
+          The idea was to provide a way to use a character other than slash
+          (<span class="c2">/</span>) as the lead-character in command-line switches (perhaps
+          freeing / for use in pathnames or allowing the UNIX-like dash (<span class="c2">-</span>)
+          as the switch character.
+
+          The concept never really caught on; most programs do not bother
+          to use Fn <a href="429-dos_fn_3700h__query_switchar.html">3700H</a> to check for changes.
+
+Versions: <span class="c2">2.0-4.x</span>  This is an undocumented, though valid function.
+          <span class="c2">5.0+</span>     This function is <a href="909-_obsolete_.html">◄Obsolete►</a> and no longer supported
+          by DOS.  It does not return an error, but is ignored.
+
+See Also: Fn <a href="429-dos_fn_3700h__query_switchar.html">3700H</a> (query switchar)
+          <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

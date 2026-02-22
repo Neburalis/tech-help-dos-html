@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SET (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SET (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 6.0+</span>
+ Purpose: Lets you create <a href="346-dos_environment.html">environment variables</a> in your CONFIG.SYS file.
+
+    Uses: Set flags to trigger actions in AUTOEXEC.BAT.
+
+  Syntax: SET <span class="c1">varName</span>=<span class="c1">value</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+  <span class="c1">varName</span> is any string of characters, unbroken by spaces.  The <span class="c1">varName</span> is
+          converted to uppercase and the entire string, including the
+          <span class="c1">value</span>, is placed into the environment.
+
+    <span class="c1">value</span> is any string of characters you wish to associate with <span class="c1">varName</span>.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ SET in CONFIG.SYS is supported only by <span class="c2">DOS 6.0+</span>.
+
+    This was implemented in DOS 6.0 to enable <a href="271-multiconfig_menus.html">MultiConfig Menus</a> to pass an
+    e-var (<span class="c2">CONFIG</span>) to AUTOEXEC.BAT.
+
+  ■ There is no way to examine environment variables in CONFIG.SYS;
+    however, the <span class="c1">varName</span>=<span class="c1">value</span> lines will be available for testing (via <span class="c2">If</span>
+    or the <span class="c2">Goto</span> %<span class="c1">varName</span>% technique) in AUTOEXEC.BAT or other batch files.
+
+  ■ The 127-character limit of the DOS <span class="c2">Set</span> command is not present when SET
+    is used in CONFIG.SYS.  Some folks use this to create gigantic <span class="c2">PATH=</span>
+    environment variables.  I recommend against this practice since many
+    programs that examine the <a href="346-dos_environment.html">environment</a> assume that no line is greater
+    than 128 bytes.
+
+  ■ The total size of the environment during CONFIG.SYS is not documented
+    (use <a href="292-shell___config_sys_command_.html">SHELL=</a>COMMAND.COM /E:<span class="c1">nnnn</span> to set it for COMMAND.COM).
+
+  ■ I use SET in CONFIG.SYS to give a name to my RAM disk; for instance,
+
+       SET RAMDISK=F:
+
+    Then, in batch file and MAKE files, I can use commands such as:
+
+       PATH %RAMDISK%\;c:\dos;c:\utils;<span class="c1">...etc...</span>
+       COPY c:\utils\norton\ncd.exe %RAMDISK%
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>The CONFIG.SYS File - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>The CONFIG.SYS File</h1><pre>
+ When DOS boots up, it looks in the root directory of the boot disk for a
+ text file named <span class="c2">CONFIG.SYS</span>.  If that file exists, it is read and processed
+ as a list of configuration commands.
+
+  <span class="c1">Command     Function                 Command  </span> <span class="c1">Function</span>
+  <a href="272-break___config_sys_command_.html">BREAK=</a>      Ctrl-Break test level  █ <a href="284-installhigh___config_sys_command_.html">INSTALLHIGH=</a> load TSRs into UMB
+  <a href="273-buffers___config_sys_command_.html">BUFFERS=</a>    # of disk I/O buffers  █ <a href="286-menuitem___config_sys_command_.html">MENUITEM=</a>    menu text &amp; action
+  <a href="274-country___config_sys_command_.html">COUNTRY=</a>    country-dependant info █ <a href="287-menucolor___config_sys_command_.html">MENUCOLOR=</a>   menu colors
+  <a href="270-interactive_boot.html">cmd?=</a>       conditional execution  █ <a href="288-menudefault___config_sys_command_.html">MENUDEFAULT=</a> default and time-out
+  <a href="276-device___config_sys_command_.html">DEVICE=</a>     install device driver  █ <a href="289-numlock___config_sys_command_.html">NUMLOCK=</a>     state of NumLock
+  <a href="277-devicehigh___config_sys_command_.html">DEVICEHIGH=</a> install driver in UMB  █ <a href="290-rem__config_sys_command_.html">REM</a> or <span class="c2">;</span>     comments in CONFIG.SYS
+  <a href="279-drivparm___config_sys_command_.html">DRIVPARM=</a>   parms for disk drivers █ <a href="291-set__config_sys_command_.html">SET</a>          e-vars in CONFIG.SYS
+  <a href="280-fcbs___config_sys_command_.html">FCBS=</a>       max open FCBs          █ <a href="292-shell___config_sys_command_.html">SHELL=</a>       install cmd processor
+  <a href="285-lastdrive___config_sys_command_.html">LASTDRIVE=</a>  SUBST drive ID limit   █ <a href="293-stacks___config_sys_command_.html">STACKS=</a>      hdwr int stack sizes
+  <a href="281-files___config_sys_command_.html">FILES=</a>      max # of file handles  █ <a href="296-submenu___config_sys_command_.html">SUBMENU=</a>     set up a submenu
+  <a href="282-include___config_sys_command_.html">INCLUDE=</a>    run cmds in a block    █ <a href="295-switchar___config_sys_command_.html">SWITCHAR=</a>    cmd-line switch char
+  <a href="283-install___config_sys_command_.html">INSTALL=</a>    load TSRs              █ <a href="294-switches___config_sys_command_.html">SWITCHES=</a>    kydb, boot opts, etc.
+
+ CONFIG.SYS is a standard text file<a href="916-qstdtextfile.html">▲</a>, created by any text editor.  Changes
+ to CONFIG.SYS take effect only after you restart DOS.
+
+See Also: <a href="268-enhanced_config_sys_options.html">Enhanced CONFIG.SYS Options</a>
+          <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="263-system_startup_sequence.html">System Startup Sequence</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

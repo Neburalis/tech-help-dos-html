@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5801H: Set Memory Allocation Strategy - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5801H: Set Memory Allocation Strategy</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    5801H
+          <span class="c2">BX</span>    desired allocation strategy code (see below).
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Selects the method for DOS to use in satisfying subsequent memory
+          allocations (via fn <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">48H</a>).  <span class="c2">BX</span> must be one of:
+
+ Value Description
+ ▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ <span class="c2">0000h</span> FIRST_FIT_LOW      Search conventional<a href="924-qmemconv.html">▲</a> memory for the available
+                          block having the lowest address.  This is the
+                          default strategy.
+ <span class="c2">0001h</span> BEST_FIT_LOW       Search conventional RAM for the available block
+                          that most closely matches the requested size.
+ <span class="c2">0002h</span> LAST_FIT_LOW       Search conventional RAM for the available block
+                          having the highest address.
+                          <span class="c2">─────────────────────────────────────── DOS 5.0+</span>
+ <span class="c2">0080h</span> FIRST_FIT_HIGH     Search UMB<a href="927-qmemumb.html">▲</a> memory for the available block that
+                          most closely matches the requested size.  If
+                          none, search conventional memory.
+ <span class="c2">0081h</span> BEST_FIT_HIGH      Search UMB memory for the available block that
+                          most closely matches the requested size.  If
+                          none, search conventional memory.
+ <span class="c2">0082h</span> LAST_FIT_HIGH      Search UMB memory for the available block having
+                          the highest address.  If none, search
+                          conventional memory.
+
+ <span class="c2">0040h</span> FIRST_FIT_HIGHONLY Search UMB memory for the available block having
+                          the lowest address.
+ <span class="c2">0041h</span> BEST_FIT_HIGHONLY  Search UMB memory for the available block that
+                          most closely matches the requested size.
+ <span class="c2">0042h</span> LAST_FIT_HIGHONLY  Search UMB memory for the available block having
+                          the highest address.
+
+Versions: ■ Unavailable before DOS <span class="c2">3.0</span>.  In <span class="c2">3.x-4.x</span>, only valid codes are
+            <span class="c2">0000h</span>, <span class="c2">0001h</span>, and <span class="c2">0002H</span>.  Other code valid only with DOS <span class="c2">5.0+</span>.
+
+   Notes: ■ Programs which change the allocation strategy should use fn
+            <a href="522-dos_fn_5800h__query_memory_allocation_strategy.html">5800H</a> and save the current setting and be sure to change it
+            back (via this fn) before terminating.
+
+          ■ If the upper memory link has not been set (see fn <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a>), then
+            all allocations will be in conventional<a href="924-qmemconv.html">▲</a> memory.
+
+          ■ When a program is loaded high via <span class="c2">loadhigh</span>, its code will be in
+            upper memory, but additional allocations will be made according
+            to the current allocation strategy (you must set it yourself).
+
+See Also: <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a>
+          <a href="13-memory_management_functions.html">Memory Control Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

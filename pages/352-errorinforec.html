@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>ErrorInfoRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>ErrorInfoRec</h1><pre>
+  This structure is used in calls to DOS fn <a href="532-dos_fn_5d0ah__set_extended_error.html">5d0aH</a> (set extended error).
+  Data passed in this structure will be returned to the next program which
+  uses fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> (get extended error info).
+
+<span class="c2">ErrorInfoRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wAX_ErrCode</span>  see <a href="347-dos_error_codes.html">DOS Error Codes</a>
+   +2      2  <span class="c1">wBX_ClassAct</span> error class and suggested action code
+   +4      2  <span class="c1">wCX_Locus</span>    an error location code
+   +6      2  <span class="c1">wDX</span>          <span class="c2">DX</span> register when the error occurred
+   +8      2  <span class="c1">wSI</span>          <span class="c2">SI</span> register when the error occurred
+  +0aH     2  <span class="c1">wDI</span>          <span class="c2">DI</span> register when the error occurred
+  +0cH     2  <span class="c1">wDS</span>          <span class="c2">DS</span> register when the error occurred
+  +0eH     2  <span class="c1">wES</span>          <span class="c2">ES</span> register when the error occurred
+  +10H     2  <span class="c1">wRes</span>         (reserved)
+  +12H     2  <span class="c1">wUID</span>         computer ID when err is remote; 0=local
+  +14H     2  <span class="c1">wPID</span>         program ID when err is remote; 0=local
+          22               size of this structure
+
+ <span class="c1">wAX_ErrCode</span>  ...and...
+<span class="c1">wBX_ClassAct</span>  ...and...
+   <span class="c1">wCX_Locus</span>  should contain DOS extended error information.
+              See <a href="347-dos_error_codes.html">DOS Error Codes</a> for a full listing.
+
+See Also: DOS fn <a href="532-dos_fn_5d0ah__set_extended_error.html">5d0aH</a> (set extended error info)
+          DOS fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> (get extended error info)
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DEVICEHIGH= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DEVICEHIGH= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 5.0+</span>
+ Purpose: Loads a <a href="298-installable_device_drivers.html">device driver</a> into upper<a href="927-qmemumb.html">▲</a> memory on 386-based and better
+          computers.
+
+    Uses: Use to maximize the amount of conventional<a href="924-qmemconv.html">▲</a> memory available for
+          application programs.
+
+          Use <a href="276-device___config_sys_command_.html">DEVICE=</a> to install drivers into conventional<a href="924-qmemconv.html">▲</a> memory.
+
+  Syntax: DEVICEHIGH=[<span class="c1">d:</span>][<span class="c1">path</span>]<span class="c1">filename.ext</span> [<span class="c1">drvrParms</span>]
+
+      or: DEVICEHIGH [/L:<span class="c1">loadOpts</span> [/S]]=[<span class="c1">d:</span>][<span class="c1">path</span>]<span class="c1">filename.ext</span> [<span class="c1">drvrParms</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+<span class="c1">d:\path\filename.ext</span> is the drive, path, filename and extension of the file
+          that contains the device driver program code.  If you omit the
+          drive and/or path, the file must be in the root of the boot disk.
+          The file usually has an extension of <span class="c1">.SYS</span>, <span class="c1">.BIN</span>, or <span class="c1">.EXE</span> and the
+          extension must be specified.
+
+<span class="c1">drvrParms</span> are switches and options needed by the device driver.  They vary
+          from driver to driver.
+
+<span class="c1">/L:loadOpts</span> specifies a UMB region and minimum size needs for the driver.
+          /L and /S are normally used only by the <span class="c2">Memmaker</span> command when it
+          optimizes memory use in your <a href="267-the_config_sys_file.html">CONFIG.SYS</a> file.
+
+          When /L is omitted, DOS loads the driver into the largest
+          available UMB<a href="927-qmemumb.html">▲</a> region and gives it access to that entire region.
+          If no UMB is large enough for the driver, it is loaded into
+          conventional RAM.
+
+          For hand-optimizing the /L settings, the actual syntax is:
+
+                /L:<span class="c1">rgn</span>[,<span class="c1">minSize</span>][;<span class="c1">rgn</span>[,<span class="c1">minSize</span>]...
+
+          <span class="c1">rgn</span> is a UMB region number (0 to <span class="c1">n</span>; 0 is conventional<a href="924-qmemconv.html">▲</a> memory and
+                <span class="c1">n</span> varies depending upon your memory configuration.  Use <span class="c2">Mem</span>
+                <span class="c2">/F</span> to obtain a list of free UMB regions on your system).
+
+          <span class="c1">minSize</span> specifies the amount of memory that the driver will need.
+                It is used for cases when the driver needs more memory than
+                is identified by the load module.
+
+          ;<span class="c1">rgn</span>[,<span class="c1">minSize</span>]... When a driver can make use of more than one
+                memory block, you can specify additional regions and sizes
+                on the command line.
+
+       <span class="c1">/S</span> may be used in conjunction with <span class="c1">/L</span>.  It is normally used only by
+                Memmaker, after it analyses the driver's use of memory.  It
+                causes DOS to shrink the specified UMB to a smaller size,
+                thereby minimizing driver memory use.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ When this is used, DOS has set the allocation strategy to
+    FIRST_FIT_HIGH as it loads the driver.  See DOS fn <a href="521-dos_fn_58h__set_or_query_memory_allocation_options.html">58H</a> for related
+    info.
+
+  ■ If your device driver allocates memory and you wish to direct where
+    that memory will be, use fns <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> and <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a>.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="276-device___config_sys_command_.html">DEVICE=</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

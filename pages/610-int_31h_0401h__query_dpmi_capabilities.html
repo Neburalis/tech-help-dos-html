@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0401H: Query DPMI Capabilities - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0401H: Query DPMI Capabilities</h1><pre>                                                    Compatibility: <span class="c2">DPMI 1.0+</span>
+ Expects: <span class="c2">AX</span>    0400H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (this fn always succeeds with <span class="c2">DPMI 1.0+</span>)
+          <span class="c2">AX</span>    capability flags (see below)
+          <span class="c2">ES:DI</span> (or ES:EDI) selector:offset of host version info
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains information about the capabilities supported by the
+          DPMI host.
+
+       <span class="c2">AX</span> contains bit flags:
+           1
+          ┌5┬ - ┬7┬6┬5┬4┬3┬2┬1┬0┐
+          │0 ... 0│0│<span class="c1">w</span>│<span class="c1">z</span>│<span class="c1">c</span>│<span class="c1">d</span>│<span class="c1">x</span>│<span class="c1">a</span>│
+          └─┴ - ┴─┴╥┴╥┴╥┴╥┴╥┴╥┴╥┘<span class="c1">bit</span>  <span class="c1">mask</span>
+                   ║ ║ ║ ║ ║ ║ ╚► 0: 0001H 1=page accessed/dirty supported
+                   ║ ║ ║ ║ ║ ╚══► 1: 0002H 1=excptn. restartability suprtd
+                   ║ ║ ║ ║ ╚════► 2: 0004H 1=conv. mem mapping supported
+                   ║ ║ ║ ╚══════► 2: 0008H 1=device mapping supported
+                   ║ ║ ╚════════► 2: 0010H 1=demand zero-fill supported
+                   ║ ╚══════════► 2: 0020H 1=write-protect client supported
+                   ╚════════════► 2: 0040H 1=write-protect host supported
+
+ <span class="c2">ES:(E)DI</span> on return, points to a 128-byte buffer containing information
+          about the DPMI host itself.  It is formatted as:
+
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      1  <span class="c1">bVerMaj</span>     host major version #
+             +1      1  <span class="c1">vVerMin</span>     host minor version #
+             +2      <span class="c1">n</span>  <span class="c1">szName</span>      ASCIIZ<a href="913-qasciiz.html">▲</a> host name
+            2+<span class="c1">n</span>      ?              filler to end of record
+                   128              size of this structure
+
+    Note: See <a href="573-int_2fh_1687h__get_real_to_protected_mode_switch_address.html">INT 2fH 1687H</a> and <a href="609-int_31h_0400h__query_dpmi_version.html">INT 31H 0400H</a> for related info.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

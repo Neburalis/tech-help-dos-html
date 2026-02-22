@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 4f00H - Query SuperVGA Support - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 4f00H - Query SuperVGA Support</h1><pre>
+ Expects: <span class="c2">AX</span>    4f00H
+          <span class="c2">ES:DI</span> Addr of buffer to receive an <a href="84-supervga_info_block.html">SvgaInfoRec</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    VESA status: <span class="c2">AH</span> = 0 means successful (else failed)
+                             <span class="c2">AL</span> = 4fH means function is supported
+          <span class="c2">ES:DI</span> buffer contains returned data (if successful)
+          ──────────────────────────────────────────────────────────────────
+    Info: This function is used to see if VESA support is present and to
+          learn which extended video modes it supports.
+
+          The buffer at <span class="c2">ES:DI</span> must be <span class="c1">at least 256 bytes long</span>; see
+          <a href="84-supervga_info_block.html">SvgaInfoRec</a> for a layout of the returned information.  This VESA
+          BIOS may place the list of supported modes into your buffer,
+          anywhere after offset 12H.
+
+See Also: <a href="69-supervga_display_adapters__svga_.html">SVGA</a>
+          <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

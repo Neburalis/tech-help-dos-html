@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4409H: IOCTL Is Drive Remote or SUBST - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4409H: IOCTL Is Drive Remote or SUBST</h1><pre>                                                         Compatibility: <span class="c2">3.1+</span>
+ Expects: <span class="c2">AX</span>    4409H
+          <span class="c2">BL</span>    drive number (0=default, 1=A, 2=B, etc.)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          <span class="c2">DX</span>    Bit 12 is 1: Drive is remote  (if no error)
+                Bit 12 is 0: Drive is local and DX=<a href="485-ioctldriveinforec.html">IoctlDriveInfoRec</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains information about a drive, including whether or not it is
+          remote (on the network).  For local drives, this returns
+          additional information including, which IOCTL fns it supports,
+          and whether the drive is a logical drive created by the <span class="c2">Subst</span>
+          command.
+
+          On return, <span class="c2">DX bit 12</span> (DX &amp; 1000H) is 1 if the drive is remote
+          (i.e., on a network server) and all other bits are 0.
+
+          See <a href="485-ioctldriveinforec.html">IoctlDriveInfoRec</a> for a layout of the flags returned in DX
+          when bit 12 is 0 (i.e., not a remote drive).
+
+   Notes: ■ This is the only way to see if a logical drive ID represents a
+            Subst drive.  It also lets you see if a local drive is shared
+            by others on the network.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="456-dos_fn_440ah__ioctl_is_file_device_remote.html">440AH</a> (Is File/Device Remote)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

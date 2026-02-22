@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwSrvc Fn 0001H: Test Memory Region - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwSrvc Fn 0001H: Test Memory Region</h1><pre>
+ Expects: <span class="c2">AX</span>    0001H
+          <span class="c2">ES:BX</span> address of first byte to test
+          <span class="c2">CX</span>    size, in bytes, of memory region to test
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    Carry Flag is clear (NC) is successful and...
+          <span class="c2">AX</span>    result code: 0000H = global memory
+                             0001H = global and local memory
+                             0002H = local memory
+          ──────────────────────────────────────────────────────────────────
+    Info: Use a FAR call to the switcher entry address (see <a href="711-int_2fh_4b02h__is_switcher_installed____get_service_addr.html">INT 2fH 4b02H</a>)
+          to learn whether a particular block of memory is global or local
+          to the current session.  Local memory areas are replaced whenever
+          a session switch occurs.
+
+          One use for this is to find out if your application or TSR
+          program code is stored in global memory (started before the task
+          switcher), or local memory (started in a task-switcher session).
+          Global TSRs are never swapped out.
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

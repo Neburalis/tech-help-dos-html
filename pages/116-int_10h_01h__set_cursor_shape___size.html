@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 01H: Set Cursor Shape &amp; Size - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 01H: Set Cursor Shape &amp; Size</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    01H
+          <span class="c2">CH</span>    start scan line of character matrix (0-1fH; 20H=no cursor)
+          <span class="c2">CL</span>    end scan line of character matrix (0-1fH)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets the size of the hardware (blinking) cursor and its
+          location within the character cell matrix.  Programs often use
+          this fn to indicate &quot;insert mode&quot; vs. &quot;overstrike mode&quot;.  You can
+          also use it to turn off the blinking cursor altogether.
+
+       <span class="c2">CH</span> selects the start of the cursor, in terms of the character cell
+          matrix.  For instance, if <span class="c2">CH</span>=0, the cursor will start at the top
+          of the cell matrix.
+
+       <span class="c2">CL</span> selects the end of the cursor, in terms of the character cell
+          matrix.  This setting usually depends on the height of the cell
+          matrix.
+
+          On EGA/VGA, you may check the word at <span class="c2">0040:0085</span> to see how many
+          scan lines per character are used in the current video mode.  On
+          VGA you may use <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">INT 10H 1bH</a> to obtain the size of the character
+          matrix.
+                                        CGA 25-line mode
+                                        EGA 43-line mode
+            VGA 25        EGA 25        VGA 50-line mode
+           ■■■■■■■■■  0  ■■■■■■■■■  0  ■■■■■■■■■  0
+           ■■■■■■■■■  1  ■■■■■■■■■  1  ■■■■■■■■■  1
+           ■■■■■■■■■  2  ■■■■■■■■■  2  ■■■■■■■■■  2 ┌─────────────────────┐
+           ■■■■■■■■■  3  ■■■■■■■■■  3  ■■■■■■■■■  3 │■ = cell point       │
+           ■■■■■■■■■  4  ■■■■■■■■■  4  ■■■■■■■■■  4 │<span class="c1">■</span> = descender area   │
+           ■■■■■■■■■  5  ■■■■■■■■■  5  ■■■■■■■■■  5 │<span class="c2">■</span> = gap between lines│
+           ■■■■■■■■■  6  ■■■■■■■■■  6  <span class="c1">■■■■■■■■■</span>  6 └─────────────────────┘
+           ■■■■■■■■■  7  ■■■■■■■■■  7  <span class="c2">■■■■■■■■■</span>  7
+           ■■■■■■■■■  8  ■■■■■■■■■  8             8
+           ■■■■■■■■■  9  ■■■■■■■■■  9             9
+           ■■■■■■■■■ 10  ■■■■■■■■■ 10            10
+           ■■■■■■■■■ 11  <span class="c1">■■■■■■■■■</span> 11            11
+           <span class="c1">■■■■■■■■■</span> 12  <span class="c2">■■■■■■■■■</span> 12            12
+           <span class="c1">■■■■■■■■■</span> 13  <span class="c2">■■■■■■■■■</span> 13            13
+           <span class="c2">■■■■■■■■■</span> 14            14            14
+           <span class="c2">■■■■■■■■■</span> 15            15            15
+
+          However, you can use <span class="c2">CL</span>=1fH to set the bottom of the cursor at
+          the bottom of the character cell
+
+   Notes: ■ One way to turn off the cursor is to set <span class="c2">CH</span> and <span class="c2">CL</span> both to 20H.
+            Another way its to position the hardware cursor below the
+            bottom of the screen (<a href="117-int_10h_02h__set_cursor_position.html">INT 10H 02H</a>).  When the blinking cursor
+            is hidden, you may wish to display your own, non-blinking
+            cursor (for instance, ASCII 219 (<span class="c2">█</span>) or 220 (<span class="c2">▄</span>).
+
+          ■ Older PC/CGA BIOSes supported odd cursor shapes, including
+            &quot;wrap-around&quot; cursors with a gap in the middle.  In many later
+            BIOSes, the start line should be less than the end line.
+
+          ■ The original &quot;standard&quot; cursor-handling technique is to thicken
+            the cursor when the keyboard is in &quot;insert mode&quot;.  Later, many
+            products stopped doing this; they leave the cursor the same
+            size, regardless of input mode or toggle the shape on a mode
+            change.
+
+            I, for one, prefer the reliable visual feedback of the original
+            standard.
+
+          ■ EGA/VGA systems can be set to &quot;emulate&quot; CGA cursor size.  When
+            emulation is in effect, the values of <span class="c2">CL</span> and <span class="c2">CH</span> are assumed to
+            be relative to a 8x8 character matrix and are scaled up,
+            according to the actual size of the character matrix.  See
+            <a href="174-int_10h_12h_bl_34h__cursor_emulation__scaling_.html">INT 10H 12H BL=34H</a> and the <a href="72-egamiscinforec.html">EgaMiscInfoRec</a>.
+
+See Also: <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="118-int_10h_03h__query_cursor_position_and_size.html">INT 10H 03H</a>  (query cursor position/shape)
+          <a href="174-int_10h_12h_bl_34h__cursor_emulation__scaling_.html">INT 10H 12H BL=34H</a>  (VGA: cursor emulation/scaling)
+          <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">INT 10H 1bH</a>  (VGA: Query functionality/state)
+                                    <span class="c3">-♦-</span></pre></body></html>

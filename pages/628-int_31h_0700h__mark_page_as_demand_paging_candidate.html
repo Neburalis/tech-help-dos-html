@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0700H: Mark Page as Demand-Paging Candidate - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0700H: Mark Page as Demand-Paging Candidate</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0700H
+          <span class="c2">BX:CX</span> starting linear address of pages to mark
+          <span class="c2">SI:DI</span> size, in bytes, of region to mark
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Notifies the DPMI host that a specified range of pages can be
+          placed at the head of the page-out candidate list.  The host will
+          swap them out the next time memory is needed, even if they have
+          been accessed recently.
+
+          This lets you optimize virtual memory access.  If you know that
+          some region will not be needed for a while (or may be regenerated
+          easily), let it be swapped out in preference to some other memory
+          that may soon be needed.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

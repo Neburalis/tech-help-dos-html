@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 1bH: Get Drive Info (current disk) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 1bH: Get Drive Info (current disk)</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    1bH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DS:BX</span> address of a <a href="370-media_descriptor.html">FAT ID byte</a> (might indicate disk type)
+          <span class="c2">DX</span>    total clusters (allocation units) on the disk
+          <span class="c2">AL</span>    sectors per cluster
+          <span class="c2">CX</span>    bytes per sector
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns information on the size and type of the default disk.
+
+          Disk size in bytes = (DX * AL * CX)
+
+          Find free space with DOS Fn <a href="427-dos_fn_36h__get_disk_free_space.html">36h</a> Disk Free or <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32h</a> Disk Info
+
+ <span class="c3">Warning:</span> Notice that this <span class="c3">changes the value of DS</span> segment register.
+
+Versions: DOS 1.x held the FAT in memory and returned DS:BX =&gt; FAT
+          <span class="c2">DOS 2.0+</span> may retain only a portion of the FAT in memory.
+
+See Also: Fns <a href="400-dos_fn_1ch__get_drive_info__any_disk_.html">1cH</a>  <a href="427-dos_fn_36h__get_disk_free_space.html">36H</a>  <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a>
+          <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

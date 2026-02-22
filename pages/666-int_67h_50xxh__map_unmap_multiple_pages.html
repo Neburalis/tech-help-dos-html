@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 50xxH: Map/Unmap Multiple Pages - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 50xxH: Map/Unmap Multiple Pages</h1><pre>                                                     Compatibility: <span class="c2">EMS 4.0+</span>
+ Expects: <span class="c2">AH</span>    50H
+          <span class="c2">AL</span>    subfn: 00H=Use page numbers
+                           <span class="c2">DS:SI</span>=list of LogicalPgNos/PhysicalPgNos
+                       01H=Use physical segment addresses
+                           <span class="c2">DS:SI</span>=list of LogicalPgNos/Segments
+          <span class="c2">CX</span>    count of pages to map
+          <span class="c2">DX</span>    EMM Handle (as obtained via <a href="655-int_67h_4300h__open_emm_handle_and_allocate_memory.html">INT 67H 4300H</a>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          ──────────────────────────────────────────────────────────────────
+    Info: This lets you map two or more pages of EMS into the EMS frame
+          (you may use <a href="656-int_67h_44xxh__map_memory_into_page_frame.html">INT 67H 44xxH</a> to map individual pages).
+
+   <span class="c2">AL=00H</span> This version identifies the pages to map by using physical page
+          numbers (for instance, 00H means the first 16K of the frame, 01H
+          means the second, etc.)
+
+   <span class="c2">AL=01H</span> This version identifies the pages to map by using segment
+          addresses (for instance, d000H means the first 16K of the frame,
+          d400H means the second, etc. -- assuming the EMS frame starts at
+          d000:0)
+
+    <span class="c2">DS:SI</span> points to a list that identifies which logical pages you want
+          mapped into the frame.  It is formatted as:
+
+          <span class="c2">EmsMapInfoRec</span>
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      2  <span class="c1">wLogPgNo</span>   0000H-<span class="c1">n</span> (pages in the handle)
+            +2      2  <span class="c1">wFrameLoc1</span> identifies where to put the EMS page:
+                                   subfn 00H: a frame page (usually 0-3)
+                                   subfn 01H: a segment address
+            +4      2  <span class="c1">wFrameLoc2</span> identifies where to put another EMS page
+             .
+             :
+            etc.
+
+   Notes: ■ As with <a href="656-int_67h_44xxh__map_memory_into_page_frame.html">INT 67H 44xxH</a>, you can <span class="c1">unmap</span> a page (making it
+            inaccessible until remapped) by specifying a <span class="c1">wLogPgNo</span> of ffffH.
+
+            To remap the page, use a valid <span class="c1">wLogPgNo</span> (e.g., a value in the
+            range of the size of the handle).
+
+          ■ When using subfn 5001H, the segment identified by <span class="c1">wFrameLoc</span>
+            must be a valid segment value that matches the start of a 16K
+            region within the EMS frame.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

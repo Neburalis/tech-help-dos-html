@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4B03H: Allocate Switcher ID - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4B03H: Allocate Switcher ID</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    4B03H  (<a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a>)
+          <span class="c2">BX</span>    0000H
+          <span class="c2">ES:DI</span> Service-function address of task switcher to allocate
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000H if successful (if a switcher ID is available
+          <span class="c2">BX</span>    switcher ID for caller (if successful)
+          ──────────────────────────────────────────────────────────────────
+    Info: Programs which wish to act as a task switcher (or session
+          manager) must obtain a switcher ID.  That ID will be in the range
+          0000h-000fH; it will used as the high four bits in the task IDs
+          it creates for tasks it handles.
+
+          The first task switcher loaded must intercept this fn and provide
+          this service (you know you're the first when <a href="711-int_2fh_4b02h__is_switcher_installed____get_service_addr.html">INT 2fH 4B02H</a>
+          returns AX=0000h).
+
+          This in NOT called by normal application programs--only by task
+          switchers.
+
+See Also: <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4BxxH: Task Switcher Functions</a>
+          <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

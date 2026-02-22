@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DPMI Error Codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DPMI Error Codes</h1><pre>
+ The DPMI specification (<a href="571-dpmi_services.html">DPMI API</a>) defines the following error/return
+ codes.  When a DPMI fn fails, it returns with the carry flag set and an
+ error code in AX.
+
+ If <span class="c2">bit 15 of AX is clear</span>, then AX contains an error code returned by a DOS
+ fn (see <a href="347-dos_error_codes.html">DOS Error Codes</a>).
+
+ If <span class="c2">bit 15 of AX is set</span>, then AX contains one of the following DPMI error
+ codes:
+
+ <span class="c2">0000H</span> DPMI_NO_ERR               (and CY clear) Fn was successful.
+
+ <span class="c2">8001H</span> DPMI_ERR_BAD_FN           Fn number is not supported by this host.
+
+ <span class="c2">8002H</span> DPMI_ERR_INVALID_STATE    Some object is in the wrong state for the
+                                 requested operation.
+
+ <span class="c2">8003H</span> DPMI_ERR_SYS_INTEGRITY    The operation would endanger system
+                                 integrity.
+
+ <span class="c2">8004H</span> DPMI_ERR_DEADLOCK         Host detected a deadlock situation.
+
+ <span class="c2">8005H</span> DPMI_ERR_REQ_CANCELLED    Pending serialization request was
+                                 cancelled.
+
+ <span class="c2">8010H</span> DPMI_ERR_RSRC_UNAVAIL     Host unable to allocate internal resources
+                                 to satisfy the request.
+
+ <span class="c2">8011H</span> DPMI_ERR_DESCRP_UNAVAIL   Unable to allocate a descriptor.
+
+ <span class="c2">8012H</span> DPMI_ERR_LINMEM_UNAVAIL   Unable to allocate linear memory
+
+ <span class="c2">8013H</span> DPMI_ERR_PHYSMEM_UNAVAIL  Unable to allocate physical memory
+
+ <span class="c2">8014H</span> DPMI_ERR_BACKING_UNAVAIL  Unable to allocate required backing store.
+
+ <span class="c2">8015H</span> DPMI_ERR_CALLBACK_UNAVAIL Unable to allocate callback address.
+
+ <span class="c2">8016H</span> DPMI_ERR_HANDLE_UNAVAIL   Unable to allocate handle.
+
+ <span class="c2">8017H</span> DPMI_ERR_LOCK_CNT         Locking operation exceeds the maximum
+                                 value maintained by the host.
+
+ <span class="c2">8018H</span> DPMI_ERR_RSRC_OWNED_EXCL  Request for serialized access denied
+                                 because the resource is owned exclusively
+                                 by another client.
+
+ <span class="c2">8019H</span> DPMI_ERR_RSRC_OWNED_SHRD  Request for serialized access denied
+                                 because the resource is already serialized
+                                 shared by another client.
+
+ <span class="c2">8021H</span> DPMI_ERR_INVALID_VALUE    A numeric or flag value was invalid.
+
+ <span class="c2">8022H</span> DPMI_ERR_INVALID_SELECTOR A selector was invalid.
+
+ <span class="c2">8023H</span> DPMI_ERR_INVALID_HANDLE   A handle was invalid.
+
+ <span class="c2">8024H</span> DPMI_ERR_INVALID_CALLBACK A callback parameter was invalid.
+
+ <span class="c2">8025H</span> DPMI_ERR_INVALID_LINADDR  A linear address (either supplied as a
+                                 parameter or implied by the request) was
+                                 invalid.
+
+ <span class="c2">8026H</span> DPMI_ERR_INVALID_REQUEST  The request is not supported by the
+                                 underlying hardware.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

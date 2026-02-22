@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Status Word - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Status Word</h1><pre>
+ A driver must fill the <span class="c1">rStatus</span> field of the <a href="324-device_request_header.html">DevRequestHdrRec</a> (offset 3)
+ before returning control to DOS.  This is a 16-bit field, containing an
+ 8-bit error code in the low byte and other information in the high byte.
+ It has the following layout:
+
+<span class="c2">DevStatusWord</span>
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║<span class="c1">e</span>│0 0 0 0 0│<span class="c1">b</span>│<span class="c1">d</span>║  <span class="c1">error_code</span>   ║
+╙╥┴─┴─┴─┴─┴─┴╥┴╥╨─┴─┴─┴─┴─┴─┴─┴─╜   <span class="c1">bit</span>   <span class="c1">mask</span>
+ ║           ║ ║ ╚═════════════╩═►  0-7: 00ffH <a href="326-device_driver_errors.html">Device Driver Error</a> code
+ ║           ║ ╚═════════════════►    8: 0100H Done (always set on exit)
+ ║           ╚═══════════════════►    9: 0200H Busy (on 06H,0AH,0fH only)
+ ║                                10-14:       reserved (must be 0)
+ ╚═══════════════════════════════►   15: 8000H error occurred
+
+  <span class="c1">bit 1-7</span> specify an 8-bit <a href="326-device_driver_errors.html">Device Driver Error</a> code, but only if <span class="c1">bit 15</span> is
+          set.  If <span class="c1">bit 15</span> is 0, then these bits are ignored.
+
+    <span class="c1">bit 8</span> should always be set to 1 upon exit from the driver.
+
+    <span class="c1">bit 9</span> The &quot;busy&quot; bit is set by device a request handler when it
+          determines that it can't satisfy a request because the physical
+          device is in use by a previous request.
+
+          It is also used to return miscellaneous information, such as
+          &quot;keyboard queue in not empty&quot; (<a href="307-device_request_06h__input_status.html">DvRq 06H</a>) or &quot;no writes pending&quot;
+          (<a href="311-device_request_0ah__output_status.html">DvRq 0aH</a>) or &quot;media is removable&quot; (<a href="316-device_request_0fh__removable_media.html">DvRq 0fH</a>).
+
+   <span class="c1">bit 15</span> indicates an error occurred processing the request.  When set,
+          the <span class="c1">bits 1-7</span> must contain an 8-bit <a href="326-device_driver_errors.html">Device Driver Error</a> code.
+
+ Upon normal, successful completion of a request, the driver must set the
+ &quot;done&quot; bit (<span class="c1">bit 8</span>), clear the busy bit (<span class="c1">bit 9</span>) and exit via a FAR RETurn.
+
+See Also: <a href="326-device_driver_errors.html">Device Driver Errors</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="300-device_requests.html">Device Requests</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

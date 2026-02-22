@@ -1,0 +1,13 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 18H: ROM-BASIC - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 18H: ROM-BASIC</h1><pre>
+ This vector (at 0:0060) has the entry point for the ROM-BASIC interpreter
+ which is found only on IBM-logoed computers.  Clones do not have BASIC in
+ ROM and must use a separate program, usually QBASIC or GWBASIC.
+
+ If ROM-BIOS could not get a disk to boot, it takes this vector.  This
+ makes it possible for a <a href="266-rom_scan.html">ROM-Scan</a> external ROM module to alter this vector
+ to point to itself, thus giving itself control if the disks fail or are
+ not present.
+
+See Also: <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

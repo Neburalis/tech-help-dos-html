@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 6602H: Activate Code Page - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 6602H: Activate Code Page</h1><pre>                                                         Compatibility: <span class="c2">3.3+</span>
+ Expects: <span class="c2">AX</span>    6602H
+          <span class="c2">BX</span>    <a href="340-code_page.html">code page</a> to activate
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Activates a specified global code page (character set).
+
+          Before a code page can be selected for a device, the device must
+          be prepared for code page switching, including:
+
+          ■ DEVICE= in CONFIG.SYS to install a code-page aware device
+            driver.
+
+          ■ The <span class="c2">Nlsfunc</span> DOS command must be memory resident.
+
+          ■ The <span class="c2">Mode CP Prep</span> command used to prepare the device (or a
+            series of IOCTL fn calls that prepare the driver).
+
+          The requested code page must be compatible with the country code
+          specified in COUNTRY= command in CONFIG.SYS.
+
+          DOS must be able to locate COUNTRY.SYS (a file that contains all
+          kinds of NLS info).  It will look in the root of the boot drive
+          and perhaps elsewhere.
+
+See Also: fn <a href="553-dos_fn_6601h__query_active_code_page.html">6601H</a> (query active code page)
+          <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

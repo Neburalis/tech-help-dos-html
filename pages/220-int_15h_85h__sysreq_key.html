@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 85H: SysReq Key - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 85H: SysReq Key</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    85H
+          <span class="c2">AL</span>    00H = key make (pressed down)
+                01H = key break (released)
+          <span class="c2">CF</span>    NC (0)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0085H
+          <span class="c2">CF</span>    NC (0) if no error; CY (1) if invalid value in AL on entry
+          ──────────────────────────────────────────────────────────────────
+    Info: Called by <a href="98-int_01h__single_step_interrupt.html">INT 01H</a> upon press and release of the SysReq key.
+
+          A multitasking operating system might intercept this fn in order
+          to monitor user-requests to switch tasks.
+
+          When unintercepted, the BIOS simply sets AH to 0 and clears CF.
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

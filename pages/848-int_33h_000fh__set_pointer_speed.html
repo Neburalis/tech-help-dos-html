@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 000fH: Set Pointer Speed - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 000fH: Set Pointer Speed</h1><pre>
+ Expects: <span class="c2">AX</span>    000fH
+          <span class="c2">CX</span>    desired horizontal mickeys per 8 pixels
+          <span class="c2">DX</span>    desired vertical mickeys per 8 pixels
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets the <span class="c1">base speed</span> at which the pointer moves around the
+          screen, compared to the distance actually moved by the mouse.
+
+          The mickey-to-pixel ratio is used to convert distance values,
+          such as <a href="844-int_33h_000bh__query_motion_distance.html">INT 33H 000bH</a> and values obtained in SI and DI by custom
+          event handlers (see <a href="845-int_33h_000ch__set_mouse_event_handler.html">INT 33H 000cH</a>), to pixels or character cells.
+
+          The pointer may actually move much farther/faster than the
+          <span class="c1">base speed</span> specified in this call.  When the mouse is moved
+          quickly, the mouse support automatically doubles the ratio
+          (moving the pointer exponentially more quickly).  See
+          <a href="850-int_33h_0013h__set_speed_doubling_threshold.html">INT 33H 0013H</a>.
+
+            1 mickey = 1/200th of an inch = 0.005 inch.
+
+          Note that the values for <span class="c2">CX</span> and <span class="c2">DX</span> are in character cells
+          (8-pixel units).  The <span class="c2">default settings are CX=8 and DX=16</span>.  This
+          means that the pointer moves twice as fast horizontally as it
+          does vertically.  It also means that a <span class="c1">slow, steady</span> 1-inch mouse
+          motion moves the pointer by 25 characters horizontally or 12
+          vertical lines.  The calculation goes as follows:
+
+
+            desiredCharsPerInch = 200 / CX
+              ...so...
+             CX = 200 / desiredCharsPerInch  (thus, CX=8 moves 25 chars)
+
+          For graphics mode (i.e., pixel measurements) use:
+
+            CX = 25 / desiredPixelsPerInch   (thus, CX=8 moves 200 pixels)
+
+   Notes: <a href="857-int_33h_001ah__set_mouse_sensitivity.html">INT 33H 001aH</a> is an updated version of this call and
+          <a href="858-int_33h_001bh__query_mouse_sensitivity.html">INT 33H 001bH</a> provides a way to query the current settings.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

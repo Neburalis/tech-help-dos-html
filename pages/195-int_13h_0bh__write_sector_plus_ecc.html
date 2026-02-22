@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 13H 0bH: Write Sector Plus ECC - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 13H 0bH: Write Sector Plus ECC</h1><pre>                                                                   [XT] [AT]
+ Expects: <span class="c2">AH</span>    0bH
+          <span class="c2">AL</span>    sector count (usually 1)
+          <span class="c2">CH</span>    track (cylinder) number (0-n) ◄═╗
+          <span class="c2">CL</span>    sector number (1-n) ◄═══════════╩══ (<span class="c1">see below</span>)
+          <span class="c2">DL</span>    drive: 80H-81H=hard disk 0-1
+          <span class="c2">DH</span>    head number
+          <span class="c2">ES:BX</span> caller's buffer address
+          ──────────────────────────────────────────────────────────────────
+ Returns: AH    <a href="205-bios_disk_error_codes.html">BIOS disk error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This works just like the standard Write (<a href="189-int_13h_03h__write_sectors.html">INT 13H 03H</a>), except
+          instead of allowing the controller to calculate the ECC<a href="918-qcrc.html">▲</a>, it uses
+          the four to seven bytes that follow the data at ES:BX.
+
+       <span class="c2">CX</span> Bits 6-7 of <span class="c2">CL</span> are the high two bits of the 10-bit value whose
+          low 8 bits are in <span class="c2">CH</span>.  See <a href="188-int_13h_02h__read_sectors.html">INT 13H 02H</a> for details.
+
+   Notes: ■ This is typically used only by diagnostic software.
+
+          ■ On a multiple-sector operation, this returns without finishing
+            the write when it encounters an error.
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

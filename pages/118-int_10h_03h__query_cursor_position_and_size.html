@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 03H: Query Cursor Position and Size - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 03H: Query Cursor Position and Size</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    03H
+          <span class="c2">BH</span>    video page number (0-based)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CH</span>    cursor starting scan-line
+          <span class="c2">CL</span>    cursor ending scan-line
+          <span class="c2">DH</span>    current row (0-based)
+          <span class="c2">DL</span>    current column (0-based)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the current cursor position and the size/shape of
+          the cursor for a specified video page.
+
+       <span class="c2">BH</span> specifies a video page (use 0 in most cases).  The BIOS maintains
+          the cursor position for each video page; they are saved starting
+          at <span class="c2">0040:0050</span>.  The cursor size is saved only for the current
+          video page, so you may need to maintain it separately if you are
+          using a page-switching technique.
+
+    <span class="c2">DH</span>,<span class="c2">DL</span> and <span class="c2">CH</span>,<span class="c2">CL</span> return containing cursor information.
+
+See Also: <a href="116-int_10h_01h__set_cursor_shape___size.html">INT 10H 01H</a> (set cursor size)
+          <a href="117-int_10h_02h__set_cursor_position.html">INT 10H 02H</a> (set cursor position)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SwNtfy Fn 0007H: Switcher Is Exiting - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SwNtfy Fn 0007H: Switcher Is Exiting</h1><pre>
+  Expect: <span class="c2">AX</span>    0007H
+          <span class="c2">BX</span>    flags: 0001H this is the only task switcher
+                       0000H other task switchers exist
+          <span class="c2">ES:DI</span> addr of switcher's service-entry address
+          ──────────────────────────────────────────────────────────────────
+  Return: <span class="c2">AX</span>    0000H (you must return 0 in all cases)
+          ──────────────────────────────────────────────────────────────────
+    Info: Task switchers call this to let you know when they are
+          terminating.  It gives you a chance perform any necessary cleanup
+          and disable any extra processing that you were doing to coexist
+          with the switcher.
+
+          When called, interrupts are enabled you may use all DOS fns.
+
+       <span class="c2">BX</span> bit 0 will be set (<span class="c2">BX</span>=0001H) is this is the only active task
+          switcher.  All other bits will be 0.
+
+    <span class="c2">ES:SI</span> will contain the task switcher's service entry address.  Use this
+          address if you need to call any task-switcher service fns.
+
+  Return: <span class="c2">AX</span>=0000H you must return 0.  Tasks have not veto power here.
+
+See Also: <a href="708-switcher_api.html">Switcher Services and Notifications</a>
+          <a href="707-int_2fh_4bxxh__task_switcher_functions.html">INT 2fH 4bxxH</a> (switcher functions)
+                                    <span class="c3">-♦-</span></pre></body></html>

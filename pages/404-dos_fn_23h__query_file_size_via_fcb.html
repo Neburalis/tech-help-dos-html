@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 23H: Query File Size via FCB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 23H: Query File Size via FCB</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    23H
+          <span class="c2">DS:DX</span> address of an <span class="c1">opened</span> <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0    if file was found
+                0ffH if file was not in current directory
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the <span class="c1">randomRec</span> field of the <a href="360-fcb__file_control_block.html">FCB</a> to indicate how many records
+          of <span class="c1">recSize</span> bytes are contained in the file.
+
+          Be sure to set <span class="c1">recSize</span> before calling.  If you set <span class="c1">recSize</span> to 1,
+          then RandomRec will hold a 4-byte value of file size in bytes.
+
+   Notes: ■ You may find it easier to determine the file size by using <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a>
+            Open Handle followed by <a href="441-dos_fn_42h__set_file_pointer.html">42H</a> Lseek Handle (with AL=2).
+
+          ■ A faster way is to use fn <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eH</a> (find file).
+
+          ■ The fastest way may be to read the directory.  See <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a>.
+
+See Also: <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

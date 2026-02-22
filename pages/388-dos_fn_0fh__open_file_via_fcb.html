@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 0fH: Open File via FCB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 0fH: Open File via FCB</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    0fH
+          <span class="c2">DS:DX</span> address of an unopened <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0     if file opened without error (and FCB is updated)
+                0ffH  if error occurred and file could not be opened
+          ──────────────────────────────────────────────────────────────────
+    Info: The file specified by the unopened FCB must already exist in the
+          default directory on the drive specified in the FCB (0=default,
+          1=A, 2=B, etc).  If not found, AL=0ffH upon return.
+
+          The file is opened in compatibility <a href="336-access_mode___open_mode.html">Access Mode</a>.
+
+          In the FCB, if the <span class="c1">bDrvID</span> field is 0 before the call, it is
+          filled with the drive number of the default disk (1=A, 2=B,
+          etc.).
+
+          The FCB <span class="c1">curBlk</span> field is set to 0.
+          The FCB <span class="c1">recSize</span> field is set to 80H.
+          The FCB file size and date are set from info in the directory
+
+   Notes: ■ As with all FCB functions, this works only for files in the
+            current directory.
+          ■ The handle-oriented functions are MUCH easier to use.
+
+See Also: DOS fn <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dh</a> (open file via handle)
+          <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

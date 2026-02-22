@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 13H 01H: Query Disk Error Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 13H 01H: Query Disk Error Status</h1><pre>
+ Expects: <span class="c2">AH</span>    01H
+          <span class="c2">DL</span>    drive: 00H thru 03H for diskette drives
+                       80H or 81H for hard disk controller
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="205-bios_disk_error_codes.html">BIOS disk error code</a> of most recent operation (0=no error)
+                (this error code is also at 0040:0041).
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the error/status code of the most recent disk I/O
+          operation.
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

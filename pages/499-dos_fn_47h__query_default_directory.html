@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 47H: Query Default Directory - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 47H: Query Default Directory</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    47H
+          <span class="c2">DL</span>    drive number (0=default, 1=A, etc.)
+          <span class="c2">DS:SI</span> address of a local buffer to hold a pathname (64 bytes)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: The buffer starting at DS:SI is filled with an ASCIIZ<a href="913-qasciiz.html">▲</a> pathname
+          of the current default directory for the drive specified by <span class="c2">DL</span>.
+
+          The pathname is returned in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">◄0►</span>
+
+          There is no leading drive letter or leading or trailing
+          backslash; for instance, if the current default directory is the
+          root, all you'll get is a null string (DS:[SI] = 0).
+
+          After calling this function, you can be certain that the media in
+          drive <span class="c2">DL</span> is known to the system.  Use this to ensure that the
+          device driver's <a href="338-bpb__bios_parameter_block.html">BPB</a> is correct before making a <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a> call.
+
+See Also: Fn <a href="397-dos_fn_19h__query_dos_default_disk.html">19H</a> (query default drive)
+          Fn <a href="434-dos_fn_3bh__set_dos_default_directory____chdir.html">3BH</a> (set default directory)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

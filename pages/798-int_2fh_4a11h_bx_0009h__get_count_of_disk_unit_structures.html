@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a11H BX=0009H: Get Count of DISK_UNIT Structures - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a11H BX=0009H: Get Count of DISK_UNIT Structures</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    4a11H (mux number)
+          <span class="c2">BX</span>    0009H (DoubleSpace fn code)
+          <span class="c2">DL</span>    any compressed drive number (0=A, 1=B, etc.)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (0000H=success)
+          <span class="c2">CL</span>    count of DISK_UNIT structures allocated by DBLSPACE.BIN
+          ──────────────────────────────────────────────────────────────────
+    Info: This determines how many compressed volumes can be mounted
+          simultaneously.
+
+          This is related to the value of the <span class="c1">MaxRemovableDrives</span> setting in
+          <a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a>.  This fn returns that number plus the number of
+          successful <span class="c1">ActivateDrive</span> lines in DBLSPACE.INI.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

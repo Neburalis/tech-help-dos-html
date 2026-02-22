@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>AbsDiskIORec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>AbsDiskIORec</h1><pre>
+ This structure is used in DOS interrupts <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a> and <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 26H</a> when reading
+ or writing on drives having more than 65535 sectors (usually 32M).  This
+ is used in <span class="c2">DOS 4.0+</span>.
+
+<span class="c2">AbsDiskIORec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      4  <span class="c1">lStartSect</span>   logical sector number to start read/write
+   +4      2  <span class="c1">wSectCnt</span>     number of sectors to read/write
+   +6      4  <span class="c1">pBuffer</span>      FAR addr of data buffer
+          10               Length of an AbsDiskIORec structure
+
+  <span class="c1">lStartSect</span>  is a logical sector number.  For instance, sector 0 is the
+              <a href="337-boot_sector_layout.html">Boot Sector</a>.  To convert a cluster<a href="915-qcluster.html">▲</a> number (as obtained from
+              the <a href="359-fat__dos_file_allocation_table.html">FAT</a> or a <a href="344-directory_entry_layout.html">Directory Entry</a>) into a logical sector number
+              use:
+
+                RootDirSectors = <span class="c1">wSecSize</span> / (<span class="c1">wRootEntries</span> * 32)
+                FatSectors     = <span class="c1">bFatCnt</span> * <span class="c1">wFatSects</span>
+                DataStart      = <span class="c1">wResSects</span> + FatSectors + RootDirSectors
+
+              where <span class="c1">wSecSize</span> et.al are obtained from the <a href="337-boot_sector_layout.html">BootSectorRec</a> or
+              other source.  An easier method is to use DOS fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> to obtain
+              a <a href="350-dpb__drive_parameter_block.html">Drive Parameter Block</a> (DPB) and use the <span class="c1">wFirstData</span> field as
+              an aid to the conversion.
+
+    <span class="c1">wSectCnt</span>  desired number of sectors to read/write.  On <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a> reads, be
+              sure that the buffer at <span class="c1">pBuffer</span> is large enough to hold the
+              data.  Sectors are usually 512 bytes, but you should always
+              use DOS fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> (or other fn) to check the sector size.
+
+              Presumably, you could transfer up to 65535 sectors (usually
+              32M) at one time, but conventional<a href="924-qmemconv.html">▲</a> memory constraints will
+              typically limit the transfer to about 1024 (400H) sectors at
+              once (512K).
+
+     <span class="c1">pBuffer</span>  is the FAR address of the buffer to receive the disk data
+              (<a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H</a>) or containing the data to write (<a href="565-int_25h_26h__absolute_disk_read_write.html">INT 26H</a>).
+
+See Also: <a href="337-boot_sector_layout.html">Boot Sector Layout</a>
+          <a href="345-disk_partition_table.html">Partition Table</a>
+          <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Popup Help! - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Popup Help!</h1><pre>
+  TECH Help! is very useful as a RAM-resident popup program, placing reams
+  of technical information at your fingertips as you work.  Once installed,
+  it can be activated from within your program editor, debugger, programming
+  environment, or at the DOS prompt.
+
+  ■ To make TECH Help! resident,      use <span class="c2">XVIEW /I</span> (or /IX,/IE,or /ID<span class="c1">d</span>)
+    To remove TECH Help! from memory, use <span class="c2">XVIEW /U</span>.
+    See <a href="972-xview_syntax.html">xView■Syntax</a> for details.
+
+  ■ Use Alt+H or Alt+L to popup Help! (<span class="c2">XVIEW /K=</span> sets the hotkeys)
+    • <span class="c1">Alt-H</span> pops up the most recently-viewed page of text
+    • <span class="c1">Alt-L</span> searches the Index page for the word at your cursor; e.g.,
+
+        <span class="c2">C:&gt;ASCII</span>▬  (now press <span class="c1">Alt+L</span> to pop up the ASCII Table)
+
+<span class="c2">█▌Features and Limitations▐█</span>
+  ■ TECH Help! is designed for use with a text-based program editor or
+    debugger.  It will not pop up when the screen is in graphics mode.
+
+  ■ xView performs the usual shenanigans to avoid the DOS reentrancy
+    problem.  Once inside of a DOS function, the popup request (hot key)
+    will be noticed but may not be acted upon immediately.  xView passes
+    control of all intercepted interrupt vectors to their original owners
+    and works with all popular popup programs; however, it is possible
+    that some programs will disable the ability to popup xView or that
+    some other conflict will arise.
+
+  ■ The /IX, /IE, and /ID TSR-installation options are more likely to cause
+    conflicts than the /I (or /IC) option.
+
+  ■ If the Alt+H or Alt+L hot keys interfere with a keystroke of another
+    application, you may select a different scan code for either or both
+    of them.  For programs such as QBASIC, which react immediately at
+    the press of the [Alt] key, it is possible to select a Ctrl-shifted
+    key or a seldom-used function key, such as F12.  See <a href="973-xview_examples.html">xView■Examples</a>.
+
+  ■ When XVIEW starts, it locates one or more hypertext databases and
+    text files.  The first such file it finds becomes the active manual
+    (the <span class="c1">/M</span> option and the &quot;Startup with this file&quot; option from the
+    <a href="1008-configure_options_menu.html">Configure/Options menu</a> can override this behavior.
+
+ XVIEW reads information from the file header.  Thereafter, it must hit
+ the data file for each topic page as you select it.  In popup mode, the
+ file is closed upon exit from the popup and re-opened whenever XVIEW
+ is activated.  Thus, it is important that the data file remain in its
+ original drive and directory.
+────────────────────────────────────────────────────────────────────────────
+ <a href="970-installing_tech_help_.html">Installing &amp; Configuring Help!</a>   <a href="972-xview_syntax.html">xView■Syntax</a>                    <a href="2-main_menu.html">Main Menu</a></pre></body></html>

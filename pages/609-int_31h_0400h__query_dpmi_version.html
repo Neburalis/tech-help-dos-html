@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0400H: Query DPMI Version - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0400H: Query DPMI Version</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0400H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (this fn always succeeds)
+          <span class="c2">AH</span>    DPMI major version
+          <span class="c2">AL</span>    DPMI minor version; e.g AX=030aH means version 3.10
+          <span class="c2">BX</span>    info flags (see below)
+          <span class="c2">CL</span>    processor type:  02H = 80286
+                                 03H = 80386
+                                 04H = 80486
+                                 05H = Pentium
+                                 &gt;5  = reserved for future Intel CPUs
+          <span class="c2">DH</span>    current value of virtual master PIC base interrupt
+          <span class="c2">DL</span>    current value of virtual slave PIC base interrupt
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the DPMI version number supported by the DPMI host
+          and some other info.
+
+       <span class="c2">BX</span> contains some relevant bit flags:
+           1 1
+          ┌5┬4┬ - ┬3┬2┬1┬0┐
+          │0 0...0 0│<span class="c1">v</span>│<span class="c1">r</span>│<span class="c1">b</span>│
+          └─┴─ - ─┴─┴╥┴╥┴╥┘ <span class="c1">bit</span>  <span class="c1">mask</span>
+                     ║ ║ ╚►  0: 0001H 1=host is 32-bit implementation
+                     ║ ║              0=host is 16-bit
+                     ║ ╚══►  1: 0002H 1=returns to real mode for ints
+                     ║                0=returns to Virtual 86 mode for ints
+                     ╚════►  2: 0004H 1=virtual memory supported; 0=not
+
+    Note: ■ See <a href="573-int_2fh_1687h__get_real_to_protected_mode_switch_address.html">INT 2fH 1687H</a> and <a href="610-int_31h_0401h__query_dpmi_capabilities.html">INT 31H 0401H</a> for related info.
+
+          ■ Use <a href="646-int_31h_0e00h__query_coprocessor_status.html">INT 31H 0e00H</a> to check for the presence and status of a
+            numeric coprocessor.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

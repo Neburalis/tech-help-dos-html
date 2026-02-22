@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a11H BX=000aH: Set Automount Drives - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a11H BX=000aH: Set Automount Drives</h1><pre>                                                         Compatibility: <span class="c2">6.2+</span>
+ Expects: <span class="c2">AX</span>    4a11H (mux number)
+          <span class="c2">BX</span>    000aH (DoubleSpace fn code)
+          <span class="c2">CX:DX</span> bitmap of drives to enable/disable for automount (see below)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (0000H=success)
+          <span class="c2">CX:DX</span> bitmap indicating previous automount settings
+          ──────────────────────────────────────────────────────────────────
+    Info: This service is new for <span class="c2">DOS 6.2</span>.
+
+          This lets you enable and disable automounting for some or all
+          removable-media drives.  In conjunction with <a href="800-int_2fh_4a11h_bx_000bh__query_automount_drives.html">INT 2fH 4a11H 000bH</a>,
+          you can use it to see if automounting is possible.
+
+    <span class="c2">CX:DX</span> Is treated as a 32-bit bitmap, with the lowest 26 bits each
+          representing one drive.  Bit 0 of <span class="c2">DX</span> represents drive A, bit 1 is
+          drive B...bit 15 is drive P.  Bit 0 of <span class="c2">CX</span> represents drive Q,
+          etc.
+
+          A bit-value of <span class="c2">1</span> specifies to enable the drive for automounting.
+
+          <span class="c1">On Entry</span>:  CX:DX specifies which drives you want to enable and
+          disable for automounting.
+
+          <span class="c1">On Return</span>: CX:DX contains the previous settings.
+
+   Notes: ■ If all automounting is disabled (<span class="c2">Automount=0</span> in <a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a>),
+            then this call will have no effect.
+
+          ■ You can see if automounting is possible by using this fn to
+            try to enable a drive, then using <a href="800-int_2fh_4a11h_bx_000bh__query_automount_drives.html">INT 2fH 4a11H 000bH</a> (query
+            automount drives) to see if the change was recorded.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

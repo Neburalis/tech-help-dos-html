@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0009H: Set Graphics Pointer Shape - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0009H: Set Graphics Pointer Shape</h1><pre>
+ Expects: <span class="c2">AX</span>    0009H
+          <span class="c2">BX</span>    pointer hot spot (horizontal)
+          <span class="c2">CX</span>    pointer hot spot (vertical)
+          <span class="c2">ES:DX</span> address of pointer shape bit field (64 byte data area)
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This defines the appearance of the mouse pointer when functioning
+          on a graphics-mode screen and it selects which part of that
+          pointer will identify the specific pixel at which the mouse is
+          pointed.  The default graphics cursor is a left-leaning, upward-
+          pointing arrow with the hot spot at 0,0 (in the top left corner).
+
+          To modify the pointer for text-mode screens, see <a href="843-int_33h_000ah__set_text_pointer_mask.html">INT 33H 000aH</a>.
+
+          The data at <span class="c2">ES:BX</span> is 64 bytes long; two sets of 32.  Each set of
+          32 bytes is organized as 16x16 bits; i.e., 16 rows of 2-byte
+          values.
+
+          <span class="c2">The first set</span> of 32 bytes defines the &quot;AND mask&quot;; that is, the
+          background will show through wherever there is a 1-bit in that
+          data.
+
+          <span class="c2">The second set</span> defines the &quot;XOR mask&quot;; that is, after the &quot;AND
+          mask&quot; has cleared out some of the background, the pixels matching
+          the 1-bits in this data set are toggled.
+
+          The BX and CX values specify the &quot;hot spot&quot; for instance, if BX=0
+          and CX=0, then a button click it taken to mean a selection of the
+          pixel in the top left corner of the pointer rectangle.  If BX=15
+          and CX=15, a click will select the pixel at the bottom/right
+          corner of the pointer.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

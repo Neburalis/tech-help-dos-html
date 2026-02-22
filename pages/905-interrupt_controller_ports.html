@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Interrupt Controller Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Interrupt Controller Ports</h1><pre>
+  Ports <span class="c2">20H-21H</span> are decoded by the PC's 8259A Interrupt Controller chip.
+  This controller is initialized by the BIOS and there is rarely any need to
+  perform I/O to these ports in application programs.
+
+  The only common exception is seen when a program intercepts an IRQ
+  interrupt (INT 08H-0fH) and does not pass control on to the normal INT
+  handler.  For instance, when a TSR traps a keystroke via <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a>, you may
+  need to send an &quot;End-of-Interrupt&quot; to the 8259.  In most cases, it is wise
+  to simply pass control down the line to the original interrupt handler and
+  let it handle such housekeeping chores.
+
+  In the following, the <span class="c2">ICW</span>s are Initialization Control Words.  These are
+  output in a particular order during system startup by the BIOS.  The <span class="c2">OCW</span>s
+  are Operation Control Words which may be output by <a href="96-irqs__hardware_interrupts.html">IRQ</a> handlers.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 20H  <span class="c2">ICW1</span>  First control word initialization sequence
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║0 0 0│1│ │ │ │ ║
+      ╙─┴─┴─┴╥┴╥┴╥┴╥┴╥╜ bits mask
+             ║ ║ ║ ║ ╚═►  0:  01H (IC4) 1=init sequences will include ICW4
+             ║ ║ ║ ╚═══►  1:  02H (SNGL) 0=cascaded ctrlrs; 1=single ctrlr
+             ║ ║ ╚═════►  2:  04H (ADI) not used; set to 0 on PC
+             ║ ╚═══════►  3:  08H (LTIM) 0=edge-triggered; 1=level-triggered
+             ╚═════════►  4:  10H must be 1 (indicates this is ICW1)
+
+ 21H  <span class="c2">ICW2</span> Second control word in initialization sequence
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║         │0 0 0║
+      ╙─┴─┴─┴─┴─┴─┴─┴─╜ bits mask
+       └───╥───┘
+           ╚══════════► 3-7: f8H  high-order bits of interrupt table addr
+
+ 21H  <span class="c2">ICW3</span> Third control word in initialization sequence; not actually
+           used since bit 4 is set in ICW1.
+
+ 21H  <span class="c2">ICW4</span>  Fourth control word initialization sequence (actually 3rd in PC)
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║0 0 0│1│ │ │ │ ║
+      ╙─┴─┴─┴╥┴╥┴╥┴╥┴╥╜ bits mask
+             ║ ║ ║ ║ ╚═►  0:  01H (uPM)  1=PC/8088 mode
+             ║ ║ ║ ╚═══►  1:  02H (AEIO) 1=automatic EOI
+             ║ ║ ║                        0=must send EOI at end of int
+             ║ ║ ╚═════►  2:  04H (M/S)  0=master mode; 1=slave/cascade mode
+             ║ ╚═══════►  3:  08H (BUF)  1=this is a buffered bus
+             ╚═════════►  4:  10H (SFNM) 1=ctrlrs are nested in this system
+──── ───────────────────────────────────────────────────────────────────────
+ 21H  <span class="c2">OCW1</span>  Read/Write: Get/Set Interrupt Mask
+            Each bit corresponds to an IRQ; a 1-enables that IRQ and a
+            0 masks it.
+
+ 20H  <span class="c2">OCW2</span>  Write: Change IRQ priority; set EOI mode
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ <span class="c1">cmd</span> │0 0│<span class="c1">level</span>║
+      ╙─┴─┴─┴─┴─┴─┴─┴─╜ bits mask
+       └─╥─┘     ╚═══╩═►  0:  07H specifies level (0-7) to be acted upon
+         ║                        by command in bits 5-7
+         ╚═════════════►  4:  e0H one of the commands:
+                                  000 = rotate in automatic EOI (clear)
+                                  001 = non-specific End Of Interrupt
+                                  010 = no operation
+                                  011 = specific End Of Interrupt
+                                  100 = rotate in automatic EOI (set)
+                                  101 = rotate on non-specific EOI
+                                  110 = set priority
+                                  111 = rotate on specific EOI command
+      Note: The command most commonly sent is 20H to port 20H (that is, the
+            non-specific End of Interrupt command).  You would use this
+            after assuming control of an IRQ such as <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a> (kybd int).
+
+ 20H  <span class="c2">OCW3</span>  Write: Select Status Read Mode
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║0│   │0 1│ │<span class="c1">rmd</span>║
+      ╙─┴─┴─┴─┴─┴╥┴─┴─╜ bits mask
+         └╥┘     ║  ╚═╩═►0-1:  03H selects register read mode:
+          ║      ║                 00=nop; 01=nop
+          ║      ║                 10=read IR register on next read cmd
+          ║      ║                 11=read IS register on next read cmd
+          ║      ╚══════►  2:  04H 1=poll command; 0=no poll command
+          ╚═════════════►5-6:  60H special mask mode:
+                                   00=nop; 01=nop
+                                   10=reset special mask
+                                   11=set special mask
+
+ 20H or
+ 21H Read: A read of either of these ports returns the status of the
+           controller.
+
+See Also: <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

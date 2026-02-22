@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Diskette Parameter Table - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Diskette Parameter Table</h1><pre>
+ A series of these 11-byte structures can be found at the vector address of
+ <a href="256-int_1eh__diskette_parameter_pointer.html">INT 1eH</a> (the 4-byte address found at 0:0078).  The list is also known as
+ the &quot;Disk Base Table.&quot;
+
+ It specifies a variety of critical variables for <span class="c2">diskette drives only</span>.
+ The table is set to default values by the ROM-BIOS and may be modified by
+ DOS to improve diskette performance or increase battery life on a laptop.
+
+<span class="c2">DisketteParmRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">rSrtHdUnld</span>   bits 0-3: SRT step rate time
+                           bits 4-7: head unload time
+   +1      1  <span class="c1">rDmaHdLd</span>     bit    0: 1=use DMA
+                           bits 2-7: head load time
+   +2      1  <span class="c1">bMotorOff</span>    55-ms increments before turning disk motor off
+   +3      1  <span class="c1">bSectSize</span>    sector size (0=128, 1=256, 2=512, 3=1024)
+   +4      1  <span class="c1">bLastTrack</span>   EOT (last sector on a track)
+   +5      1  <span class="c1">bGapLen</span>      gap length for read/write operations
+   +6      1  <span class="c1">bDTL</span>         DTL (Data Transfer Length) max transfer when
+                           length not set
+   +7      1  <span class="c1">bGapFmt</span>      gap length for format operation
+   +8      1  <span class="c1">bFillChar</span>    fill character for format (normally 0f6H '÷')
+   +9      1  <span class="c1">bHdSettle</span>    head-settle time (in milliseconds)
+  +0aH     1  <span class="c1">bMotorOn</span>     motor-startup time (in 1/8th-second intervals)
+          11               length of DisketteParmRec
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">Int 13H</a> (disk I/O
+          <a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

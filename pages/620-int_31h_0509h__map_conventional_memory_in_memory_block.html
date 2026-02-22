@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0509H: Map Conventional Memory in Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0509H: Map Conventional Memory in Memory Block</h1><pre>                                         Compatibility: <span class="c2">DPMI [optional] 1.0+</span>
+ Expects: <span class="c2">AX</span>    0508H
+          <span class="c2">ESI</span>   memory block handle (as obtained via <a href="615-int_31h_0504h__allocate_linear_memory_block.html">INT 31H 0504H</a>)
+          <span class="c2">EBX</span>   base offset of page(s) to map
+          <span class="c2">ECX</span>   number of pages
+          <span class="c2">EDX</span>   physical address of conventional memory (page-aligned)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: This aliases linear addresses below the 1 MB boundary into the
+          linear addresses of a block allocated via <a href="615-int_31h_0504h__allocate_linear_memory_block.html">INT 31H 0504H</a>.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

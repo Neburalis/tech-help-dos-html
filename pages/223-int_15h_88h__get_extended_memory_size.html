@@ -1,0 +1,12 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 88H: Get Extended Memory Size - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 88H: Get Extended Memory Size</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    88H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    amount of contiguous memory above 1MB, in 1K blocks.
+          ──────────────────────────────────────────────────────────────────
+    Info: This returns the total amount of memory above 1MB.  It is the
+          same number as found in <a href="60-cmos_storage_layout.html">CMOS Memory</a> addresses 17H-18H.
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

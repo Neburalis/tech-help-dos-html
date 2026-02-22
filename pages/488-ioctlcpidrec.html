@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IoctlCpIdRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IoctlCpIdRec</h1><pre>
+ This structure is used in the following IOCTL fns:
+    <a href="460-dos_fn_440ch_cl_4ah__ioctl_select_code_page.html">440cH 4aH</a> (select code page)
+    <a href="465-dos_fn_440ch_cl_6ah__ioctl_query_current_code_page.html">440cH 6aH</a> (query current code page)
+    <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>  (generic IOCTL for character devices)
+
+<span class="c2">IoctlCpIdRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0     2  <span class="c1">wLength</span>      length of the rest of this structure (0002)
+    +2     2  <span class="c1">wCpId</span>        the <a href="340-code_page.html">code page</a> number
+           4               length of an IoctlCpIdRec structure
+
+See Also: fn <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (Generic IOCTL for character devices)
+          <a href="15-national_language_support_functions.html">National Language Support</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

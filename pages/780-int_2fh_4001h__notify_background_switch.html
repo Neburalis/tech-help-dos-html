@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4001H: Notify Background Switch - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4001H: Notify Background Switch</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    4001H
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: VM-aware applications can intercept this fn.  The VDD calls it
+          when it is switching the application into the background.
+
+          After being switched into the background, the application
+          continues running, but will be frozen if it attempts to access
+          video memory (and the screen is in a mode in which background
+          access is not supported by the VDD--see <a href="779-int_2fh_4000h__enable_vm_assisted_video_save_restore.html">INT 2fH 4000H</a>).
+
+See Also: <a href="778-int_2fh_40xxh__virtual_display_driver_functions.html">INT 2fH 40xxH: Virtual Display Driver Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

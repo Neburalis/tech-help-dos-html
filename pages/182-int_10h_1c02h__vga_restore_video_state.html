@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1c02H: VGA Restore Video State - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1c02H: VGA Restore Video State</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1c02H
+          <span class="c2">CX</span>    type(s) of video-state info to restore (see below)
+          <span class="c2">ES:BX</span> address of buffer containing video-state info
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    1cH (if this fn is supported)
+          ──────────────────────────────────────────────────────────────────
+    Info: This restores the VGA video system to its state at the time when
+          it was saved via <a href="181-int_10h_1c01h__vga_save_video_state.html">INT 10H 1c01H</a>.
+
+       <span class="c2">CX</span> is a set of bit-flags indicating what types of video-state
+          information you need to restore:
+           1 1
+          ╓5┬4┬  ┬7┬6┬5┬4┬3┬2┬1┬0╖
+          ║0 0•••│0 0 0 0 0│<span class="c1">c</span>│<span class="c1">d</span>│<span class="c1">h</span>║
+          ╙─┴─┴  ┴─┴─┴─┴─┴─┴╥┴╥┴╥╜ bit mask
+                            ║ ║ ╚═► 0: 01H  video hardware state info
+                            ║ ╚═══► 1: 02H  video BIOS data area info
+                            ╚═════► 2: 04H  DAC state and color registers
+
+    <span class="c2">ES:BX</span> Be sure that the data at this address contains valid information
+          as saved via <a href="181-int_10h_1c01h__vga_save_video_state.html">INT 10H 1c01H</a> (with <span class="c2">CX</span> having the same value!).
+
+          The layout of the video-state information is not documented.
+
+   Notes: This is very handy for task-switching software such as the DOS
+          Shell and can be useful in systems that switch in-and-out of
+          graphics modes.
+
+See Also: <a href="179-int_10h_1ch__vga_state_save_restore_functions.html">INT 10H 1cH</a> (VGA Save/Restore Functions)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>PC Sounds / Speaker Support - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>PC Sounds / Speaker Support</h1><pre>
+  PC compatibles have a built-in capability to make sounds and music via the
+  small speaker attached to the system board.  This feature is very limited,
+  but creative programmers have performed miracles in the past, producing
+  beeps and squawks for games and even producing recognizable speech.
+
+<span class="c2">█▌BIOS Support▐█</span>
+  The only BIOS-supported sound can be produced via <a href="129-int_10h_0eh__write_character_as_tty.html">INT 10H 0eH</a> (Write
+  Character as TTY), passing <span class="c2">AL</span>=07H, to output a standard beep.
+
+<span class="c2">█▌Hardware Control▐█</span>
+  The speaker is connected to PPI port B, port 61H (see <a href="906-programmable_peripheral_interface__ppi__ports.html">PPI Ports</a>).  Set
+  <span class="c1">bit 1</span> to pulse the speaker out and clear bit 1 it to bring the speaker
+  back to normal.  For instance,
+
+         in    al,61H     ;get current value
+
+  again: or    al,02H     ;set bit 2 to pulse it out
+         out   61H, al
+
+         mov   cx,1000H
+  delay: loop  delay      ;wait a little while
+
+         and   al,0fdH    ;clear bit 2 to pulse it back in
+         out   61H, al
+         jmp   again
+
+  By pulsing it in and out at a given frequency, a specific tone is
+  produced.  The above example produces various tones, depending upon
+  the speed of the CPU.
+
+  For better control, you can use the PC internal timer to pulse it of and
+  on at a given frequency.  Timer channel 2 can be gated directly to the
+  speaker.  To make a specific tone:
+
+   1) Program timer channel 2 to output a square-wave pulse at the desired
+      frequency by writing <span class="c2">b6H</span> to port <span class="c2">43H</span>.  Then output a <span class="c1">divisor word</span> to
+      port <span class="c2">42H</span> (do that by writing first the low then the high byte -- see
+      <a href="904-timer_ports.html">Timer Ports</a>).
+
+      The <span class="c1">divisor word</span> is a 16-bit value which, when divided into the
+      timer's frequency (1.19318 MHz), selects the desired output
+      frequency.  For instance, middle C has a frequency of about 261 Hz.
+      To obtain that output, use a divisor of 4560 (1,193,180/261 = 4560).
+
+   2) Enable the speaker by setting <span class="c1">bit 1</span> of I/O port <span class="c2">61H</span>.
+
+   3) Gate the channel-2 timer output into the speaker by setting <span class="c1">bit 0</span> of
+      I/O port <span class="c2">61H</span>.
+
+   4) After a while (say, half of a second), disable the speaker by
+      clearing <span class="c1">bits 0-1</span> of I/O port <span class="c2">61H</span>.
+
+  Step 4, above, determines the duration of the tone.  The standard way to
+  set the duration is by watching the tick count at 0040:006c in the
+  <a href="93-rom_bios_variables.html">BIOS Data Area</a> and counting the number of 55ms-interval that occur.  The
+  timer-tick interrupt occurs 18.2 times per second, so (for instance) 9
+  timer ticks occur in about 1/2 of a second.
+
+  On ATs, a more accurate duration can be obtained by using the BIOS timer
+  support.  See <a href="221-int_15h_86h__wait.html">INT 15H 86H</a> and <a href="217-int_15h_8300h__set_event_wait_interval.html">INT 15H 8300H</a>.  Another way to improve
+  accuracy has been used in the past by the orginal PC's BASIC:  It sped up
+  the standard timer tick by a factor of four whenever music was being
+  played.
+
+<span class="c2">█▌Example▐█</span>
+  For instance...
+
+         mov   al,  0b6H
+         out   43H, al
+         mov   al,  0d0H   ;low-byte of divisor (11d0H = 4560 = middle C)
+         out   42H, al
+         mov   al,  11H    ;high-byte of divisor word
+         out   42H, al
+
+         in    al,  61H    ;get current value of PPI
+         or    al,  03H    ;send timer output to speaker and enable speaker
+         out   61H, al
+
+         mov   cx,  0007H  ;high-word for AT INT 15H (wait) service
+         mov   dx,  0a120H ;low-word  (0007a120H = 500,000ms = 1/2-second)
+         mov   ah,  86H
+         int   15H         ;see <a href="221-int_15h_86h__wait.html">INT 15H 86H</a> (wait)
+
+         in    al,  61H    ;get current value of PPI
+         and   al,  0fcH   ;clear bits 0 and 1
+         out   61H, al     ;turn off the speaker
+
+ ...plays middle C for one half of a second.
+
+See Also: <a href="904-timer_ports.html">Timer Ports</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

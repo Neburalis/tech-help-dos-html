@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 101bH: Convert DAC Colors to Gray-Scale Values - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 101bH: Convert DAC Colors to Gray-Scale Values</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    101bH
+          <span class="c2">BX</span>    first color register to convert
+          <span class="c2">CX</span>    number of color registers to convert
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This converts (sums) a range of DAC color values into gray-scale
+          values.
+
+          The R,G,B of each of the specified registers is weighed according
+          to a BIOS internal system and replaced with values that are
+          displayed as shades of gray.
+
+   Notes: ■ In performing the conversion, the BIOS uses:
+              30% of the Red value
+              59% of the Green value
+              11% of the Blue value
+
+          ■ The BIOS performs gray-scale summing by default when it detects
+            a monochrome display.  That data may be found in the <span class="c1">rMiscFlags</span>
+            field of the <a href="82-vga_dynamic_state_table.html">VgaDynamicStateRec</a>.
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

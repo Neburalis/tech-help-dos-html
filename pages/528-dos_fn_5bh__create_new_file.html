@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5bH: Create New File - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5bH: Create New File</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AH</span>    5bH
+          <span class="c2">DS:DX</span> address of an ASCIIZ<a href="913-qasciiz.html">▲</a> string of a filespec
+          <span class="c2">CX</span>    <a href="361-file_attribute.html">file attribute</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+                <a href="362-file_handle.html">file handle</a> (if no error)
+          ──────────────────────────────────────────────────────────────────
+    Info: This call is identical to DOS Fn <a href="435-dos_fn_3ch__create_a_file_via_handle.html">3cH</a> (create file), except that
+          it will fail if the file already exits on the named drive and
+          directory.
+
+          <span class="c2">DS:DX</span> points to an ASCIIZ string in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">0</span>
+          If the drive or path is omitted, defaults are assumed.
+
+          The file is opened for read/write in compatibility <a href="336-access_mode___open_mode.html">Access Mode</a>.
+
+          Fn <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a> has a options which include this capability.
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

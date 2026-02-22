@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Enhanced Graphics Adapter I/O Ports - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Enhanced Graphics Adapter I/O Ports</h1><pre>
+ The Enhanced Graphics Adapter is upwardly-compatible with the CGA when
+ accessed through the BIOS.  The <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> is far more complex at the hardware
+ level, but it does include emulation of many CGA registers/operations
+ (see <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>).  This topic covers the EGA changes and extensions to
+ CGA I/O usage.
+
+ Perhaps the most significant change for an applications programmer is that
+ you don't need to check for retrace when writing to the screen.  The EGA
+ will not allow &quot;video snow&quot; in any case.
+
+   ■ EGA #1 decodes ports <span class="c2">3c0H</span> through 3dfH
+   ■ EGA #2 decodes ports <span class="c2">2c0H</span> through 2dfH
+
+ The EGA can generate interrupt level 2 (<a href="96-irqs__hardware_interrupts.html">IRQ</a> 2) during the overscan at the
+ start of the vertical retrace.  IRQ 2 is vectored to <a href="107-int_0ah__irq_2_cascade___invalid_task_state.html">INT 0aH</a>.  If you use
+ this interrupt, be aware that the <span class="c2">AT</span> uses IRQ 2 as a cascade request for a
+ whole class of IRQs (IRQ 8-15) so the interrupt is handled at the <span class="c2">INT 71H</span>
+ vector.
+
+    Note: BIOS stores mirrors of the current CRTC port values and other EGA
+          information in <a href="71-ega_vga_data_areas.html">EGA Data Areas</a>.  To change values, you should read
+          the appropriate variable, set the bit, perform the OUT, and store
+          the new value in the variable.
+
+Port  Description
+▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+3c0H  Write: Attribute Controller (ATC) address and data port
+             Perform  IN al,3daH      ;(or IN 3baH) to force address mode
+                      OUT 3c0H,<span class="c1">reg_no</span> ;select ATC register (go to data mode)
+                      OUT 3c0H,<span class="c1">value</span>  ;store a value in an ATC register
+             Note: bits 0-4: select an ATC register
+                      bit 5: 1=enable display; 0=set register
+
+           After selecting a reg, perform another OUT 3c0H,data as below:
+
+           ATC Reg Data description
+           ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+           00-0fH  palette registers: select colors for this attribute
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║   │r│g│b│R│G│B║           Note: R,G,B are 2/3-intensity
+                   ╙─┴─┴╥┴╥┴╥┴╥┴╥┴╥╜ bit             r,g,b are 1/3-intensity
+                        ║ ║ ║ ║ ║ ╚═► 0: Red
+                        ║ ║ ║ ║ ╚═══► 1: Green
+                        ║ ║ ║ ╚═════► 2: Blue
+                        ║ ║ ╚═══════► 3: blue'  (also MDA-emulation undrln)
+                        ║ ╚═════════► 4: green' (also CGA-emul. intensity)
+                        ╚═══════════► 5: red'
+            10H    mode control
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║       │ │ │ │ ║
+                   ╙─┴─┴─┴─┴╥┴╥┴╥┴╥╜ bit
+                            ║ ║ ║ ╚═► 0: 1=graphics modes, 0=text
+                            ║ ║ ╚═══► 1: 1=MDA attributes, 0=color attribs
+                            ║ ╚═════► 2: 1=9th dot=8th dot for line/box chrs
+                            ║            0=use bkgd color as 9th dot of char
+                            ╚═══════► 3: 1=enable blink, 0=allow 4-bit bkgd
+            11H   select overscan (border) clr.  Same rgbRGB as palette regs
+            12H   enable color planes
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║   │   │       ║
+                   ╙─┴─┴─┴─┴─┴─┴─┴─╜ bit
+                        ╚╦╝ ╚═════╩═► 0-3: bits enable color planes 0-3
+                         ╚══════════► 4-5: video status to multiplex
+                                           00=R&amp;B, 01=b&amp;G, 10=r&amp;g, 11=unused
+            13H   horizontal pixel panning
+                  Number of dots to shift data left.  Bits 0-3 valid (0-0fH)
+──── ───────────────────────────────────────────────────────────────────────
+3c2H  Write: miscellaneous control functions
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║ │ │ │ │   │ │ ║
+      ╙╥┴╥┴╥┴╥┴─┴─┴╥┴╥╜ bit
+       ║ ║ ║ ║ ╚╦╝ ║ ╚═► 0: 1=select 3BxH (emulate MDA); 0=select 3DxH (CGA)
+       ║ ║ ║ ║  ║  ╚═══► 1: 1=enable RAM; 0=disable RAM
+       ║ ║ ║ ║  ╚══════► 2-3: Dot clock: 00=14mHz; 01=16mHz; 10=external
+       ║ ║ ║ ╚═════════► 4: 1=select feature output; 0=select internal
+       ║ ║ ╚═══════════► 5: Page bit for odd/even mode
+       ║ ╚═════════════► 6: Horizontal retrace polarity: 1=negative, 0=pos
+       ╚═══════════════► 7: Vertical retrace polarity: 1=neg, 0=positive
+──── ───────────────────────────────────────────────────────────────────────
+3c4H  Write: sequencer address register
+3c5H  Write: sequencer data register
+             <span class="c2">Perform OUT 3c4H,</span><span class="c1">reg_no</span><span class="c2">; then OUT 3c5H,</span><span class="c1">data</span>
+
+           Seq Reg Data description
+           ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             00    sequencer reset.
+                   Bits 0-1 indicate asynchronous/synchronous reset.
+             01    clocking mode
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║       │ │ │ │ ║
+                   ╙─┴─┴─┴─┴╥┴╥┴╥┴╥╜ bit
+                            ║ ║ ║ ╚═► 0: 1=8 dots per char; 0=9 dots/char
+                            ║ ║ ╚═══► 1: CRT bandwidth: 1=low; 0=high
+                            ║ ╚═════► 2: 1=shift every char; 0=every 2nd chr
+                            ╚═══════► 3: dot clock: 1=halved; 0=normal
+             02   map mask: bits 0-3 enable writes to bit planes 0-3
+             03   character map select:
+                  bits 0-1 select Map B (for when attribute bit 3=0)
+                  bits 2-3 select Map A (for when attribute bit 3=1)
+             04   memory mode
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║         │ │ │ ║
+                   ╙─┴─┴─┴─┴─┴╥┴╥┴╥╜ bit
+                              ║ ║ ╚═► 0: 1=text char generator; 0=graphics
+                              ║ ╚═══► 1: 1=EGA ram &gt; 64K; 0=64K
+                              ╚═════► 2: 1=sequential; 0=odd/even (like CGA)
+──── ───────────────────────────────────────────────────────────────────────
+3caH  Write: graphics 2 position (must be 0 for EGA)
+──── ───────────────────────────────────────────────────────────────────────
+3ccH  Write: graphics 1 position (must be 1 for EGA)
+──── ───────────────────────────────────────────────────────────────────────
+3ceH  Write: graphics 1 and 2 address register
+3cfH  Write: graphics controller data register
+             <span class="c2">Perform OUT 3ceH,</span><span class="c1">reg_no</span><span class="c2">; then OUT 3cfH,</span><span class="c1">data</span>
+
+           GDC Reg Data description
+           ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+              00   set/reset. bits 0-3 select planes for write mode 00
+              01   enable set/reset
+              02   color compare.  Bits 0-3 select color for read mode 01
+              03   data rotate and function select for write mode 00
+                   bits 0-2: set rotate count for write mode 00
+                        3-4: fn select for write modes 00 and 02
+                             00=no change; 01=AND; 10=OR; 11=XOR
+              04   read map select.  Bits 0-2 select map # for read mode 00.
+              05   mode register
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║   │ │ │ │ │   ║
+                   ╙─┴─┴╥┴╥┴╥┴╥┴─┴─╜ bit
+                        ║ ║ ║ ║ ╚═╩═► 0-1: Write mode 0-2
+                        ║ ║ ║ ╚═════► 2: test condition
+                        ║ ║ ╚═══════► 3: read mode: 1=color cmpare, 0=direct
+                        ║ ╚═════════► 4: 1=use odd/even RAM addressing
+                        ╚═══════════► 5: 1=use CGA mid-res map (2-bits/pix)
+              06   miscellaneous graphics control
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║       │   │ │ ║
+                   ╙─┴─┴─┴─┴─┴─┴╥┴╥╜ bit
+                            ╚╦╝ ║ ╚═► 0: 1=graphics; 0=enable char gen (txt)
+                             ║  ╚═══► 1: 1=chain odd maps after even maps
+                             ╚══════► 2: memory mapping for CPU
+                                         00=a000H(128K)
+                                         01=a000H (64K)
+                                         10=b000H(32K MDA)
+                                         11=b800H (32K CGA)
+              07   color masking disable
+                   bits 0-3 disable planes from compare in read mode 01
+              08   bit mask.  Bits 0-7 select bits to mask in all planes
+──── ───────────────────────────────────────────────────────────────────────
+3d4H or 3b4H  CRT controller address
+──── ───────────────────────────────────────────────────────────────────────
+3d5H or 3b5H  CRT controller internal registers
+              Note: Port 3c0H bit 0 selects which port address-pair to use.
+                    (3<span class="c2">b</span>xH is normal for MDA; 3<span class="c2">d</span>xH is normal for CGA).
+              Perform OUT 3x4H,<span class="c1">reg_no</span>; then OUT 3x5H,<span class="c1">data</span>
+
+           CRTC Rg Data description
+           ▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+           00-11H  See <a href="90-video_initialization_table.html">Video Initialization Table</a>
+                   and <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>.  Exceptions:
+            02H    start horizontal blanking (character count)
+            03H    end horizontal blanking
+                   bits 0-4 are blank width; bits 5-6 are skew enable
+            04H    start horizontal retrace (character position)
+            05H    end horizontal retrace
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║ │   │         ║
+                   ╙╥┴─┴─┴─┴─┴─┴─┴─╜ bit
+                    ║ ╚╦╝ ╚═══════╩═► 0-4: horizontal retrace width
+                    ║  ╚════════════► 5-6: retrace delay 0-3 char-clocks
+                    ╚═══════════════► 7: 1=start panning on odd addr; 0=even
+            06H     vertical total (scan lines)
+            07H    bit 8 for certain CRTC registers
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║   │ │ │ │ │ │ ║
+                   ╙─┴─┴╥┴╥┴╥┴╥┴╥┴╥╜ bit
+                        ║ ║ ║ ║ ║ ╚═► 0: vertical total       (CRTC Reg 06)
+                        ║ ║ ║ ║ ╚═══► 1: vert disp'd enable end  (CRTC 12H)
+                        ║ ║ ║ ╚═════► 2: vertical retrace start  (CRTC 10H)
+                        ║ ║ ╚═══════► 3: start vert blanking (CRTC Reg 15H)
+                        ║ ╚═════════► 4: line compare        (CRTC Reg 18H)
+                        ╚═══════════► 5: cursor location     (CRTC Reg 0aH)
+            08H    preset row scan first scan line after vertical retrace
+            10H    Write: vertical retrace start
+            11H    Write: vertical retrace end
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║   │ │ │       ║
+                   ╙─┴─┴╥┴╥┴─┴─┴─┴─╜ bit
+                        ║ ║ ╚═════╩═► 0-3: retrace width in scan lines
+                        ║ ╚═════════► 4: 0=clear vertical interrupt
+                        ╚═══════════► 5: 0=enable vertical interrupt IRQ2
+            12H    vertical displayed end (scan line)
+            13H    vertical displayed adjustment
+            14H    underline location.  Bits 0-5 are scan line number.
+            15H    start vertical blanking (scan line)
+            16H    end vertical blanking
+            17H    mode control
+                   ╓7┬6┬5┬4┬3┬2┬1┬0╖
+                   ║ │ │ │ │ │ │ │ ║
+                   ╙╥┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜ bit
+                    ║ ║ ║ ║ ║ ║ ║ ╚═► 0: 0=CGA graphics addr compatible mode
+                    ║ ║ ║ ║ ║ ║ ╚═══► 1: select row scan counter
+                    ║ ║ ║ ║ ║ ╚═════► 2: horiz retrace: 1=double vert. res.
+                    ║ ║ ║ ║ ╚═══════► 3: 1=use char clock/2 for word refresh
+                    ║ ║ ║ ╚═════════► 4: 1=force high impedance on output
+                    ║ ║ ╚═══════════► 5: address wrapping mode
+                    ║ ╚═════════════► 6: 1=byte addressing mode; 0=word mode
+                    ╚═══════════════► 7: 0=hardware reset; 1=normal ops
+            18H    line compare (scan line) Used in split screen operations
+──── ───────────────────────────────────────────────────────────────────────
+3daH or 3baH  Write: bits 0-1 control Feature Control outputs FC0 and FC1
+              Note: Port 3c0H bit 0 selects which port address to use.
+
+      Read:  status bits are same as MDA (port 3<span class="c2">b</span>aH) or CGA (port 3<span class="c2">d</span>aH)
+      ╓7┬6┬5┬4┬3┬2┬1┬0╖
+      ║       │ │ │ │ ║
+      ╙─┴─┴─┴─┴╥┴╥┴╥┴╥╜ bit
+               ║ ║ ║ ╚═► 0: retrace.  1=display is in vert or horiz retrace.
+               ║ ║ ╚═══► 1: 1=light pen is triggered; 0=armed
+               ║ ╚═════► 2: 1=light pen switch is open; 0=closed
+               ╚═══════► 3: 1=vertical sync pulse is occurring.
+      Note:  With EGA, you don't need to synchronize with retrace
+             when writing to video RAM.
+──── ───────────────────────────────────────────────────────────────────────
+3ddH or 3bbH  Write: light pen latch reset.  Any OUT clears the latch.
+──── ───────────────────────────────────────────────────────────────────────
+3dcH or 3bcH  Write: light pen latch set.  Any OUT arms the latch.
+──── ───────────────────────────────────────────────────────────────────────
+See Also: <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+          <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+          <a href="113-int_10h__video_services.html">INT 10H</a> (BIOS video services)
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

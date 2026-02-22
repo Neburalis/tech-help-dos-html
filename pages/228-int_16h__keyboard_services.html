@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 16H: Keyboard Services - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 16H: Keyboard Services</h1><pre>
+ This is the application-level interface to the keyboard.  Keystrokes are
+ processed asynchronously (in the background).  As each keystroke is
+ received from the keyboard, it is processed by <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a> and placed into a
+ circular queue at 40:001e in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>.
+
+          <span class="c2">AH</span>  BIOS Service                      Supported by
+          ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+          <a href="229-int_16h_00h__read__wait_for__next_keystroke.html">00H</a> read keyboard input                [PC] [XT] [AT]
+          <a href="230-int_16h_01h__query_keyboard_status___preview_key.html">01H</a> query keyboard status/preview key  [PC] [XT] [AT]
+          <a href="231-int_16h_02h__query_keyboard_shift_status.html">02H</a> query keyboard shift flags         [PC] [XT] [AT]
+          <a href="232-int_16h_03h__set_keyboard_typematic_rate_and_delay.html">03H</a> set typeamatic rate and delay      [PC] [XT] [AT]
+          04H (reserved)
+          <a href="233-int_16h_05h__store_keystroke_data.html">05H</a> store key data                               [AT]
+
+          <a href="234-int_16h_10h__read_extended_keyboard_input.html">10H</a> read extended keyboard input                 [AT]
+          <a href="235-int_16h_11h__query_extended_keyboard_status___preview_key.html">11H</a> query extended keyboard status               [AT]
+          <a href="236-int_16h_12h__query_extended_keyboard_shift_status.html">12H</a> query extended keyboard shift flags          [AT]
+
+See Also: <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+          <a href="7-character_i_o_functions.html">Character I/O Functions</a> (DOS fns)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CVF Region: RootDir - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CVF Region: RootDir</h1><pre>
+ The <span class="c2">RootDir</span> is a 32-sector (16K=16,384 bytes) region formatted as a
+ directory.  It is located directly after the end of the <a href="810-cvf_region__fat.html">FAT</a>; its
+ location can be calculated as <a href="806-cvf_region__mdbpb.html">MdBpbRec</a>.<span class="c1">wMdResSects</span>+<span class="c1">wMdRootStart</span> sectors
+ from the start of the CVF.
+
+ It contains 512 <a href="344-directory_entry_layout.html">DirEntryRec</a>s.  These are identical in every way to
+ standard directory entries.  DoubleSpace does not appear to use any of the
+ &quot;reserved&quot; bytes in the directory entry structure.
+
+See Also: <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

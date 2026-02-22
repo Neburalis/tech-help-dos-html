@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 000cH: Set Mouse Event Handler - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 000cH: Set Mouse Event Handler</h1><pre>
+ Expects: <span class="c2">AX</span>    000cH
+          <span class="c2">CX</span>    event mask (events which you want sent to your handler)
+                  bit 0 = mouse movement           (CX | 01H)
+                  bit 1 = left button pressed      (CX | 02H)
+                  bit 2 = left button released     (CX | 04H)
+                  bit 3 = right button pressed     (CX | 08H)
+                  bit 4 = right button released    (CX | 10H)
+                  bit 5 = center button pressed    (CX | 20H)
+                  bit 6 = center button released   (CX | 40H)
+                  <span class="c1">All events:      CX = 007fH</span>
+                  <span class="c1">Disable handler: CX = 0000H</span>
+          <span class="c2">ES:DX</span> address of your event handler code
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This installs a custom mouse event handler.  Specify which events
+          you want to monitor via bit-codes in <span class="c2">CX</span>, and pass the address of
+          your handler in <span class="c2">ES:DX</span>.  When any of the specified events occur,
+          the code at ES:DX will get control via a far CALL.
+
+          <span class="c2">On entry to your handler:</span>
+       <span class="c2">AX</span> contains a bit mask identifying which event has occurred (it is
+          encoded in the same format as described for CX, above).
+
+       <span class="c2">BX</span> contains the mouse button status:
+            <span class="c1">bit 0</span> = left button    (BX &amp; 1) == 1
+            <span class="c1">bit 1</span> = right button   (BX &amp; 2) == 2
+            <span class="c1">bit 2</span> = center button  (BX &amp; 4) == 4
+
+       <span class="c2">CX</span> horizontal position (in text mode, divide by 8 for character clm)
+       <span class="c2">DX</span> vertical position (in text mode, divide by 8 for character line)
+
+       <span class="c2">SI</span> distance of last horizontal motion (mickeys: &lt;0=left; &gt;0=right)
+       <span class="c2">DI</span> distance of last vertical motion (mickeys: &lt;0=upward, &gt;0=down)
+
+       <span class="c2">DS</span> mouse driver data segment
+          You will need to set up <span class="c2">DS</span> to access your own variables.  You
+          need not save/restore CPU registers, since the driver does this
+          for you.
+
+          Exit your custom handler via a <span class="c1">FAR</span> RETurn (not an IRET).
+
+          To enable or disable selected events for your handler, use this
+          function again, passing a modified mask in CX.  To disable all
+          events for the handler, call this function again passing a value
+          of 0000H in CX.
+
+ <span class="c1">Warning:</span> You must disable your custom event handler (call with CX=0)
+          before exiting to DOS.  For <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>s, you must enable each time you
+          pop up and disable each time you pop down.
+
+   Notes: You may prefer to use the more-flexible <a href="851-int_33h_0014h__exchange_mouse_event_handler.html">INT 33H 0014H</a> (exchange
+          handlers) or <a href="855-int_33h_0018h__set_alternate_event_handler.html">INT 33H 0018H</a> (install mouse+key handler).
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

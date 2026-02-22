@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5803H: Set Upper-Memory Link State - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5803H: Set Upper-Memory Link State</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    5803H
+          <span class="c2">BX</span>    01H = link upper<a href="927-qmemumb.html">▲</a> memory for allocations
+                00H = unlink (all allocations go to conventional<a href="924-qmemconv.html">▲</a> mem)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Enables or disables access to upper memory.
+
+          See <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a> for info on allocating from UMBs.
+
+          The command <span class="c2">dos=umb</span> must be executed in <a href="267-the_config_sys_file.html">CONFIG.SYS</a> before is it
+          possible to link and allocate upper memory.
+
+          This call fails with error code 0001h (invalid function) on 8088
+          and 286 CPUs and on 386+ CPUs in which a 386 memory manager such
+          as <span class="c2">Emm386.exe</span> was not installed and/or <span class="c2">dos=umb</span> was not executed.
+
+          Programs which set the link state should use fn <a href="524-dos_fn_5802h__query_upper_memory_link_state.html">5802H</a> and save
+          the current setting and be sure to change it back before
+          terminating.
+
+See Also: Fn <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">48H</a> (allocate memory)
+          <a href="13-memory_management_functions.html">Memory Control Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

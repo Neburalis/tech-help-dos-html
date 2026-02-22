@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 440eH: IOCTL Query Logical Drive Map - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 440eH: IOCTL Query Logical Drive Map</h1><pre>                                                         Compatibility: <span class="c2">3.2+</span>
+ Expects: <span class="c2">AX</span>    440eH
+          <span class="c2">BL</span>    drive number to be used (0=default, 1=A, 2=B, etc.)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a>  if CF is set to CY
+          <span class="c2">AL</span>    00H:     the drive has only one drive number (if no error)
+                01H-1aH: the drive number currently being used to refer to
+                this physical drive.
+          ──────────────────────────────────────────────────────────────────
+    Info: This checks to see of a physical drive is currently acting as a
+          <span class="c1">phantom floppy</span> (or &quot;logical drive&quot;) and if the alternate drive ID
+          is currently being used.
+
+          If CY is clear on return, then AL contains either 0 (no logical
+          mappings) or AL contains the alternative drive number that can
+          refer to this drive (1=A, 2=B. etc.).
+
+   Notes: ■ If fn <a href="481-dos_fn_440fh__ioctl_set_logical_drive_map.html">440fH</a> (set logical drive map) has not been called, all
+            logical drive numbers will match the physical numbers.
+
+          ■ The phantom floppy concept is used by DOS on systems which have
+            a single diskette drive.  In that case, when you attempt to
+            access drive B, DOS prompts with:
+
+               <span class="c2">Insert diskette for drive B.</span>
+               <span class="c2">Press any key when ready.</span>
+
+            Programs may use this function to avoid using a logical ID and
+            thus, avoid having DOS issue this prompt.
+
+          ■ Phantom floppies are also created by the <span class="c2">Driver.Sys</span> installable
+            device driver.
+
+See Also: Fn <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">44H</a> (IOCTL)
+          Fn <a href="481-dos_fn_440fh__ioctl_set_logical_drive_map.html">440fH</a> (set logical drive map)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

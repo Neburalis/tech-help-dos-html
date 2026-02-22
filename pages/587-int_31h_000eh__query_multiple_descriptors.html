@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 000eH: Query Multiple Descriptors - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 000eH: Query Multiple Descriptors</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    000eH
+          <span class="c2">CX</span>    number of descriptors to copy
+          <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>) sel:off of buffer describing which selectors you
+                want and space to receive data
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful;
+                else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+                     <span class="c2">CX</span> = number of entries copied
+          <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>) buffer contains selectors and LDT entries
+          ──────────────────────────────────────────────────────────────────
+    Info: This copies a series of LDT entries into a local buffer.  You
+          must pre-fill the buffer with the desired selectors, with 8-byte
+          gaps between each:
+
+          The buffer is be formatted as:
+
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      2  <span class="c1">wSel1</span>       set by caller
+             +2      8  <span class="c1">rDesc1</span>      filled by host
+            +0aH     2  <span class="c1">wSel2</span>       set by caller
+            +0cH     8  <span class="c1">rDesc2</span>      filled by host
+              .
+              :
+
+    Note: If the call fails due to an invalid selector, the host will
+          return <span class="c2">CX</span> as the number of valid selectors that it found before
+          encountering the bad apple.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

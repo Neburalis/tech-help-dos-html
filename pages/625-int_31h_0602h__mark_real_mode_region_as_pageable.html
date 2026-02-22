@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0602H: Mark Real-Mode Region as Pageable - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0602H: Mark Real-Mode Region as Pageable</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0602H
+          <span class="c2">BX:CX</span> starting linear address of memory to mark as pageable
+          <span class="c2">SI:DI</span> size, in bytes, of region to mark
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          ──────────────────────────────────────────────────────────────────
+    Info: Advises the DPMI host that the specified memory below the 1 MB
+          boundary may be paged to disk.
+
+          You must mark only the conventional memory pages that you own --
+          such as memory from <a href="589-int_31h_0100h__allocate_dos_memory_block.html">INT 31H 0100H</a> or allocated via DOS fn <a href="500-dos_fn_48h__allocate_memory___query_free_memory.html">48H</a>.
+
+          Use <a href="626-int_31h_0603h__relock_real_mode_region.html">INT 31H 0603H</a> (relock real-mode region) to get these pages
+          back into memory.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

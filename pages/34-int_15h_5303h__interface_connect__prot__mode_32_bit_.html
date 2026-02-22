@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 5303H: Interface Connect (Prot. Mode/32-bit) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 5303H: Interface Connect (Prot. Mode/32-bit)</h1><pre>
+ Expects: <span class="c2">AX</span>    5303H
+          <span class="c2">BX</span>    0000H (<a href="44-apm_device_id.html">power device ID</a> = System BIOS)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="43-apm_api_error_return_codes.html">APM error code</a> (if CF=CY) else...
+          <span class="c2">AX</span>    protected mode 32-bit CS of entry address
+          <span class="c2">EBX</span>   protected mode 32-bit IP of entry address
+          <span class="c2">CX</span>    protected mode 16-bit code segment
+          <span class="c2">DX</span>    protected mode data segment
+          ──────────────────────────────────────────────────────────────────
+    Info: This function informs the BIOS that you intend to cooperate with
+          the BIOS in power management <span class="c1">while the CPU is in 32-bit protected</span>
+          <span class="c1">mode</span>. (see <a href="32-int_15h_5301h__interface_connect.html">INT 15H 5301H</a> for related info).
+
+   <span class="c2">AX:EBX</span> On return, this is a real-mode segment:offset address that can be
+          used as the entry point for accessing APM services while the CPU
+          is in 32-bit protected mode (see notes).
+
+       <span class="c2">CX</span> On return, this is a real-mode segment that APM will use as a
+          code segment later on.
+
+       <span class="c2">DX</span> On return, this is a real-mode segment that APM will use as a
+          data segment later on.
+
+   Notes: On return, you must prepare selectors in either the LDT or GDT so
+          that <span class="c2">CS</span> and <span class="c2">DS</span> will be valid while APM is operating.  See
+          <a href="571-dpmi_services.html">DPMI API</a> for info on preparing selectors.
+
+          After making this connection (and preparing the selectors), you
+          can access power management fns while in 32-bit protected mode by
+          preparing AX (et al.) and issuing a FAR CALL to the address
+          returned in <span class="c2">AX:BX</span>.
+
+See Also: <a href="29-advance_power_management__apm__functions.html">APM API</a>
+          <a href="30-about_advanced_power_management.html">About APM</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

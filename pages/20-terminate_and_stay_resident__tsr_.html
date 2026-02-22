@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Terminate and Stay Resident (TSR) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Terminate and Stay Resident (TSR)</h1><pre>
+ TECH Help! topics cover many facets of writing <span class="c1">TSR</span> programs:
+
+ DOS fn <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a> Make your program resident in memory.  Also <a href="566-int_27h__terminate_but_stay_resident.html">INT 27H</a>.
+ DOS fn <a href="502-dos_fn_4ah__shrink_or_expand_a_memory_block.html">4aH</a> Shrink your memory block to only the size you need.
+ DOS fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> EXEC a child process (you're resident while it executes).
+
+ DOS fn <a href="425-dos_fn_34h__get_indos_address__dos_reentrancy_status_.html">34H</a> Get <a href="365-indos_flag.html">InDOS Flag</a> and <a href="353-errormode_flag.html">ErrorMode</a> addresses before installing (VERY
+            important in writing crash-free TSRs).
+ DOS fn <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a> take special precautions with these fns.
+
+ DOS fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a> Trace MCBs to see what TSRs are resident. <a href="912-_undocumented_.html">◄undocumented►</a>
+
+ DOS fn <a href="426-dos_fn_35h__get_interrupt_vector.html">35H</a>/<a href="406-dos_fn_25h__set_interrupt_vector.html">25H</a> Save/restore an interrupt vector (install an INT handler).
+ DOS fn <a href="513-dos_fn_51h__query_current_psp.html">51H</a>/<a href="512-dos_fn_50h__set_psp.html">50H</a> Save/restore the <a href="371-psp__program_segment_prefix.html">PSP</a> of interrupted program.
+ DOS fn <a href="416-dos_fn_2fh__query_disk_transfer_address__dta_.html">2fH</a>/<a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">1aH</a> Save/restore <a href="351-dta__disk_transfer_address.html">DTA</a> of interrupted program.
+ XMS fn <a href="952-xms_07h__query_a20_state.html">07H</a>/<a href="948-xms_03h__global_enable_a20.html">03H</a> Save/restore the state of A20 (if you mess around with it).
+
+ <a href="854-int_33h_0017h__restore_mouse_status.html">INT 33H 0017H</a> / 0018H Save/restore mouse status
+ <a href="659-int_67h_4700h__save_mapping_context.html">INT 67H 4700H</a> / 4800H Save/restore <a href="650-expanded_memory_specification__ems_.html">Expanded Memory Manager</a> page mapping
+
+ <a href="946-xms_01h__request_high_memory_area.html">XMS 01H</a> a TSR may want to own the HMA<a href="926-qmemhma.html">▲</a>.
+
+ <a href="283-install___config_sys_command_.html">INSTALL=</a> and <a href="284-installhigh___config_sys_command_.html">INSTALLHIGH=</a> CONFIG.SYS commands make a TSR resident.
+
+ <a href="708-switcher_api.html">Switcher API</a>            Maintain separate data areas per each DOS session.
+ <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>                TSRs using MRCI compression must be careful.
+ <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a>  Have your TSR load itself into a UMB<a href="927-qmemumb.html">▲</a>.
+ <a href="346-dos_environment.html">DOS Environment</a>         Use <a href="501-dos_fn_49h__free_allocated_memory_block.html">49H</a> to free your environment at PSP:002eH.
+ <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>  Some general background info applies to TSRs, too.
+ <a href="972-xview_syntax.html">xView Syntax</a>            How to use TECH Help! as a RAM-resident popup.
+
+<span class="c2">────────────────────────────────────█▌Interrupts often intercepted by TSRs▐█</span>
+ <a href="105-int_08h__timer_interrupt.html">INT 08H</a> Get control 18 times per second.
+ <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a> Watch keyboard for the <a href="57-keyboard_scan_codes.html">scan code</a> of your hot key.
+         Use the <a href="58-keyboard_shift_status_flags.html">Keyboard Flags</a> to check the current state of shift keys.
+ <a href="228-int_16h__keyboard_services.html">INT 16H</a> Watch keyboard for your <a href="55-extended_ascii_keystrokes.html">Extended ASCII</a> keystroke hot key.
+ <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> Get control when user presses Ctrl-Break in your program.
+ <a href="564-int_24h__critical_error_handler.html">INT 24H</a> Get control on Critical Error (e.g., drive door open).
+ <a href="567-int_28h__dos_idle.html">INT 28H</a> Get control on <a href="567-int_28h__dos_idle.html">DOS Idle</a> (at a time when it is safe to popup).
+ <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH</a> Communicate with previously-installed copy of yourself.
+──────────────────────────────────────────────────────────────────────────────
+ <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>   <a href="93-rom_bios_variables.html">BIOS Data Area</a>   <a href="25-api_index.html">API Index</a>                  <a href="6-system_service_groups.html">Service Groups</a></pre></body></html>

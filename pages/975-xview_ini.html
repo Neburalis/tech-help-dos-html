@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XVIEW.INI - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XVIEW.INI</h1><pre>
+                     <span class="c2">The TECH Help! Configuration File</span>
+
+  The TECH Help! viewer (XVIEW.EXE) obtains configuration information
+  from a standard text file<a href="916-qstdtextfile.html">▲</a> named <span class="c2">XVIEW.INI</span>.  Initially, the file does
+  not exist, but it is created when you choose Save Setup from the
+  <a href="1000-configure_menu.html">Configure menu</a>.  It will be in one of:
+
+    • The directory named in an <span class="c2">XVIEWINIT=</span> environment variable.
+    • The directory in which the Viewer (<a href="972-xview_syntax.html">XVIEW.EXE</a>) is stored.
+
+  The .INI file looks and works just like the .INI files used in Windows.
+  It is a simple text file containing [sections], beneath which are options
+  pertaining to that section.
+
+  Each time you choose Save Setup from the Configure menu, the current
+  colors and options are saved in a special section for the current file.
+  This means you can save settings and bookmarks, etc. for text files, as
+  well as for TECH Help! and other hypertext databases.
+
+<span class="c2">█▌The [Viewer Global] Section▐█</span>
+  Configuration settings that apply to the viewer in general are saved in
+  this section.  Note that the <span class="c2">[</span><span class="c1">database_name</span><span class="c2">]</span> section (described below) can
+  override some of these settings.
+
+ <span class="c2">manExtensions=</span><span class="c1">ext [ext...]</span>
+  Tells the viewer what files to consider to be viewable.  It will always
+  look for files with extensions .<span class="c2">XDB</span>, .<span class="c2">H!</span>, and .<span class="c2">TXT</span>, but you can add
+  extensions here, to make it look for other text files.
+
+  To change: Edit XVIEW.INI.
+
+ <span class="c2">manPasteFile=</span><span class="c1">d:\path\filename.ext</span>
+  Tells the viewer where to deposit text selected by Copy to Paste File
+  command on the <a href="994-file_menu.html">File menu</a>.  By default, the Viewer puts such text into a
+  file named PASTE.TXT, in the current directory.
+
+  To change: Edit XVIEW.INI.
+
+ <span class="c2">manStartupFile=</span><span class="c1">d:\path\filename.ext</span>
+  Choose which file should be displayed first (unless overridden via the
+  XVIEW /M= option).
+
+     To change: Choose &quot;Startup with This File&quot; from <a href="1008-configure_options_menu.html">Configure/Options</a>.
+
+ <span class="c2">prnName=</span><span class="c1">filename.ext</span> or <span class="c1">deviceName</span>
+  Select an output device other than PRN.  For instance, set this to LPT2 or
+  just give the name of a file if you want to send &quot;printed&quot; output to a
+  text file.
+
+  To change: Edit XVIEW.INI.
+
+ <span class="c2">prnLines=</span><span class="c1">n</span>
+  When printing, this many lines are printed before the viewer sends a
+  form-feed (ejecting the page).  For instance, set <span class="c1">n</span> to 80 if your printer
+  is set at 8-lpi.  You may set <span class="c1">n</span> to 0 to keep the viewer from sending any
+  form-feeds.
+
+  To change: Edit XVIEW.INI.
+
+ <span class="c2">prnSetup=</span><span class="c1">binaryCodes</span>
+  This sequence (up to 60 bytes) will be printed verbatim at the start of
+  each topic.  You can use it to set your printer to a specific typeface,
+  or whatever.  For instance...
+
+     <span class="c2">prnSetup=←(10U</span>
+
+  ...sets HP-compatible printers to use the PC-8 character set, so that
+  box-and-line characters print as they appear on the screen.
+
+  To change: Edit XVIEW.INI; to make the Esc character (<span class="c2">←</span>) in the MS-DOS
+             Edit program, press Ctrl+P, then press Esc.
+
+ <span class="c2">prnFilterBoxChars=</span>1 or 0
+  0 means to send box-and-line characters directly to the printer (when the
+  user uses the Print command on the <a href="994-file_menu.html">File menu</a>).  1 means to convert them
+  to universally-printable characters such as +---+.
+
+  To change: Select &quot;Printer Filter&quot; from the <a href="1008-configure_options_menu.html">Configure/Options menu</a>.
+
+ <span class="c2">vidBlackAndWhite=</span>1 or 0
+  1 overrides ALL color settings and makes the viewer display in black and
+  white only.  You get a similar (though non-permanent) effect by starting
+  the viewer with the /B option.
+
+     To change: Choose Force Black and White from the <a href="1003-configure_colors_menu.html">Configure/Colors menu</a>.
+
+ <span class="c2">vidNoBlinkColors=</span>1 or 0
+  1 masks bit 7 of all <a href="87-screen_attributes.html">Screen Attributes</a> (and then makes adjustments to
+  avoid any unreadable foreground/background combinations).  This may be
+  needed on video systems in which a lot of text (or the menubar, etc.) is
+  flashing.
+
+     To change: Choose Disable Blink+Bold from the <a href="1003-configure_colors_menu.html">Configure/Colors menu</a>.
+
+ <span class="c2">window=</span><span class="c1">top,left,high,wide</span>
+  Sets the default size and position for the Viewer window (used when a
+  database does not give a size via the .O window= command).
+
+  To change: Edit XVIEW.INI.
+
+ <span class="c2">colors=</span><span class="c1">xx,xx,xx,xx,xx,xx,xx,xx ... xx</span>
+  Sets the default colors (used when a database does not provide a color
+  set).  See the <a href="976-colors__line_layout.html">Colors= Line Layout</a> for details.
+
+  To change: Edit XVIEW.INI.
+
+<span class="c2">█▌The [</span><span class="c1">database_name</span><span class="c2">] Section▐█</span>
+  Configuration options for a particular xText database or text file are
+  saved in a separate section.  Settings are remembered for text files as
+  well as xText databases.
+
+ <span class="c2">bkmk</span><span class="c1">n</span><span class="c2">=</span><span class="c1">pgNo,lineNo,menuText</span>
+  These describe the bookmarks for this file.
+
+     To change: Choose from the <a href="1024-goto_bookmarks_place_bookmark_menu.html">Goto/Bookmarks/Place Bookmark menu</a>.
+
+ <span class="c2">window=</span><span class="c1">top,left,high,wide</span>
+  Sets the size for the Viewer window when this file is active.
+
+     To change: Choose from the Window Size settings in the <a href="1000-configure_menu.html">Configure menu</a>.
+
+ <span class="c2">colors=</span><span class="c1">xx,xx,xx,xx,xx,xx,xx,xx ... xx</span>
+  Sets the colors for the Viewer window when this file is active.    See the
+  <a href="976-colors__line_layout.html">Colors= Line Layout</a> for details.
+
+     To change: Choose Custom Colors from the <a href="1003-configure_colors_menu.html">Configure/Colors menu</a> and
+                choose Save Setup from the <a href="1000-configure_menu.html">Configure menu</a>.
+            Or: Edit XVIEW.INI.
+                                    <span class="c2">-♦-</span></pre></body></html>

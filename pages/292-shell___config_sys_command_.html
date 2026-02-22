@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>SHELL= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>SHELL= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 2.0+</span>
+ Purpose: Replaces the normal command processor (COMMAND.COM) with a
+          different program, <span class="c2">OR</span> selects non-default settings for
+          COMMAND.COM.  Note: This command is unrelated to the Dosshell
+          command.
+
+    Uses: ■ Identify the location of COMMAND.COM.
+          ■ Create a DOS <a href="346-dos_environment.html">environment</a> that is larger than the default.
+          ■ Run a batch file other than AUTOEXEC.BAT at startup.
+
+  Syntax: SHELL=[<span class="c1">d:</span>][<span class="c1">path</span>]<span class="c1">filename.ext</span> [<span class="c1">parms</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+<span class="c1">d:\path\filename.ext</span> is the drive, path, filename and extension of the
+          program to be used as the command processor.
+
+<span class="c1">progParms</span> specifies command-line parameters for the command processor.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ The <span class="c2">DOS 6.0</span> COMMAND.COM option /K= sets the name of the AUTOEXEC.BAT
+    file.  COMMAND.COM /K=<span class="c1">mybat.bat</span> is a handy way to set up a DOS session
+    from Windows.
+
+  ■ To increase the size of the DOS environment, use COMMAND.COM /E=<span class="c1">nnn</span>.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

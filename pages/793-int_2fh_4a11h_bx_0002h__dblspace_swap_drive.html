@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a11H BX=0002H: Dblspace Swap Drive - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a11H BX=0002H: Dblspace Swap Drive</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    4a11H (mux number)
+          <span class="c2">BX</span>    0002H (DoubleSpace fn code)
+          <span class="c2">DL</span>    compressed drive number to swap with its host
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (0000H=success)
+          ──────────────────────────────────────────────────────────────────
+    Info: This swaps a DoubleSpace compressed drive's ID with the ID of its
+          host drive.
+
+          For instance, if drive C contains a CVF<a href="919-qcvf.html">▲</a> named DBLSPACE.000, then
+          when DoubleSpace starts up, it will mount that CVF as drive J
+          (for example).
+
+          To set up so the compressed volume is drive C (and set the host
+          as drive J), you would set <span class="c2">DL</span> to 9 (0=A, 1=B,...9=J)
+
+   Notes: ■ There is no &quot;unswap&quot; variation of this fn; if you attempt to
+            swap a previously-swapped drive, this fn returns an error.
+
+          ■ DBLSPACE.BIN performs disk swapping automatically, based on
+            settings in <a href="789-dblspace_ini_commands.html">DBLSPACE.INI</a>.  I recommend against using this fn.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

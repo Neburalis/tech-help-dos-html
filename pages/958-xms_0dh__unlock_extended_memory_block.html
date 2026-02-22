@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS 0dH: Unlock Extended Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS 0dH: Unlock Extended Memory Block</h1><pre>                                                     Compatibility: <span class="c2">XMS 2.0+</span>
+ Expects: <span class="c2">AH</span>    0dH
+          <span class="c2">DX</span>    XMS handle (as obtained via <a href="954-xms_09h__allocate_extended_memory_block.html">XMS 09H</a>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0000H = successful
+                        0001H = error and <span class="c2">BL</span>=<a href="963-xms_error_codes.html">XMS error code</a> (if BL &gt;= 80H)
+          <span class="c2">DX:BX</span> 32-bit linear address of base of block
+          ──────────────────────────────────────────────────────────────────
+    Info: This unlocks an extended memory block that has been locked via
+          <a href="957-xms_0ch__lock_extended_memory_block.html">XMS 0cH</a>.  After unlocking, any 32-bit pointers to the data become
+          invalid.
+
+          XMBs should be unlocked as soon as possible to avoid memory
+          fragmentation.
+
+          The XMM maintains a &quot;lock-count&quot; and only allows the block to
+          move when the lock count is decremented to 0.  <a href="959-xms_0eh__get_handle_information.html">XMS 0eH</a> obtains
+          the current lock count.
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

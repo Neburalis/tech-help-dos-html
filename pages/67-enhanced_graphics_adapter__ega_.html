@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Enhanced Graphics Adapter (EGA) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Enhanced Graphics Adapter (EGA)</h1><pre><span class="c2">█▌Overview▐█</span>
+  The EGA is generally upwardly-compatible with the CGA<a href="931-qvidcga.html">▲</a> and the MDA<a href="933-qvidmda.html">▲</a>, but
+  it has loads of additional features.  It was introduced in 1985 and has
+  been popular since about 1986.  It is mostly replaced by VGA and SVGA
+  systems.  TECH Help! covers the following EGA and general video topics:
+
+    <a href="114-video_modes.html">Video Modes</a> ........... includes EGA modes
+    <a href="113-int_10h__video_services.html">Video Services</a> ........ <a href="113-int_10h__video_services.html">INT 10H</a> video services
+
+    <a href="89-video_memory_layouts.html">Video Memory Layouts</a> .. accessing EGA video memory
+
+    <a href="71-ega_vga_data_areas.html">EGA Data Areas</a> ........ BIOS data variables specific to EGA
+    <a href="93-rom_bios_variables.html">BIOS Data Area</a> ........ includes video-specific variables in low memory
+    <a href="87-screen_attributes.html">Screen Attributes</a> ..... codes determine colors for text mode
+    <a href="88-color_table.html">Color Table</a> ........... exhaustive listing of screen attributes
+
+    <a href="899-enhanced_graphics_adapter_i_o_ports.html">EGA I/O Ports</a> ......... I/O port addresses; video controller registers
+    <a href="65-ega_switch_settings.html">EGA Switch Settings</a> ... those pesky switches at the rear of the adaptor
+    <a href="884-ega_video_adaptor_pin_outs.html">EGA Pin Outs</a> .......... connectors on EGA cards
+
+    <a href="91-video_font_definition.html">Font Definition Data</a> .. layout of binary data that defines a font
+    <a href="341-code_page_font_files.html">.CPI Font Files</a> ....... the DOS interface for EGA font definition
+
+  The EGA supports 25- and 43-line text modes and graphics modes up to
+  640x350 with 16 colors.  You can redefine fonts and remap the color
+  palette.  It is upwardly-compatible with <a href="66-color_graphics_adapter__cga_.html">CGA</a>.</a><a href="931-qvidcga.html">  <a href="70-video_graphics_array__vga_.html">VGA</a>, and <a href="69-supervga_display_adapters__svga_.html">SuperVGA</a> are all
+  upwardly-compatible with EGA, supporting all of its modes, I/O ports, and
+  BIOS variables.
+
+  In text modes, video memory begins at <span class="c2">b800:0</span>.  In graphics modes 0dH-10H,
+  video memory is at <span class="c2">a000:0</span> (see <a href="89-video_memory_layouts.html">Video Memory Layouts</a>).
+
+<span class="c2">█▌Testing for an EGA▐█</span>
+  To see if you are running on an EGA, use <a href="168-int_10h_12h_bl_10h__get_ega_information.html">INT 10H 12H BL=10H</a>.  If on
+  return,  BL&gt;4 then the EGA BIOS is not present, so you must be running
+  on a <a href="66-color_graphics_adapter__cga_.html">CGA</a> or <a href="68-monochrome_display_adapter__mda_.html">MDA</a>.
+
+See Also: <a href="66-color_graphics_adapter__cga_.html">CGA</a>
+          <a href="68-monochrome_display_adapter__mda_.html">MDA</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+          <a href="69-supervga_display_adapters__svga_.html">SuperVGA</a>
+          <a href="89-video_memory_layouts.html">Video Memory Layouts</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

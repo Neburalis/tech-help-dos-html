@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 0eH: Write Character as TTY - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 0eH: Write Character as TTY</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    0eH
+          <span class="c2">AL</span>    character to write
+          <span class="c2">BL</span>    (graphics modes only) foreground color number
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: Writes the specified character to the current cursor position and
+          updates the cursor position.  When the cursor advances to the end
+          of the last screen line, this scrolls the text up one line.
+
+          This writes the character only.  It is displayed with whatever
+          <a href="87-screen_attributes.html">video attribute</a> is currently at the cursor position.  Also, when
+          the screen scrolls, it fills the next line with the current
+          attribute of the lower-right corner of the screen.
+
+          This function treats these characters specially:
+
+           CR  (0dH) ─── cursor to start of next line
+           LF  (0aH) ─── cursor to current clm on next lower line
+           BEL (07H) ─── beep the speaker
+
+          This is too slow for most apps.  See <a href="89-video_memory_layouts.html">Video Memory Layouts</a>.
+
+See Also: <a href="131-int_10h_13h__at_ega_vga_string_display_functions.html">INT 10H 13H</a> (display a string of characters)
+          <a href="124-int_10h_09h__write_character_attribute_to_cursor_location.html">INT 10H 09H</a> (write a character and attribute)
+                                    <span class="c3">-♦-</span></pre></body></html>

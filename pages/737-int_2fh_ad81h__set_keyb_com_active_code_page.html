@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH ad81H: Set KEYB.COM Active Code Page - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH ad81H: Set KEYB.COM Active Code Page</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    ad81H
+          <span class="c2">BX</span>    <a href="340-code_page.html">Code Page</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    Carry Flag is set if there is an error
+          <span class="c2">AX</span>    0001H (error code) if the code page is not valid
+          ──────────────────────────────────────────────────────────────────
+    Info: This is similar to using the DOS command, <span class="c2">Mode CON CP SEL</span>=<span class="c1">nnn</span>; it
+          activates the specified code page (character set) for the
+          keyboard.
+
+          As with that <span class="c2">Mode</span> command, a code page cannot be selected unless
+          the KEYBOARD.SYS device driver has been installed and unless it
+          has been previously prepared (Mode CON CP PREP=).
+
+See Also: <a href="735-int_2fh_adxxh__keyb_com_functions.html">INT 2fH adxxH: KEYB.COM Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

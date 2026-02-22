@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 36H: Get Disk Free Space - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 36H: Get Disk Free Space</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    36H
+          <span class="c2">DL</span>    drive number (0=default, 1=A, etc.)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    ffffH   if <span class="c2">DL</span> was an invalid drive number
+                else    sectors per cluster if no error
+          <span class="c2">BX</span>    available clusters (allocation units)
+          <span class="c2">CX</span>    bytes per sector (usually 512)
+          <span class="c2">DX</span>    total clusters on the disk
+          ──────────────────────────────────────────────────────────────────
+    Info: Returns information useful for calculating total and available
+          disk space.
+
+          If <span class="c2">AX</span> returns ffffH, you sent a bad drive number in <span class="c2">DL</span>.
+
+          Otherwise,  free space in bytes = (AX * CX * BX)
+                     total space in bytes = (AX * CX * DX)
+
+          When sectors are 512 bytes, the calculation for Ks is simpler:
+                      free space in K-bytes = (AX * BX) / 2
+                     total space in K-bytes = (AX * DX) / 2
+
+Notes:    ■ A common error in the use of this fn is to disregard arithmetic
+            overflow on the multiplications.  The product of three 16-bit
+            values can be very large indeed.
+
+Versions: <span class="c2">DOS 6.0</span>
+          ■ This call is intercepted by the resident portion of <span class="c2">Undelete</span>
+            (when Delete Sentry is active).  The free-space value is
+            increased to reflect the disk space that will be made available
+            if Undelete needs to physically delete files in the \SENTRY
+            directory.
+
+            Once per day, this call may take several seconds before
+            returning -- when it triggers Undelete's daily purge.
+
+          ■ In <a href="787-doublespace_overview.html">DoubleSpace</a> compressed volumes, the available and free space
+            values are estimates, based on the average compression ratio
+            obtained for data currently on the drive.
+
+See Also: Fn <a href="419-dos_fn_32h__get_dpb__drive_parameter_block_.html">32H</a> (get disk info)
+          Fn <a href="399-dos_fn_1bh__get_drive_info__current_disk_.html">1bH</a> (get FAT info)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

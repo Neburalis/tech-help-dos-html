@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a11H BX=0001H: Get Dblspace Drive Mapping - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a11H BX=0001H: Get Dblspace Drive Mapping</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    4a11H (mux number)
+          <span class="c2">BX</span>    0001H (DoubleSpace fn code)
+          <span class="c2">DL</span>    drive number to check (0=A, 1=B, etc)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (0000H=success)
+          <span class="c2">BH</span>    compressed drive sequence number (0-255)
+          <span class="c2">BL</span>    <span class="c1">bits 0-6</span>: host drive number (if drive is compressed)
+                   <span class="c1">bit 7</span>: compressed drive flag (1=compressed)
+          ──────────────────────────────────────────────────────────────────
+    Info: You may use this fn as part of a system to determine whether a
+          particular drive ID represents a CVF<a href="919-qcvf.html">▲</a> or a host drive.
+          Interpreting the return results can be a little bit tricky:
+
+       <span class="c2">AX</span> on return, if <span class="c2">AX</span> is non-zero, then DoubleSpace has not been
+          loaded and <span class="c2">DL</span> is a standard (uncompressed, unswapped) drive ID.
+
+       <span class="c2">BH</span> on return, BH is the sequence number; that is, the number of the
+          file extension of the CVF.  For instance, if <span class="c2">BH</span> returns with 01H,
+          (and if <span class="c2">BL</span> indicates that this is a compressed drive) then the
+          CVF is named <span class="c1">DBLSPACE.001</span> (in the root of its host).
+
+       <span class="c2">BL</span> on return, if the high bit is set, then drive <span class="c2">DL</span> is a compressed
+          drive and the low 7 bits of <span class="c2">BL</span> identify the drive ID of the host.
+
+          For instance, a return value of <span class="c2">BL</span>=83H means that <span class="c2">DL</span> was a
+          compressed volume whose CVF is now on drive <span class="c3">D</span> (0=A, 1=B, etc.).
+          All DOS-level fns will be able to access that host as drive <span class="c3">D</span>,
+          but its <span class="c1">drive ID may have been swapped</span>, so BIOS-level fns to
+          access the physical drive may use a different drive number.
+
+          To learn the <span class="c1">original drive number</span> for the drive on which the CVF
+          is stored, you must <span class="c1">make a second call to this fn</span>, this time
+          setting <span class="c2">DL</span> to the value returned in the low 7 bits of <span class="c2">BL</span>.  If
+          BL=DL upon return from that second call, then that drive is host
+          to itself (the drive IDs have been swapped); therefore BIOS
+          access is via the <span class="c2">BL</span> value returned in the first call.
+
+   Notes: This seems far too complicated; I hope I made it clearer than the
+          Microsoft dox!
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

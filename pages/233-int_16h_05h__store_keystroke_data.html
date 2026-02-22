@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 16H 05H: Store Keystroke Data - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 16H 05H: Store Keystroke Data</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    05H
+          <span class="c2">CH</span>    <a href="57-keyboard_scan_codes.html">scan code</a> to store
+          <span class="c2">CL</span>    <a href="45-ascii.html">ASCII</a> character code or <a href="55-extended_ascii_keystrokes.html">extended ASCII</a> keystroke
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0=successfully stored
+                1=not stored (no room in buffer)
+          ──────────────────────────────────────────────────────────────────
+    Info: This can be used to stuff data into the keyboard buffer, as if
+          the user had typed the keys manually.
+
+          This can be used by keyboard macro programs and other such
+          utilities.
+
+   Notes: ■ The <a href="93-rom_bios_variables.html">BIOS Data Area</a> contains two addresses to indicate the start
+            and end of the keyboard buffer.  However, you cant easily
+            enlarge the buffer, since it must be within 64K of segment
+            0040H.
+
+          ■ Programs which &quot;stuff the keyboard&quot; and may need to stuff more
+            than 16 keys, usually implement a timer interrupt handler
+            (see <a href="254-int_1ch__user_timer_interrupt.html">INT 1CH</a>) to monitor when there is room for a new key in
+            the buffer.
+
+          ■ This service is available on <span class="c1">some</span> XT BIOSes.  You can test for
+            compatibility by stuffing an oddball key, then reading the
+            keyboard to see if it made it.
+
+See Also: <a href="228-int_16h__keyboard_services.html">INT 16H</a> (BIOS keyboard services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 3700H: Query Switchar - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 3700H: Query Switchar</h1><pre>                                                 Compatibility: <span class="c2">2.0+</span> <a href="912-_undocumented_.html">◄Undoc►</a>
+ Expects: <span class="c2">AX</span>    3700H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">DL</span>    current DOS switch character (always 2fH in DOS 5.0+)
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the character that DOS and applications <span class="c1">may</span> interpret as
+          the lead character in command-line switches.
+
+          This concept never really caught on; most programs do not bother
+          to check this value.  Nowadays, all programs just assume that
+          slash (<span class="c2">/</span>), ASCII 2fH, is the switch character.
+
+Versions: <span class="c2">2.0+</span>  This is an undocumented, though valid function.
+          <span class="c2">5.0+</span>  The corresponding function, <a href="430-dos_fn_3701h__set_switchar.html">3701H</a>, is now <a href="909-_obsolete_.html">◄Obsolete►</a> (so
+          now there is no DOS-blessed way to set a non-standard switch
+          character).
+
+See Also: Fn <a href="430-dos_fn_3701h__set_switchar.html">3701H</a> (set switchar; obsolete)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>About DOS Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>About DOS Functions</h1><pre>
+ The DOS functions are a haphazard set of file, device, memory, and process
+ control services that are available to any program which is capable of
+ setting registers and invoking software interrupts.
+
+ To access DOS functions:
+  ■ Place a <a href="23-dos_function_index___by_number.html">DOS Function Number</a> in the <span class="c2">AH</span> register (if one or more
+    sub-functions exist, its value usually goes in <span class="c2">AL</span>)
+  ■ Load up the other registers as described in the function summary
+  ■ Prepare any buffers, ASCIIZ strings, and control blocks needed
+  ■ Be aware of (or set) the location of the <a href="351-dta__disk_transfer_address.html">DTA</a> if necessary
+  ■ Invoke <a href="560-int_21h__dos_functions.html">INT 21H</a>
+  ■ Look for error indicators returned by DOS (examine the Carry Flag)
+
+ DOS preserves the entry values of all registers except when information is
+ returned in a register.
+
+ As DOS evolved, later version have remained mostly compatible with earlier
+ versions.  See <a href="831-dos_versions.html">DOS Versions</a> for a discussion of incompatibilities.
+
+See Also: <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+          <a href="558-dos_interrupts.html">DOS Interrupts</a>
+          <a href="6-system_service_groups.html">DOS Fns by Category</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

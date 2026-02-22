@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>EMM Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>EMM Functions</h1><pre>
+ TECH Help! describes all services supported by the <span class="c1">Expanded Memory Manager</span>
+ version <span class="c2">4.0</span> and previous versions.  4.0 has been standard since 1987 so
+ there should be few compatibility problems if you use the 4.0 functions.
+
+ To access an EMM function, load <span class="c2">AX</span> with a function number, set other
+ registers as described for the function, and invoke <span class="c2">INT 67H</span>.  Be sure to
+ check the return status in <span class="c2">AH</span>.  A non-zero return value indicates an
+ error.
+
+    AX
+  ▀▀▀▀▀  ─────────────────────────────────────────────── <span class="c2">Standard Functions</span>
+  <a href="652-int_67h_4000h__get_emm_status.html">4000H</a>  Get EMM status
+  <a href="653-int_67h_4100h__get_frame_segment_address.html">4100H</a>  Get frame segment address
+  <a href="654-int_67h_4200h__get_ems_memory_total___available.html">4200H</a>  Get memory total and available
+  <a href="655-int_67h_4300h__open_emm_handle_and_allocate_memory.html">4300H</a>  Open handle / allocate pages
+  <a href="656-int_67h_44xxh__map_memory_into_page_frame.html">44xxH</a>  Map memory (swap EMS page into/out of memory)
+  <a href="657-int_67h_4500h__close_emm_handle_and_free_memory.html">4500H</a>  Close handle / free pages
+  <a href="658-int_67h_4600h__get_emm_version_number.html">4600H</a>  Get EMM version number
+         ─────────────────────────────────────────────── <span class="c2">Advanced Functions</span>
+  <a href="659-int_67h_4700h__save_mapping_context.html">4700H</a>  Save mapping context
+  <a href="660-int_67h_4800h__restore_mapping_context.html">4800H</a>  Restore mapping context
+  <a href="661-int_67h_4b00h__count_handle_s_pages.html">4b00H</a>  Count handle's pages
+  <a href="662-int_67h_4c00h__count_active_handles.html">4c00H</a>  Count active handles
+  <a href="663-int_67h_4d00h__get_page_information_for_all_handles.html">4d00H</a>  Get page info (all handles)
+
+  <a href="664-int_67h_4exxh__get_set_entire_page_map.html">4exxH</a>  Get/Set entire page map
+   4e00H Get all mapping registers into an array at ES:DI
+   4e01H Set all mapping registers from array at DS:SI
+   4e02H Get and set mapping registers (SubFns 0 and 1 combined)
+   4e03H Query size of buffer needed for SubFns 0-2
+
+  <a href="665-int_67h_4fxxh__get_set_partial_page_map.html">4fxxH</a>  Get/Set partial page map (<span class="c1">EMS 4.0</span>).
+   4f00H Get mapping registers
+   4f01H Restore mapping
+   4f02H Query size of buffer needed for SubFn 0.
+
+  <a href="666-int_67h_50xxh__map_unmap_multiple_pages.html">50xxH</a>  Map/Unmap multiple pages (<span class="c1">EMS 4.0</span>).
+
+  <a href="667-int_67h_5100h__resize_ems_handle.html">5100H</a>  Reallocate (resize) EMS Handle (<span class="c1">EMS 4.0</span>).
+
+  <a href="668-int_67h_52xxh__get_set_handle_attribute.html">52xxH</a>  Get/Set Handle attribute (<span class="c1">EMS 4.0</span>).
+   5200H Get handle attribute
+   5201H Set Handle attribute
+   5202H Query attribute capability
+
+  <a href="669-int_67h_53xxh__get_set_handle_name.html">53xxH</a>  Get/Set Handle name (<span class="c1">EMS 4.0</span>).
+   5300H Get handle name
+   5301H Set handle name
+
+  <a href="670-int_67h_54xxh__find_named_handle.html">54xxH</a>  Find Named Handle (<span class="c1">EMS 4.0</span>).
+   5400H Get handle directory
+   5401H Search for named handle
+   5401H Count all open handles
+
+  <a href="671-int_67h_55xxh__alter_page_map_and_jmp.html">55xxH</a>  Alter Page Map and Jump (<span class="c1">EMS 4.0</span>).
+
+  <a href="672-int_67h_56xxh__alter_page_map_and_call.html">56xxH</a>  Alter Page Map and Call (<span class="c1">EMS 4.0</span>).
+
+  <a href="673-int_67h_57xxh__move_exchange_memory.html">57xxH</a>  Move/Exchange Memory (<span class="c1">EMS 4.0</span>).
+   5700H Move memory region
+   5701H Exchange memory regions
+
+  <a href="674-int_67h_58xxh__get_mappable_physical_address_array.html">58xxH</a>  Get Mappable Physical Address Array (<span class="c1">EMS 4.0</span>).
+   5800H Get segment-to-page map array
+   5801H Count segment-to-page array entries
+         ─────────────────────────────────────── <span class="c2">Operating System Functions</span>
+  <a href="675-int_67h_59xxh__get_hardware_configuration.html">59xxH</a>  Get Hardware configuration (<span class="c1">EMS 4.0</span>)
+   5900H Get hardware info
+   5901H Get unallocated raw page count
+
+  <a href="676-int_67h_5axxh__allocate_standard_or_raw_pages.html">5axxH</a>  Allocate Standard/Raw Pages (<span class="c1">EMS 4.0</span>)
+   5a00H Allocate standard 16K byte logical pages
+   5a01H Allocate raw pages
+
+  <a href="677-int_67h_5bxxh__alternate_map_register_set.html">5bxxH</a>  Alternate Map Register Set (<span class="c1">EMS 4.0</span>)
+   5b00H Get alternate map register set
+   5b01H Set alternate map register set
+   5b02H Get alternate map register set array size
+   5b03H Allocate alternate map register set
+   5b04H Deallocate alternate map register set
+   5b05H Allocate DMA register set
+   5b06H Enable DMA on alternate map register set
+   5b07H Disable DMA on alternate map register set
+   5b08H Deallocate DMA register set
+
+  <a href="678-int_67h_5c00h__prepare_for_warm_boot.html">5c00H</a>  Prepare for warm boot (<span class="c1">EMS 4.0</span>)
+
+  <a href="679-int_67h_5dxxh__enable_disable_os_function_set_functions.html">5dxxH</a>  Enable/Disable OS Function Set Functions (<span class="c1">EMS 4.0</span>)
+   5d00H Enable all OS-only EMM functions
+   5d01H Disable all OS-only EMM functions
+   5d02H Return access key (enable next caller to get a key)
+
+See Also: <a href="650-expanded_memory_specification__ems_.html">EMS</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="558-dos_interrupts.html">DOS Interrupts</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

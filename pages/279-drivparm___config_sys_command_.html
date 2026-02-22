@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DRIVPARM= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DRIVPARM= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 2.1+</span>
+ Purpose: Modifies the settings of a DOS-internal device driver to support
+          non-standard diskette drives.
+
+    Uses: ■ Force DOS to treat drive B as a 720K (3½-inch) disk drive.
+          ■ Fix a problem in which DOS or an application does not notice
+            that you have inserted a different diskette (especially pre-
+            formatted and INSTALL diskettes).
+
+  Syntax: DRIVPARM= <span class="c1">/D:drvNo</span> [<span class="c1">/F:n</span>] [<span class="c1">/H:hds</span>][<span class="c1">/T:trks</span>][<span class="c1">/S:sects</span>][<span class="c1">/C</span>][<span class="c1">/I</span>][<span class="c1">/N</span>]
+
+<span class="c3">█▌Parameters▐█</span>
+
+ <span class="c1">/D:drvNo</span> is required. It is the physical drive number (0=A,1=B,2=C,etc.).
+
+     <span class="c1">/F:n</span> specifies a &quot;form factor&quot;; that is, drive type (default=2):
+           0 = 160/180K format (single-sided)
+           0 = 320/360K format (double-sided)
+           1 = 1.2M high-capacity drive
+           2 = 720K (3½-inch) format
+           5 = Hard disk
+           6 = Tape
+           7 = 1.44 MB (3½-inch) format
+           8 = read/write optical disk
+           9 = 2.88 MB (3½- inch) format
+
+       <span class="c1">/C</span> indicates that the drive can detect when the door is closed.
+       <span class="c1">/I</span> specifies to include internal support code to handle the drive.
+          You need this if your ROM BIOS does not directly support 3½-inch
+          drives.
+       <span class="c1">/N</span> specifies that <span class="c1">drvNo</span> is non-removable (fixed disk).
+
+   <span class="c1">/H:hds</span> specifies the number of read/write heads.
+  <span class="c1">/T:trks</span> specifies the number of tracks per side.
+ <span class="c1">/S:sects</span> specifies the number of sectors per track.
+
+          The defaults for /H, /T, and /S depend on the <span class="c1">/F </span>setting.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ This uses DOS fn <a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">440dH 40H</a> (generic IOCTL--set device parameters) to
+    modify the BPB of the specified diskette driver.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

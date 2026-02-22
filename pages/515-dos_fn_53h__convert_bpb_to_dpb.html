@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 53H: Convert BPB to DPB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 53H: Convert BPB to DPB</h1><pre>                                                Compatibility: <span class="c2">2.0+?</span> <a href="912-_undocumented_.html">◄undoc►</a>
+ Expects: <span class="c2">AH</span>    53H
+          <span class="c2">DS:BX</span> addr of a <a href="338-bpb__bios_parameter_block.html">BIOS Parameter Block</a> (as used by device drivers)
+          <span class="c2">ES:BP</span> addr of buffer to receive a <a href="350-dpb__drive_parameter_block.html">Drive Parameter Block</a> (DPB)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">ES:BX</span> buffer contains a filled-in DPB
+          ──────────────────────────────────────────────────────────────────
+    Info: This <a href="912-_undocumented_.html">undocumented</a> function is used by DOS during startup to
+          prepare its chain of DPBs.
+
+          DOS issues a <a href="303-device_request_02h__build_bpb.html">DvRq 02H</a> (Build BPB) request to a device driver and
+          then calls this to put the data into a more useful form.  It then
+          installs the DPB into a chain of DPBs (see <a href="349-dos_variables_block__list_of_lists_.html">DosVarsRec</a>).
+
+          It has no practical use for application programs, but it might be
+          used by a disk utility or a block device driver which installs
+          itself from the DOS command line.
+
+See Also: <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="9-disk_drive_functions.html">Disk Drive Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

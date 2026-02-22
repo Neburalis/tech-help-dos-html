@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 13H 17H: Set Media Transfer Rate - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 13H 17H: Set Media Transfer Rate</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    17H
+          <span class="c2">AL</span>    transfer rate: 00H = (reserved; don't use)
+                               01H = 360K diskette in 360K drive
+                               02H = 360K diskette in 1.2 MB drive
+                               03H = 1.2 MB diskette in 1.2 MB drive
+                               04H = 720K diskette in 720K drive
+          <span class="c2">DL</span>    diskette drive number: 00H thru 03H
+          ──────────────────────────────────────────────────────────────────
+ Returns: AH    <a href="205-bios_disk_error_codes.html">BIOS disk error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: This should be called before a format operation (<a href="191-int_13h_05h__format_track.html">INT 13H 05H</a>) to
+          set the controller for the correct drive speed and track-stepping
+          option.
+
+   Notes: ■ This does NOT support 1.44 MB or 2.88 MB drives.  Use
+            <a href="204-int_13h_18h__set_media_type_for_format.html">INT 13H 18H</a>, since it is more flexible.
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H: BIOS Disk I/O</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

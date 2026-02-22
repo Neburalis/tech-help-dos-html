@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H: Video Services - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H: Video Services</h1><pre>
+ AH  Std BIOS Services             AH  EGA/VGA/VESA Extensions
+ ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ <a href="115-int_10h_00h__set_video_mode.html">00H</a> set video mode                    <span class="c2">Note: See full list, below</span>
+ <a href="116-int_10h_01h__set_cursor_shape___size.html">01H</a> set cursor size/shape         <a href="136-int_10h_10h__ega_vga_palette_functions.html">10H</a> palette functions            <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> <a href="70-video_graphics_array__vga_.html">VGA</a>
+ <a href="117-int_10h_02h__set_cursor_position.html">02H</a> set cursor position           <a href="151-int_10h_11h__ega_vga_character_generator_functions.html">11H</a> character generator fns      <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> <a href="70-video_graphics_array__vga_.html">VGA</a>
+ <a href="118-int_10h_03h__query_cursor_position_and_size.html">03H</a> query cursor position &amp; size  <a href="167-int_10h_12h__ega_vga_special_functions_alternate_select.html">12H</a> special functions            <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> <a href="70-video_graphics_array__vga_.html">VGA</a>
+ <a href="119-int_10h_04h__query_light_pen.html">04H</a> read light pen                <a href="131-int_10h_13h__at_ega_vga_string_display_functions.html">13H</a> write string+attr/cells   <a href="830-system_compatibility.html">AT</a> <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> <a href="70-video_graphics_array__vga_.html">VGA</a>
+ <a href="120-int_10h_05h__select_video_page.html">05H</a> select active display page
+ <a href="121-int_10h_06h__scroll_up___clear_screen_rectangle.html">06H</a> scroll window up (or cls)     <a href="177-int_10h_1ah__set_or_query_display_combination_code.html">1aH</a> query/set DCC (display combo)    <a href="70-video_graphics_array__vga_.html">VGA</a>
+ <a href="122-int_10h_07h__scroll_down___clear_screen_rectangle.html">07H</a> scroll window down (or cls)   <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">1bH</a> query functionality/status       <a href="70-video_graphics_array__vga_.html">VGA</a>
+ <a href="123-int_10h_08h__read_character_attribute_at_cursor_location.html">08H</a> read character/attribute      <a href="179-int_10h_1ch__vga_state_save_restore_functions.html">1cH</a> save/restore video state fns     <a href="70-video_graphics_array__vga_.html">VGA</a>
+ <a href="124-int_10h_09h__write_character_attribute_to_cursor_location.html">09H</a> write character/attribute
+ <a href="125-int_10h_0ah__write_character_to_cursor_location.html">0aH</a> write character               <a href="937-int_10h_4f00h___query_supervga_support.html">4f00H</a> query SVGA support
+ <a href="126-int_10h_0bh__select_graphics_palette_or_text_border_color.html">0bH</a> select color palette/border   <a href="938-int_10h_4f01h___query_supervga_mode_information.html">4f01H</a> query SVGA mode info
+ <a href="127-int_10h_0ch__write_graphics_pixel.html">0cH</a> write graphics pixel dot      <a href="939-int_10h_4f02h___set_supervga_video_mode.html">4f02H</a> set SVGA video mode
+ <a href="128-int_10h_0dh__read_graphics_pixel.html">0dH</a> read graphics pixel dot       <a href="940-int_10h_4f03h___query_current_supervga_video_mode.html">4f03H</a> query SVGA video mode
+ <a href="129-int_10h_0eh__write_character_as_tty.html">0eH</a> write character as TTY        <a href="941-int_10h_4f04h___save_restore_supervga_state.html">4f04H</a> save/restore SVGA state
+ <a href="130-int_10h_0fh__query_current_video_info.html">0fH</a> read video mode               <a href="942-int_10h_4f05h___query_set_supervga_video_memory_window.html">4f05H</a> query/set SVGA video mem window
+
+ AX    AT/PS2/EGA/VGA/VESA Extensions             Support
+ ▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀
+ <a href="137-int_10h_1000h__set_one_palette_register.html">1000H</a> set one palette register                   EGA/VGA
+ <a href="138-int_10h_1001h__set_overscan_border_color_register.html">1001H</a> set overscan/border color                  EGA/VGA
+ <a href="139-int_10h_1002h__set_all_palette_registers_and_overscan.html">1002H</a> set all palette registers &amp; border color   EGA/VGA
+ <a href="140-int_10h_1003h__select_foreground_blink_or_bold_background.html">1003H</a> select foreground blink or bold background EGA/VGA
+ <a href="141-int_10h_1007h__read_one_palette_register.html">1007H</a> read one palette register                      VGA
+ <a href="142-int_10h_1008h__read_overscan_register.html">1008H</a> read overscan/border color                     VGA
+ <a href="143-int_10h_1009h__read_all_palette_registers.html">1009H</a> read all pallet registers &amp; border color       VGA
+ <a href="144-int_10h_1010h__set_one_dac_color_register.html">1010H</a> set one DAC color register                     VGA
+ <a href="145-int_10h_1012h__set_a_block_of_dac_color_register.html">1012H</a> set block of DAC color registers               VGA
+ <a href="146-int_10h_1013h__dac_color_paging_functions.html">1013H</a> DAC color paging functions                     VGA
+ <a href="147-int_10h_1015h__read_one_dac_color_register.html">1015H</a> read one DAC color register                    VGA
+ <a href="148-int_10h_1017h__read_a_block_of_dac_color_registers.html">1017H</a> read block of DAC color registers              VGA
+ <a href="149-int_10h_101ah__query_dac_color_paging_state.html">101aH</a> query DAC color paging state                   VGA
+ <a href="150-int_10h_101bh__convert_dac_colors_to_gray_scale_values.html">101bH</a> convert DAC colors to grey scale               VGA
+
+ <a href="152-int_10h_1100h__load_user_defined_font.html">1100H</a> load user-defined font                     EGA/VGA
+ <a href="153-int_10h_1101h__load_rom_8x14_character_set.html">1101H</a> load ROM 8x14 font                         EGA/VGA
+ <a href="154-int_10h_1102h__load_rom_8x8_character_set.html">1102H</a> load ROM 8x8 font                          EGA/VGA
+ <a href="155-int_10h_1103h__activate_font_block.html">1103H</a> activate font block; 512-character set     EGA/VGA
+ <a href="156-int_10h_1104h__load_rom_8x16_character_set.html">1104H</a> load ROM 8x16 font                             VGA
+ <a href="157-int_10h_1110h__load_and_activate_user_defined_font.html">1110H</a> load and activate user-defined font        EGA/VGA
+ <a href="158-int_10h_1111h__load_and_activate_rom_8x14_character_set.html">1111H</a> load and activate ROM 8x14 font            EGA/VGA
+ <a href="159-int_10h_1112h__load_and_activate_rom_8x8_character_set.html">1112H</a> load and activate ROM 8x8 font             EGA/VGA
+ <a href="160-int_10h_1114h__load_and_activate_rom_8x16_character_set.html">1114H</a> load and activate ROM 8x16 font                VGA
+ <a href="161-int_10h_1120h__setup_int_1fh_vector.html">1120H</a> setup INT 1fH graphics font pointer            VGA
+ <a href="162-int_10h_1121h__setup_user_defined_font_for_graphics_mode.html">1121H</a> setup user-defined font for graphics           VGA
+ <a href="163-int_10h_1122h__setup_rom_8x14_font_for_graphics_mode.html">1122H</a> ROM 8x14 font for graphics modes               VGA
+ <a href="164-int_10h_1123h__setup_rom_8x8_font_for_graphics_mode.html">1123H</a> ROM 8x8 font for graphics modes                VGA
+ <a href="165-int_10h_1124h__setup_rom_8x16_font_for_graphics_mode.html">1124H</a> ROM 8x16 font for graphics modes               VGA
+ <a href="166-int_10h_1130h__get_current_character_generator_info.html">1130H</a> get video font information                     VGA
+
+ <a href="168-int_10h_12h_bl_10h__get_ega_information.html">12xxH 10H</a> get EGA info                           EGA/VGA
+ <a href="169-int_10h_12h_bl_20h__select_alternate_print_screen_handler.html">12xxH 20H</a> use alternate print screen             EGA/VGA
+ <a href="170-int_10h_12h_bl_30h__select_scan_lines_for_text_modes.html">12xxH 30H</a> set text-mode scan-lines                   VGA
+ <a href="171-int_10h_12h_bl_31h__palette_loading_on_mode_set.html">12xxH 31H</a> enable default palette loading             VGA
+ <a href="172-int_10h_12h_bl_32h__enable_disable_video_ram___i_o_ports.html">12xxH 32H</a> enable access to video                     VGA
+ <a href="173-int_10h_12h_bl_33h__enable_disable_gray_scale_summing.html">12xxH 33H</a> enable gray-scale summing                  VGA
+ <a href="174-int_10h_12h_bl_34h__cursor_emulation__scaling_.html">12xxH 34H</a> enable cursor emulation                    VGA
+ <a href="175-int_10h_12h_bl_35h__switch_ps_2_displays.html">12xxH 35H</a> PS/2 display switching                     VGA
+ <a href="176-int_10h_12h_bl_36h__enable_disable_screen_refresh.html">12xxH 36H</a> screen refresh on/off                      VGA
+
+ <a href="132-int_10h_1300h__display_string.html">1300H</a> display string                          AT/EGA/VGA
+ <a href="133-int_10h_1301h__display_string_and_update_cursor.html">1301H</a> display string and update cursor        AT/EGA/VGA
+ <a href="134-int_10h_1302h__display_character_attribute_cells.html">1302H</a> display character/attribute cells       AT/EGA/VGA
+ <a href="135-int_10h_1303h__display_char_attr_cells___update_cursor.html">1303H</a> display char/attr cells &amp; update cursor AT/EGA/VGA
+
+ 14xxH PC Convertible LCD fns  (not covered)
+ 15xxH PC Convertible LCD fns
+ 16-19 (reserved)
+
+ <a href="177-int_10h_1ah__set_or_query_display_combination_code.html">1axxH</a> query/set Display Combination Code (DCC)   PS2/VGA
+ <a href="178-int_10h_1bh__get_vga_functionality_and_state_info.html">1bxxH</a> query functionality/status                     VGA
+
+ <a href="180-int_10h_1c00h__vga_query_size_of_state_save_buffer.html">1c00H</a> query size of save buffer                      VGA
+ <a href="181-int_10h_1c01h__vga_save_video_state.html">1c01H</a> save current video state                       VGA
+ <a href="182-int_10h_1c02h__vga_restore_video_state.html">1c02H</a> restore video state from saved data            VGA
+
+See Also: <a href="936-vesa_svga_bios_functions.html">VESA/SVGA BIOS Services</a>
+          <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+                                       <span class="c3">-♦-</span></pre></body></html>

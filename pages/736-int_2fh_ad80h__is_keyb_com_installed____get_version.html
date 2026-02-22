@@ -1,0 +1,14 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH ad80H: Is KEYB.COM Installed? / Get Version - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH ad80H: Is KEYB.COM Installed? / Get Version</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    ad80H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">BX</span>    0000H is KEYB.COM is not loaded
+                version:  <span class="c2">BH</span> is major version number (e.g 03H for 3.10)
+                          <span class="c2">BL</span> is minor version number (e.g 0aH for 3.10)
+          ──────────────────────────────────────────────────────────────────
+    Info: Determines whether <span class="c2">KEYB.COM</span> has been executed and is resident in
+          memory and returns the version number.
+
+See Also: <a href="735-int_2fh_adxxh__keyb_com_functions.html">INT 2fH adxxH: KEYB.COM Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

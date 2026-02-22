@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2eH: Perform DOS Command - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2eH: Perform DOS Command</h1><pre>                                                           Compatibility: <span class="c2">??</span>
+ Expects: <span class="c2">DS:SI</span> offset of an Lstring<a href="921-qlstring.html">▲</a> of a DOS command to perform
+                (note: memory must be available when loading programs)
+          ──────────────────────────────────────────────────────────────────
+ Returns: ??    (it's not apparent how to obtain status of request)
+          <span class="c2">SS:SP</span> are destroyed <span class="c2">◄════</span>
+          ──────────────────────────────────────────────────────────────────
+
+    Info: This is <a href="912-_undocumented_.html">◄undocumented►</a> through DOS 6.0.  There are too many
+          drawbacks to make this a really useful function (see notes).
+
+          INT 2eH performs a DOS command, as if it had been typed at the
+          DOS prompt.
+
+          DS:SI must point to a string in which the first byte is the
+          length of the string, followed by the command text.  After the
+          command, a byte of 0dH (CR) must be appended (but don't count it
+          in the first byte).  For instance:
+
+            DB  0fH, &quot;set PROMPT=$p$g&quot;, 0dH  ;text is 0fH (15) bytes long
+
+          This example illustrates the main potential use -- it is able to
+          <span class="c2">Set</span> values into the DOS master (root) <a href="346-dos_environment.html">environment</a>.  In all other
+          cases, fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> is preferred, (e.g., EXEC COMMAND.COM, passing it
+          the line &quot;/c <span class="c1">dos_cmd</span>&quot;) since the EXEC fn is fully documented.
+
+   Notes: ■ <span class="c2">Don't use this while a batch file is running</span>.  This would cause
+            a fatal reentrancy problem (COMMAND.COM uses this to execute
+            batch commands).  Since a program cannot control whether a
+            batch is in progress, this is NOT a reliable function.
+
+          ■ Be sure to free up some memory to execute programs and
+            remember to relocate your local stack into the shrunken memory
+            area.
+
+          ■ Provide <span class="c1">plenty</span> of stack space -- DOS really eats it up.  SS and
+            SP must be saved before the call and restored directly after.
+
+See Also: <a href="740-int_2fh_aexxh__command_processor_command_line_hook.html">INT 2fH aexxH</a> (hook COMMAND.COM command line)
+          fn <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> (load and execute a program)
+          <a href="346-dos_environment.html">DOS Environment</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

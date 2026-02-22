@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H: Mouse Support - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H: Mouse Support</h1><pre>
+  <a href="833-int_33h_0000h__reset_query_installed_state.html">0000H</a> Reset/Query driver presence  <a href="850-int_33h_0013h__set_speed_doubling_threshold.html">0013H</a> Set max for speed doubling
+  <a href="834-int_33h_0001h__show_mouse_pointer.html">0001H</a> Display pointer              <a href="851-int_33h_0014h__exchange_mouse_event_handler.html">0014H</a> Exchange event handlers
+  <a href="835-int_33h_0002h__hide_mouse_pointer.html">0002H</a> Hide pointer                 <a href="852-int_33h_0015h__query_size_of_mouse_status_buffer.html">0015H</a> Query status buffer size
+  <a href="836-int_33h_0003h__query_position___button_status.html">0003H</a> Query position &amp; buttons     <a href="853-int_33h_0016h__save_mouse_status.html">0016H</a> Save mouse status
+  <a href="837-int_33h_0004h__set_mouse_pointer_position.html">0004H</a> Move pointer                 <a href="854-int_33h_0017h__restore_mouse_status.html">0017H</a> Restore mouse status
+  <a href="838-int_33h_0005h__query_button_pressed_counter.html">0005H</a> Query button-pressed count   <a href="855-int_33h_0018h__set_alternate_event_handler.html">0018H</a> Install mouse+key event handler
+  <a href="839-int_33h_0006h__query_button_released_counter.html">0006H</a> Query button-released count  <a href="856-int_33h_0019h__query_user_alternate_event_handler.html">0019H</a> Get addr of mou+key evt handler
+  <a href="840-int_33h_0007h__set_horizontal_range.html">0007H</a> Set horizontal range         <a href="857-int_33h_001ah__set_mouse_sensitivity.html">001aH</a> Set mouse sensitivity
+  <a href="841-int_33h_0008h__set_vertical_range.html">0008H</a> Set vertical range           <a href="858-int_33h_001bh__query_mouse_sensitivity.html">001bH</a> Query mouse sensitivity
+  <a href="842-int_33h_0009h__set_graphics_pointer_shape.html">0009H</a> Set graphics pointer shape   <a href="859-int_33h_001ch__set_inport_mouse_interrupt_rate.html">001cH</a> Set mouse interrupt rate
+  <a href="843-int_33h_000ah__set_text_pointer_mask.html">000aH</a> Set text pointer mask        <a href="860-int_33h_001dh__set_mouse_display_page.html">001dH</a> Set display page
+  <a href="844-int_33h_000bh__query_motion_distance.html">000bH</a> Query last motion distance   <a href="861-int_33h_001eh__query_mouse_display_page.html">001eH</a> Query active display page
+  <a href="845-int_33h_000ch__set_mouse_event_handler.html">000cH</a> Set event handler            <a href="862-int_33h_001fh__deactivate_mouse_driver.html">001fH</a> Deactivate mouse driver
+  <a href="846-int_33h_000dh__enable_lightpen_emulation.html">000dH</a> Enable lightpen emulation    <a href="863-int_33h_0020h__reenable_mouse_driver.html">0020H</a> Activate mouse driver
+  <a href="847-int_33h_000eh__disable_lightpen_emulation.html">000eH</a> Disable lightpen emulation   <a href="864-int_33h_0021h__reset_mouse_driver.html">0021H</a> Reset mouse driver
+  <a href="848-int_33h_000fh__set_pointer_speed.html">000fH</a> Set pointer speed            <a href="865-int_33h_0024h__query_mouse_type_driver_version_irq_.html">0024H</a> Query mouse type, IRQ#
+  <a href="849-int_33h_0010h__set_exclusion_area.html">0010H</a> Set exclusion area
+
+  <span class="c2">To access the mouse support:</span> load the registers as described under each
+  function, set AX to the function number, and execute <span class="c1">INT 33H</span>.
+
+  In most text-mode applications, very few functions are actually needed.
+  In a graphics mode application, you had better stick to the Windows or
+  other GUI or TUI environment mouse support.
+
+  <span class="c2">To determine if the mouse is present</span>, use <a href="833-int_33h_0000h__reset_query_installed_state.html">INT 33H 0000H</a>.  This resets the
+  mouse driver and, in general, all of the default settings are adequate.
+  Note that you can probably assume that the user knows how to install the
+  mouse (via executing MOUSE.COM or installing MOUSE.SYS in <a href="267-the_config_sys_file.html">CONFIG.SYS</a>).
+
+  You may poll for mouse activity via <a href="836-int_33h_0003h__query_position___button_status.html">INT 33H 0003H</a> or install an event
+  handler via <a href="845-int_33h_000ch__set_mouse_event_handler.html">INT 33H 000cH</a> or <a href="855-int_33h_0018h__set_alternate_event_handler.html">INT 33H 0018H</a> and take action whenever a
+  button gets pressed.  A common technique is to have your event handler
+  simply set values into global variables which can be examined by any part
+  of your program at any time.
+
+  One thing to note is that <span class="c1">all</span> screen coordinates used by the driver are
+  specified as if the screen were in a &quot;virtual graphics mode&quot;.  For text-
+  mode applications, a character position is considered to be 8 points wide
+  and 8 points tall.  Thus, to specify a screen (X,Y) of (10,11), pass the
+  value (80,88).  Similarly, when the support indicates that the mouse is at
+  (632,80), then the pointer is actually on character (79,10).  <span class="c1">Just divide</span>
+  <span class="c1">each coordinate by 8</span> (or shift right 3 times).
+
+<span class="c2">█▌Mouse Droppings▐█</span>
+  One tricky part of text-mode mouse programming relates to an effect I call
+  <span class="c1">mouse droppings</span>.  When you perform direct writes to the video buffer (and
+  in doing so, overwrite the position of the mouse), the mouse support won't
+  know about any new character or attribute at the pointer position.  When
+  the mouse is then moved, the driver will restore the old character and
+  attribute instead of the new one you have written.
+
+  To avoid this, you must use <a href="835-int_33h_0002h__hide_mouse_pointer.html">INT 33H 0002H</a> (hide ptr) before writing
+  directly to the video RAM and use <a href="834-int_33h_0001h__show_mouse_pointer.html">INT 33H 0001H</a> (show ptr) afterward.
+  Note that if you stick to <a href="113-int_10h__video_services.html">INT 10H</a> video I/O, you won't have this problem,
+  since the mouse support intercepts such I/O calls and eliminates the
+  problem.
+
+<span class="c2">█▌TSR Programs▐█</span>
+  When writing a <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> which uses the mouse, you must take care to avoid the
+  mouse-droppings problem, as well as related problems having to do with
+  interrupting an executing program.
+
+  When installing your <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>, call <a href="852-int_33h_0015h__query_size_of_mouse_status_buffer.html">INT 33H 0015H</a> and allocate a buffer of the
+  indicated size.  When the TSR is popped up, you must use <a href="853-int_33h_0016h__save_mouse_status.html">INT 33H 0016H</a> to
+  save the state of the mouse, and use <a href="845-int_33h_000ch__set_mouse_event_handler.html">INT 33H 000cH</a>, <a href="851-int_33h_0014h__exchange_mouse_event_handler.html">INT 33H 0014H</a>, or
+  <a href="855-int_33h_0018h__set_alternate_event_handler.html">INT 33H 0018H</a> to install your event handler.  Upon exiting from your TSR,
+  you must use <a href="854-int_33h_0017h__restore_mouse_status.html">INT 33H 0017H</a> to restore the mouse state for the interrupted
+  program.
+
+<span class="c2">█▌Versions▐█</span>
+  The Microsoft Mouse is the industry standard and it is generally okay for
+  an application to assume that the mouse is 100% Microsoft compatible.
+
+  MS Mouse driver version 6.0 (circa 1983) supported only MouFns 0-17H and
+  1dH-1eH.  Driver version 6.1 (circa 1984) supports all the functions
+  listed above, adding the ability to install a more flexible event handler
+  (check for Shift-, Ctrl-, or Alt- clicks), CRT page awareness, mouse
+  sensitivity control, and a way to disable the mouse driver.
+
+  Since all of these improvements have existed for several years (with
+  nothing new, to speak of), there should be no problem with using any of
+  the newer functions.  However, a few  non-Microsoft mouse devices do not
+  support the later fns.  For best compatibility, you might try sticking
+  with fns 0000H-0017H.
+
+See Also: <a href="27-dos__bios___extensions_service_index.html">API Service Index</a>
+          <a href="219-int_15h_84h__joystick_support.html">INT 15H 84H</a> (joystick support)
+          <a href="96-irqs__hardware_interrupts.html">IRQs: Hardware Interrupts</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

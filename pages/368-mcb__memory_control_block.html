@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MCB: Memory Control Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MCB: Memory Control Block</h1><pre>
+ This structure is used internally by DOS when it allocates memory.
+
+<span class="c2">MemBlockRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       1  <span class="c1">bSignature</span>   '<span class="c2">M</span>' (4dH)=valid; '<span class="c2">Z</span>'(5aH)=last block in list
+  +1       2  <span class="c1">wOwnerID</span>     segment address of <a href="371-psp__program_segment_prefix.html">PSP</a> of owner (0=owns self)
+  +3       2  <span class="c1">wSizeParas</span>   allocation size in 16-byte paragraphs
+  +5       3  <span class="c1">res</span>          (reserved)
+  +8       8  <span class="c1">szOwnerName</span>  ASCIIZ<a href="913-qasciiz.html">▲</a> name of owner (DOS <span class="c2">4.0+</span>)
+          16               size of a MemBlockRec
+ +10H      ?  <span class="c1">abBlockData</span>  allocation starts here and extends for
+                           <span class="c1">wSizeParas</span>*16 bytes.  Another MemBlockRec will be
+                           at that address.
+
+   Notes: ■ Memory blocks always start and end on a paragraph boundary.
+
+          ■ After fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> Exec, a <span class="c2">Z</span> block begins at (<a href="371-psp__program_segment_prefix.html">PSP</a>-1):0 of the new
+            process (16 bytes before the PSP).
+
+          ■ <span class="c1">sZOwnerName</span> is 7 or fewer bytes, followed by 00H.  When DOS
+            loads a program, this field is filled-in with (part of)
+            filename of the program.  Subsequent allocations are not
+            labeled by name (but the <span class="c1">wBlockID</span> is valid, so the owner name
+            can be tracked down with a little effort).
+
+            Note: <span class="c2">Prior to DOS 4.0</span>, this field contained garbage.
+
+          ■ It can be entertaining to trace the MCBs and figure out how
+            much memory is used by <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>s and so forth.  An <a href="912-_undocumented_.html">undocumented</a> way
+            to find the first or 'base' MemBlockRec to use DOS Fn <a href="514-dos_fn_52h__get_dos_variables.html">52H</a>.
+            See <a href="349-dos_variables_block__list_of_lists_.html">DosVarsRec</a> (aka <span class="c2">List Of Lists</span>) for related info.
+
+See Also: <a href="13-memory_management_functions.html">Memory Control Functions</a>
+          <a href="349-dos_variables_block__list_of_lists_.html">DosVarsRec</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

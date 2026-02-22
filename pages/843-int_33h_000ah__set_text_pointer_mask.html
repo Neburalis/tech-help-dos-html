@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 000aH: Set Text Pointer Mask - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 000aH: Set Text Pointer Mask</h1><pre>
+ Expects: <span class="c2">AX</span>    000aH
+          <span class="c2">BX</span>    pointer type:  0=software ptr; 1=hardware ptr
+          <span class="c2">CX</span>    AND mask (if BX=0)  <span class="c1">or</span>  cursor start line (if BX=1)
+          <span class="c2">DX</span>    XOR mask (if BX=0)  <span class="c1">or</span>  cursor end line (if BX=1)
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This lets you modify the appearance of the mouse pointer on the
+          text-mode display.  It also lets you use the standard blinking
+          &quot;hardware cursor&quot; as the mouse pointer.  By default, the pointer
+          is a &quot;software cursor&quot; displayed as the pointed-to character,
+          with an &quot;inverted&quot; color attribute.
+
+          To modify the pointer for graphics screens, see <a href="842-int_33h_0009h__set_graphics_pointer_shape.html">INT 33H 0009H</a>.
+
+       <span class="c2">BX</span> <span class="c2">0000H = Software Pointer</span>
+          Use this to specify the desired colors for the pointer or to set
+          the pointer to be displayed as a specific character (e.g., a
+          checkmark, (<span class="c2">√</span>), or other character).  This latter option is handy
+          for signaling when a button has been pressed over selectable
+          field, such as a menu item or hyperlink.
+
+          The mouse support works by ANDing the value of the char/attr at
+          the pointer with your AND mask (i.e., it removes bits from the
+          screen char/attr which are 0s in your AND mask).  It then applies
+          the XOR mask to the result (i.e., it toggles bits of the result
+          which are 1s in the XOR mask).  It then stores the result of the
+          two operations into the char/attr on the screen.
+
+          <span class="c2">CX</span> and <span class="c2">DX</span>: The low byte of each mask affects the character code
+          and the high byte affects the color-and-blink attribute.  See
+          <a href="87-screen_attributes.html">Video Attributes</a> for information on the bit-encoding of text-mode
+          attribute bytes.
+
+          The <span class="c1">default values are: </span><span class="c2">CX</span><span class="c1">=ffffH and </span><span class="c2">DX</span><span class="c1">=7700H</span>.  The effect is
+          that no information is masked by the AND mask, and that the
+          foreground color is inverted (all three bits toggled) and the
+          background color is inverted.
+
+          This example makes the pointer into a red-on-blue check mark:
+
+            mov  BX,0       ;software pointer
+            mov  CX,0000H   ;mask all current information
+            mov  DX,14fbH   ;<span class="c1">1</span>xxx=blue bkgd, x<span class="c1">4</span>xx=red frgd, xx<span class="c1">fb</span>='<span class="c2">√</span>'
+            mov  AX,000aH
+            int  33H
+
+          To set the pointer to an arbitrary color without changing the
+          character, use CX=00ffH to mask (clear) the attribute and BX=<span class="c1">xx</span>00
+          to set the color to <span class="c1">xx</span> (see <a href="87-screen_attributes.html">Screen Attributes</a>).
+
+       <span class="c2">BX</span> <span class="c2">0001H = Hardware Pointer</span>
+          This selects to ignore all of the above options and rely on the
+          familiar blinking text cursor.  In this case, the values for <span class="c2">CX</span>
+          and <span class="c2">DX</span> identify the shape of the mouse cursor, as used in of
+          <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H</a>.
+
+          CX is the starting scan line (0 means the topmost line of the
+          character cell) and DX is the ending scan line.  The maximum
+          valid value for DX depends upon the current screen mode and video
+          adapter type:
+
+            CGA   scan line range is 0 to 7
+            MDPA  scan line range is 0 to 13
+            EGA   scan line range is 0 to 13
+            VGA   scan line range is 0 to 15
+
+          Note that <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> and <a href="70-video_graphics_array__vga_.html">VGA</a> may be in a mode which has fewer (or even
+          more) scan lines per character cell (e.g., in 43-line mode,
+          characters have 8 scan lines).
+
+          Also note that it is valid to set DX to a larger value than CX.
+          In that case, the cursor may be shown in two parts with a gap in
+          the middle.  The cursor blinks, regardless of what your do.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

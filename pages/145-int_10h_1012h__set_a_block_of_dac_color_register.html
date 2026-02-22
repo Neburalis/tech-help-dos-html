@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 1012H: Set a Block of DAC Color Register - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 1012H: Set a Block of DAC Color Register</h1><pre>                                                          Compatibility: <span class="c2">VGA</span>
+ Expects: <span class="c2">AX</span>    1012H
+          <span class="c2">BX</span>    first DAC register to set (0-00ffH)
+          <span class="c2">CX</span>    number of registers to set (0-00ffH)
+          <span class="c2">ES:DX</span> addr of a table of R,G,B values (it will be <span class="c2">CX</span>*3 bytes long)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: On VGAs, this sets the RGB values for a consecutive block of DAC
+          color registers.  Starting with register number in <span class="c2">BX</span>, <span class="c2">CX</span>
+          registers are programmed with values from the table at <span class="c2">ES:DX</span>.
+
+    <span class="c2">ES:DX</span> is the address of a series of 3-byte RGB values, laid out as
+          Red,Green,Blue, Red,Green,Blue,...  The table should be <span class="c2">CX</span>*3
+          bytes long.
+
+          See <a href="144-int_10h_1010h__set_one_dac_color_register.html">INT 10H 1010H</a> (set one DAC color register) for related info.
+
+   Notes: Use <a href="148-int_10h_1017h__read_a_block_of_dac_color_registers.html">INT 10H 1017H</a> to obtain the current settings for a block of
+          DAC color registers.
+          See <a href="146-int_10h_1013h__dac_color_paging_functions.html">INT 10H 1013H</a> for a reason why you might tend to work with
+          16- or 64-register blocks.
+
+See Also: <a href="136-int_10h_10h__ega_vga_palette_functions.html">INT 10H 10H: EGA/VGA Palette Functions</a>
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

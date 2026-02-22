@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a11H BX=0000H: Get Dblspace Version &amp; Drives - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a11H BX=0000H: Get Dblspace Version &amp; Drives</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    4a11H (mux number)
+          <span class="c2">BX</span>    0000H (DoubleSpace fn code)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error Code</a> (0000H=success)
+          <span class="c2">BX</span>    444dH signature; 'M','D')
+          <span class="c2">CL</span>    first drive letter used by DoubleSpace (41H='A', etc.)
+          <span class="c2">CH</span>    count of drives letters used by DoubleSpace
+          <span class="c2">DX</span>    Version number (an internal code) high bit indicates current
+                code location (high or low memory)
+          ──────────────────────────────────────────────────────────────────
+    Info: You may use this fn to see if DoubleSpace is installed and to
+          obtain the range of drive letters that it uses.
+
+       <span class="c2">CL</span> is the <a href="45-ascii.html">ASCII</a> code for a drive letter (for instance, 45H=<span class="c2">E</span>).
+       <span class="c2">CH</span> is a count of how many drive IDs are controlled by DoubleSpace;
+          for instance, CX=0544H means drives <span class="c2">D</span>,<span class="c2">E</span>,<span class="c2">F</span>,<span class="c2">G</span>, and <span class="c2">H</span> are available
+          to DoubleSpace for use as drive IDs.
+
+       <span class="c2">DX</span> The low 15 bits identify the version number (this shows up as
+          0006H on my PC).
+
+          <span class="c1">Bit 15</span> is a location flag:  When set, it indicates that
+          DBLSPACE.BIN is not at its final location (for instance, the
+          DEVICEHIGH=DBLSPACE.SYS command is not in <a href="267-the_config_sys_file.html">CONFIG.SYS</a> or has not
+          been executed yet.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

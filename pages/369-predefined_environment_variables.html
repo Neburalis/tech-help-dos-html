@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Predefined Environment Variables - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Predefined Environment Variables</h1><pre>
+ These environment variables are created by parts of DOS or can be set to
+ custom values to modify how DOS acts:
+
+ <span class="c2">APPEND</span>    Data search path visible in the environment after <span class="c2">Append /E</span>.
+
+ <span class="c2">COMSPEC</span>   The name and location of the command processor.
+
+ <span class="c2">CONFIG</span>    The item chosen from a <a href="271-multiconfig_menus.html">MultiConfig Menu</a> in <a href="267-the_config_sys_file.html">CONFIG.SYS</a>.
+           Typical usage is to test this value in AUTOEXEC.BAT.  For
+           instance:
+              <span class="c2">IF (%CONFIG%)==(DAN) Echo Hi Dan!</span>
+           or
+              <span class="c2">Goto %CONFIG%</span>
+               .
+               .
+               .
+              :NO_EMS
+
+ <span class="c2">COPYCMD</span>   Option settings for the <span class="c2">Copy</span> command (<span class="c2">DOS 6.2+</span>).
+
+ <span class="c2">DIRCMD</span>    Option settings for the <span class="c2">Dir</span> command.
+
+ <span class="c2">DOSSHELL</span>  The directory for DOSSHELL.INI.
+
+ <span class="c2">MSDOSDATA</span> The directory for some configuration and setup files used by
+           DOS <span class="c2">6.0+</span> Msbackup, MSAV, Undelete.
+
+ <span class="c2">PATH</span>      The command search path.
+
+ <span class="c2">PROMPT</span>    The command prompt as set via the <span class="c2">Prompt</span> command.
+
+ <span class="c2">TEMP</span>      The location for <a href="828-standard_i_o_and_i_o_redirection.html">I/O Redirection</a> piping files.  Also used for
+           temporary files by Dosshell, Windows and other programs.
+           Setting this to a large RAM disk can speed up Windows printing
+           dramatically.
+
+           Note: A few older programs look for <span class="c2">TMP</span> rather than TEMP.
+
+ <span class="c2">WINPMT</span>    The command prompt for DOS sessions under Windows.  When a DOS
+           session starts, Windows swaps <span class="c2">PROMPT</span> and <span class="c2">WINPMT</span>.
+
+ <span class="c2">windir</span>    In a DOS session under Windows, this identifies the drive and
+           directory where Windows is stored.
+
+See Also: <a href="346-dos_environment.html">DOS Environment</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

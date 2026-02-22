@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MRCI Fn 0020H: Incrementally Decompress Data - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MRCI Fn 0020H: Incrementally Decompress Data</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+ Expects: <span class="c2">AX</span>    0020H
+          <span class="c2">CX</span>    caller type: 0000H=APPLICATION client (<a href="365-indos_flag.html">InDOS</a> is clear)
+                             0001H=SYSTEM client      (InDOS is set)
+          <span class="c2">DS:SI</span> address of a pre-filled <a href="823-mrcrequestrec.html">MRCRequestRec</a> structure:
+                  <span class="c1">.pfbSrc</span>  =address of compressed data
+                  <span class="c1">.wSrcLen</span> =(ignored)
+                  <span class="c1">.pfbDest</span> =start of buffer (first call)
+                            next addr in buffer (subsequent calls;
+                            automatically updated by server)
+                  <span class="c1">.wDestLen</span>=desired number of bytes to decompress on this
+                            call (see below).
+                  <span class="c1">.lIncInfo</span>=must be 0 on the first call.  It is updated
+                            by the server automatically on each call.
+          <span class="c2">ES:BX</span> address of a <a href="822-mrcinforec.html">MRCInfoRec</a> structure filled via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000H = success
+                else  = <a href="821-mrci_api_error_return_codes.html">MRCI API Error Code</a>
+          <span class="c2">DS:SI</span> <span class="c1">wDestLen</span> field (offset 0eH) is size of uncompressed data
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn decompresses data that was compressed via <a href="817-mrci_fn_0001h__compress_data.html">MRCI Fn 0001H</a>
+          (MRCI compress data).  It lets you decompress just a portion of
+          the source data; for instance, DoubleSpace uses this to
+          decompress individual sectors while accessing CVF disk data in
+          larger (up to 8K) cluster blocks.
+
+          The source and destination addresses (and other important
+          details) are identified in the <a href="823-mrcrequestrec.html">MRCRequestRec</a> structure.  The API
+          entry address is obtained via <a href="816-int_2fh_4a12h__get_mrci_installed_state_and_entry_address.html">INT 2fH 4a12H</a>.
+
+          Before using this call, you must ensure the correct state of the
+          <a href="365-indos_flag.html">InDOS Flag</a> (corresponding to the value in <span class="c2">CX</span>) and you must start
+          a Windows Critical Section.  See <a href="817-mrci_fn_0001h__compress_data.html">MRCI Fn 0001H</a> for info about
+          these requirements.
+
+          <span class="c2">MRCReqestRec fields</span>:
+   <span class="c1">pfbSrc</span> On the first call, set this to the address of the start of a
+          compressed block.  MRCI will expect this to begin with a four-
+          byte header such as '<span class="c2">MD</span>0<span class="c2">☻</span>' (4DH, 44H, 00H, 02H) or '<span class="c2">DS</span>0<span class="c2">☻</span>' (44H,
+          53H, 00H, 02H); the latter is seen in the <a href="812-cvf_region__sector_heap.html">Sector Heap</a> of
+          <a href="787-doublespace_overview.html">DoubleSpace</a> CVFs.
+
+          After each call, MRCI updates the offset portion of this field to
+          indicate the next address in the source buffer that is to be
+          decompressed.  Do not change this field between calls to this fn.
+
+  <span class="c1">wSrcLen</span> is ignored in this call.  The amount of data to be decompressed
+          is determined by the <span class="c1">wDestLen</span> field.
+
+  <span class="c1">pfbDest</span> On the first call, set this to the address of the start of your
+          buffer to receive the decompressed data.
+
+          After each call, MRCI updates the offset portion of this field to
+          indicate the next, unused address in the destination buffer.
+          MRCI uses previously-decompressed data as it decompresses each
+          new byte of the compressed data, so do not change this field
+          between calls to this fn.
+
+ <span class="c1">wDestLen</span> is the desired length of the data <span class="c1">after</span> decompression; i.e., the
+          number of bytes to store into the destination buffer.
+
+          MRCI does not know when it has reached the end of the valid
+          compressed data and will happily continue &quot;decompressing&quot;
+          garbage.  If you don't know the size the data should be after
+          decompression, you can try decompressing one byte at a time, and
+          look for some recognizable end of file mark.  In some cases, MRCI
+          will know that it is trying to decompress garbage, and will
+          return an error in <span class="c2">AX</span>; but you cannot depend on that.
+
+ <span class="c1">lIncInfo</span> must be set to 0 on the first call.  Thereafter, MRCI uses it to
+          maintain state information between calls.  Do not modify this
+          between calls to this fn.
+
+   Notes: ■ Check <span class="c2">AX</span> for a returned error code.  And check the <span class="c1">wDestLen</span>
+            field of the <a href="823-mrcrequestrec.html">MRCRequestRec</a> structure to see if all of the
+            requested data was returned.
+
+          ■ See <a href="818-mrci_fn_0002h__decompress_data.html">MRCI Fn 0002H</a> (decompress data) for related information.
+
+See Also: <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

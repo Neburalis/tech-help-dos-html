@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IoctlHandleInfoRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IoctlHandleInfoRec</h1><pre>
+ DOS Fn <a href="456-dos_fn_440ah__ioctl_is_file_device_remote.html">440aH</a> (is file or device remote) returns this layout in DX.  The
+ meanings of the bits vary depending upon the value in <span class="c1">bit 7</span> (file/device).
+
+<span class="c2">IoctlHandleInfoFileRec</span> ─── layout when describing a <span class="c2">disk file</span>
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║<span class="c1">r</span>│<span class="c1">t</span>│0│<span class="c1">i</span>│0 0 0 0║<span class="c2">0</span>│<span class="c1">o</span>│ <span class="c1">drive id</span>  ║
+╙╥┴╥┴─┴╥┴─┴─┴─┴─╨<span class="c2">╥</span>┴╥┴╥┴─┴─┴─┴─┴╥╜ <span class="c1">bit</span>  <span class="c1">mask</span>
+ ║ ║   ║         <span class="c2">║</span> ║ ╚═════════╩═►0-5: 003fH drive ID (0=A, 1=B, etc.)
+ ║ ║   ║         <span class="c2">║</span> ╚═════════════►  6: 0040H file has not been written to
+ ║ ║   ║         <span class="c2">╚═══════════════►  7: 0080H 0=file</span>
+ ║ ║   ╚═════════════════════════► 12: 1000H 1=no inherit
+ ║ ╚═════════════════════════════► 14: 4000H 1=date/time not set on close
+ ╚═══════════════════════════════► 15: 8000H 1=remote file; 0=local file
+
+<span class="c2">IoctlHandleInfoDevRec</span> ─── layout when describing a <span class="c2">device</span>
+ 1 1 1 1 1 1
+╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+║<span class="c1">r</span>│0│<span class="c1">p</span>│<span class="c1">i</span>│<span class="c1">s</span>│0 0 0║<span class="c2">1</span>│<span class="c1">e</span>│<span class="c1">b</span>│<span class="c1">f</span>│<span class="c1">c</span>│<span class="c1">n</span>│<span class="c1">o</span>│<span class="c1">i</span>║
+╙╥┴─┴╥┴╥┴╥┴─┴─┴─╨<span class="c2">╥</span>┴╥┴╥┴╥┴╥┴╥┴╥┴╥╜ <span class="c1">bit</span>  <span class="c1">mask</span>
+ ║   ║ ║ ║       <span class="c2">║</span> ║ ║ ║ ║ ║ ║ ╚═►  0: 0001H Console Input device
+ ║   ║ ║ ║       <span class="c2">║</span> ║ ║ ║ ║ ║ ╚═══►  1: 0002H Console Output device
+ ║   ║ ║ ║       <span class="c2">║</span> ║ ║ ║ ║ ╚═════►  2: 0004H Null device
+ ║   ║ ║ ║       <span class="c2">║</span> ║ ║ ║ ╚═══════►  3: 0008H Clock device
+ ║   ║ ║ ║       <span class="c2">║</span> ║ ║ ╚═════════►  4: 0010H special device; fast output
+ ║   ║ ║ ║       <span class="c2">║</span> ║ ╚═══════════►  5: 0020H binary mode; 0=ASCII
+ ║   ║ ║ ║       <span class="c2">║</span> ╚═════════════►  6: 0040H not EOF; 0=EOF on input
+ ║   ║ ║ ║       <span class="c2">╚═══════════════►  7: 0080H 1=device</span>
+ ║   ║ ║ ╚═══════════════════════► 11: 0800H network spooler
+ ║   ║ ╚═════════════════════════► 12: 1000H no inherit
+ ║   ╚═══════════════════════════► 13: 2000H named pipe
+ ╚═══════════════════════════════► 15: 8000H 1=remote device; 0=local
+
+See Also: fn <a href="456-dos_fn_440ah__ioctl_is_file_device_remote.html">440aH</a> (IOCTL is file/device remote)
+          <a href="323-device_attribute.html">Device Attribute</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH b000H: Is GRAFTABL.COM Installed? - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH b000H: Is GRAFTABL.COM Installed?</h1><pre>                                                         Compatibility: <span class="c2">5.0+</span>
+ Expects: <span class="c2">AX</span>    b000H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    status: 00H = GRAFTABL.COM is not installed
+                        ffH = GRAFTABL.COM <span class="c1">is</span> installed
+          ──────────────────────────────────────────────────────────────────
+    Info: Checks to see if the DOS 5.0+ <span class="c2">GRAFTABL.COM</span> program has been
+          executed and its graphics-character definitions have been made
+          resident.
+
+          GRAFTABL.COM installs data that defines how ASCII characters 80H-
+          ffH are displayed while in graphics mode (see <a href="114-video_modes.html">Video Modes</a>).  It
+          loads about 1K of data into memory and modifies the <a href="257-int_1fh__cga_graphics_character_font_pointer.html">INT 1fH</a>
+          vector to point to that data.
+
+          GRAFTABL.COM is used only by CGA owners, and even then, very
+          rarely.
+
+See Also: <a href="91-video_font_definition.html">Font Definition Data</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

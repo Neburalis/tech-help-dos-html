@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 24H: Critical Error Handler - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 24H: Critical Error Handler</h1><pre>
+ The INT 24H vector (0000:0090) is set to the address that will gain
+ control when a DOS device driver encounters a so-called <span class="c2">critical error</span>.
+
+ On program startup, the address at this vector is copied into the
+ <span class="c1">pfCritErr</span> field of the <a href="371-psp__program_segment_prefix.html">PSP</a>.  This PSP-local copy of the address is
+ restored into the interrupt table upon program exit.  Therefore, changing
+ the INT 24H vector will affect handling of your own program as well as any
+ child programs you EXEC.
+
+ The normal DOS INT 24H handler is the code that displays the message...
+
+       <span class="c2">Abort, Retry, Fail, Ignore? _</span>
+
+ ...which you see when a diskette drive door is open or the printer is off-
+ line.  Note: the &quot;<span class="c2">Fail</span>&quot; was added in DOS version <span class="c2">3.0</span>.
+
+ Most sophisticated programs supply their critical error handler to avoid
+ having DOS screw up a carefully-maintained screen display.  To supply a
+ custom Critical Error handler, use fn <a href="406-dos_fn_25h__set_interrupt_vector.html">25H</a> to replace interrupt vector 24H.
+
+<span class="c2">█▌Entry▐█</span>
+  Upon entry to the INT 24H handler, the registers are as follows:
+
+ <span class="c2">BP:SI</span> = addr of a <a href="322-device_header_layout.html">Device Header</a> to help identify the failing device
+    <span class="c2">DI</span> = bits 0-7 contain an error code (bits 8-15 are undefined)
+    <span class="c2">AL</span> = if <span class="c2">AH</span> bit 7=0, <span class="c2">AL</span> is the drive number (0=A, 1=B, etc.)
+    <span class="c2">AH</span> = error information as follows:
+         ╓7┬6┬5┬4┬3┬2┬1┬0╖
+         ║<span class="c2">*</span>│0│<span class="c1">i</span>│<span class="c1">r</span>│<span class="c1">f</span>│<span class="c1">loc</span>│<span class="c1">w</span>║
+         ╙╥┴─┴╥┴╥┴╥┴─┴─┴╥╜ bits mask
+          ║   ║ ║ ║ ╚╦╝ ╚═►  0: 01H operation type: <span class="c2">0</span>=read, <span class="c2">1</span>=write
+          ║   ║ ║ ║  ╚════►1-2: 06H affected disk area:
+          ║   ║ ║ ║                 <span class="c2">00</span>=system files, <span class="c2">01</span>=<a href="359-fat__dos_file_allocation_table.html">FAT</a>
+          ║   ║ ║ ║                 <span class="c2">10</span>=directory,    <span class="c2">11</span>=data area
+          ║   ║ ║ ╚═══════►  3: 08H <span class="c2">1</span>=FAIL exit is allowed ───┐
+          ║   ║ ╚═════════►  4: 10H <span class="c2">1</span>=RETRY exit is allowed   ╞═►<span class="c2">3.0+ only</span>
+          ║   ╚═══════════►  5: 20H <span class="c2">1</span>=IGNORE exit is allowed ─┘
+          ╚═══════════════►  7: 80H device type: <span class="c2">0</span>=disk, <span class="c2">1</span>=other
+
+           <span class="c2">*</span> When bit 7=1 (non-disk error), bits 0-6 are not defined.
+
+  You can handle the error by prompting the user to take action (e.g., close
+  the drive door or turn on the printer).
+
+  You can obtain additional information from DOS Fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> and/or the device
+  driver header block pointed to by BP:SI.
+
+<span class="c2"> Warning! </span>Be careful about using DOS fns in your Critical Error handler.
+          With <span class="c2">DOS 5.0+</span>, ONLY the following fns can be called safely:
+
+            <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0CH</a> (DOS character I/O)
+            <a href="420-dos_fn_33h__set_query_break_check__query_dos_info.html">33H</a> (all subfns are OK, including <a href="424-dos_fn_3306h__get_dos_version_info.html">3306H</a> get DOS version)
+            <a href="512-dos_fn_50h__set_psp.html">50H</a> (set PSP address)
+            <a href="513-dos_fn_51h__query_current_psp.html">51H</a> and <a href="542-dos_fn_62h__query_current_psp.html">62H</a> (query PSP address)
+            <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> (get extended error information)
+
+          With <span class="c2">DOS 2.0-3.0</span>, you are even more limited: only <a href="373-dos_fns_01h_0ch__low_level_i_o.html">01H-0cH</a> and
+          <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a> are allowed, unless you set the DOS <a href="353-errormode_flag.html">ErrorMode</a> flag before
+          invoking INT 21H (in that case, you must <span class="c1">avoid</span> 01H-0cH!).
+
+<span class="c2">█▌Exit▐█</span>
+  After handling or trying to correct the error, you can set <span class="c2">AL</span> with an
+  action code and get back to DOS indicating one of these actions:
+
+     AL=0: <span class="c1">ignore</span> the error
+     AL=1: <span class="c1">retry</span> the operation
+     AL=2: <span class="c1">abort</span>. Terminate via the <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> address (as on Ctrl-Break)
+     AL=3: return to application indicating a <span class="c1">fail</span>ed DOS function
+
+     <span class="c2">DOS 3.0+</span>  Examine AH on entry to see which actions are not allowed.
+
+  The AL=3 option seems ideal.  For instance, if an &quot;Open File&quot; operation
+  caused the error because of no disk in the drive, you could let your
+  application take care of it with its normal error handling.  However, it
+  has DISadvantages:
+
+   ■ The AL=3 option is NOT available with DOS version <span class="c2">prior to DOS 3.0</span>.
+   ■ DOS always returns <a href="347-dos_error_codes.html">error code</a> 53H which is not too informative.
+
+    Note: The <span class="c2">DOS 4.0+</span> fn <a href="557-dos_fn_6ch__extended_open_create.html">6cH</a> lets you avoid problems relating to critical
+          errors on a file-by-file basis.  I only wish this had existed
+          since 2.1!
+
+<span class="c2">█▌The Stack▐█</span>
+  Upon entry into the INT 24H error handler, the stack is in a known state
+  as described here:
+
+   IP, CS, Flags               To get back to DOS via IRET
+   AX,BX,CX,DX,SI,DI,BP,DS,ES  Application program registers before <a href="560-int_21h__dos_functions.html">INT 21H</a>
+   IP, CS, Flags               To get back to application via IRET
+
+  This information can be used to determine which DOS function failed (it's
+  in <span class="c2">AH</span> as saved on the stack) and any parameters in other registers.  But
+  its primary value is that it lets your INT 24H handler restore the
+  registers and exit directly to the application program.
+
+  You will typically want to pretend to be DOS and set AX with a DOS error
+  code and set CF=CY to indicate an error.  If you exit to the application
+  this way, the manual says that DOS will be in an &quot;unstable&quot; state until a
+  fn higher than 0cH is used.  Just be sure that the application does a
+  fn <a href="417-dos_fn_30h__get_dos_version_number.html">30H</a> or some such as it handles the error.
+
+  Another handy technique:  Simply set an application-internal error flag,
+  exit the handler with AL=0 (ignore).  Then have your application check
+  that flag after each DOS I/O fn.  This works for all versions of DOS.
+
+  The INT 24H vector is NOT taken for errors occurring during <a href="565-int_25h_26h__absolute_disk_read_write.html">INT 25H/26H</a>.
+
+See Also: <a href="347-dos_error_codes.html">DOS Error Codes</a>
+          <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

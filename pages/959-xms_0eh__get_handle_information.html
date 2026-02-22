@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS 0eH: Get Handle Information - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS 0eH: Get Handle Information</h1><pre>                                                     Compatibility: <span class="c2">XMS 2.0+</span>
+ Expects: <span class="c2">AH</span>    0eH
+          <span class="c2">DX</span>    XMS handle (as obtained via <a href="954-xms_09h__allocate_extended_memory_block.html">XMS 09H</a>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0000H = successful
+                        0001H = error
+          <span class="c2">BH</span>    current lock count
+          <span class="c2">BL</span>    current number of free XMS handles
+          <span class="c2">DX</span>    size of the block, in K-bytes
+          ──────────────────────────────────────────────────────────────────
+    Info: This fn obtains information about an extended memory block.
+
+          To get the 32-bit address of the block, use <a href="957-xms_0ch__lock_extended_memory_block.html">XMS 0cH</a> (lock XMB).
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

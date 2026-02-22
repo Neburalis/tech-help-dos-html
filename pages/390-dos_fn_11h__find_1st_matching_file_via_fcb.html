@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 11H: Find 1st Matching File via FCB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 11H: Find 1st Matching File via FCB</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    11H
+          <span class="c2">DS:DX</span> address of an unopened <a href="360-fcb__file_control_block.html">FCB</a> (filespec may contain '?'s)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    00H if a matching filename found (and <a href="351-dta__disk_transfer_address.html">DTA</a> is filled)
+                ffH if no match was found
+          ──────────────────────────────────────────────────────────────────
+    Info: The DOS default directory is searched for a file that matches
+          that in the FCB pointed to by DS:DX.  <span class="c2">AL</span> returns 0ffH if no match
+          is found.
+
+          If a match is found, <span class="c2">AL</span> returns 00h, the <a href="351-dta__disk_transfer_address.html">DTA</a> is filled with the
+          first byte as the drive (A=1, B=2, etc.) and the <a href="344-directory_entry_layout.html">DirEntryRec</a> of
+          the file is stored in the next 32 bytes.
+
+          You can use an <a href="360-fcb__file_control_block.html">Extended FCB</a> in the call to select specific files
+          with specific <a href="361-file_attribute.html">file attributes</a>.  In this case, the DTA is filled
+          with 0ffH, 7 bytes of 00s, the drive number, and the dir entry.
+
+          In either case, the DTA is filled with a valid, unopened FCB.
+
+          Use DOS Fn <a href="391-dos_fn_12h__find_next_matching_file_via_fcb.html">12H</a> Find Next FCB to search for additional matches.
+
+   Notes: ■ If you intend to search for more files, don't perform any I/O
+            operations on a &quot;found&quot; file.  Copy the FCB somewhere else
+            before opening it.
+
+          ■ The <span class="c2">DOS 2.0+</span> function <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eh</a> Find 1st File is easier to use and
+            employs normal d:\path\filespec format.
+
+          ■ Although this fn has been superseded, it is still useful for
+            programs that play around in <a href="787-doublespace_overview.html">DoubleSpace</a> CVFs (see <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>)
+            since it returns the &quot;starting cluster number&quot; for a file.
+            COMMAND.COM itself uses this in processing <span class="c2">Dir /C</span>.
+
+See Also: Fn <a href="398-dos_fn_1ah__set_disk_transfer_address__dta_.html">1aH</a> (set DTA)
+          Fn <a href="510-dos_fn_4eh__find_1st_matching_file.html">4eh</a> (find first file)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

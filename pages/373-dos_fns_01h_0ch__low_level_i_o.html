@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fns 01H-0cH: Low-level I/O - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fns 01H-0cH: Low-level I/O</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ These low-level I/O functions are given special treatment.  DOS switches
+ to a special stack when calling these fns.  The idea is to allow higher-
+ level fns to call these without reentrancy problems.  In particular, it is
+ OK for device drivers to use fn 01H-0cH during initialization.  And popup
+ TSR programs must pay special attention to when these fns are available
+ and when not.
+
+ See <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> and <a href="365-indos_flag.html">InDOS Flag</a> and <a href="353-errormode_flag.html">ErrorMode Flag</a> and <a href="564-int_24h__critical_error_handler.html">INT 24H</a> for related details.
+
+     See: <a href="374-dos_fn_01h__keyboard_input.html">01H</a> Keyboard Input
+          <a href="375-dos_fn_02h__display_output.html">02H</a> Display Output
+          <a href="376-dos_fn_03h__auxiliary_input.html">03H</a> Auxiliary Input
+          <a href="377-dos_fn_04h__auxiliary_output.html">04H</a> Auxiliary Output
+          <a href="378-dos_fn_05h__printer_output.html">05H</a> Printer Output
+          <a href="379-dos_fn_06h__console_i_o.html">06H</a> Console I/O
+          <a href="380-dos_fn_07h__no_echo_unfiltered_console_input.html">07H</a> No Echo Unfiltered Console Input
+          <a href="381-dos_fn_08h__no_echo_console_input.html">08H</a> No Echo Console Input
+          <a href="382-dos_fn_09h__display_string.html">09H</a> Display String
+          <a href="383-dos_fn_0ah__buffered_string_input.html">0aH</a> Buffered String Input
+          <a href="384-dos_fn_0bh__check_input_status.html">0bH</a> Check Input Status
+          <a href="385-dos_fn_0ch__clear___input.html">0cH</a> Clear &amp; Input
+
+See Also: <a href="7-character_i_o_functions.html">Character I/O Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

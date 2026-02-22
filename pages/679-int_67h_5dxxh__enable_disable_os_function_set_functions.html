@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 5dxxH: Enable/Disable OS Function Set Functions - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 5dxxH: Enable/Disable OS Function Set Functions</h1><pre>                                                     Compatibility: <span class="c2">EMS 4.0+</span>
+ Expects: <span class="c2">AX</span>    5dH
+          <span class="c2">AL</span>    subfn: 00H=Enable all OS-only EMM functions
+                       01H=Disable all OS-only EMM functions
+                       02H=Free access key (enable next caller to get a key)
+          <span class="c2">BX,CX</span> access key
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    <a href="680-emm_status.html">EMM status</a> (0=successful)
+          <span class="c2">BX,CX</span> (fns 5d00H and 5d01H) access key (returned only the first
+                time called or after using fn 5d02H).
+          ──────────────────────────────────────────────────────────────────
+    Info: These fns are used by an operating system in an effort to keep
+          programs from performing certain OS-level EMS operations.  It is
+          <span class="c1">not</span> to be used by applications.
+
+          The first call to fns 5d00H or 5d01H obtain a 32-bit value which
+          must be used in subsequent calls to 5dxxH fns.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

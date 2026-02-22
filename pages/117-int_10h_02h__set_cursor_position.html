@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 10H 02H: Set Cursor Position - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 10H 02H: Set Cursor Position</h1><pre>                                                          Compatibility: <span class="c2">All</span>
+ Expects: <span class="c2">AH</span>    02H
+          <span class="c2">BH</span>    video page number (0-based)
+          <span class="c2">DH</span>    row (0-based)
+          <span class="c2">DL</span>    column (0-based)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the position for the blinking (hardware) cursor.  The cursor
+          position is used in other video fns as a way to select the next
+          place to write text.
+
+       <span class="c2">BH</span> specifies a video page (use 0 in most cases).  The BIOS maintains
+          the cursor position for each video page; they are saved starting
+          at 0040:0050.
+
+    <span class="c2">DH</span>,<span class="c2">DL</span> select the row,column for the cursor.  0,0 is the top-left corner
+          of the screen.  To change just the row or just the column, use
+          <a href="118-int_10h_03h__query_cursor_position_and_size.html">INT 10H 03H</a> (query cursor position) to preset DH,DL.
+
+   Notes: One way to hide the blinking cursor is to position it below the
+          lowest visible screen line; for instance, set <span class="c2">DH</span>=25 in 25-line
+          screen modes (the byte at <span class="c2">0040:0084</span> identifies the screen height
+          in rows, on EGA/VGA BIOSes).
+
+See Also: <a href="118-int_10h_03h__query_cursor_position_and_size.html">INT 10H 03H</a> (query cursor position)
+          <a href="113-int_10h__video_services.html">INT 10H: Video Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

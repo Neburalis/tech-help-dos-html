@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Power-On Self-Test - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Power-On Self-Test</h1><pre>                    ┌─┐     ┌─┐  ┌─┐    ┌─┐
+                    │P│ower─│O│n │S│elf─│T│est
+                    └─┘     └─┘  └─┘    └─┘
+ The <span class="c2">POST</span> is a ROM program that's executed when the computer is first
+ turned ON.  It performs the following functions:
+
+  ■ Checks the <a href="61-switch_settings.html">Switch Settings</a> (PC,XT) or the <a href="60-cmos_storage_layout.html">CMOS Memory</a> (AT,PS/2) to
+    determine what peripheral equipment is connected and sets the
+    <a href="59-equipment_list.html">Equipment List</a> bit flags.
+
+  ■ Checks RAM and writes data to all addresses (required for RAM error
+    detection) and tests components (DMA, interrupt, disk, keyboard, etc.).
+    It beeps and/or displays error codes; see <a href="265-power_on_error_codes.html">POST Error Codes</a>.
+
+  ■ Performs <a href="266-rom_scan.html">ROM-Scan</a> to install add-on firmware and initialize add-on
+    hardware.
+
+  ■ Executes the bootstrap sequence to load DOS.
+
+  ■ Checks <a href="60-cmos_storage_layout.html">CMOS</a> address 0fH (and 40:0072 in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>) for special
+    actions.
+
+See Also: <a href="263-system_startup_sequence.html">System Startup Sequence</a>
+          <a href="266-rom_scan.html">ROM-Scan</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS</a>
+          <a href="271-multiconfig_menus.html">MultiConfig Menus</a>
+          <a href="787-doublespace_overview.html">DoubleSpace</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

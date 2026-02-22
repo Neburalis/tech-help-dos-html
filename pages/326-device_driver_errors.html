@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Driver Errors - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Driver Errors</h1><pre>
+ When a device driver receives an invalid request or encounters an error
+ during operation, the <a href="325-device_status_word.html">Device Status Word</a> error bit (<span class="c1">bit 15</span>) should be set
+ and one of the following error codes should be placed in the low 8 bits
+ of the <span class="c1">rStatus</span> field of the <a href="324-device_request_header.html">DevRequestHdrRec</a>.
+
+ Err  Description                    █ Err  Description
+ ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ █ ▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ 00H  write protect violation        █ 09H  printer out of paper
+ 01H  unknown unit                   █ 0aH  write fault
+ 02H  device not ready               █ 0bH  read fault
+ 03H  unknown command                █ 0cH  general failure
+ 04H  CRC error                      █ 0dH  (reserved)
+ 05H  bad request structure length   █ 0eH  (reserved)
+ 06H  seek error                     █ 0fH  invalid disk change (DOS 3.0+)
+ 07H  unknown media                  █
+ 08H  sector not found               █
+
+    Note: These codes are propagate around the system and show up in
+          <a href="564-int_24h__critical_error_handler.html">INT 24H</a> (Critical Error Handler), and as <a href="347-dos_error_codes.html">DOS Error Codes</a> returned
+          by various DOS functions and fn <a href="526-dos_fn_59h__get_extended_error_info.html">59H</a>.
+
+          When returned by DOS to an application, 13H has been added to the
+          code (for instance, if the driver returns 06H, DOS returns 19H to
+          the application.
+
+See Also: <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">Device Request Header</a>
+          <a href="325-device_status_word.html">Device Status Word</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

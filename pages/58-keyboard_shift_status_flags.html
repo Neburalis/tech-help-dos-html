@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Keyboard Shift Status Flags - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Keyboard Shift Status Flags</h1><pre>
+ Two bytes at address <span class="c1">0040:0017</span> and <span class="c1">0040:0018</span> identify the status of the
+ keyboard shift keys and keyboard toggles.
+
+ <a href="231-int_16h_02h__query_keyboard_shift_status.html">INT 16H 02H</a> returns one byte in the AL register; it is exactly as found in
+ the byte at 0040:0017 in the <a href="93-rom_bios_variables.html">BIOS Data Area</a>:
+
+ <span class="c2">KbdShiftFlagsRec</span>
+ ╓7┬6┬5┬4┬3┬2┬1┬0╖
+ ║<span class="c1">i</span>│<span class="c1">c</span>│<span class="c1">n</span>│<span class="c1">s</span>│<span class="c1">A</span>│<span class="c1">^</span>│<span class="c1">S</span>│<span class="c1">S</span>║
+ ╙─┴─┴─┴─┴─┴─┴<span class="c1">L</span>┴<span class="c1">R</span>╜ <span class="c1">bit</span> <span class="c1">mask</span>
+  ║ ║ ║ ║ ║ ║ ║ ╚═► 0:  01H alpha-shift (right side) DOWN
+  ║ ║ ║ ║ ║ ║ ╚═══► 1:  02H alpha-shift (left side) DOWN
+  ║ ║ ║ ║ ║ ╚═════► 2:  04H Ctrl-shift (either side) DOWN
+  ║ ║ ║ ║ ╚═══════► 3:  08H Alt-shift  (either side) DOWN
+  ║ ║ ║ ╚═════════► 4:  10H ScrollLock state
+  ║ ║ ╚═══════════► 5:  20H NumLock state
+  ║ ╚═════════════► 6:  40H CapsLock state
+  ╚═══════════════► 7:  80H Insert state
+
+ <a href="236-int_16h_12h__query_extended_keyboard_shift_status.html">INT 16H 12H</a> returns 16 bits in the AX register.  It is similar to the word
+ at 0040:0017:
+
+ <span class="c2">KbdShiftFlags101Rec</span>
+  1 1 1 1 1 1
+ ╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+ ║<span class="c1">q</span>│<span class="c1">c</span>│<span class="c1">n</span>│<span class="c1">s</span>│<span class="c1">A</span>│<span class="c1">^</span>│<span class="c1">A</span>│<span class="c1">^</span>║<span class="c1">i</span>│<span class="c1">c</span>│<span class="c1">n</span>│<span class="c1">s</span>│<span class="c1">A</span>│<span class="c1">^</span>│<span class="c1">S</span>│<span class="c1">S</span>║
+ ╙<span class="c1">d</span>┴<span class="c1">d</span>┴<span class="c1">d</span>┴<span class="c1">d</span>┴<span class="c1">r</span>┴<span class="c1">r</span>┴<span class="c1">l</span>┴<span class="c1">l</span>╨<span class="c1">s</span>┴<span class="c1">s</span>┴<span class="c1">s</span>┴<span class="c1">s</span>┴─┴─┴<span class="c1">L</span>┴<span class="c1">R</span>╜ <span class="c1">bit</span>  <span class="c1">mask</span>
+  ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ╚═► 0: 0001H alpha-shift (right side) DOWN
+  ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ╚═══► 1: 0002H alpha-shift (left side) DOWN
+  ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ╚═════► 2: 0004H Ctrl-shift (either side) DOWN
+  ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ╚═══════► 3: 0008H Alt-shift  (either side) DOWN
+  ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ╚═════════► 4: 0010H ScrollLock state
+  ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ╚═══════════► 5: 0020H NumLock state
+  ║ ║ ║ ║ ║ ║ ║ ║ ║ ╚═════════════► 6: 0040H CapsLock state
+  ║ ║ ║ ║ ║ ║ ║ ║ ╚═══════════════► 7: 0080H Insert state
+  ║ ║ ║ ║ ║ ║ ║ ╚═════════════════► 8: 0100H Ctrl-shift (left side) DOWN
+  ║ ║ ║ ║ ║ ║ ╚═══════════════════► 9: 0200H Alt-shift (left side) DOWN
+  ║ ║ ║ ║ ║ ╚═════════════════════►10: 0400H Ctrl-shift (right side) DOWN
+  ║ ║ ║ ║ ╚═══════════════════════►11: 0800H Alt-shift (right side) DOWN
+  ║ ║ ║ ╚═════════════════════════►12: 1000H ScrollLock DOWN
+  ║ ║ ╚═══════════════════════════►13: 2000H NumLock DOWN
+  ║ ╚═════════════════════════════►14: 4000H CapsLock DOWN
+  ╚═══════════════════════════════►15: 8000H SysReq DOWN
+
+ The byte at 0040:0018 is <span class="c1">somewhat different</span> from than that returned in
+ AH by <a href="236-int_16h_12h__query_extended_keyboard_shift_status.html">INT 16H 12H</a>.  Its layout is::
+
+ <span class="c2">KbdShiftFlags0018Rec</span>
+ ╓7┬6┬5┬4┬3┬2┬1┬0╖
+ ║<span class="c1">i</span>│<span class="c1">c</span>│<span class="c1">n</span>│<span class="c1">s</span>│<span class="c1">p</span>│<span class="c1">q</span>│<span class="c1">A</span>│<span class="c1">^</span>║
+ ╙<span class="c1">d</span>┴<span class="c1">d</span>┴<span class="c1">d</span>┴<span class="c1">d</span>┴─┴<span class="c1">d</span>┴<span class="c1">l</span>┴<span class="c1">l</span>╜ <span class="c1">bit</span> <span class="c1">mask</span>
+  ║ ║ ║ ║ ║ ║ ║ ╚═► 0:  01H Ctrl-shift (left side) DOWN
+  ║ ║ ║ ║ ║ ║ ╚═══► 1:  02H Alt-shift (left side) DOWN
+  ║ ║ ║ ║ ║ ╚═════► 2:  04H SysReq DOWN
+  ║ ║ ║ ║ ╚═══════► 3:  08H hold/pause state
+  ║ ║ ║ ╚═════════► 4:  10H ScrollLock DOWN
+  ║ ║ ╚═══════════► 5:  20H NumLock DOWN
+  ║ ╚═════════════► 6:  40H CapsLock DOWN
+  ╚═══════════════► 7:  80H Insert DOWN
+
+    Note: Bits 0-2 of 0:0418 are defined only for the 101-key enhanced
+          keyboard (older keyboards don't have two copies of Alt and Ctrl).
+
+<span class="c2">█▌NumLock and CapsLock Mode▐█</span>
+  <span class="c1">Bits 5-6</span> of 0040:0017 affect how the BIOS interprets certain keystrokes.
+
+  Each press of NumLock toggles <span class="c1">bit 5</span>.  When set, keys on the numeric keypad
+  are interpreted as digits 1-9 and period (<span class="c2">.</span>).  When <span class="c1">bit 5</span> is clear, the
+  same keys are interpreted as cursor control keystrokes.
+
+  Each press of CapsLock toggles <span class="c1">bit 6</span>.  When set, alphabetic keys A-Z are
+  interpreted as uppercase (A-Z).  When <span class="c1">bit 5</span> is clear, the same keys are
+  interpreted as lowercase (a-z).
+
+  Pressing the SHIFT key reverses the current sense of these &quot;lock bits&quot; so
+  that, for instance, in CapsLock mode, Shift+A result in lowercase 'a'.
+
+<span class="c2">█▌ScrollLock Mode▐█</span>
+  The BIOS doesn't care about <span class="c1">0040:0017 bit 4</span> other than to toggle the bit
+  each time ScrollLock is pressed.  If you want your program to react to the
+  ScrollLock setting, you'll need to check this bit each time you process a
+  scrolling key.  Most programs don't bother.
+
+<span class="c2">█▌Insert Mode▐█</span>
+  The BIOS toggles <span class="c1">0040:0017 bit 8</span> each time the Insert key is pressed.
+  Note that the BIOS also places the keycode for insert into the keyboard
+  buffer.  Most programs set bit 8 to a known state before processing input.
+
+<span class="c2">█▌LED Shift-State Indicators▐█</span>
+  Starting with early AT keyboards, the status of CapsLock, NumLock, and
+  ScrollLock has been indicated by a light on the keyboard itself.  You can
+  program these lights using port I/O to talk to the keyboard controller.
+  See <a href="894-at_keyboard_functions.html">AT Keyboard</a> for details.
+
+  However, recent BIOSes periodically update the keyboard LEDs, so just
+  setting or clearing bits of 0040:0017 will set the lights automatically.
+
+<span class="c2">█▌Detecting the press and release of Alt▐█</span>
+  The BIOS does not put the Alt key or other shift keys into the keyboard
+  buffer.  If you want to take notice of the press (and release) of say,
+  Alt, you will need to either intercept <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a> an read the raw scan codes,
+  or poll the byte at 0040:0017 regularly and watch for changes to the
+  keyboard flags.
+
+See Also: <a href="894-at_keyboard_functions.html">AT Keyboard</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="228-int_16h__keyboard_services.html">INT 16H</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

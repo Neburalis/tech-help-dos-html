@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>VgaSavePtr2Rec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>VgaSavePtr2Rec</h1><pre>
+ One field of the <a href="74-egasaveptrrec.html">EgaSavePtrRec</a> is a pointer to a <span class="c2">VgaSavePtr2Rec</span>.  This
+ structure is initialized by the <a href="70-video_graphics_array__vga_.html">VGA</a> video system BIOS.
+
+<span class="c2">VgaSavePtr2Rec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wRecLen</span>      size of this structure, in bytes (normally 1aH)
+   +2      4  <span class="c1">pfrDccRec</span>    address of a <a href="81-vgadccrec.html">VgaDccRec</a> (Display Combo Code table)
+   +6      4  <span class="c1">pfrTxtAuxFnt</span> address of an <a href="77-egatxtfontrec.html">EgaTxtFontRec</a>
+  +0aH     4  <span class="c1">pfrPalProf</span>   address of a <a href="80-vgapaletteprofilerec.html">VgaPaletteProfileRec</a> (user palette
+                           profile table) or 0000:0000
+  +0eH    12  <span class="c1">res</span>          (three dword values reserved)
+          30               size of a VgaSavePtr2Rec
+
+     <span class="c1">wRecLen</span>  the size, in bytes of this structure.
+
+   <span class="c1">pfrDccRec</span>  address of a <a href="81-vgadccrec.html">VgaDccRec</a> structure which lists all combinations
+              of video subsystems supported by the <a href="113-int_10h__video_services.html">VGA BIOS</a>.  This structure
+              has meaning only on systems in which two video systems are
+              active.  The BIOS initializes this to point to a table in ROM.
+
+<span class="c1">pfrTxtAuxFnt</span>  Initially 0000:0000 (not used).  When present, this points to
+              an <a href="77-egatxtfontrec.html">EgaTxtFontRec</a> structure that overrides all or part of the
+              font definition for specified text modes; the font will be
+              loaded to the character generator when selected text modes are
+              initialized.
+
+              Note that the <a href="74-egasaveptrrec.html">EgaSavePtrRec</a> also defines a text mode character
+              set override.  You would use this one only to define an
+              additional font used in video modes other than those covered
+              by the record pointed to in EgaSavePtrRec.
+
+  <span class="c1">pfrPalProf</span>  Initially 0000:0000 (not used).  When present this points to a
+              <a href="80-vgapaletteprofilerec.html">VgaPaletteProfileRec</a> containing various palette settings to be
+              used for defaults no mode resets.
+
+See Also: <a href="71-ega_vga_data_areas.html">VGA Data Areas</a>
+          <a href="900-video_graphics_array_i_o_ports.html">VGA I/O Ports</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

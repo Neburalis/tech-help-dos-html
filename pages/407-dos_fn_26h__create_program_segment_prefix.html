@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 26H: Create Program Segment Prefix - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 26H: Create Program Segment Prefix</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    26H
+          <span class="c2">DX</span>    segment address (paragraph) for new <a href="371-psp__program_segment_prefix.html">PSP</a>
+          <span class="c2">CS</span>    segment of a PSP to use as a template for the new PSP
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets up a PSP for a child process at DX:0000.
+
+          ■ the current PSP (100H bytes starting at CS:0) is copied to DX:0
+
+          ■ the MemTop field is adjusted
+
+          ■ Terminate, Ctrl-Break, and Critical Error vectors are copied
+            into the PSP from the vectors for <a href="562-int_22h__terminate_address.html">INT 22H</a>, <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> and <a href="564-int_24h__critical_error_handler.html">INT 24H</a>.
+
+          You may then load a program from disk and run it with a FAR JMP.
+          See <a href="354-exe_file_header_layout.html">EXE Header</a> for information on manually loading an EXE-format
+          file.  See <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a> for related information.
+
+   Notes: ■ Avoid this call; use DOS Fn <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> (exec) or <a href="505-dos_fn_4b01h__load_program.html">4b01H</a> (load
+            overlay) instead.
+
+          ■ If you intercept <a href="560-int_21h__dos_functions.html">INT 21H</a> be sure to leave the correct CS:IP on
+            the stack.
+
+See Also: <a href="371-psp__program_segment_prefix.html">PSP: Program Segment Prefix</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

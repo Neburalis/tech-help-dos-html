@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Request 0aH: Output Status - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Request 0aH: Output Status</h1><pre>                                                                      <a href="327-_chr_.html">◄Chr►</a>
+ This tells the driver to return its output status; in particular, to
+ indicate whether an output request can be satisfied without waiting.
+
+<span class="c2">DevReq0aRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bLen</span>         0dH (length of this request packet)
+   +1      1  <span class="c1">bUnitNo</span>      (not used)
+   +2      1  <span class="c1">bCmd</span>         <span class="c2">0aH</span> (command code)
+   +3      2  <span class="c1">rStatus</span>      OUTPUT: <a href="325-device_status_word.html">Device Status Word</a> must fill before exit
+   +5H     8  <span class="c1">res</span>          (reserved)
+          13               size of this structure
+
+     <span class="c1">rStatus</span>  On exit, the driver must place a <a href="325-device_status_word.html">DevStatusWord</a> here.  Always
+              set the Done bit (<span class="c1">bit 8</span>).
+
+              If the driver is unable to accept any additional characters,
+              set the Busy bit (<span class="c1">bit 9</span>).  Otherwise, clear <span class="c1">bit 9</span> to indicate
+              that a call to <a href="309-device_request_08h__output__write_data_to_device_.html">DvRq 08H</a> will be satisfied without waiting.
+
+   Notes: ■ Output devices can be optimized by processing <a href="317-device_request_10h__output_until_busy.html">DvRq 10H</a> (output
+            until busy).
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">DevRequestHdrRec</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

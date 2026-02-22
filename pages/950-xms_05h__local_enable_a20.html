@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS 05H: Local Enable A20 - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS 05H: Local Enable A20</h1><pre>                                                     Compatibility: <span class="c2">XMS 2.0+</span>
+ Expects: <span class="c2">AH</span>    05H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0000H = successful
+                        0001H = error and <span class="c2">BL</span>=<a href="963-xms_error_codes.html">XMS error code</a> (if BL &gt;= 80H)
+          ──────────────────────────────────────────────────────────────────
+    Info: This attempts to enable the A20 line.  It should only be used by
+          programs which need direct access to the HMA<a href="926-qmemhma.html">▲</a>.
+
+          If you have used <a href="706-int_2fh_4a02h__suballocate_hma_memory.html">INT 2fH 4a02H</a> to get an HMA suballocation from
+          DOS, you must be certain that the A20 line is enabled before
+          accessing that memory.  For performance reasons, use <a href="952-xms_07h__query_a20_state.html">XMS 07H</a> and
+          then enable it onoly if it is not already enabled.  Use <a href="951-xms_06h__local_disable_a20.html">XMS 06H</a>
+          to disable it later (if necessary) to put it back the way it was.
+
+    Note: If the HMA is owned by DOS, then it is highly likely that A20 is
+          enabled all of the time.
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

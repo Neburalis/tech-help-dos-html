@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 02H: Display Output - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 02H: Display Output</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    02H
+          <span class="c2">DL</span>    character to send to the <a href="828-standard_i_o_and_i_o_redirection.html">Standard Output</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">none</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Sends the character in DL to the Standard Output. Handles
+          backspace (ASCII 8) by moving the cursor left and leaving the
+          cursor there.
+
+          If Ctrl-Break is detected, <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> is executed.
+
+See Also: <a href="7-character_i_o_functions.html">Character I/O Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

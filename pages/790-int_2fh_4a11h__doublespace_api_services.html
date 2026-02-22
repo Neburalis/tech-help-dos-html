@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4a11H: DoubleSpace API Services - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4a11H: DoubleSpace API Services</h1><pre>                                                         Compatibility: <span class="c2">6.0+</span>
+
+     See: <a href="791-int_2fh_4a11h_bx_0000h__get_dblspace_version___drives.html">BX=0000H</a> (query DoubleSpace version/first &amp; last drive)
+          <a href="792-int_2fh_4a11h_bx_0001h__get_dblspace_drive_mapping.html">BX=0001H</a> (get DoubleSpace drive mapping)
+          <a href="793-int_2fh_4a11h_bx_0002h__dblspace_swap_drive.html">BX=0002H</a> (swap drive letters)
+          BX=0003H (reserved; used by SmartDrive disk cache)
+          BX=0004H (reserved; used by SmartDrive disk cache)
+          <a href="794-int_2fh_4a11h_bx_0005h__mount_dblspace_drive.html">BX=0005H</a> (mount a DoubleSpace drive)
+          <a href="795-int_2fh_4a11h_bx_0006h__unmount_dblspace_drive.html">BX=0006H</a> (unmount a DoubleSpace drive)
+
+          <a href="796-int_2fh_4a11h_bx_0007h__get_dblspace_disk_size___free_space.html">BX=0007H</a> (get drive size &amp; free space)
+          <a href="797-int_2fh_4a11h_bx_0008h__get_cvf_fragmentation_info.html">BX=0008H</a> (get CVF file fragment info)
+          <a href="798-int_2fh_4a11h_bx_0009h__get_count_of_disk_unit_structures.html">BX=0009H</a> (get count of DISK_UNIT structures)
+
+          <a href="799-int_2fh_4a11h_bx_000ah__set_automount_drives.html">BX=000aH</a> (set automount drives; <span class="c2">DOS 6.2+</span>)
+          <a href="800-int_2fh_4a11h_bx_000bh__query_automount_drives.html">BX=000bH</a> (query automount drives; <span class="c2">DOS 6.2+</span>)
+
+          <a href="802-doublespace_ioctl_fn__f___flush_doublespace_cache.html">DS IOCTL 'F'</a> (flush DoubleSpace cache)
+          <a href="803-doublespace_ioctl_fn__i___flush_and_invalidate_cache.html">DS IOCTL 'I'</a> (flush and invalidate DoubleSpace cache)
+          <a href="804-doublespace_ioctl_fn__s___get_drivespace_pointers.html">DS IOCTL 'S'</a> (get actual free space; <span class="c2">DOS 6.2+</span>)
+
+          <a href="805-doublespace_compressed_volume_file_layout.html">Compressed Volume File Layout</a> (CVF internal structures)
+          <a href="801-doublespace_api_error_return_codes.html">DoubleSpace API Error/Return Codes</a> (codes returned by these fns)
+          <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI API</a> (Microsoft Real-time Compression Interface fns)
+
+ To use the API, set <span class="c2">AX</span> to 4a11H and set other registers as described
+ in each fn, then execute an INT 2FH.  The two IOCTL calls are just
+ DOS fn <a href="450-dos_fn_4404h__ioctl_receive_control_data_from_block_device.html">4404H</a> (IOCTL read) services.
+
+   Notes: ■ These services are available only if <a href="787-doublespace_overview.html">DoubleSpace</a> (or compatible
+            compression service) was activated upon system startup.
+
+          ■ For most applications, the existence of DoubleSpace is entirely
+            transparent.  In general, only specialized disk utility
+            programs need to access these fns.
+
+See Also: <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          DOS fn <a href="450-dos_fn_4404h__ioctl_receive_control_data_from_block_device.html">4404H</a> (get control data from block device)
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

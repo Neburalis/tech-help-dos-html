@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 5e00H: Query Network Node Name - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 5e00H: Query Network Node Name</h1><pre>                                                         Compatibility: <span class="c2">3.1+</span>
+ Expects: <span class="c2">AX</span>    5e00H
+          <span class="c2">DS:DX</span> address of 16-byte buffer to receive ASCIIZ<a href="913-qasciiz.html">▲</a> node name
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          <span class="c2">CH</span>    00H  = network name not valid
+                else = upper byte of network ID
+          <span class="c2">CL</span>    (if CH not 0) network ID number of local computer
+          ──────────────────────────────────────────────────────────────────
+    Info: Obtains the network name and NETBIOS ID number of the local
+          computer.
+
+          The buffer at DS:DX is filled with a 15-character, space-padded
+          string, followed by a terminating byte of 00H.
+
+See Also: <a href="16-network_and_file_sharing_functions.html">Network Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

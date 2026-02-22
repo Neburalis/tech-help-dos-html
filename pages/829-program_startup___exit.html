@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Program Startup &amp; Exit - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Program Startup &amp; Exit</h1><pre><span class="c2">█▌Overview▐█</span>
+  DOS is able to load and execute two types of program files -- COM and EXE.
+
+  Because of the segmented address space of the Intel 8088/80x86 CPUs and
+  the fact that JMPs and CALLs are address-relative, either type of program
+  may be loaded and executed at any paragraph address in conventional<a href="924-qmemconv.html">▲</a>
+  memory.  Thus, code can be made resident in &quot;low&quot; memory and other code
+  can be loaded and executed above it in memory.  Programs are never written
+  with the assumption that they'll be loaded at a certain address (except
+  the <a href="337-boot_sector_layout.html">boot sector</a> and some self-booting, copy-protected games).
+
+  ■ A COM-format file is a binary image of the code and data of the
+    program.  The file must be less than 64K, and no segment-address
+    relocation takes place.
+
+  ■ An EXE-format file contains an <a href="354-exe_file_header_layout.html">EXE Header</a> that directs the loader in
+    performing adjustments to segment references in a load module.
+
+<span class="c2">█▌All Programs▐█</span>
+  Before either a COM- or EXE-format program is loaded, DOS selects a
+  segment address, called the <a href="371-psp__program_segment_prefix.html">PSP</a> (Program Segment Prefix) as the load base
+  for the program.  By default, DOS selects the lowest available address in
+  conventional memory, but it is possible to control the location via DOS
+  fn <a href="521-dos_fn_58h__set_or_query_memory_allocation_options.html">58H</a>.  Then DOS performs these steps:
+
+  ■ It makes a duplicate of the current <a href="346-dos_environment.html">DOS Environment</a> for the program.
+    DOS Fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> (EXEC) lets a parent program create a different environment.
+    For instance, a program can run COMMAND.COM, setting the DOS prompt to
+    include the text &quot;Use EXIT to return to UltraProg&gt;&quot;.
+
+  ■ It places a text string identifying the program's load path at the end
+    of the environment (in DOS 3.0+).
+
+  ■ It fills the fields of the PSP with information useful to the program
+    (See <a href="371-psp__program_segment_prefix.html">Program Segment Prefix</a> for a complete layout):
+    • The amount of memory available to the program
+    • The segment address of the <a href="346-dos_environment.html">DOS Environment</a>
+    • 0-2 unopened <a href="360-fcb__file_control_block.html">File Control Block</a>s (FCBs) as parsed from the command
+      line (Note: if you open the first FCB, it will overwrite part of the
+      second).
+    • The command parameters: text entered in the command line <span class="c1">after</span> the
+      program name (examine this for options and filename parameters)
+    • The previous vectors for <a href="562-int_22h__terminate_address.html">INT 22H</a>, <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a>, and <a href="564-int_24h__critical_error_handler.html">INT 24H</a>
+
+  ■ It sets the default <a href="351-dta__disk_transfer_address.html">Disk Transfer Address</a> (DTA) to PSP:0080
+
+  ■ It sets the AX register to indicate the validity of the drive IDs (if
+    any) of the filespec parameters entered on the command line:
+    • if AL=0ffH, then the first drive ID was invalid
+    • if AH=0ffH, then the second drive ID was invalid
+
+<span class="c2">█▌EXE Programs▐█</span>
+  EXE-format programs define multiple program segments, including a code,
+  data, and stack segment.  The EXE file is loaded starting at PSP:0100.  As
+  it is loaded, a bunch of information is read from the <a href="354-exe_file_header_layout.html">EXE Header</a> at the
+  start of file and segment address-relocation is performed.  This means
+  that references such as...
+
+           mov     ax,data_seg
+           mov     ds,ax
+  ...and...
+           call    my_far_proc
+
+  ...must be adjusted to allow for the fact that the program is being loaded
+  into an arbitrarily-selected memory segment.  See <a href="354-exe_file_header_layout.html">EXE Header</a> for details
+  of the header and the relocation process.
+
+  After relocation, control is passed to the load module via a FAR jump to
+  the CS:IP that was read from the EXE header.
+
+  When the EXE-format program gets control:
+  ■ DS and ES are set to the PSP
+  ■ CS, IP, SS, and SP are set to values indicated in the EXE Header
+  ■ The <a href="371-psp__program_segment_prefix.html">PSP</a>.<span class="c1">wNextSeg</span> field is set to a value in the EXE header.  Normally,
+    all of available memory is allocated to the program.
+
+<span class="c2">█▌COM Programs▐█</span>
+  COM-format programs define a single segment.  The bytes of the COM file
+  are read from disk and stored into memory starting at PSP:0100.  Note that
+  a COM program can use multiple segments, but it must calculate or derive
+  segment addresses, using the PSP segment as a base.
+
+  Traditionally, COM programs have been preferred over EXE programs for
+  short assembly language utilities.  They load faster since no segment
+  relocation is needed, and they take less disk space since the bytes of
+  the EXE header and the stack segment need not be present in the load
+  module.  However, COM programs are starting to be phased out, since you
+  can't write OS/2- or Windows-specific programs in COM format.
+
+  Compilers and linkers may refer to COM programs as those using the &quot;tiny&quot;
+  memory model.
+
+  ■ CS, DS, ES, and SS are set the same as the <a href="371-psp__program_segment_prefix.html">PSP</a>.
+  ■ SP is set to the end of the PSP segment (usually 0fffeH, but it will be
+    lower if a full 64K is not available).  The word at offset 06H of the
+    PSP is set to indicate how much of the program segment is available.
+  ■ All system memory above the Program Segment is allocated to the
+    program.
+  ■ A word of 00H is pushed onto the stack.
+  ■ IP is set to 100H (the first byte of the load module) by a JMP to
+    PSP:100.
+
+<span class="c2">█▌Exiting a Program▐█</span>
+  At one time (back in the days of DOS 1.1), it took several pages to
+  explain the Rube Goldberg scheme DOS provided for exit from a program.
+  It got easier starting with DOS 2.0.  You can exit by:
+
+  ■ Using DOS Fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> (EXIT) at any time, regardless of register values.
+  ■ Using DOS Fn <a href="372-dos_fn_00h__terminate_a_program.html">00H</a> or <a href="559-int_20h__program_terminate.html">INT 20H</a>  when your CS is the same as the PSP
+
+  Prior to DOS 2.0, you needed to save the PSP segment at startup.  Then to
+  exit, you would PUSH it on the stack, PUSH a word of 00H, then do a FAR
+  RETurn.  This sends control to PSP:0000 which contains the opcodes for
+  <a href="559-int_20h__program_terminate.html">INT 20H</a>.  This ensures that CS is set as expected by DOS.
+
+  DOS Fn <a href="508-dos_fn_4ch__terminate_program.html">4cH</a> eliminates this complication, and it lets you return an
+  exit code<a href="920-qexitcode.html">▲</a> to the parent process (usually COMMAND.COM) which can be tested
+  by the parent program or the &quot;IF ERRORLEVEL&quot; batch file command.
+
+  You may also terminate a program and make it permanently memory resident
+  (<a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>), by using either <a href="566-int_27h__terminate_but_stay_resident.html">INT 27H</a> or DOS Fn <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a> (KEEP).  The latter has the
+  advantages that you can make more than 64K resident and you can return an
+  exit code<a href="920-qexitcode.html">▲</a> that can be tested by the parent process.
+
+  <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> programs are handy for installing custom patches to various DOS and
+  BIOS services.  It is the concept used by popup utilities such as SideKick
+  and TECH Help! (to name two popular instances).
+
+  When a program exits:
+  ■ All of its memory is freed, including the allocation for its copy of
+    the <a href="346-dos_environment.html">environment</a>.  Exception: When exiting via TSR exits (<a href="566-int_27h__terminate_but_stay_resident.html">INT 27H</a> and
+    fn <a href="418-dos_fn_31h__terminate___stay_resident.html">31H</a>) the specified memory <span class="c1">and</span> your environment memory is preserved.
+    TSRs should explicitly free their environment if they won't need it
+    later.
+  ■ Its files are closed and file buffers flushed.
+  ■ Redirection, if any, is cancelled.
+  ■ Critical error handler (<a href="564-int_24h__critical_error_handler.html">INT 24H</a>), Ctrl+Break handler (<a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a>), and
+    Terminate (<a href="562-int_22h__terminate_address.html">INT 22H</a>) vectors are restored from the PSP.
+  ■ Control is passed back to the parent, via a FAR JMP to the address that
+    was previously in the INT 22H vector.
+
+See Also: <a href="18-process_control_functions.html">Process Control Functions</a> .. index of DOS Startup and Exit fns
+          <a href="371-psp__program_segment_prefix.html">Program Segment Prefix</a> ..... detailed layout of the PSP
+          <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> ........................ submenu of popup-program topics
+          DOS Fn <a href="407-dos_fn_26h__create_program_segment_prefix.html">26H</a> ................. build a PSP
+          DOS Fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> (EXEC)........... load and execute programs
+          DOS Fn <a href="542-dos_fn_62h__query_current_psp.html">62H</a> ................. obtain PSP of the current program
+          DOS Fn <a href="416-dos_fn_2fh__query_disk_transfer_address__dta_.html">2fH</a> ................. obtain current <a href="351-dta__disk_transfer_address.html">Disk Transfer Address</a>
+          <a href="346-dos_environment.html">DOS Environment</a> ............ determine the drive and directory
+                                       from which you were loaded, etc.
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+          <a href="3-tech_topics.html">TECH Topics</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

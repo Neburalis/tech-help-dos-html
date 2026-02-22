@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>IoctlMediaIdRec - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>IoctlMediaIdRec</h1><pre>
+ This structure is used to uniquely identify the medium in a drive.  It is
+ used in the following IOCTL fns:
+    <a href="472-dos_fn_440dh_cl_46h__ioctl_set_media_id.html">440dH 46H</a> (set media ID)
+    <a href="477-dos_fn_440dh_cl_66h__ioctl_query_media_id.html">440dH 66H</a> (query media ID)
+
+    <a href="318-device_request_13h__generic_ioctl_request.html">DvRq 13H</a>  (generic IOCTL for block devices)
+
+<span class="c2">IoctlMediaIdRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    +0     2  <span class="c1">wInfoLevel</span>   always 00
+    +2     4  <span class="c1">lSerNo</span>       32-bit volume serial number
+    +6    0bH <span class="c1">abVolLabel</span>   11-character text volume label, blank-padded
+   +11H    8  <span class="c1">abFileSysID</span>  contains 'FAT12   ' or 'FAT16   ')
+          19H (25)         size of an IoctlMediaIdRec
+
+See Also: fn <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (Generic IOCTL for block devices)
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

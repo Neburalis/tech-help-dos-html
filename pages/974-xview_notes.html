@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>xView■Notes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>xView■Notes</h1><pre>                                                          <a href="972-xview_syntax.html">Syntax</a> │ <a href="973-xview_examples.html">Examples</a>
+<span class="c2">Doshelp, Help, and xView</span>
+  ■ XVIEW.EXE is the name of the <a href="1030-flambeaux_software.html">Flambeaux Software</a> hypertext viewer.  In
+    previous versions, the viewer was named HELP.EXE and the version that
+    ships with Flambeaux's <a href="1031-dos_help_.html">◄DOS Help!►</a> is named DOSHELP.EXE.
+
+<span class="c2">TECH Help! files</span>
+  ■ The program file is named <span class="c2">XVIEW.EXE</span>.  This is the generic name of
+    Flambeaux's hypertext viewer (as shipped with <a href="1033-xtext.html">◄xText►</a>, the hypertext
+    development system.
+
+  ■ The hypertext database is named <span class="c2">TECH60.H!</span>.  xView will look for this
+    file in the following locations:
+    • The directory named in XVIEW /M=<span class="c1">file</span> (if used).
+    • The directory named in an e-var XVIEWPATH=<span class="c1">yourDir</span> (if any).
+    • The directory in which XVIEW.EXE is stored.
+    • The current default directory.
+
+<span class="c2">TECH Help! configuration file</span>
+  ■ When you set configuration options in the menu (and then save the
+    setup) or whenever you place a bookmark, xView saves information into
+    a standard text file, named <a href="975-xview_ini.html">XVIEW.INI</a>.
+
+  ■ xView will look for that file in the following places:
+    • The directory named in an e-var <span class="c2">XVIEWINIT</span>=<span class="c1">yourDir</span> (if any).
+    • The directory in which XVIEW.EXE is stored.
+
+  ■ The XVIEWINIT variable is handy for network installations.  It lets
+    each individual user have a personal copy of configuration settings.
+    Contact <a href="1030-flambeaux_software.html">Flambeaux Software</a> for information on network and site
+    licensing.
+
+  ■ XVIEW.INI contains some options that are not available through menu
+    commands, including printer options.  See <a href="975-xview_ini.html">Modifying XVIEW.INI</a>.
+
+<span class="c2">TSR Mode</span>
+  ■ The DOS 5.0+ <span class="c2">Loadhigh</span> command will usually allocate about 50K of upper
+    memory and about 90K of conventional memory.  On most systems, xView is
+    too large to fit entirely in upper memory.
+
+  ■ The <span class="c1">/IE</span>, <span class="c1">/IX</span>, and <span class="c1">/IDd</span> force the TSR-mode xView to minimize its use of
+    conventional memory.  However, there are several potential problems
+    that can occur in these modes.  If you find that popping up xView
+    causes a lockup or other problems, switch to <span class="c1">/IC</span>.
+
+    Note: It is easy to remove xView from RAM.  If you expect to need it
+          temporarily, say, while editing program files, use...
+           <span class="c2">┌─────────────────────────────────────────────────(ED.BAT)</span>
+           <span class="c2">│</span>@Echo off
+           <span class="c2">│</span>REM --------- make TECH Help! resident while editing
+           <span class="c2">│xview /M=c:\help\tech60.h! /I /Q /K=CF1,CF2</span>
+           <span class="c2">│</span>Edit %1
+           <span class="c2">│xview /U /Q</span>
+           <span class="c2">└─────────────────────────────────────────────────────────</span>
+See Also: <a href="972-xview_syntax.html">Syntax</a>
+          <a href="973-xview_examples.html">Examples</a>
+          <a href="970-installing_tech_help_.html">Installing TECH Help!</a>
+          <a href="971-popup_help_.html">Popup Help!</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

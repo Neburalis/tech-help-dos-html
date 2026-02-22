@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 67H 55xxH: Alter Page Map and JMP - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 67H 55xxH: Alter Page Map and JMP</h1><pre>                                                     Compatibility: <span class="c2">EMS 4.0+</span>
+ Expects: <span class="c2">AH</span>    55H
+          <span class="c2">AL</span>    subfn: 00H=Use page numbers in prMapInfo-&gt;wFrameLoc
+                       01H=Use segment addresses in prMapInfo-&gt;wFrameLoc
+          <span class="c2">DS:SI</span> address of an <span class="c2">EmsMapAndJmpRec</span> (see below)
+          <span class="c2">DX</span>    EMM Handle (as obtained via <a href="655-int_67h_4300h__open_emm_handle_and_allocate_memory.html">INT 67H 4300H</a>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: (none)
+          ──────────────────────────────────────────────────────────────────
+    Info: This lets you swap some pages of executable code into memory,
+          then execute that code.
+
+    <span class="c2">DS:SI</span> points to a structure that identifies which pages to map and
+          where to jump.  If is formatted as:
+
+          <span class="c2">EmsMapAndJmpRec</span>
+           Offset Size Contents
+           ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+            +0      4  <span class="c1">pCodeAddr</span>  FAR address to JMP
+            +4      1  <span class="c1">bPgCnt</span>     number of pages to map
+            +5      4  <span class="c1">prMapInfo</span>  FAR addr of an <a href="666-int_67h_50xxh__map_unmap_multiple_pages.html">EmsMapInfoRec</a>
+                    9             size of this structure
+
+          Depending upon <span class="c2">AL</span>, the <span class="c1">wFrameLoc</span> fields of the EmsMapInfoRec will
+          contain either page numbers (usually 0-3) or segment address (for
+          instance, d000H, d400H, etc).
+
+   Notes: See <a href="666-int_67h_50xxh__map_unmap_multiple_pages.html">INT 67H 50xxH</a> (map multiple pages) for related info.
+
+          This fn does not provide a mechanism to return control to the
+          caller.  Use <a href="672-int_67h_56xxh__alter_page_map_and_call.html">INT 67H 56xxH</a> (map and call) to CALL rather than
+          JMP.
+
+See Also: <a href="651-emm_functions.html">INT 67H: EMM Services</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

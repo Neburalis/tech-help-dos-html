@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4300H: Is HIMEM.SYS (XMS Support) Installed? - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4300H: Is HIMEM.SYS (XMS Support) Installed?</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AX</span>    4300H
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    status: 00H = is not installed
+                        <span class="c2">80H</span> = is installed
+          ──────────────────────────────────────────────────────────────────
+    Info: Checks to see if <span class="c2">HIMEM.SYS</span> or compatible XMS provider has been
+          loaded in <a href="267-the_config_sys_file.html">CONFIG.SYS</a> and is resident in memory.
+
+          To access XMS services, use <a href="700-int_2fh_4310h__get_himem_sys__xmm__entry_address.html">INT 2fH 4310H</a> (get XMM entry address)
+          and place FAR calls to the entry address returned by that fn.
+
+          See <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification</a> for info on XMS services.
+
+See Also: <a href="698-int_2fh_43xxh__himem_sys__extended_memory_manager__services.html">INT 2fH 43xxH: HIMEM.SYS Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

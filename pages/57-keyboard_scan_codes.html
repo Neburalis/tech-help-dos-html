@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Keyboard Scan Codes - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Keyboard Scan Codes</h1><pre>
+ When the keyboard forces a hardware interrupt, it passes a <span class="c1">Scan Code</span> to
+ the <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a> interrupt handler.  The handler converts this to an ASCII or
+ <a href="55-extended_ascii_keystrokes.html">Extended ASCII</a> value.  For compatibility across the various keyboards, it
+ is wise to avoid using scan codes and stick to the BIOS translation of a
+ keystroke.
+
+<span class="c2">█▌Original PC/XT Keyboard▐█</span>
+  When a key is released, the keyboard sends the same value, ORed with 80H
+  (e.g., [Ctrl] sends 1dH when pressed and 9dH when released).
+
+────────────┬─────────────┬───────────────┬───────────────┬─────────────────
+Hex Dec Key │Hex Dec Key  │Hex Dec Key    │Hex Dec Key    │Hex Dec Key
+────────────┼─────────────┼───────────────┼───────────────┼─────────────────
+01   1  Esc │12  18  E    │23  35  H      │34  52  . &gt;    │45  69  NumLock
+02   2  1 ! │13  19  R    │24  36  J      │35  53  / ?    │46  70  ScrollLck
+03   3  2 @ │14  20  T    │25  37  K      │36  54  Shft(R)│47  71  Home [7]
+04   4  3 # │15  21  Y    │26  38  L      │37  55  * PrtSc│48  72  ↑    [8]
+05   5  4 $ │16  22  U    │27  39  ; :    │38  56  Alt    │49  73  PgUp [9]
+06   6  5 % │17  23  I    │28  40  &quot; '    │39  57  space  │4a  74  <span class="c2">K</span> -
+07   7  6 ^ │18  24  O    │29  41  ` ~    │3a  58  CapsLck│4b  75  ←    [4]
+08   8  7 &amp; │19  25  P    │2a  42  Shft(L)│3b  59  F1     │4c  76       [5]
+09   9  8 * │1a  26  [ {  │2b  43  \ |    │3c  60  F2     │4d  77  →    [6]
+0a  10  9 ( │1b  27  ] }  │2c  44  Z      │3d  61  F3     │4e  78  <span class="c2">K</span> +
+0b  11  0 ) │1c  28  Enter│2d  45  X      │3e  62  F4     │4f  79  End  [1]
+0c  12  - _ │1d  29  Ctrl │2e  46  C      │3f  63  F5     │50  80  ↓    [2]
+0d  13  + = │1e  30  A    │2f  47  V      │40  64  F6     │51  81  PgDn [3]
+0e  14  bksp│1f  31  S    │30  48  B      │41  65  F7     │52  82  Ins  [0]
+0f  15  Tab │20  32  D    │31  49  N      │42  66  F8     │53  83  Del  [.]
+10  16  Q   │21  33  F    │32  50  M      │43  67  F9     │
+11  17  W   │22  34  G    │33  51  , &lt;    │44  68  F10    │
+────────────┴─────────────┴───────────────┴───────────────┴─────────────────
+    <span class="c2">K</span> indicates a key on the numeric keypad<a href="56-numeric_keypad.html">▲</a> (when not in NumLock mode)
+
+<span class="c2">█▌84-key AT Keyboard▐█</span>
+  The 84-key keyboard sends the same scan codes as the 83-key (original PC)
+  keyboard with the addition that
+
+              <span class="c1">[SysReq]</span> sends scan code 54H (84 decimal).
+
+  However, the BIOS never lets an application program see this scan code.
+  Instead, it invokes <a href="220-int_15h_85h__sysreq_key.html">INT 15H 85H</a> on make or break of the SysReq key.
+
+  The 'break' (release of a key) is handled differently.  Upon a break, the
+  keyboard sends a two-byte sequence:  0f0H, followed by the 'make' scan
+  code.  See <a href="894-at_keyboard_functions.html">AT Keyboard Functions</a> for information on programming this
+  keyboard.
+
+<span class="c2">█▌101-key Keyboard▐█</span>
+  This keyboard has three separate mappings of the scan codes, selected by
+  communication through port 64H.  The keyboard comes to life with scan code
+  set 2 (which is wildly different from the 84-key mapping.  However, the
+  scan codes are translated by the hardware keyboard interface before they
+  are made available to programs that read the keyboard.
+
+  The result is that all of the scan codes identified in the above table are
+  valid when the 101-key 'board comes up naturally.  The following table
+  lists the additional scan-codes that are sent by the 101-key 'board.  Note
+  that all keys mentioned here refer to the keys that are unique to this
+  keyboard; e.g., [Insert] is the dedicated insert key (not KeyPad Ins).
+
+  ────────────────────────────────────────────┬───────────────────────────
+  Key                       Hex Sequence      │ Key           Hex Sequence
+  ────────────────────────────────────────────┼───────────────────────────
+  F11 ..................... 57                │ Home ........ e0 47
+  F12 ..................... 58                │ Shft-Home ... e0 aa e0 47
+  Right-Alt ............... e0 38             │ End ......... e0 4f
+  Right-Ctrl .............. e0 1d             │ Shft-End .... e0 aa e0 4f
+  PrintScreen ............. e0 2a e0 37       │ ↑ ........... e0 48
+  Shft-PrintScreen (SysReq) e0 37             │ Shft-↑ ...... e0 aa e0 48
+  Ctrl-PrintScreen (SysReq) e0 37             │ ↓ ........... e0 50
+  Alt-PrintScreen ......... 54                │ Shft-↓ ...... e0 aa e0 50
+  Pause ................... e1 1d 45 e1 9d c5 │ PageUp ...... e0 49
+  Ctrl-Pause (Break) ...... e0 46 e0 c6       │ Shft-PageUp . e0 aa e0 49
+  Insert .................. e0 52             │ PageDown .... e0 51
+  Shft-Insert ............. e0 aa e0 52       │ Shft-PageDown e0 aa e0 51
+  Delete .................. e0 53             │ → ........... e0 4d
+  Shft-Delete ............. e0 aa e0 53       │ Shft-→ ...... e0 aa e0 4d
+  ← ....................... e0 4b             │ <span class="c1">K</span> Enter ..... e0 1c
+  Shft-← .................. e0 aa e0 4b       │ <span class="c1">K</span> / ......... e0 35
+                                              │ Shft-<span class="c1">K</span> / .... e0 aa e0 35
+  ────────────────────────────────────────────┴───────────────────────────
+                 <span class="c1">K</span> indicates a key on the numeric keypad<a href="56-numeric_keypad.html">▲</a>
+
+  Note that in cases where a key is similar to another (pre-101) key, the
+  second scan code byte is the same as the original key.  Thus, some
+  programs that work at the scan-code level can get away with simply
+  ignoring the e0H prefix.
+
+See Also: <a href="106-int_09h__keyboard_interrupt.html">INT 09H</a>
+          <a href="58-keyboard_shift_status_flags.html">Keyboard Flags</a>
+          <a href="55-extended_ascii_keystrokes.html">Extended ASCII Keystrokes</a>
+          <a href="228-int_16h__keyboard_services.html">INT 16H</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

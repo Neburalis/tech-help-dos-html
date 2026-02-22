@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Exec Parameter Block (ExecParamRec) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Exec Parameter Block (ExecParamRec)</h1><pre>
+ This structure is used in fn <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> (load and execute program).
+
+<span class="c2">ExecParamRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wEnvSeg</span>      segment of <a href="346-dos_environment.html">environment</a> for child (0000=current)
+   +2      4  <span class="c1">pfCmdTail</span>    address of command line text to place at <a href="371-psp__program_segment_prefix.html">PSP</a>:0080
+   +6      4  <span class="c1">pfrFCB_1</span>     address of an <a href="360-fcb__file_control_block.html">FCB</a> to be placed at PSP:005c
+  +0ah     4  <span class="c1">pfrFCB_2</span>     address of an FCB to be placed at PSP:006c
+          14               length of an ExecParamRec
+
+     <span class="c1">wEnvSeg</span>  Segment address of the <a href="346-dos_environment.html">environment</a> to be provided for the
+              child process OR 0000H to have DOS create and allocate a
+              duplicate of the current environment for the child.
+
+              If this is non-zero, you must prepare the required series of
+              ASCIIZ strings.  DOS will allocate memory and copy the data,
+              appending the child program's filename (see <a href="346-dos_environment.html">DOS Environment</a>).
+              DOS will free the memory upon termination of the child.
+
+   <span class="c1">pfCmdTail</span>  Text to be passed to the child as it command-line arguments.
+              It must be in the same format as described in the <a href="371-psp__program_segment_prefix.html">PSP</a> (126-
+              character maximum Lstring<a href="921-qlstring.html">▲</a>); it will be copied to the child's
+              PSP at offset 80H.
+
+    <span class="c1">pfrFCB_1</span>  and...
+    <span class="c1">pfrFCB_2</span>  are unopened <a href="360-fcb__file_control_block.html">FCB</a>s to be copied to the child's PSP.
+
+   Notes: ■ Prepare an <a href="346-dos_environment.html">environment</a> and set <span class="c1">wEnvSeg</span> to its paragraph (or set
+            <span class="c1">wEnvSeg</span> to 0000 to have the child inherit a copy of the current
+            environment).
+
+            Some programs put their own PROMPT= string into the child's
+            environment, e.g., <span class="c2">PROMPT=Type EXIT to return to MyProg$G</span>
+
+          ■ Prepare an Lstring command line to pass to the child.  If no
+            command line is needed, it should contain: 00H 0dH.  See <a href="371-psp__program_segment_prefix.html">PSP</a>
+            offset 80H for the format.
+
+            Note that fn <a href="504-dos_fn_4b00h__execute_a_program.html">4b00H</a> does NOT process redirection symbols.
+
+          ■ Set <span class="c1">pfCmdTail</span> to the offset and segment of this command line.
+
+            If no FCBs are needed (as when EXECing Command.Com) you can
+            ignore the following steps.  If EXECing a program that expects
+            FCBs (as with FORMAT.COM):
+
+          ■ prepare two unopened <a href="360-fcb__file_control_block.html">FCB</a>s to pass to the child
+          ■ set <span class="c1">pfrFCB_1</span> to the offset and segment of the first FCB
+          ■ set <span class="c1">pfrFCB_</span>2 to the offset and segment of the second FCB
+
+See Also: <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="371-psp__program_segment_prefix.html">PSP: Program Segment Prefix</a>
+          <a href="346-dos_environment.html">DOS Environment</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

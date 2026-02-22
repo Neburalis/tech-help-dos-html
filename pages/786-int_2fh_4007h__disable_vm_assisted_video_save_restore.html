@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 4007H: Disable VM-Assisted Video Save/Restore - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 4007H: Disable VM-Assisted Video Save/Restore</h1><pre>                                                      Compatibility: <span class="c2">Win 3.x</span>
+ Expects: <span class="c2">AX</span>    4007H
+          ──────────────────────────────────────────────────────────────────
+  Return: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This stops the VDD from notifying a VM-aware application about
+          video register activities and pending background/foreground
+          switches.
+
+          The VDD will no longer call:
+
+           <a href="780-int_2fh_4001h__notify_background_switch.html">INT 2fH 4001H</a> (ntfy: about to switch to background)
+           <a href="781-int_2fh_4002h__notify_foreground_switch.html">INT 2fH 4002H</a> (ntfy: about to switch to foreground)
+
+           <a href="784-int_2fh_4005h__save_video_register_state.html">INT 2fH 4005H</a> (ntfy: save video registers)
+           <a href="785-int_2fh_4006h__restore_video_register_state.html">INT 2fH 4006H</a> (ntfy: restore video registers)
+
+          And it will ignore calls to:
+
+           <a href="782-int_2fh_4003h__enter_critical_section.html">INT 2fH 4003H</a> (srvc: enter critical section)
+           <a href="783-int_2fh_4004h__exit_critical_section.html">INT 2fH 4004H</a> (srvc: exit critical section)
+
+          This is typically used by VM-aware applications when they are
+          terminating.
+
+See Also: <a href="778-int_2fh_40xxh__virtual_display_driver_functions.html">INT 2fH 40xxH: Virtual Display Driver Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

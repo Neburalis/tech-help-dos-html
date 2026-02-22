@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>EXE File Header Layout - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>EXE File Header Layout</h1><pre><span class="c2">ExeHeaderRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wSignature</span>   5a4dH .EXE file signature ('MZ')
+   +2      2  <span class="c1">wPartPage</span>    length of partial page at end (generally ignored)
+   +4      2  <span class="c1">wPageCnt</span>     length of image in 512-byte pages, incl. header
+   +6      2  <span class="c1">wReloCnt</span>     number of items in relocation table
+   +8      2  <span class="c1">wHdrSize</span>     size of header in 16-byte paragraphs
+  +0aH     2  <span class="c1">wMinAlloc</span>    minimum RAM needed above end of prog (paragraphs)
+  +0cH     2  <span class="c1">wMaxAlloc</span>    maximum RAM needed above end of prog (paragraphs)
+  +0eH     2  <span class="c1">wInitSS</span>      segment offset of stack segment (for setting SS)
+  +10H     2  <span class="c1">wInitSP</span>      value for SP register when started
+  +12H     2  <span class="c1">wChkSum</span>      file checksum (negative sum of all words in file)
+  +14H     2  <span class="c1">wInitIP</span>      value for IP register when started
+  +16H     2  <span class="c1">wInitCS</span>      segment offset of code segment (for setting CS)
+  +18H     2  <span class="c1">wTablOff</span>     file-offset of first relo item (often 001cH)
+  +1aH     2  <span class="c1">wOverlayNo</span>   overlay number (0 for base module)
+          28               size of formatted portion of EXE header
+
+  +?      4*? <span class="c1">alReloTbl</span>    variable-length relocation table
+  +?       ?  <span class="c1">abFiller</span>     filler to paragraph boundary
+  +?       ?  <span class="c1">abImage</span>      start of program image
+
+ Since an EXE file may be loaded on any segment, all absolute segment
+ references (such as FAR CALLs, long address pointers, and references such
+ as MOV AX,data_seg) must be adjusted to work for the memory location in
+ which they are loaded.  Here are the steps used by the DOS program loader
+ (fn <a href="503-dos_fn_4bh__load_or_execute_a_program.html">4bH</a> ) to load an EXE file:
+
+       1. Create a <a href="371-psp__program_segment_prefix.html">PSP</a> via DOS Fn <a href="407-dos_fn_26h__create_program_segment_prefix.html">26H</a>.
+
+       2. Read 1cH bytes of the EXE file (the formatted portion of the EXE
+          header) into a local memory area.
+
+       3. Determine the load module size:
+           size=((<span class="c1">wPageCnt</span>*512)-(<span class="c1">wHdrSize</span>*16))-<span class="c1">wPartPage</span>
+
+       4. Determine file offset of load module = (<span class="c1">wHdrSize</span> * 16)
+
+       5. Select a segment addr, START_SEG, for loading (usually <a href="371-psp__program_segment_prefix.html">PSP</a>+10H)
+
+       6. Allocate enough memory to hold the load module, honoring the
+          settings in <span class="c1">wMaxMem</span>  and <span class="c1">wMinMem</span>.
+
+       7. Read the load module into memory starting at START_SEG:0000
+
+       8. LSEEK to the start of the relocation table (<span class="c1">wTablOff</span>)
+
+       9. For each relocation item (<span class="c1">wReloCnt</span>):
+          a. read the item as two 16-bit words (I_OFF,I_SEG)
+          b. add RELO_SEG=START_SEG+I_SEG      (find the address of
+             relocation ref)
+          c. fetch the word at RELO_SEG:I_OFF  (read current value)
+          d. add START_SEG to that word        (perform the segment fixup)
+          e. store the sum back at its original address (RELO_SEG:I_OFF)
+
+      10. Allocate memory for the program according to <span class="c1">wMaxMem</span> and <span class="c1">wMinMem</span>
+
+      11. Initialize registers and execute the program:
+          a. ES = DS = <a href="371-psp__program_segment_prefix.html">PSP</a>
+          b. Set AX to indicate the validity of drive IDs in command line
+          c. SS = START_SEG+ReloSS, SP = ExeSP
+          d. CS = START_SEG+ReloCS, IP = ExeIP
+
+    Note: Recent additions to the EXE format, specifically the CodeView,
+          OS/2, and Windows versions of the EXE file contain additional
+          information embedded in the executable file.  Sorry, but these
+          additions are not covered here.
+
+See Also: <a href="829-program_startup___exit.html">Program Startup &amp; Exit</a>
+          <a href="18-process_control_functions.html">Process Control Functions</a>
+          <a href="371-psp__program_segment_prefix.html">PSP: Program Segment Prefix</a>
+          <a href="346-dos_environment.html">DOS Environment</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

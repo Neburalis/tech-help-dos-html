@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Request 19H: IOCTL Support Query - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Request 19H: IOCTL Support Query</h1><pre>                                                    <a href="328-_blk_.html">◄Blk►</a> <a href="327-_chr_.html">◄Chr►</a> <a href="331-_gen_.html">◄Gen►</a> <a href="332-_qry_.html">◄Qry►</a>
+ This asks the driver to identify whether it supports a particular generic
+ IOCTL function.  Generic IOCTL fns have a variety of uses, ranging from
+ setting up code page fonts to formatting a hard disk.
+
+<span class="c2">DevReq19Rec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      1  <span class="c1">bLen</span>         ??H (length of this request packet)
+   +1      1  <span class="c1">bUnitNo</span>      unit number (block devices only)
+   +2      1  <span class="c1">bCmd</span>         <span class="c2">19H</span> (command code)
+   +3      2  <span class="c1">rStatus</span>      OUTPUT: <a href="325-device_status_word.html">Device Status Word</a> must fill before exit
+   +5H     8  <span class="c1">res</span>          (reserved)
+  +0dH     1  <span class="c1">bCategory</span>    INPUT: device category
+  +0eH     1  <span class="c1">bMinorCode</span>   INPUT: minor code
+  +0fH     4  <span class="c1">lRes</span>         (reserved)
+  +13H     4  <span class="c1">pfIoctlData</span>  (not used; do not modify)
+          23               size of this structure
+
+     <span class="c1">rStatus</span>  On exit, the driver must place a <a href="325-device_status_word.html">DevStatusWord</a> here.  Always
+              set the Done bit (<span class="c1">bit 8</span>).
+
+              If you don't support the specified category/MinorCode, set the
+              Error bit (<span class="c1">bit 15</span>) and put <a href="326-device_driver_errors.html">Device Error Code</a> 03H (unknown
+              function) in the low byte.
+
+   <span class="c1">bCategory</span>  is the device category as passed in <span class="c2">CH</span> from DOS <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> or <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a>
+              (Generic IOCTL fns):
+                00H=unknown
+                01H=COMn (DOS <span class="c2">3.3+</span>)
+                03H=console (screen + keyboard) (DOS <span class="c2">3.3+</span>)
+                05H=parallel printer (DOS <span class="c2">3.2+</span>)
+
+  <span class="c1">bMinorCode</span>  is a subfn code, as passed in <span class="c2">CL</span> from DOS <a href="458-dos_fn_440ch__generic_i_o_control____character_devices.html">440cH</a> (Generic IOCTL
+              for <span class="c2">Character Devices</span>):
+                <a href="459-dos_fn_440ch_cl_45h__ioctl_set_retry_iteration_count.html">45H</a> (set iteration count)             3.3+
+                <a href="460-dos_fn_440ch_cl_4ah__ioctl_select_code_page.html">4aH</a> (select a prepared code page)     3.3+
+                <a href="461-dos_fn_440ch_cl_4ch__ioctl_start_code_page_prepare.html">4cH</a> (begin preparing a code page)     3.3+
+                <a href="462-dos_fn_440ch_cl_4dh__ioctl_end_code_page_prepare.html">4dH</a> (done preparing a code page)      3.3+
+                <a href="463-dos_fn_440ch_cl_5fh__ioctl_set_display_mode.html">5fH</a> (set display information)         <span class="c2">4.0+</span>
+                <a href="464-dos_fn_440ch_cl_65h__ioctl_query_retry_iteration_count.html">65H</a> (query retry iteration count)     3.3+
+                <a href="465-dos_fn_440ch_cl_6ah__ioctl_query_current_code_page.html">6aH</a> (query active code page)          3.3+
+                <a href="466-dos_fn_440ch_cl_6bh__ioctl_query_code_page_list.html">6bH</a> (get list of prepared code pages) 3.3+
+                <a href="467-dos_fn_440ch_cl_7fh__ioctl_query_display_mode.html">7fH</a> (query display information)       <span class="c2">4.0+</span>
+
+              or a subfn code, as passed in <span class="c2">CL</span> from DOS <a href="468-dos_fn_440dh__generic_i_o_control____block_devices.html">440dH</a> (Generic IOCTL
+              for <span class="c2">Block Devices</span>):
+                <a href="469-dos_fn_440dh_cl_40h__ioctl_set_device_parameters.html">40H</a> (set device parameters)           3.2+
+                <a href="470-dos_fn_440dh_cl_41h__ioctl_write_track_on_logical_drive.html">41H</a> (write track)                     3.2+
+                <a href="471-dos_fn_440dh_cl_42h__ioctl_format_track_on_logical_drive.html">42H</a> (format and verify track)         3.2+
+                <a href="472-dos_fn_440dh_cl_46h__ioctl_set_media_id.html">46H</a> (set media ID)                    <span class="c2">4.0+</span>
+                <a href="473-dos_fn_440dh_cl_47h__ioctl_set_access_flag.html">47H</a> (set disk access flag)            <span class="c2">4.0 only</span>
+                <a href="474-dos_fn_440dh_cl_60h__ioctl_query_device_parameters.html">60H</a> (get device parameters)           3.2+
+                <a href="475-dos_fn_440dh_cl_61h__ioctl_read_track_on_logical_drive.html">61H</a> (read track)                      3.2+
+                <a href="476-dos_fn_440dh_cl_62h__ioctl_verify_track_on_logical_drive.html">62H</a> (verify track)                    3.2+
+                <a href="477-dos_fn_440dh_cl_66h__ioctl_query_media_id.html">66H</a> (query media ID)                  <span class="c2">4.0+</span>
+                <a href="478-dos_fn_440dh_cl_67h__ioctl_query_access_flag.html">67H</a> (query disk access flag)          <span class="c2">4.0 only</span>
+                <a href="479-dos_fn_440dh_cl_68h__ioctl_sense_media_type.html">68H</a> (sense media type)                <span class="c2">5.0+</span>
+
+   Notes: ■ Only device drivers capable of handling generic IOCTL requests
+            need support this request (see <a href="323-device_attribute.html">Device Attribute</a> <span class="c1">bit 6</span>).
+
+          ■ The driver must interpret the <span class="c1">bCategory</span> and <span class="c1">bMinorCode</span> fields
+            and if the specified combination is not supported, set <span class="c1">rStatus</span>
+            to indicate an &quot;unknown fn&quot; <a href="326-device_driver_errors.html">Device Driver Error</a>.
+
+See Also: <a href="300-device_requests.html">Device Requests</a>
+          <a href="324-device_request_header.html">DevRequestHdrRec</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

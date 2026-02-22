@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 0eH: Select DOS Default Disk - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 0eH: Select DOS Default Disk</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    0eH
+          <span class="c2">DL</span>    drive number (0=A, 1=B, etc.) to become the default disk
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    total number of system drives
+          ──────────────────────────────────────────────────────────────────
+    Info: The drive identified in DL becomes the current DOS default drive
+          (if it is a valid drive number).
+
+          Error test; use DOS Fn <a href="397-dos_fn_19h__query_dos_default_disk.html">19H</a> (Get CurDisk) to make sure it worked.
+
+   Notes: ■ The return value in AL is number of drives of any type,
+            including hard disks and 'logical' and phantom drives (such as
+            drive B: in a 1-floppy system).
+
+          ■ The return value is simply a count of valid drive IDs--not an
+            indication of which drive IDs are valid.
+
+          ■ This call triggers a critical error (<a href="564-int_24h__critical_error_handler.html">INT 24H</a>) when you select a
+            drive that does not contain a diskette.
+
+Versions: <span class="c2">DOS 3.0+</span> AL is the same as the value of <a href="285-lastdrive___config_sys_command_.html">LASTDRIVE=</a>, as specified
+          in <a href="267-the_config_sys_file.html">CONFIG.SYS</a>.  The a typical default LASTDRIVE is 5.
+
+See Also: <a href="434-dos_fn_3bh__set_dos_default_directory____chdir.html">3bH</a> (set default directory
+          <a href="183-int_11h__equipment_check.html">INT 11H</a> (equipment check)
+          <a href="564-int_24h__critical_error_handler.html">INT 24H</a> (critical error handler)
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

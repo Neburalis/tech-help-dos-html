@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 86H: Wait - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 86H: Wait</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    86H
+          <span class="c2">CX</span>,<span class="c2">DX</span> interval in microseconds (1,000,000ths of a second)
+                CX is high word, DX is low word
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    86H
+          <span class="c2">AL</span>    mask written to interrupt ctrlr 2 (if successful)
+                unmodified (if fn is busy)
+          <span class="c2">CF</span>    NC (0) no error
+                CY (1) error; fn is busy
+          ──────────────────────────────────────────────────────────────────
+    Info: This suspends execution of the caller for the specified interval.
+          Interrupts are enabled during the delay.
+
+          The interval is set in microseconds with CX and DX being the high
+          and low words, respectively.
+
+          1,000,000 microseconds = 1 second; for instance, to set an
+          interval for 2 seconds, set CX=001eH and DX=8480H.
+
+          Upon expiration of the interval, control returns to the caller
+          and <span class="c2">bit 7</span> of the byte at 0040:00A0 in the <a href="93-rom_bios_variables.html">BIOS Data Area</a> will be
+          set.
+
+   Notes: ■ If <span class="c2">CX</span> and <span class="c2">DX</span> are both 0000H on entry, no action is taken.
+
+          ■ In most systems, the finest possible resolution is about 1000
+            microseconds (about one one-thousandth of a second).  Thus, CX
+            must be at least 1000 (03e8H) for this to be useful.
+
+          ■ If you want to set a timer and continue processing, use
+            <a href="217-int_15h_8300h__set_event_wait_interval.html">INT 15H 8300H</a>.
+
+          ■ Other timer functions include <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1AH</a> (1/18-th second minimum
+            interval) and DOS fn <a href="413-dos_fn_2ch__query_dos_time.html">2cH</a> (1/100-th second minimum interval).
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

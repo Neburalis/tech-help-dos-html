@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 41H: Delete File - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 41H: Delete File</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    41H
+          <span class="c2">DS:DX</span> address of an ASCIIZ<a href="913-qasciiz.html">▲</a> string of a filespec<a href="922-qfilespec.html">▲</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Deletes an existing file.
+
+    <span class="c2">DS:DX</span> points to an ASCIIZ string in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">◄0►</span>
+          ...which identifies the location and name of the file to delete.
+          It cannot contain wildcards<a href="935-qwildcard.html">▲</a>.  If drive and/or path are omitted,
+          defaults are assumed.
+
+          If CF is set on return, an error code is in AX and no action was
+          taken.
+
+   Notes: ■ This function removes the file's <a href="344-directory_entry_layout.html">directory entry</a> from the
+            directory (actually, it overwrites the first byte of the file
+            name with 0e5H) and updates the <a href="359-fat__dos_file_allocation_table.html">FAT</a> to deallocate its disk
+            space.  It does not physically erase the file's data.
+
+          ■ If <span class="c2">Undelete</span>'s Delete Sentry is active, it will intercept this
+            call and move the file's directory entry into the \SENTRY
+            directory, giving it a unique name and recording the
+            transaction in CONTROL.FIL.  The file will actually be deleted
+            when the disk space is needed.
+
+          ■ This function will not delete files having the read-only
+            <a href="361-file_attribute.html">file attribute</a>.  You may use fn <a href="444-dos_fn_4301h__set_file_attribute.html">4301H</a> (change file attribute)
+            to clear this attribute.
+
+See Also: <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

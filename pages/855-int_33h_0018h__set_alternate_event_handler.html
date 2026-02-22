@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0018H: Set Alternate Event Handler - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0018H: Set Alternate Event Handler</h1><pre>
+ Expects: <span class="c2">AX</span>    0018H
+          <span class="c2">CX</span>    event mask (events which you want sent to your handler)
+                  bit 0 = mouse movement                 (CX | 01H)
+                  bit 1 = left button pressed            (CX | 02H)
+                  bit 2 = left button released           (CX | 04H)
+                  bit 3 = right button pressed           (CX | 08H)
+                  bit 4 = right button released          (CX | 10H)
+                  bit 5 = Shift down when button pressed (CX | 20H)
+                  bit 6 = Ctrl down when button pressed  (CX | 40H)
+                  bit 7 = Alt down when button pressed   (CX | 80H)
+                  <span class="c1">CX = 00ffH</span> = handle all events
+                  <span class="c1">CX = 0000H</span> = disable handler
+          <span class="c2">ES:DX</span> address of your event handler code
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    installation status:   0018H = installed
+                                       ffffH = Error: can't install
+          ──────────────────────────────────────────────────────────────────
+    Info: This function is the more elegant version of <a href="845-int_33h_000ch__set_mouse_event_handler.html">INT 33H 000cH</a> (which
+          see for specs on the custom handler code).
+
+          This function will inform your handler when a Shift-, Ctrl-, or
+          Alt- key was down when a mouse button was pressed.  It also
+          allows you to install up to three separate event handlers,
+          provided that each has a different event mask in <span class="c2">CX</span>.
+
+          Bits 5, 6, and 7 specify the shift keys of interest.  If you
+          don't require this information, you may use <a href="845-int_33h_000ch__set_mouse_event_handler.html">INT 33H 000cH</a> or
+          <a href="851-int_33h_0014h__exchange_mouse_event_handler.html">INT 33H 0014H</a> instead.
+
+          If an event handler for the specified event mask (in <span class="c2">CX</span>) already
+          exists, an error is returned (AX=ffffH upon return). In that
+          case, you may use <a href="856-int_33h_0019h__query_user_alternate_event_handler.html">INT 33H 0019H</a> to obtain the address of the
+          previous handler. You may de-install that handler, install your
+          own, then re-install the old one later.
+
+          To de-install an alternate event handler, call this function with
+          the address of the handler and 0's in relevant bits of the event
+          mask.  You should de-install event handlers before exiting your
+          program.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

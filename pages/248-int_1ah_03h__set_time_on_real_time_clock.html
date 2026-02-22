@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1aH 03H: Set Time on Real-Time Clock - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1aH 03H: Set Time on Real-Time Clock</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    03H
+          <span class="c2">CH</span>    hours, in BCD<a href="914-qbcd.html">▲</a>
+          <span class="c2">CL</span>    minutes, in BCD
+          <span class="c2">DH</span>    seconds, in BCD
+          <span class="c2">DL</span>    00h = no Daylight Savings Time option
+                01h = Daylight Savings Time option
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AH</span>    0
+          <span class="c2">AL</span>    value written to <a href="60-cmos_storage_layout.html">CMOS</a> 0bH register
+          <span class="c2">CF</span>    NC (0) clock operating
+                CY (1) clock not operating <span class="c1">or busy being updated</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the time for the battery-backed CMOS Real-Time Clock.
+
+          All input values are in BCD<a href="914-qbcd.html">▲</a> in 24-hour format; for instance,
+          <span class="c2">CX</span> = 1234H = 12:34<span class="c1">pm</span>.
+
+          The BIOS avoids reentrancy by not allowing the time to be set if
+          the clock happens to be in the process of being updated.  Thus,
+          if <span class="c2">CF</span> is set on return, you should try a few more times before
+          giving up.
+
+See Also: <a href="244-int_1ah__timer_i_o__and_mrci_post_hook_.html">INT 1aH</a> (BIOS Time I/O)
+          DOS fn <a href="414-dos_fn_2dh__set_dos_time.html">2dH</a> (set system time)
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

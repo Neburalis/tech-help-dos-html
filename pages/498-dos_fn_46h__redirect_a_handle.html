@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 46H: Redirect a Handle - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 46H: Redirect a Handle</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AH</span>    46H
+          <span class="c2">BX</span>    destination <a href="362-file_handle.html">file handle</a> (must already exist)
+          <span class="c2">CX</span>    source file handle (must already exist)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Forces a file handle to refer to a different file or device.  The
+          file handle in CX (the source) is closed (if currently open) and
+          then made to become a duplicate of the handle in BX (the
+          destination).
+
+          In other words, both CX and BX will refer to the same physical
+          file or device.  All accesses of the CX-handle file will go to or
+          come from the BX-handle file.
+
+          Use this function to redirect <a href="828-standard_i_o_and_i_o_redirection.html">Standard I/O</a>.  For example:
+
+            ■ Open a text file for output and obtain its handle (e.g.,
+              0005H).
+
+            ■ Set BX=0005H, CX=0001H and call Fn 46H.  Note:  Handle 0001H
+              is the pre-defined handle of the &quot;standard output device&quot;.
+
+            ■ Use Fn <a href="437-dos_fn_3eh__close_a_file_handle.html">3eH</a> Close File to close handle 05H if you wish.
+
+            ■ All subsequent output to the &quot;standard output&quot; by any process
+              (the current process or any spawns), including outputs via
+              any DOS <a href="7-character_i_o_functions.html">Character I/O</a> function and any writes to file handle
+              0001H via DOS Fn <a href="439-dos_fn_40h__write_to_file_via_handle.html">40H</a>, will go to the text file.
+
+            ■ When you exit, the pre-defined file handles are reset to the
+              normal devices (e.g., handle 0001H is reset to &quot;CON&quot;).
+
+See Also: <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="828-standard_i_o_and_i_o_redirection.html">Standard I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

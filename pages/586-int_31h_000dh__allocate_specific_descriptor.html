@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 000dH: Allocate Specific Descriptor - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 000dH: Allocate Specific Descriptor</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    000dH
+          <span class="c2">BX</span>    selector
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          <span class="c2">AX</span>    <span class="c1">?</span>selector of allocated descriptor<span class="c1">?</span>
+          ──────────────────────────────────────────────────────────────────
+    Info: This allocates one of the first 16 entries in the LDT.  Selector
+          values 04H-7cH are reserved for this purpose.
+
+    Note: The DPMI spec does not identify <span class="c2">AX</span> as a return value; so I'm
+          guessing here.  Also, It's not clear why you would want to
+          allocate one of these puppies (perhaps to make, say, 0040H work
+          as a descriptor to 0040:0000).
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

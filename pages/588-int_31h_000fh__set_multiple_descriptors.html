@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 000fH: Set Multiple Descriptors - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 000fH: Set Multiple Descriptors</h1><pre>                                                    Compatibility: <span class="c2">DPMI 1.0+</span>
+ Expects: <span class="c2">AX</span>    000fH
+          <span class="c2">CX</span>    number of descriptors to set
+          <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>) sel:off of buffer containing a series of 2-byte
+                selectors and 8-byte LDT entries
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful;
+                else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+                     <span class="c2">CX</span> = number of entries copied
+          ──────────────────────────────────────────────────────────────────
+    Info: This fills one or more LDT entries with data you supply.
+
+          The buffer must be formatted as:
+
+            Offset Size Contents
+            ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+             +0      2  <span class="c1">wSel1</span>       valid selector to define
+             +2      8  <span class="c1">rDesc1</span>      descriptor for that selector
+            +0aH     2  <span class="c1">wSel2</span>       valid selector to define
+            +0cH     8  <span class="c1">rDesc2</span>      descriptor for that selector
+              .
+              :
+
+    Note: If the call fails due to an invalid selector, the host will
+          return <span class="c2">CX</span> as the number of valid selectors that it found before
+          encountering the bad apple.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

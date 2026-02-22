@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>MultiConfig Menus - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>MultiConfig Menus</h1><pre>
+ A feature in DOS 6.0+ supports multiple configuration sets.  You can
+ display a menu of options and, depending upon the selection, execute
+ different parts of CONFIG.SYS and AUTOEXEC.BAT.
+              <span class="c3">─────────────────────────────────── Menu Definition Commands</span>
+ <span class="c2">[MENU]</span>       Identify the beginning of the startup menu.
+
+ <a href="286-menuitem___config_sys_command_.html">MENUITEM=</a>    Define text to display in a menu and identify a block of
+              commands to be executed when that option is selected.
+ <a href="288-menudefault___config_sys_command_.html">MENUDEFAULT=</a> Set a default option and a time-out value.
+ <a href="287-menucolor___config_sys_command_.html">MENUCOLOR=</a>   Set text and background colors for the menu display.
+ <a href="296-submenu___config_sys_command_.html">SUBMENU=</a>     Identify a menu item as a submenu.
+              <span class="c3">─────────────────────────────────────────── Related Commands</span>
+ <a href="282-include___config_sys_command_.html">INCLUDE=</a>     Execute the commands in another block and resume executing
+              the commands in the current block.
+ <a href="289-numlock___config_sys_command_.html">NUMLOCK=</a>     Set the initial state of keyboard NumLock.  This
+              facilitates using the arrow keys for making a selection.
+ <a href="291-set__config_sys_command_.html">SET</a>          Create an environment variable for possible use in
+              AUTOEXEC.BAT or other batch files.
+ <a href="294-switches___config_sys_command_.html">SWITCHES=</a>    The <span class="c1">/N</span> switch disables F8 (<a href="270-interactive_boot.html">Interactive Boot</a>) and F5
+              (<a href="269-clean_boot.html">Clean Boot</a>).  <span class="c1">/F</span> tells DOS to skip the normal 2-second
+              delay before starting to execute CONFIG.SYS.
+              <span class="c3">──────────────────────────────────────────── Syntax Elements</span>
+ <span class="c2">[COMMON]</span>     Identify a series of commands that will be executed
+              regardless of which configuration menu option is chosen
+              (Note: Commands <span class="c1">above the first menu</span> are considered to be
+              part of a [COMMON] block).
+ <span class="c2">[</span><span class="c1">blockName</span><span class="c2">]</span>  Identify the beginning of a series of CONFIG.SYS commands
+              or the start of a submenu.
+
+ <a href="369-predefined_environment_variables.html">CONFIG</a>       An environment variable that gets set to the <span class="c1">blockName</span> of
+              the selected menu item.  Use this to run specific commands
+              in AUTOEXEC.BAT, depending upon the chosen configuration.
+
+ <a href="290-rem__config_sys_command_.html">REM</a> or <span class="c2">;</span>     Lines beginning with a semicolon (<span class="c2">;</span>) or REM are ignored.
+
+ <a href="270-interactive_boot.html">cmd?=</a>        A question mark (<span class="c2">?</span>) before the equal sign (<span class="c2">=</span>) sign in any
+              CONFIG.SYS command causes DOS to prompt and allow you to
+              skip that command.
+
+See Also: <a href="269-clean_boot.html">Clean Boot</a>
+          <a href="270-interactive_boot.html">Interactive Boot</a>
+          <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+          <a href="263-system_startup_sequence.html">System Startup Sequence</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 16H: Create File via FCB - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 16H: Create File via FCB</h1><pre>                                                         Compatibility: <span class="c2">1.0+</span>
+ Expects: <span class="c2">AH</span>    16H
+          <span class="c2">DS:DX</span> address of an unopened <a href="360-fcb__file_control_block.html">FCB</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AL</span>    0    if file created without error (and FCB is filled)
+                0ffH if error (file could not be created/opened)
+          ──────────────────────────────────────────────────────────────────
+    Info: The file specified by the unopened FCB is created on the drive
+          specified in the FCB (0=default, 1=A, etc.)  It is opened in the
+          current DOS default directory for that drive.
+
+          The <a href="360-fcb__file_control_block.html">FCB</a> is filled as with DOS Fn <a href="388-dos_fn_0fh__open_file_via_fcb.html">0fH</a> Open FCB.
+
+          If the file existed before this call, its directory entry is
+          reused and the file length is set to 0.
+
+   Notes: ■ Handle-oriented functions of <span class="c2">DOS 2.0+</span> are MUCH easier to use.
+
+See Also: Fn <a href="435-dos_fn_3ch__create_a_file_via_handle.html">3ch</a> (create file)
+          <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="12-handle_oriented_file_i_o.html">Handle-Oriented File I/O</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

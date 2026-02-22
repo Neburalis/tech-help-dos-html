@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Extended DOS Partition - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Extended DOS Partition</h1><pre>
+ Starting with <span class="c2">DOS 3.3</span>, DOS supports a system that makes it possible for a
+ hard disk to contain additional DOS partitions beyond the maximum of four
+ that was available in previous versions.
+
+ Originally, this was a work-around for the 32 MB-per-partition limit (that
+ went away with <span class="c2">DOS 4.0</span>), but it can still be used to create additional
+ logical disk volumes.  For instance, a hard disk can contain, say 3 non-
+ DOS partitions and 20 DOS partitions.
+
+ The basic idea is this:
+
+ ■ When an entry in the <a href="345-disk_partition_table.html">Disk Partition Table</a> contains 05H in the
+   <span class="c1">bFileSysCode</span> field, that entry actually defines the location of a
+   secondary Master Boot Sector which contains its own variation of a
+   partition table, called an <span class="c1">extended partiton record</span>.
+
+ ■ Each extended partition record has at most two entries.  One will
+   contain a <a href="345-disk_partition_table.html">PartitionEntryRec</a> that identifies the location and size of
+   the DOS partition.  It will have a <span class="c1">bFileSysCode</span> of 1, 4, or 6.  The
+   second (if any) will have a <span class="c1">bFileSysCode</span> of 5, indicating the
+   location of another extended partition record.
+
+ An extended partition record sector is like a <a href="345-disk_partition_table.html">partition table</a> except that:
+
+ ■ These logical drives are not bootable, so the sector does not need to
+   contain any Master Boot Record-style boot code.   It just needs the
+   data starting at offset 1beH in the sector (see <a href="345-disk_partition_table.html">MasterBootRec</a>).
+
+ ■ Entries cannot identify non-DOS partitions.  <span class="c1">bFileSysCode</span> values must
+   be one of: <span class="c2">00</span> table entry is empty
+              <span class="c2">01</span> defines 12-bit DOS logical drive
+              <span class="c2">04</span> defines 16-bit DOS logical drive &lt; 32 MB
+              <span class="c2">05</span> defines another extension table
+              <span class="c2">06</span> defines 16-bit DOS logical drive &gt; 32 MB
+
+ ■ The table will have either one or two entries.  One entry defines a
+   type-1, 4, or 6 DOS drive.  The second (optional) entry may be a
+   type-5 extension table indicator.  You can define only one drive per
+   table.
+
+ ■ When <span class="c1">bFileSysCode</span> is 1, 4, or 6, the start/end Hd/Sec/Cyl values are
+   relative to the extension boot sector.
+
+ ■ When <span class="c1">bFileSysCode</span> is 5, the start/end Hd/Sec/Cyl values are absolute
+   (relative to the beginning of the physical disk).
+
+See Also: <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> (disk I/O
+          <a href="345-disk_partition_table.html">Partition Table</a>
+          <a href="337-boot_sector_layout.html">Boot Sector</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

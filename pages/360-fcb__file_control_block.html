@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>FCB: File Control Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>FCB: File Control Block</h1><pre><span class="c2">FcbRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  +0       1  <span class="c1">bDrvID</span>       drive ID (see below)
+  +1       8  <span class="c1">abName</span>       left-justified, blank-padded (e.g. 'FILE    '
+  +9       3  <span class="c1">abExt</span>        left-justified, blank-padded (e.g. 'EXT'
+ +0cH      2  <span class="c1">wCurBlock</span>    current block number
+ +0eH      2  <span class="c1">wRecSize</span>     logical record size
+ +10H      4  <span class="c1">lFileSize</span>    length of file
+ +14H      2  <span class="c1">rDate</span>        Date created/last modified in <a href="363-file_time_date_format.html">FileTimeRec</a> format
+ +14H      2  <span class="c1">rTime</span>        Time created/last modified in <a href="363-file_time_date_format.html">FileDateRec</a> format
+ +16H      8  <span class="c1">res</span>          (reserved, undocumented)
+ +20H      2  <span class="c1">wCurRecNo</span>    current position in current block (0-7fH)
+ +21H      4  <span class="c1">lRndmRecNo</span>   current record number in entire file
+          37               size of an FcbRec
+
+      <span class="c1">bDrvID</span>  Drive number.  Before open: 0=default, 1=A, 2=B, etc.
+                             After open:  0=A, 1=B, etc.)
+      <span class="c1">abName</span>  Filename.  If fewer than 8 characters, it is padded to 8 with
+              spaces (20H)
+       <span class="c1">abExt</span>  File extension.  If fewer than 3 characters, it is padded to 3
+              with spaces (30H)
+   <span class="c1">wCurBlock</span>  Current block number (a block is 128 records).  DOS sets to 0
+              when the file is opened
+    <span class="c1">wRecSize</span>  Size of a record, in bytes.  DOS sets to 128 on open.
+   <span class="c1">lFileSize</span>  Total size of the file, in bytes
+       <span class="c1">rDate</span>  File date in special format. See <a href="363-file_time_date_format.html">FileDateRec</a>
+       <span class="c1">rTime</span>  File time in special format. See <a href="363-file_time_date_format.html">FileTimeRec</a>
+   <span class="c1">wCurRecNo</span>  position within the current record (<span class="c1">wCurRec</span>)
+  <span class="c1">lRndmRecNo</span>  file position, specified as a number of records from the start
+              of the file.
+
+   Notes: ■ FCBs are obsolete, but still supported by DOS.  There is no
+            need to use this structure at all.
+
+          ■ <span class="c2">Unopened FCB:</span> Before opening a file, you need only supply
+            <span class="c1">bDrvID</span>, <span class="c1">abName</span>, and <span class="c1">abExt</span> (e.g.:  0,'MYFILE  TXT') and leave
+            room for DOS to fill in the other fields.
+
+          ■ <span class="c2">Opened FCB:</span> After successfully opening an FCB, the <span class="c1">bDrvID</span>
+            contains a non-zero drive number (A=1, B=3, etc), other fields
+            have been set up for access to the start of the file.
+
+          ■ I won't bother covering the arcane system of block-and-record
+            bookkeeping used to position the file pointer.  R.I.P.
+
+          ■ In order to open files that have a particular <a href="361-file_attribute.html">file attribute</a>,
+            you must use an <span class="c2">Extended FCB</span>...
+
+<span class="c2">FcbExtendedRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  -7       1  <span class="c1">bSig</span>         <span class="c2">ffH</span> (signature indicates Extended FCB)
+  -6       5  <span class="c1">res</span>          reserved
+  -1       1  <span class="c1">bAttr</span>        <a href="361-file_attribute.html">file attribute</a>
+  +0       1  <span class="c1">bDrvID</span>       drive ID (see below)
+               .
+               .  (other fields as above)
+               .
+            ...that is simply an FcbRec, preceded by 7 bytes, with [FCB-7]
+            being 0ffH and [FCB-1] being the file attribute.  Weird, huh?
+
+See Also: <a href="11-fcb_file_i_o_functions.html">FCB File I/O</a>
+          <a href="28-dos___bios_data_structures.html">Data Structures</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

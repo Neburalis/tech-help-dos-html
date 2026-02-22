@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Monochrome Display Adapter (MDA) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Monochrome Display Adapter (MDA)</h1><pre><span class="c2">█▌Overview▐█</span>
+  The MDA is one of the <span class="c1">original</span> video systems shipped with the IBM-PC
+  circa 1981.  It has been mostly replaced by EGA, VGA, and SVGA systems.
+  TECH Help! covers the following MDA and general video topics:
+
+   <a href="113-int_10h__video_services.html">Video Services</a> ..... <a href="113-int_10h__video_services.html">INT 10H</a> video services
+   <a href="114-video_modes.html">Video Modes</a> ........ includes MDA modes
+
+   <a href="89-video_memory_layouts.html">Video Memory Layouts</a> accessing MDA video memory
+   <a href="93-rom_bios_variables.html">BIOS Data Area</a> ..... includes video-specific variables in low memory
+
+   <a href="87-screen_attributes.html">Screen Attributes</a> .. codes determine &quot;colors&quot; for text mode
+
+   <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a> ...... I/O port addresses; video controller registers
+   <a href="885-mda_video_adaptor_pin_outs.html">MDA Pin Outs</a> ....... connectors on MDA cards
+
+   <a href="255-int_1dh__video_initialization_table_pointer.html">INT 1dH</a> ............ video initialization table
+
+  The MDA provides NO graphics support and is limited to a single text mode
+  (80x25).  Its video memory begins at <span class="c2">b000:0000</span> and it supports only one
+  &quot;page&quot; of video.
+
+  A popular variant known as <span class="c2">Hercules</span> and <span class="c2">MonoGraphics</span> also exists.  These
+  versions do support a 720x348 2-color graphics mode and they work with
+  the same low-cost video display as the MDA.
+
+<span class="c2">█▌Testing for an MDA▐█</span>
+  Use <a href="183-int_11h__equipment_check.html">INT 11H</a> (equipment list) and check bits 4 &amp; 5.  If (<span class="c1">w</span> AND 30H) is 30H,
+  then you are running on an MDA or compatible and video memory begins at
+  <span class="c2">b000:0</span>; otherwise, its a <a href="66-color_graphics_adapter__cga_.html">CGA</a>, <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>, <a href="70-video_graphics_array__vga_.html">VGA</a> or other color system (text-mode
+  video memory begins at b800:0).
+
+See Also: <a href="66-color_graphics_adapter__cga_.html">CGA</a>
+          <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a>
+          <a href="70-video_graphics_array__vga_.html">VGA</a>
+          <a href="69-supervga_display_adapters__svga_.html">SuperVGA</a>
+          <a href="901-color_graphics_adapter_i_o_ports.html">CGA I/O Ports</a>
+          <a href="89-video_memory_layouts.html">Video Memory Layouts</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

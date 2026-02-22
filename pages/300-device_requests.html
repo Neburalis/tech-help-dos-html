@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Device Requests - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Device Requests</h1><pre>                                  DOS
+     Cmd Name                     Ver. Usage Flags
+     ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+     <a href="301-device_request_00h__initialize_device.html">00H</a> Initialize device             <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a>
+     <a href="302-device_request_01h__media_check.html">01H</a> Media Check                        <a href="328-_blk_.html">◄Blk►</a>
+     <a href="303-device_request_02h__build_bpb.html">02H</a> Build BPB                          <a href="328-_blk_.html">◄Blk►</a>
+     <a href="304-device_request_03h__ioctl_input.html">03H</a> IOCTL Input                   <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a><a href="329-_irw_.html">◄IRW►</a>
+     <a href="305-device_request_04h__input__read_data_from_device_.html">04H</a> Input (read from device)      <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a>
+     <a href="306-device_request_05h__non_destructive_input.html">05H</a> Non-destructive Input         <a href="327-_chr_.html">◄Chr►</a>
+     <a href="307-device_request_06h__input_status.html">06H</a> Input status                  <a href="327-_chr_.html">◄Chr►</a>
+     <a href="308-device_request_07h__input_flush.html">07H</a> Input Flush                   <a href="327-_chr_.html">◄Chr►</a>
+     <a href="309-device_request_08h__output__write_data_to_device_.html">08H</a> Output (write to device)      <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a>
+     <a href="310-device_request_09h__output__write_verify_data_to_device_.html">09H</a> Output with verify            <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a>
+     <a href="311-device_request_0ah__output_status.html">0aH</a> Output Status                 <a href="327-_chr_.html">◄Chr►</a>
+     <a href="312-device_request_0bh__output_flush.html">0bH</a> Output Flush                  <a href="327-_chr_.html">◄Chr►</a>
+     <a href="313-device_request_0ch__ioctl_output.html">0cH</a> IOCTL Output                  <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a><a href="329-_irw_.html">◄IRW►</a>
+     <a href="314-device_request_0dh__device_open.html">0dH</a> Device Open              3.0+ <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a>     <a href="330-_ocr_.html">◄OCR►</a>
+     <a href="315-device_request_0eh__device_close.html">0eH</a> Device Close             3.0+ <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a>     <a href="330-_ocr_.html">◄OCR►</a>
+     <a href="316-device_request_0fh__removable_media.html">0fH</a> Removable Media          3.0+      <a href="328-_blk_.html">◄Blk►</a>     <a href="330-_ocr_.html">◄OCR►</a>
+     <a href="317-device_request_10h__output_until_busy.html">10H</a> Output until busy        3.0+ <a href="327-_chr_.html">◄Chr►</a>                    <a href="333-_otb_.html">◄OTB►</a>
+     <a href="318-device_request_13h__generic_ioctl_request.html">13H</a> Generic IOCTL Request    3.2  <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a>          <a href="331-_gen_.html">◄Gen►</a>
+     <a href="319-device_request_17h__get_logical_device.html">17H</a> Get Logical Device       3.2       <a href="328-_blk_.html">◄Blk►</a>          <a href="331-_gen_.html">◄Gen►</a>
+     <a href="320-device_request_18h__set_logical_device.html">18H</a> Set Logical Device       3.2       <a href="328-_blk_.html">◄Blk►</a>          <a href="331-_gen_.html">◄Gen►</a>
+     <a href="321-device_request_19h__ioctl_support_query.html">19H</a> IOCTL Support Query      5.0  <a href="327-_chr_.html">◄Chr►</a><a href="328-_blk_.html">◄Blk►</a>          <a href="331-_gen_.html">◄Gen►</a>     <a href="332-_qry_.html">◄Qry►</a>
+     ▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+
+ On entry to the Strategy routine (see <a href="299-device_driver_basics.html">Device Driver Basics</a>), DOS passes
+ the address of a request structure in <span class="c2">ES:BX</span> (see <a href="324-device_request_header.html">DevRequestHdrRec</a>).  The
+ <span class="c1">bCmd</span> field of that structure (at offset 2) will contain one of the above
+ command codes.
+
+ The variable-length data that follows the DevRequestHdrRec varies from
+ command to command.  Some commands share identical request structures.
+ Others have a unique structure and some use only the request header to
+ communicate with DOS.
+
+See Also: <a href="445-dos_fn_44h__device_i_o_control____ioctl.html">IOCTL Functions</a>
+          <a href="323-device_attribute.html">Device Attribute</a>
+          <a href="325-device_status_word.html">Device Status Word</a>
+          <a href="298-installable_device_drivers.html">Installable Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

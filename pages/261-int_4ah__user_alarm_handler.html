@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 4aH: User Alarm Handler - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 4aH: User Alarm Handler</h1><pre>
+ The INT 4aH vector (at 0:0128) is initialized by BIOS to point to an IRET.
+
+ It must be revectored to a user-supplied handler whenever using
+ <a href="251-int_1ah_06h__set_real_time_clock_alarm.html">INT 1aH 06H</a> (set RTC alarm).
+
+ If you intercept this interrupt, be sure to save all registers on entry
+ and restore all registers on exit.
+
+ Only <a href="830-system_compatibility.html">AT</a>-class and better computers support this interrupt.
+
+See Also: <a href="251-int_1ah_06h__set_real_time_clock_alarm.html">INT 1aH 06H</a> (set user alarm)
+          <a href="60-cmos_storage_layout.html">CMOS Memory</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

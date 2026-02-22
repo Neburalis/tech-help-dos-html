@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 1fH: CGA Graphics Character Font Pointer - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 1fH: CGA Graphics Character Font Pointer</h1><pre>
+ This vector (0:007c) is a pointer to a table of <a href="91-video_font_definition.html">Font Definition Data</a> that
+ defines <a href="45-ascii.html">ASCII</a> characters 128-255 (80H-ffH) that will be used to display
+ text (via <a href="129-int_10h_0eh__write_character_as_tty.html">INT 10H 0eH</a> et al.) while in graphics mode.
+
+ The oldest <a href="66-color_graphics_adapter__cga_.html">CGA</a> video systems do not provide definitions for these
+ characters.  On these systems, characters 128-255 (when in graphics modes)
+ are displayed as random dots unless you install your own table at the
+ INT 1fH vector.
+
+   Notes: ■ On CGAs, text-mode font data is inaccessible.
+          ■ EGA/VGA systems provide access to all font data.  They
+            automatically set INT 1fH to point to a table in ROM.
+
+ See <a href="91-video_font_definition.html">Font Definition Data</a> for a layout of this data.  The CGA BIOS expects
+ these character to be eight dots high (eight bytes per character).
+
+See Also: <a href="260-int_43h__ega_vga_graphics_character_font_pointer.html">INT 43H</a> (EGA/VGA Graphics Character Font Pointer)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,19 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>XMS 11H: Release Upper Memory Block - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>XMS 11H: Release Upper Memory Block</h1><pre>                                                     Compatibility: <span class="c2">XMS 2.0+</span>
+ Expects: <span class="c2">AH</span>    11H
+          <span class="c2">DX</span>    segment address of he UMB (as obtained via <a href="961-xms_10h__request_upper_memory_block.html">XMS 10H</a>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    status: 0000H = successful
+                        0001H = error and <span class="c2">BL</span>=<a href="963-xms_error_codes.html">XMS error code</a> (if BL &gt;= 80H)
+          ──────────────────────────────────────────────────────────────────
+    Info: This frees ownership of a UMB obtained via <a href="961-xms_10h__request_upper_memory_block.html">XMS 10H</a> (request UMB).
+
+          See <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a> for the correct (DOS-blessed) way to
+          get and release a UMB when running <span class="c2">DOS 3.0+</span>.
+
+   Notes: When a UMB has been released, any code and data in it becomes
+          invalid and should not be accessed.
+
+See Also: <a href="944-xms_functions.html">XMS Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

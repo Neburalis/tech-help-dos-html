@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 59H: Get Extended Error Info - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 59H: Get Extended Error Info</h1><pre>                                                         Compatibility: <span class="c2">3.0+</span>
+ Expects: <span class="c2">AH</span>    59H
+          <span class="c2">BX</span>    0000H (need for <span class="c2">3.x</span> and <span class="c2">4.x</span>)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    extended <a href="347-dos_error_codes.html">error code</a> (0 if no error has occurred)
+          <span class="c2">BH</span>    error class
+          <span class="c2">BL</span>    suggested action
+          <span class="c2">CH</span>    location (where the error occurred)
+          ──────────────────────────────────────────────────────────────────
+    Info: Use this function to figure out what to do after a DOS function
+          failed because of an error.  You can use this:
+
+          ■ Inside an <a href="564-int_24h__critical_error_handler.html">INT 24H</a> Critical Error handler
+          ■ After any <a href="560-int_21h__dos_functions.html">INT 21H</a> DOS function which signals an error with CF
+          ■ After FCB-style functions which return AL=ffH means an error
+
+          See <a href="347-dos_error_codes.html">DOS Error Codes</a> for a full listing of possible error codes,
+          classes, suggested actions, and loci that may be returned by this
+          function.
+
+   Notes: ■ After an error, you get only on chance to call this fn.  After
+            one call, the error condition is unflagged and subsequent calls
+            won't return meaningful data.
+
+          ■ You can use fn <a href="532-dos_fn_5d0ah__set_extended_error.html">5D0aH</a> to simulate an error or set your own
+            internal error codes.
+
+Versions: This function is not available before <span class="c2">3.00</span>.
+
+          With <span class="c2">2.x</span>, when CF returns indicating an error, use your own
+          program logic to decide what action to take.
+
+          With <span class="c2">3.0+</span>, when a function returns CF=1, Microsoft advises to
+          ignore the error code returned in AX, call this function, and
+          take the action suggested in BL.
+
+See Also: Fn <a href="532-dos_fn_5d0ah__set_extended_error.html">5d0aH</a> (set extended error)
+          <a href="19-system_information_functions.html">System Information Functions</a>
+          <a href="347-dos_error_codes.html">DOS Error Codes</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

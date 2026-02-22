@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 41H and INT 46H: Hard Disk Parameter Pointers - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 41H and INT 46H: Hard Disk Parameter Pointers</h1><pre>
+ These vectors (0:0104 and 0:0118) are pointers to hard disk operating
+ parameter structures on AT-class and better computers.
+
+ See <a href="53-hard_disk_parameter_table.html">Hard Disk Parameter Table</a> for a layout of the data at these vectors.
+
+ XT: Depending upon switch settings, one of four addresses are copied to
+ these vectors.
+
+ AT: At Boot time, the AT BIOS reads the <a href="60-cmos_storage_layout.html">CMOS Memory</a> to learn which type(s)
+ of hard disk drives are attached.  It then points the vectors...
+
+     INT 41H  --&gt; first hard disk
+     INT 46H  --&gt; second hard disk
+
+ ...to tables in ROM.  Many recent BIOSes are able to handle &quot;user-defined&quot;
+ hard-disk types.  They store the necessary parameters in non-volatile RAM
+ and copy them into memory at boot time.
+
+See Also: <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0001H: Show Mouse Pointer - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0001H: Show Mouse Pointer</h1><pre>
+ Expects: <span class="c2">AX</span>    0001H
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This unhides the mouse pointer.  It actually increments an
+          internal counter used by the mouse support to determine when to
+          show the pointer.
+
+          That counter starts as -1 (after an <a href="833-int_33h_0000h__reset_query_installed_state.html">INT 33H 0000H</a> or 0021H
+          reset).  This call increments it to 0.
+
+          Whenever the counter is 0, the mouse pointer is displayed and
+          tracked on-screen.  When the counter is 0, subsequent Show
+          Pointer calls are ignored.  Calls to <a href="835-int_33h_0002h__hide_mouse_pointer.html">INT 33H 0002H</a> (hide pointer)
+          decrement the counter.
+
+          This logic relieves programs of the burden of global tracking of
+          the hidden/displayed state.  A subroutine may always use
+          <a href="834-int_33h_0001h__show_mouse_pointer.html">INT 33H 0001H</a> at the beginning and <a href="835-int_33h_0002h__hide_mouse_pointer.html">INT 33H 0002H</a> at the end,
+          without affecting the shown/hidden state of the calling routine.
+
+          This function also resets the &quot;exclusion area&quot; set via
+          <a href="849-int_33h_0010h__set_exclusion_area.html">INT 33H 0010H</a>.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

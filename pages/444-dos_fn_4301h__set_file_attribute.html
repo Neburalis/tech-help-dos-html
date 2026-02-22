@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS Fn 4301H: Set File Attribute - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS Fn 4301H: Set File Attribute</h1><pre>                                                         Compatibility: <span class="c2">2.0+</span>
+ Expects: <span class="c2">AX</span>    4301H
+          <span class="c2">CX</span>    <a href="361-file_attribute.html">file attribute</a> to assign to the file
+          <span class="c2">DS:DX</span> address of an ASCIIZ<a href="913-qasciiz.html">▲</a> string of a filespec<a href="922-qfilespec.html">▲</a>
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    <a href="347-dos_error_codes.html">error code</a> if CF is set to CY
+          ──────────────────────────────────────────────────────────────────
+    Info: Sets the <a href="361-file_attribute.html">file attribute</a> of a file or directory.
+
+    <span class="c2">DS:DX</span> points to an ASCIIZ string in the form...
+             <span class="c1">d</span>:\<span class="c1">path</span>\<span class="c1">filename.ext</span><span class="c2">◄0►</span>
+          ...which identifies the location and name of the file.  It must
+          not contain wildcards<a href="935-qwildcard.html">▲</a>, but it may identify a directory name.
+
+          If CF is set on return, an error code is in AX and no action was
+          taken.
+
+   Notes: ■ To add an attribute to an existing value, use fn <a href="443-dos_fn_4300h__query_file_attribute.html">4300H</a> to
+            obtain the current setting, OR the desired new attribute bit,
+            then call this function.
+
+          ■ Bits 3 and 4 of <span class="c2">CX</span> (volume label and directory) <span class="c1">must be clear</span>
+            when calling this function.  If you wish to hide a directory,
+            use CX=02H (not 12H as you might expect).
+
+See Also: Fn <a href="443-dos_fn_4300h__query_file_attribute.html">4300H</a> (query file attributes)
+          <a href="361-file_attribute.html">File Attribute</a>
+          <a href="8-directory_and_file_functions.html">Directory and File Functions</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

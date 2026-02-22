@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH 1703H: Put Data into the Clipboard - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH 1703H: Put Data into the Clipboard</h1><pre>                                                    Compatibility:  <span class="c2">WIN 3.0+</span>
+ Expects: <span class="c2">AX</span>    1703H
+          <span class="c2">DX</span>    WinOldApp-supported <a href="761-clipboard_data_formats.html">clipboard data format code</a>
+          <span class="c2">ES:BX</span> address of data to store
+          <span class="c2">SI:CX</span> size of data, in bytes
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0000h = fn failed
+                else  = success; data was placed in clipboard
+          ──────────────────────────────────────────────────────────────────
+    Info: This puts data into the Windows clipboard, making it available to
+          Windows applications and programs which use this INT 2fH API.
+          Equivalent to <span class="c2">SetClipboardData</span>.
+
+          Programs should use <a href="759-int_2fh_1709h__see_if_data_will_fit_in_clipboard.html">INT 2fH 1709H</a> (to see if the data will fit in
+          the clipboard) before using this fn.
+
+          Only a few data types are supported.  See <a href="761-clipboard_data_formats.html">Clipboard Data Formats</a>.
+
+See Also: <a href="751-int_2fh_17xxh__windows_clipboard_functions.html">INT 2fH 17xxH: Windows Clipboard Functions</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

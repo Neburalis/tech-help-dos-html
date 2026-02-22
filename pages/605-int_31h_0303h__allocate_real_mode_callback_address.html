@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0303H: Allocate Real-mode Callback Address - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0303H: Allocate Real-mode Callback Address</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0303H
+          <span class="c2">DS:SI</span> (or DS:ESI) sel:off of protected-mode procedure to call
+          <span class="c2">ES:DI</span> (or DS:ESI) sel:off of buffer to hold a <a href="649-dpmiregrec.html">DpmiRegRec</a> structure
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          <span class="c2">CX:DX</span> segment:offset of real-mode callback
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains a segment:offset address that may be used by real-
+          mode programs to execute a protected-mode procedure.
+
+          This provides a means for real-mode programs, such as device
+          drivers, interrupt handlers, or TSRs, to access services supplied
+          by a protected-mode program or to notify that program of events
+          which occur in real mode.
+
+          The DPMI client uses this fn to obtain an address, then uses some
+          other mechanism to pass that address to real-mode programs.
+          Then, when the real-mode program call that address, the DPMI host
+          fills the <a href="649-dpmiregrec.html">DpmiRegRec</a> with the current registers, switches to
+          protected mode, and then calls the protected mode procedure.
+
+    <span class="c2">DS:SI</span> (or <span class="c2">DS:ESI</span>, when in 32-bit mode) is the address of a protected-
+          mode procedure.  It must return via an <span class="c2">IRET</span>, with the data in the
+          <a href="649-dpmiregrec.html">DpmiRegRec</a> at <span class="c2">ES:(E)DI</span> containing any return information and <span class="c1">the</span>
+          <span class="c1">correct CS:IP to resume control must be in the structure</span>.  That
+          means you've got to dig through the stack in order to prepare for
+          the return.
+
+    <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>, when in 32-bit mode) points to a <a href="649-dpmiregrec.html">DpmiRegRec</a>
+          structure.  It may be empty when you use this fn.  The DPMI host
+          fills it with data (as passed from the real-mode app) when it
+          performs the callback.
+
+          It is important to note that the segment values that will appear
+          in the structure are real-mode segments, not protected mode
+          selectors.
+
+    Note: There is a limited number of these callbacks available per client
+          (but at least 16).  Be sure to use <a href="606-int_31h_0304h__free_real_mode_callback_address.html">INT 31H 0304H</a> (free real-mode
+          callback address) when you no longer need it.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

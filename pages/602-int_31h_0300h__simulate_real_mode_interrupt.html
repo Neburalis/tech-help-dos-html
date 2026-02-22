@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 31H 0300H: Simulate Real Mode Interrupt - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 31H 0300H: Simulate Real Mode Interrupt</h1><pre>                                                    Compatibility: <span class="c2">DPMI 0.9+</span>
+ Expects: <span class="c2">AX</span>    0300H
+          <span class="c2">BL</span>    interrupt number
+          <span class="c2">BH</span>    flags: must be 00H
+          <span class="c2">CX</span>    number of words to copy to the real-mode stack
+          <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>) address of a <a href="649-dpmiregrec.html">DpmiRegRec</a> structure.
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CF</span>    NC (clear) if successful; else <span class="c2">AX</span> = <a href="648-dpmi_error_codes.html">DPMI Error Code</a>
+          <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>) the DpmiRegRec structure contains returned data
+          ──────────────────────────────────────────────────────────────────
+    Info: Simulates a real-mode interrupt.
+
+          You may use this instead of the <span class="c2">INT</span> <span class="c1">nn</span> opcode to access
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>, <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>, etc.  The host
+          switches to real mode, loads the registers, performs INT [BL],
+          switches back to protected mode, copies the returned registers
+          into the caller's structure and returns the status.
+
+    <span class="c2">ES:DI</span> (or <span class="c2">ES:EDI</span>, when in 32-bit mode) points to a <a href="649-dpmiregrec.html">DpmiRegRec</a> structure
+          that sets up the registers on entry and will contain the modified
+          register values upon return.
+
+       <span class="c2">CX</span> is used when you are expected to push data onto the stack before
+          invoking the interrupt (not a common scenario).  When CX is non-
+          zero, the host copies that many 2-byte words from the protected
+          mode onto the real-mode stack before invoking the interrupt.
+
+    Note: The DPMI host <span class="c1">automatically handles all INT nn opcodes</span> to provide
+          BIOS and DOS services transparently.  I'm not sure why you would
+          use this fn.
+
+See Also: <a href="571-dpmi_services.html">DPMI API</a>
+          <a href="681-int_2fh__multiplex_interrupt.html">INT 2fH: Multiplex Interrupt</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

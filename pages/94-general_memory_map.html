@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>General Memory Map - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>General Memory Map</h1><pre>
+     Overview of the general memory-layout of PC/XT/AT while operating.
+
+Address   Name / Description
+▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+          ┌─────────────────────────────────────────────────────────────────
+0000:0000 │ Interrupt vector table: 256 4-byte addresses
+──────────┼─────────────────────────────────────────────────────────────────
+0040:0000 │ ROM-BIOS data area.
+──────────┼──────────────────────── See  <a href="93-rom_bios_variables.html">BIOS Data Area</a>  for details
+0050:0000 │ DOS data area.
+──────────┼─────────────────────────────────────────────────────────────────
+xxxx:0000 │ DOS low-level BIOS code (read from IO.SYS on boot disk)
+──────────┼─────────────────────────────────────────────────────────────────
+xxxx:0000 │ DOS interrupt handlers, including <a href="560-int_21h__dos_functions.html">INT 21H</a>  (IBMDOS.COM)
+          ├─────────────────────────────────────────────────────────────────
+xxxx:0000 │ DOS buffers, data areas, and installed <a href="298-installable_device_drivers.html">device drivers</a>
+──────────┼─────────────────────────────────────────────────────────────────
+xxxx:0000 │ resident portion of COMMAND.COM
+          │ includes handlers for <a href="562-int_22h__terminate_address.html">INT 22H</a>  <a href="563-int_23h__ctrl_break_exit_address.html">INT 23H</a> and <a href="564-int_24h__critical_error_handler.html">INT 24H</a>
+──────────┼─────────────────────────────────────────────────────────────────
+xxxx:0000 │ <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>-style programs and data
+──────────┼─────────────────────────────────────────────────────────────────
+xxxx:0000 | Currently-executing application program (.COM or .EXE program)
+          | Programs initially own all of memory up to 640K (a000:0000) or
+          | whatever is the memory-ceiling in the PC.
+──────────┼─────────────────────────────────────────────────────────────────
+xxxx:0000 │ Transient portion of COMMAND.COM.  Command processor, internal
+          │ commands, etc.  Gets reloaded if any program overwrites this are
+──────────┼─────────────────────────────────────────────────────────────────
+xxxx:0000 │ Extended BIOS Data Area on <a href="830-system_compatibility.html">PS/2</a> (highest memory below 640K)
+──────────┼─────────────────────────────────────────────────────────────────
+a000:0000 │ On 386+ CPUs, addresses from a000:0 to f000:0 that are not
+ through  │ occupied by ROM are available as UMBs<a href="927-qmemumb.html">▲</a> when supported by
+e000:ffff │ EMM386.EXE or other memory-management software
+──────────┼─────────────────────────────────────────────────────────────────
+a000:0000 │ <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> and <a href="70-video_graphics_array__vga_.html">VGA</a> memory for certain <a href="114-video_modes.html">video modes</a>
+          ├─────────────────────────────────────────────────────────────────
+b000:0000 │ <a href="68-monochrome_display_adapter__mda_.html">MDA</a> display adapter video memory (also Hercules &amp; clones)
+          ├─────────────────────────────────────────────────────────────────
+b800:0000 │ <a href="66-color_graphics_adapter__cga_.html">CGA</a> video memory (also Hercules page 2)
+──────────┼─────────────────────────────────────────────────────────────────
+c800:0000 │ External ROM code.  ROM-BIOS looks here (in 2K-block increments)
+ through  │ for code to be executed at boot time.  Such ROMS usually install
+e000:0000 │ a device handler (e.g., hard disk or <a href="67-enhanced_graphics_adapter__ega_.html">EGA</a> BIOS); see <a href="266-rom_scan.html">ROM-Scan</a>
+          ├─────────────────────────────────────────────────────────────────
+  also    │ Physical paging addresses for <a href="650-expanded_memory_specification__ems_.html">EMS</a> expanded memory.
+──────────┼─────────────────────────────────────────────────────────────────
+e000:0000 │ <a href="830-system_compatibility.html">AT</a> motherboard ROM modules in 64K-block increments.
+ through  │ See <a href="266-rom_scan.html">ROM-Scan</a>
+e000:ffff │
+──────────┼─────────────────────────────────────────────────────────────────
+f600:0000 │ ROM-resident BASIC interpreter (ancient IBM-logoed PC only)
+──────────┼─────────────────────────────────────────────────────────────────
+fe00:0000 │ ROM-BIOS: <a href="264-power_on_self_test.html">POST</a>, boot code, interrupt handlers, the whole banana
+──────────┼─────────────────────────────────────────────────────────────────
+f000:fff0 │ JMP instruction to first opcode to execute on power up or reset
+          ├─────────────────────────────────────────────────────────────────
+f000:fff5 │ BIOS release date (in ASCII)
+          ├─────────────────────────────────────────────────────────────────
+f000:fffe │ IBM PC identification code.  See <a href="93-rom_bios_variables.html">BIOS Data Area</a> (end of table)
+          └─────────────────────────────────────────────────────────────────
+          ┌─────────────────────────────────────────────────────────────────
+ffff:0000 │ This is the <a href="926-qmemhma.html">High Memory Area</a>, available to <span class="c2">286+</span> computers.
+ through  │ It is the first 64K (less 16 bytes) of extended<a href="928-qmemxms.html">▲</a> memory, but is
+ffff:fff0 │ set up to be accessible while in real mode.
+          └─────────────────────────────────────────────────────────────────
+<span class="c2">█▌Above 1M▐█</span>
+  Area above 1 MB is extended<a href="928-qmemxms.html">▲</a> memory available to AT-class computers via
+  BIOS function <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> and (when HIMEM.SYS or other XMS provider is
+  installed) <a href="944-xms_functions.html">XMS Services</a>.  The CPU is switched into protected mode to make
+  this memory accessible.  See also: <a href="572-using_dpmi_services.html">About DPMI</a>.
+
+  Extended memory is currently used by DOS only for RAM-disk, disk caching,
+  and by a few DOS TSRs.
+
+  Windows, OS/2, Xenix, and other operating systems or control programs may
+  use this area for multitasking or general-purpose memory.
+
+See Also: <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="71-ega_vga_data_areas.html">EGA/VGA Data Areas</a>
+          <a href="892-i_o_port_map.html">I/O Port Map</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

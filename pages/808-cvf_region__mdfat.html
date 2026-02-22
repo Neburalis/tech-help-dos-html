@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>CVF Region: MDFAT - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>CVF Region: MDFAT</h1><pre>
+ See also: <a href="814-mapping_dos_fat_to_mdfat.html">Mapping DOS FAT to MDFAT</a> for info on interpreting the MDFAT.
+
+ The <span class="c2">MDFAT</span> contains one 32-bit entry for each <a href="810-cvf_region__fat.html">FAT</a> cluster.  Each entry
+ describes the location in the <a href="812-cvf_region__sector_heap.html">Sector Heap</a> of the start of the cluster, how
+ many sequential sectors are actually occupied, and whether the data is
+ compressed or raw.
+
+ The MDFAT region starts one sector after the end of the <a href="807-cvf_region__bitfat.html">BitFAT</a>; its
+ location can be calculated as <a href="806-cvf_region__mdbpb.html">MdBpbRec</a>.<span class="c1">wMdFatStart</span>+1 sectors from the
+ start of the CVF.  It may be as large as 512 sectors (256K=262,144 bytes).
+
+ Each 32-bit entry is formatted as follows:
+
+<span class="c2">MdFatEntryRec</span>
+ 3 3 2 2 2 2 2 2 2 2 2 2 \\
+╓1┬0┬9┬8┬7┬6┬5┬4╥3┬2┬1┬0┬//┬1┬0╖
+║<span class="c1">u</span>│<span class="c1">r</span>│<span class="c1">sizRaw</span> │<span class="c1">sizCmpr</span>│0│<span class="c1">location</span>║
+╙╥┴╥┴─┴─┴─┴─┴─┴─╨─┴─┴╥┴─┴//┴─┴─╜  <span class="c1">bits</span>      <span class="c1">mask</span>
+ ║ ║ ╚══╦══╝ ╚══╦══╝ ║ ╚══════╩═► 0-20: 001fffffH location of the first
+ ║ ║    ║       ║    ║                            sector (NOT an offset from
+ ║ ║    ║       ║    ║                            Sector Heap; see below)
+ ║ ║    ║       ║    ╚══════════►   21: 00200000H reserved for future use
+ ║ ║    ║       ╚═══════════════►22-25: 03c00000H size (sectors) as stored
+ ║ ║    ╚═══════════════════════►26-29: 3c000000H size when uncompressed
+ ║ ╚════════════════════════════►   30: 40000000H 1 = uncompressed (raw)
+ ╚══════════════════════════════►   31: 80000000H 1 = entry is in use
+
+ <span class="c1">location</span> (<span class="c1">bits 0-20</span>; 21 bits) This identifies the location of the first of
+          one or more contiguous sectors in the <a href="812-cvf_region__sector_heap.html">Sector Heap</a> that contain
+          the data represented by <a href="810-cvf_region__fat.html">FAT</a> entry that corresponds to this
+          MDFAT entry.
+
+          <span class="c2">Add 1 to this number to get the sector offset from the start</span>
+          <span class="c2">of the CVF.</span>
+
+          A 21-bit number can be as large as 2,097,152, so an MDFAT is able
+          to describe 33,554,432 (2M * 16) sectors or a 16 GB disk
+          (although DoubleSpace supports only up to a maximum of 512 MB).
+
+          The up-to-16 CVF sectors that contain one &quot;compressed cluster&quot; of
+          data are always contiguous.
+
+      <span class="c1">res</span> (<span class="c1">bit 21</span>; 1 bit) this bit is always cleared to 0.  It is reserved
+          for future use.
+
+  <span class="c1">sizCmpr</span> (<span class="c1">bits 22-25</span>; 4 bits) this is the number (-1) of sectors used to
+          contain the cluster's data; i.e., 0000=1, 0001=2, 0010=3, ...
+          1111=16.
+
+          It is possible for this to be larger than <span class="c1">sizRaw</span>, but only when
+          <span class="c1">sizRaw</span> is less than 15.
+
+   <span class="c1">sizRaw</span> (<span class="c1">bits 26-29</span>; 4 bits) this is the size (-1) of the data when it is
+          uncompressed; i.e., 0000=1, 0001=2, 0010=3, ... 1111=16.
+
+          For an uncompressed cluster (<span class="c1">isUncmpr</span>=1), the content of this
+          field is undefined.
+
+ <span class="c1">isUncmpr</span> (<span class="c1">bit 30</span>; 1 bit) This flag indicates whether or not the data for
+          this cluster is stored in compressed form.
+
+          <span class="c2">1</span> indicates uncompressed (raw); <span class="c2">0</span> indicates compressed.
+
+          DoubleSpace will store a cluster in uncompressed format if it
+          finds that the compression algorithm cannot save at least one
+          sector in a given cluster (for instance, when storing pre-
+          compressed .ZIP files).
+
+   <span class="c1">isUsed</span> (<span class="c1">bit 31</span>; 1 bit) This flag indicates whether or not this
+          MdFatEntryRec is currently in use (see notes, below).
+
+          <span class="c2">1</span> indicates used; <span class="c2">0</span> indicates unused.
+
+   Notes: ■ <span class="c2">To locate a file's compressed data sectors:</span> Obtain the file's
+            starting cluster number from the <a href="344-directory_entry_layout.html">directory entry</a> and, using
+            standard <a href="359-fat__dos_file_allocation_table.html">File Allocation Table</a>-chain tracing, determine what
+            clusters it occupies.  Add <a href="806-cvf_region__mdbpb.html">MdBpbRec</a>.<span class="c1">wFirstData</span> to a DOS FAT
+            cluster number and use the sum as an index into the MDFAT.
+
+            See <a href="814-mapping_dos_fat_to_mdfat.html">Mapping DOS FAT to MDFAT</a> for illustrated details.
+
+          ■ <span class="c2">To decompress a cluster:</span>  Seek to the first sector of the
+            cluster in the <a href="812-cvf_region__sector_heap.html">Sector Heap</a> and read <span class="c1">sizCmpr</span> sectors into a
+            local buffer.  Use <a href="818-mrci_fn_0002h__decompress_data.html">MRCI Fn 0002H</a> to decompress the data.
+
+          ■ A compressed cluster begins with '<span class="c2">MD</span>00' (4dH,44H,00H,00H) or
+            '<span class="c2">MD</span>0<span class="c2">☺</span>' (4dH,44H,00H,01H) or '<span class="c2">MD</span>0<span class="c2">☻</span>' (4dH,44H,00H,02H).  But use
+            the <span class="c1">isUncmpr</span> field to see if it is compressed.  See <a href="812-cvf_region__sector_heap.html">Sector Heap</a>
+            for related info.
+
+          ■ The <span class="c1">isUsed</span> flag helps DoubleSpace support FAT-based undelete
+            programs.  When sector of the <a href="359-fat__dos_file_allocation_table.html">FAT</a> is written to disk,
+            DoubleSpace compares the old FAT to the changed FAT and checks
+            the <span class="c1">isUsed</span> flag of the corresponding entry in the MDFAT.  It
+            can infer one of the following operations:
+
+            <span class="c2">DOS allocated a cluster</span>:
+              <span class="c1">isUsed</span>=0 and FAT entry went from 0 to <span class="c1">any</span>
+
+            <span class="c2">DOS or utility freed a cluster</span> (e.g., a DS-unaware defragger):
+              <span class="c1">isUsed</span>=1 and FAT entry went from <span class="c1">any</span> to 0
+
+            <span class="c2">Utility resurrected a cluster</span> (e.g., undelete):
+              <span class="c1">isUsed</span>=0 and FAT entry went from 0 to <span class="c1">any</span>
+
+            <span class="c2">Bookkeeping integrity lost</span> (should never happen):
+              <span class="c1">isUsed</span>=1 and FAT entry went from 0 to <span class="c1">any</span>
+
+          ■ Each time DoubleSpace mounts a volume, it rebuilds the <a href="807-cvf_region__bitfat.html">BitFAT</a>
+            based on the contents of the MDFAT.
+
+          ■ <span class="c2">An entry containing 00000000H</span>: It is possible for an
+            MdFatEntryRec to contain only zeros.  This can occur when you
+            open a file, and seek at least 8K past the end of the last
+            cluster in the file, then write at least one byte.
+
+            In this case, DoubleSpace considers the cluster to be
+            &quot;infinitely compressible.&quot;  The 8K of disk space represented by
+            the corresponding FAT entry takes <span class="c1">no</span> sectors in the heap.  If
+            you find the need to &quot;decompress&quot; the data represented by such
+            an entry, just return a full cluster of 0s.
+
+            Interestingly, if you use Copy (or other command) to duplicate
+            a file with such a cluster, the resulting physical length will
+            be larger--the duplicated cluster of 0s will occupy one
+            physical sector.
+
+See Also: <a href="814-mapping_dos_fat_to_mdfat.html">Mapping DOS FAT to MDFAT</a>
+          <a href="805-doublespace_compressed_volume_file_layout.html">CVF Layout</a>
+          <a href="787-doublespace_overview.html">DoubleSpace Overview</a>
+          <a href="790-int_2fh_4a11h__doublespace_api_services.html">DoubleSpace API</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

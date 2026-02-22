@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 40H: Diskette BIOS Revector - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 40H: Diskette BIOS Revector</h1><pre>
+ This vector (0:0100) points to the code that handles <a href="185-int_13h__bios_disk_i_o.html">INT 13H</a> calls that
+ apply to diskette drives.
+
+ When hard disks were first introduced on the PC, the BIOS disk API code
+ was on the hard disk controller and installed via <a href="266-rom_scan.html">ROM-Scan</a>.  At boot time,
+ it would put the original INT 13H vector into the INT 40H vector.  Then
+ when a service call requested access to a diskette drive, (i.e., <span class="c2">DL</span>&lt;80H),
+ it would pass control on to the original INT 13H handler (now at INT 40H).
+
+ On AT-class computers, the hard disk and diskette BIOSes are often merged
+ and handled via the system BIOS (rather than a ROM-Scan add-on).  However,
+ both INT 13H and INT 40H vectors are maintained for compatibility.
+
+See Also: <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

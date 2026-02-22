@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Hard Disk Connectors and Cables - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Hard Disk Connectors and Cables</h1><pre>
+          ┌───O───────────────────────────────────────────┐
+          │                Hard Disk Drive                │
+          \                                               \
+          \                                               \
+          │                          <span class="c2">Drive Select</span>   <span class="c2">Data</span>  │
+          │ <span class="c2">power</span>  <span class="c2">Command Cable</span>        <span class="c2">Pins</span>       <span class="c2">Cable</span>  │
+          └┬────┬─┬┬┬┬┬┬┬┬┬┬┬┬┬─┬┬────┬┬┬┬┬┬┬┬───┬┬┬┬┬┬─┬┬┘
+           │oooo│ │││││││││││││ ││          X    ││││││ ││
+           \────┘ └┴┴┴┴┴┴┴┴┴┴┴┘▲└┘               └┴┴┴┴┘▲└┘
+                               └───────────────────────┴─── <span class="c2">Key Slots</span>
+      <span class="c2">Key</span>
+    <span class="c2">Slots</span> Cables are keyed with a plug at the position of the key slot, but
+          I've seen cables in which the plug has fallen out.
+
+          Attach the cable with <span class="c1">pin 1</span> (which has a <span class="c2">colored wire</span>) toward the
+          slot.
+
+    <span class="c2">power</span> A separate power cable is needed for each drive.  The connector
+          is keyed to avoid improper orientation.
+
+  <span class="c2">Command</span> This is the wider of the two cables.  It carries control
+    <span class="c2">Cable</span> information to the drive.  Most systems have two connectors on
+          the <span class="c2">Command Cable</span>:
+          ┌─────────────────┐
+          │ Connected to the│
+          │ controller      │  (see below)
+          └<span class="c2">╥</span>─┬─┬─┬─┬─┬─┬─┬─┬┘
+<span class="c2">colored</span>    <span class="c2">║</span> │ │ │ │ │ │ │ │   ┌─
+   <span class="c2">wire</span>═╦═►<span class="c2">║</span> │ │ │ │ │ │ │ │   │On the second hard disk, the <span class="c2">Drive Select</span>
+   (key ║  <span class="c2">║</span> │ │ │ │ │ │ │ │   │jumper should be set to the second
+   slot ║ ┌<span class="c2">╨</span>─┴─┴─┴─┴─┴─┴─┴─┴┐  │position and the terminating resistor
+   side)║ │ Connected to the│◄═╡should be removed from the drive.
+        ║ │ <span class="c1">second</span> hard disk│  └
+        ║ └<span class="c2">╥</span>─┬─┬─┬─┬─┬─┬─┬─┬┘ ┌
+        ║  <span class="c2">║</span> │ │ │ │ │\t/│ │  │If your cable does not have this twist,
+        ╚═►<span class="c2">║</span> │ │ │ │ │ w │ │◄═╡then the first drive must have the
+           <span class="c2">║</span> │ │ │ │ │ i │ │  │<span class="c2">Drive Select</span> jumper in the first position.
+           <span class="c2">║</span> │ │ │ │ │ s │ │  └
+           <span class="c2">║</span> │ │ │ │ │/t\│ │   ┌
+          ┌<span class="c2">╨</span>─┴─┴─┴─┴─┴─┴─┴─┴┐  │If your cable does have the twist, then
+          │ Connected to the│◄═╡the <span class="c2">Drive Select</span> jumper on the first drive
+          │ <span class="c1">first</span> hard disk │  │must be in the second position and the
+          └─────────────────┘  │terminating resistor should be in place.
+                               └
+
+    <span class="c2">Drive</span> Hard drives have a double row of pins (usually four or eight
+   <span class="c2">Select</span> sets) with a jumper across one set.  In most cases, the jumper
+          should be across the second set (jumper the first set on the
+          first hard disk only if your cable does not have a twist).
+
+          If you can see any printing on the circuit board, you can usually
+          figure out which is the side with the first position (DS 0 or
+          pin 1, etc.).  Or you can tell the end with pin 1 by looking at
+          the back of the controller.  It is the side that has a <span class="c1">square</span>
+          <span class="c1">solder mark</span>.
+
+     <span class="c2">Data</span> This is the narrow ribbon cable.  There is one data cable for
+    <span class="c2">Cable</span> each hard disk.  Attach it with the colored wire toward the
+          <span class="c2">Key Slot</span>.
+
+<span class="c2">█▌Hard Disk Controller Card▐█</span>
+
+             ╔═══ <span class="c2">Data Cable</span> for <span class="c3">first</span> drive  ╔═ <span class="c2">Command Cable</span> ┌─
+             ║   ┌────────────────────────────▼───────────────┐│
+             ╚══►│ <span class="c3">:.::::::</span>             :::::::::::::: ┌────┐ ││
+                 │1                    1               └────┘ ││
+             ╔══►│ :.::::::         ┌───────┐                 ││
+             ║   │1        ┌────┐   │       │  ┌──────┐ ┌────┐││
+             ║   │  ┌────┐ └────┘   └───────┘  │      │ └────┘││
+             ║   │  └────┘                     └──────┘       ││
+             ║   └──────────────────┬┬┬┬┬┬┬┬─┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┘│
+             ║                      └┴┴┴┴┴┴┘ └┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┘ │
+             ╚═ <span class="c2">Data Cable</span> for second drive
+
+          Controller cards vary in layout, but the connectors are similar.
+          Just take care to connect the <span class="c2">Data Cable</span> for each drive to the
+          correct connector and make sure that the connector is oriented
+          correctly.
+
+          <span class="c2">Hard Disk Number:</span> The board usually has <span class="c1">HD0</span> or <span class="c1">HD1</span> printed on it
+          to guide you in this momentous decision.
+
+          <span class="c2">Connector Orientation:</span> Cables often have a plug to match a
+          missing pin, to ensure the proper orientation.
+
+          The side of the cable that has a <span class="c2">colored wire</span> is the one to
+          connect to pin 1.  To locate pin 1 on the controller, try:
+
+          ■ Look for a <span class="c1">1</span> printed on the circuit board.  Or...
+          ■ If there is a square solder mark on the back side of the
+            controller where the pins are connected, this is pin 1. Or...
+          ■ Refer to your controller documentation.
+
+See Also: <a href="891-diskette_drive_connectors_and_cables.html">Diskette Drive Cables</a>
+          <a href="878-cables_and_pin_outs.html">Cables and Pin Outs</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

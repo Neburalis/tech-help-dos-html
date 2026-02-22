@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Expanded Memory Specification (EMS) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Expanded Memory Specification (EMS)</h1><pre>
+ This topic describes the Lotus/Intel/Microsoft formal specification
+ (LIM-EMS) used to access Ex<span class="c1">pand</span>ed<a href="925-qmemems.html">▲</a> Memory on a PC-compatible system.
+
+        See  <a href="651-emm_functions.html">EMM Functions</a>  for a description <span class="c2">INT 67H</span> services.
+
+ The EMS standard provides access more memory without exceeding the 1MB
+ maximum for 8088-based computers and without switching to protected mode
+ on 286+ CPUs.  Programs such as Lotus 1-2-3 use it to hold data for large
+ spreadsheets.  It is also used for RAM disks and print spoolers.  Some TSR
+ programs use EMS memory to hold data and code (thus minimizing use of
+ conventional<a href="924-qmemconv.html">▲</a> memory).
+
+    Note: The most common EMS memory is actually ex<span class="c1">tend</span>ed<a href="925-qmemems.html">▲</a> memory, accessed
+          via an EMS-emulation device driver such as EMM386.EXE, or 386MAX.
+
+          On 286+ CPUs, the <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a> accesses
+          additional memory without the emulation layer, so you may prefer
+          to use its API rather than (or in addition to) the EMS services.
+
+<span class="c2">█▌Determining if EMS is Installed▐█</span>
+  EMS memory is managed by an installable <a href="298-installable_device_drivers.html">device driver</a> with a device name
+  of &quot;<span class="c2">EMMXXXX0</span>&quot; and referred to as the EMM (Expanded Memory Manager).  To
+  learn if the driver has been installed you can use DOS Fn <a href="436-dos_fn_3dh__open_a_file_via_handle.html">3dH</a> to attempt
+  to open the device as a file.  Once opened, you can use DOS IOCTL fn
+  <a href="453-dos_fn_4407h__ioctl_query_handle_output_status.html">4407H</a> to get the status.  If the returned status (in AL) is 0, then EMM
+  is NOT installed and a disk file by the name &quot;EMMXXXX0&quot; exists for some
+  reason.
+
+  When the EMM driver is installed, it sets the <a href="651-emm_functions.html">INT 67h</a> vector to point to
+  its device header.  Thus, another way to test for EMS is to fetch the
+  address in the vector for INT 67H (0:091c) and examine offset 0aH from
+  that address.  It should contain the characters &quot;EMMXXXX0&quot;.  See
+  <a href="322-device_header_layout.html">Device Header Layout</a>.
+
+<span class="c2">█▌DOS Support▐█</span>
+  Starting with version 5.0, DOS comes with an expanded memory emulation
+  driver (EMM386.EXE) for 386-based computers.  A few DOS device drivers
+  and TSRs will take advantage of EMS if it is present:
+
+  ■ DOS <span class="c2">4.x</span> and <span class="c2">5.x</span> disk buffers can be put in expanded memory
+    (BUFFERS=<span class="c1">nn</span> /X), but this option was <span class="c2">removed from DOS 6.0</span>.
+
+  ■ DOS <span class="c2">4.0+</span> RAMDISK.SYS driver lets you put a RAM disk in expanded memory
+    (DEVICE=RAMDISK.SYS <span class="c1">nnn</span> /A).
+
+  ■ DOS <span class="c2">4.0+</span> Fastopen /X command uses EMS memory for its pathname storage.
+
+  ■ DOS <span class="c2">6.0</span> programs and TSRs: Defrag, Dosshell, Msbackup, Mscdex, and
+    Vsafe will use EMS memory when it is available.
+
+<span class="c2">█▌EMM Services▐█</span>
+  To access the EMS memory manager, use <a href="651-emm_functions.html">INT 67h</a> with a fn code in the <span class="c2">AX</span>
+  register, as described in <a href="651-emm_functions.html">EMM Functions</a>.
+
+See Also: <a href="651-emm_functions.html">EMM Functions</a>
+          <a href="943-extended_memory_specification__xms_.html">Extended Memory Specification (XMS)</a>
+          <a href="558-dos_interrupts.html">DOS Interrupts</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

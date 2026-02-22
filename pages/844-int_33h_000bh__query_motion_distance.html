@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 000bH: Query Motion Distance - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 000bH: Query Motion Distance</h1><pre>
+ Expects: <span class="c2">AX</span>    000bH
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">CX</span>    Horizontal motion since last call (&gt;0=right; &lt;0=left)
+          <span class="c2">DX</span>    Vertical motion since last call (&gt;0=down; &lt;0=upward)
+          ──────────────────────────────────────────────────────────────────
+    Info: This obtains the distance the mouse has been moved since the most
+          recent call to this function.  The returned values are in units
+          called <span class="c1">mickeys</span>.  To convert to pixels, use <a href="858-int_33h_001bh__query_mouse_sensitivity.html">INT 33H 001bH</a> to query
+          the current mickeys-to-pixel ratios).
+
+          Note that <span class="c2">CX</span> and <span class="c2">DX</span> return as signed values, with negative
+          numbers being a distance upward and to the left and positive
+          values being motion downward and to the right.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

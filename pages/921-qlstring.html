@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Lstring - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>Lstring</h1><pre>                       Lstring
+──────────────────────────────────────────────────────
+A sequence of characters usually defining a string of
+text.  The first byte identifies the length, in bytes,
+of the rest of the string.
+
+Lstrings are often used in the Pascal programming
+language but are seen in only a few DOS system
+services (ASCIIZ strings are the standard).
+
+In assembly language:
+
+  sMyFile db 12,'c:myfile.txt'
+──────────────────────────────────────────────────────
+■ PSPs contain an Lstring of the command-line text.
+■ DOS fn 4b00H uses an Lstring in its parameter block.</pre></body></html>

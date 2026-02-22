@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>DOS= (CONFIG.SYS Command) - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>DOS= (CONFIG.SYS Command)</h1><pre>                                                         Compatibility:<span class="c2"> 5.0+</span>
+ Purpose: On <span class="c1">286</span>- and <span class="c1">386</span>-based and better computers, this command provides
+          a way to tell DOS to load itself in the High Memory Area<a href="926-qmemhma.html">▲</a>,
+          outside of the 640K of conventional<a href="924-qmemconv.html">▲</a> memory.  On <span class="c1">386</span>-based and
+          better computers, it also provides a way to enable loading of
+          <a href="298-installable_device_drivers.html">device drivers</a> and <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a>s into UMBs<a href="927-qmemumb.html">▲</a>.
+
+    Uses: Maximize the amount of conventional memory available to
+          applications.
+
+  Syntax: DOS=<span class="c1">HIGH</span>[,<span class="c1">UMB</span> or <span class="c1">NOUMB</span>]
+      or: DOS=<span class="c1">LOW</span>[,<span class="c1">UMB</span> or <span class="c1">NOUMB</span>]
+      or: DOS=<span class="c1">UMB</span> or <span class="c1">NOUMB</span>
+
+<span class="c3">█▌Parameters▐█</span>
+
+     <span class="c1">HIGH</span> sets DOS to use the 64K HMA<a href="926-qmemhma.html">▲</a> to hold most of its code and data
+          areas.  This option works on <span class="c2">286-based or better</span> computers.  <span class="c1">LOW</span>
+          is the default.
+
+      <span class="c1">UMB</span> lets DOS load TSRs and device drivers into UMB<a href="927-qmemumb.html">▲</a> memory via the
+          <a href="277-devicehigh___config_sys_command_.html">DEVICEHIGH=</a> and <span class="c2">Loadhigh</span> commands and makes upper memory
+          available for applications which know how to use it.  This option
+          works on <span class="c2">386-based</span> or better computers.  <span class="c1">NOUMB</span> is the default.
+
+<span class="c3">█▌TECH Notes▐█</span>
+
+  ■ When DOS=UMB is used, DOS uses fn <a href="525-dos_fn_5803h__set_upper_memory_link_state.html">5803H</a> (set upper-memory link state)
+    to enable access to UMBs.  In order to load programs into UMBs or
+    allocate UMBs for your programs, you may also need to use fn <a href="523-dos_fn_5801h__set_memory_allocation_strategy.html">5801H</a> (set
+    memory allocation strategy).
+
+  ■ See <a href="826-accessing_upper_memory.html">Accessing Upper Memory</a> for info on allocating memory in UMBs.
+
+  ■ It is okay to have DOS= twice in CONFIG.SYS (once or UMB and once for
+    HIGH).  The <span class="c2">Memmaker</span> command does that just to confuse you.
+
+See Also: <a href="267-the_config_sys_file.html">CONFIG.SYS Commands</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

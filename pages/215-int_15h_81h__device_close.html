@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 15H 81H: Device Close - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 15H 81H: Device Close</h1><pre>                                                                        [AT]
+ Expects: <span class="c2">AH</span>    81H
+          <span class="c2">BX</span>    device ID
+          <span class="c2">CX</span>    process ID
+          <span class="c2">CF</span>    NC (0) (clear the Carry Flag before when invoking this fn)
+          ──────────────────────────────────────────────────────────────────
+ Returns: <span class="c2">AX</span>    0081H
+          ──────────────────────────────────────────────────────────────────
+    Info: This service is designed to be intercepted by a multitasking
+          operating system.  It would be used, along with INT 15H fns 80H
+          and 82H to avoid device conflicts.
+
+          When unintercepted, the BIOS simply sets AH to 0 and clears CF.
+
+See Also: <a href="212-int_15h__at_extended_services___apm.html">INT 15H</a> (extended AT services)
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="95-interrupts_and_bios_services.html">ROM-BIOS Functions</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

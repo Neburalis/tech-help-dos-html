@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 33H 0010H: Set Exclusion Area - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 33H 0010H: Set Exclusion Area</h1><pre>
+ Expects: <span class="c2">AX</span>    0010H
+          <span class="c2">CX</span>    (X1) leftmost coordinate of exclusion rectangle (pixel)
+          <span class="c2">DX</span>    (Y1) top coordinate of exclusion rectangle (pixel)
+          <span class="c2">SI</span>    (X2) rightmost coordinate of exclusion rectangle (pixel)
+          <span class="c2">DI</span>    (Y2) bottom coordinate of exclusion rectangle (pixel)
+          ──────────────────────────────────────────────────────────────────
+ Returns: none
+          ──────────────────────────────────────────────────────────────────
+    Info: This sets a rectangle in which the mouse pointer will be hidden.
+
+          Unlike the limit range set by <a href="840-int_33h_0007h__set_horizontal_range.html">INT 33H 0007H</a> and <a href="841-int_33h_0008h__set_vertical_range.html">INT 33H 0008H</a>,
+          the mouse may be moved into and out of the exclusion area, but it
+          will be hidden whenever there.
+
+          Avoid using this unless you immediately present some other sort
+          of screen-position indicator (such as a text cursor).  You don't
+          want the user saying &quot;Where did my mouse go?&quot;
+
+          Note that all X,Y coordinates are <span class="c1">virtual</span> coordinates and when
+          working with text mode, you must divide each value by 8 to get a
+          character clm,row.
+
+   Notes: ■ The exclusion area gets reset on each call to <a href="834-int_33h_0001h__show_mouse_pointer.html">INT 33H 0001H</a>
+            (show pointer) and to <a href="833-int_33h_0000h__reset_query_installed_state.html">INT 33H 0000H</a> (reset).
+
+          ■ All X,Y coordinates are <span class="c1">virtual</span> coordinates and when working
+            with text mode, you must divide each value by 8 to get a
+            character clm,row.
+
+See Also: <a href="832-int_33h__mouse_support.html">INT 33H: Mouse Support</a>
+          <a href="95-interrupts_and_bios_services.html">Interrupts and BIOS Services</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>APM Device ID - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>APM Device ID</h1><pre>
+ Several <a href="29-advance_power_management__apm__functions.html">APM API</a> functions require a <span class="c2">device ID</span> in <span class="c2">BX</span>.  This is a 16-bit
+ value in the form:
+
+ <span class="c2">ApmDevIdRec</span>
+  1 1 1 1 1 1
+ ╓5┬4┬3┬2┬1┬0┬9┬8╥7┬6┬5┬4┬3┬2┬1┬0╖
+ ║ <span class="c1">device class</span>  ║  <span class="c1">device unit</span>  ║
+ ╙─┴─┴─┴─┴─┴─┴─┴─╨─┴─┴─┴─┴─┴─┴─┴─╜  <span class="c1">bits</span>
+  ╚══════╦══════╝ ╚══════╦══════╝
+         ║               ╚═══════►  0-7: device unit; <span class="c2">ffH</span>=ALL (see below)
+         ╚═══════════════════════► 8-15: device class
+                                           <span class="c2">00H</span> = system
+                                           <span class="c2">01H</span> = display
+                                           <span class="c2">02H</span> = secondary storage
+                                           <span class="c2">03H</span> = parallel ports
+                                           <span class="c2">04H</span> = serial ports
+                                           05H-FFH (reserved)
+
+   <span class="c1">bits 8-15</span>  (high byte) identify the device type.  The value <span class="c2">00xxH</span> has
+              the special meaning &quot;the system as a whole&quot;.
+
+    <span class="c1">bits 0-7</span>  (low byte) identify the unit number of the (possibly several)
+              units attached of the device type in the high byte.
+
+              This value is 0-based.  For instance, an ID of <span class="c2">0301H</span> is the
+              second parallel printer.
+
+              A value of <span class="c2">ffH</span> indicates all devices of that type.
+
+   Notes: ID <span class="c2">0000H</span> identifies the system BIOS.
+          ID <span class="c2">0001H</span> identifies all devices power-managed by the system BIOS.
+
+See Also: <a href="29-advance_power_management__apm__functions.html">APM API</a>
+          <a href="30-about_advanced_power_management.html">About APM</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

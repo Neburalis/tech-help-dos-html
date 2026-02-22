@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>INT 2fH: Multiplex Interrupt - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>INT 2fH: Multiplex Interrupt</h1><pre>
+ The INT 2fH vector (at 0000:00bc) is a portal to many varied services;
+ some installed by DOS and others by device drivers, utility programs,
+ Windows, etc.  It is sometimes call the Multiplex or <span class="c1">MUX Interrupt</span>.
+ TECH Help! covers the following INT 2fH services:
+
+   AX   DOS 5.0 TSRs &amp; drivers        AX  Defined elsewhere in TECH Help!
+  ▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+  <a href="682-int_2fh_01xxh__dos_print_spooler_functions.html">01xxH</a> <span class="c2">Print</span> spooler services      <a href="790-int_2fh_4a11h__doublespace_api_services.html">4a11H DoubleSpace API</a> services
+  <a href="690-int_2fh_0600h__is_assign_com_installed_.html">0600H</a> <span class="c2">Assign</span> installed?
+  <a href="691-int_2fh_1000h__is_share_exe_installed_.html">1000H</a> <span class="c2">Share</span> installed?            <a href="763-int_2fh_16xxh__enh386_windows_services___notifications.html">16xxH</a> Windows 386Enh-Mode services
+  <a href="692-int_2fh_1100h__is_network_support_installed_.html">1100H</a> is network installed?
+  <a href="693-int_2fh_1400h__is_nlsfunc_exe_installed_.html">1400H</a> <span class="c2">Nlsfunc</span> installed?          <a href="751-int_2fh_17xxh__windows_clipboard_functions.html">17xxH</a> Windows Clipboard access
+  <a href="694-int_2fh_15xxh__mscdex_cd_rom_functions.html">15xxH</a> <span class="c2">Mscdex</span> services
+  <a href="771-int_2fh_1680h__program_idle__release_timeslice_.html">1680H AppIdle</a> Release timeslice   <a href="778-int_2fh_40xxh__virtual_display_driver_functions.html">40xxH</a> Windows VDD fns for VM-aware apps
+  <a href="697-int_2fh_1a00h__is_ansi_sys_installed_.html">1a00H</a> <span class="c2">ANSI.SYS</span> installed?
+  <a href="698-int_2fh_43xxh__himem_sys__extended_memory_manager__services.html">43xxH</a> <span class="c2">HIMEM.SYS</span> / <a href="944-xms_functions.html">XMS Services</a>
+  <a href="701-int_2fh_48xxh__doskey_com_functions.html">48xxH</a> <span class="c2">Doskey</span> services             <a href="825-int_2fh_xxfbh__faxbios_functions.html">xxfbH FaxBIOS Services</a>
+  <a href="704-int_2fh_4axxh__hma_suballocations.html">4axxH</a> <span class="c2">HMA Allocations</span> (undoc'd)
+  <a href="707-int_2fh_4bxxh__task_switcher_functions.html">4bxxH</a> <span class="c2">Dosshell</span> / <a href="708-switcher_api.html">Switcher API</a>
+  54xxH <span class="c2">POWER.EXE</span> (undocumented)
+  <a href="735-int_2fh_adxxh__keyb_com_functions.html">adxxH</a> <span class="c2">Keyb</span> services
+  <a href="740-int_2fh_aexxh__command_processor_command_line_hook.html">aexxH</a> <span class="c2">COMMAND.COM</span> hook services
+  <a href="743-int_2fh_b000h__is_graftabl_com_installed_.html">b000H</a> <span class="c2">Graftabl</span> installed?
+  <a href="744-int_2fh_b7xxh__append_exe_functions.html">b7xxH</a> <span class="c2">Append</span> services
+
+ <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> programs and <a href="298-installable_device_drivers.html">device drivers</a> intercept INT 2fH to install themselves
+ into the &quot;<span class="c1">mux-process chain</span>&quot;.  Later, another program may use INT 2fH to
+ see if that TSR has been installed and to request various services.
+
+<span class="c2">█▌DOS Versions▐█</span>
+  INT 2fH is not defined for version prior to <span class="c2">DOS 3.0</span>.  In DOS 3.0, INT 2fH
+  is defined ONLY for the print spooler and the value of AH (which is now
+  critical) had no meaning.
+
+  The various services may or may not be available with a particular version
+  of DOS, since they are supplied by external programs.  For instance, the
+  Windows clipboard fns are available on any DOS version which can run
+  Windows 3.0 or later, but only while Windows is running.
+
+<span class="c2">█▌Accessing MUX Services▐█</span>
+  To use a service, load <span class="c2">AH</span> with the mux ID and load <span class="c2">AL</span> with the fn number,
+  load other registers as needed, and invoke INT 2fH.
+
+  Nearly all INT 2fH handlers support fn <span class="c2">AL</span>=0 to mean &quot;check to see if the
+  service is installed&quot;.  The service is installed if <span class="c2">AL</span>=ffH on return.
+  Note that just checking AL may not be sufficient, since any program can
+  hook into the chain.  See below.
+
+  Mux IDs <span class="c2">AH</span>=00H through <span class="c2">AH</span>=bfH are reserved by Microsoft.  Other
+  applications can hook into the chain using values from c0H-ffH.
+
+<span class="c2">█▌Creating Your Own MUX Process▐█</span>
+  INT 2fH can be used as a gateway for installing and communicating with
+  your own <a href="20-terminate_and_stay_resident__tsr_.html">TSR</a> programs.  The idea is to avoid forcing programmers to pick
+  arbitrary interrupt vectors for use in communication with installed TSRs.
+
+ <span class="c1">To install a MUX process</span>: Install an INT 2fH handler by saving the
+   current vector and installing a vector to your code via DOS Fns <a href="426-dos_fn_35h__get_interrupt_vector.html">35H</a>
+   and <a href="406-dos_fn_25h__set_interrupt_vector.html">25H</a>.  Your handler watches for its MUX number (in AH) and on
+   calls which specify any other MUX number, passes control to the saved
+   vector via a FAR JMP.  If nothing else, you can use this technique to
+   check if your TSR has been installed previously (when executed, do an
+   INT 2fH with AH=<span class="c1">yourMuxNumber</span> and AL=0).
+
+   Mux numbers 00H-bfH are reserved by DOS.  You may pick any number
+   between c0H and ffH.  However, there is some danger that another
+   application is using you Mux ID.  The recommended way to avoid this
+   problem is:
+
+    1 Use INT 2FH with AL=0, starting with AH=ffH.  If upon return, you
+      don't get back your own unique return code, then keep trying lower
+      mux IDs, working down to AH=c0H.
+
+    2 If you never find your own process, then you know you have not been
+      installed.  Otherwise, pick one of the mux IDs which was not used (an
+      unused mux ID will leave AX unchanged after INT 2fH).
+
+    3 Hook into the INT 2fH chain.  Your code should check for you Mux ID
+      in AH, and when AL is 0, should return ffH in <span class="c2">AL</span>, and some uniquely-
+      identifying code in other registers (so that step 1, above, can
+      recognize your mux process).
+
+    ■ When you later use INT 2Fh to access your own service, you must use
+      logic similar to that in step 1, since you won't know your Mux ID in
+      advance.
+
+    Note: If your mux process uses DOS services or runs with interrupts
+          enabled, you should make your process re-entrant.
+
+See Also: <a href="558-dos_interrupts.html">DOS Interrupts</a>
+          <a href="5-dos_function_index___quick_reference_subset.html">DOS Functions</a>
+          <a href="298-installable_device_drivers.html">Device Drivers</a>
+                                    <span class="c3">-♦-</span></pre></body></html>

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>ROM-Scan - TECH Help!</title><link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="X-UA-Compatible" content="IE=Edge"></head><body><h1>ROM-Scan</h1><pre>
+ During cold-boot (power-on start-up), after the <a href="264-power_on_self_test.html">POST</a> and installation of
+ default interrupt handlers, BIOS makes a check for external ROMs found on
+ feature cards (boards installed in a PC slot).  This testing is informally
+ called ROM-scan.
+
+    Note: ROM-scan was NOT implemented in the earliest BIOS and the very
+          oldest PCs (those with a maximum of 64K on the motherboard) will
+          not have this feature unless a later version of the ROM-BIOS has
+          been installed.
+
+ External ROM modules may exist between addresses <span class="c2">c000:0</span> and <span class="c2">e000:0</span>.  Each
+ 2K block in this range is checked for a signature and is in this format:
+
+<span class="c2">RomScanHdrRec</span>
+  Offset Size Contents
+  ▀▀▀▀▀▀ ▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+   +0      2  <span class="c1">wSignature</span>   must be aa55H (55H followed by aaH; i.e. <span class="c2">U¬</span>)
+   +2      1  <span class="c1">bLenPgs</span>      length of the ROM module in 512-byte pages
+   +3      ?  <span class="c1">abCode</span>       variable-length code and data of the ROM.  It
+                           usually begins with a JMP to get the
+                           initialization portion of the code.
+
+ When BIOS finds a ROM signature, it performs a checksum on the defined
+ module.  Each byte is summed modulo 100H and the sum must be exactly 0.
+ When a module is verified to be valid, BIOS performs a FAR CALL to offset
+ 0003H of its segment and the ROM must eventually return to the BIOS via a
+ FAR RET.
+
+ Typically, the ROM module will perform any hardware initialization tasks
+ necessary and insert its own addresses into one or more interrupt vectors.
+
+ The ROM sockets U17 and U37 on the <a href="830-system_compatibility.html">AT</a> motherboard are addressed starting
+ at e000:0000.  A scan occurs in 64K blocks for a valid module.  If
+ present, a module will have the aa55H signature, an unused length byte,
+ executable code starting at xxxx:0003 and a checksum of 0 modulo 100H at
+ e000:ffff.
+
+ A <a href="815-microsoft_real_time_compression_interface__mrci_.html">MRCI</a> hardware-assist adaptor could install data-compression support
+ via ROM-Scan, and thus be available immediately on power up.  See
+ <a href="824-int_1ah_b001h__query_rom_hardware_based_mrci_support.html">INT 1aH b001H</a> (query hardware-based MRCI support).
+
+See Also: <a href="264-power_on_self_test.html">POST</a>
+          <a href="93-rom_bios_variables.html">BIOS Data Area</a>
+          <a href="263-system_startup_sequence.html">System Startup Sequence</a>
+                                    <span class="c3">-♦-</span></pre></body></html>
