@@ -198,6 +198,13 @@ body.spa-shell {
   text-overflow: ellipsis;
 }
 
+.shell-header .nav-btn {
+  flex-shrink: 0;
+  min-width: auto;
+  padding: 5px 8px;
+  line-height: 0;
+}
+
 /* Navigation bars */
 .shell-nav {
   flex-shrink: 0;
@@ -432,6 +439,23 @@ body.spa-shell {
   font-family: var(--font-ui);
   font-size: 12px;
   color: var(--text-dim);
+}
+
+/* -- Anchor nav buttons (Edit / Stars / GitHub) ------------------ */
+
+a.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  color: var(--btn-text);
+}
+
+a.nav-btn:hover,
+a.nav-btn:focus {
+  color: var(--btn-text);
+}
+
+a.nav-btn:active {
+  color: #fff;
 }
 
 /* -- Responsive -------------------------------------------------- */

@@ -13,6 +13,7 @@
 
   const PAGES_DIR   = 'pages/';
   const DEFAULT_PAGE = PAGES_DIR + '2-main_menu.html';
+  const GH_EDIT_BASE = 'https://github.com/Neburalis/tech-help-dos-html/edit/main/';
 
   // DOM refs
   const loadingBar = document.getElementById('loading-bar');
@@ -21,6 +22,7 @@
   const navTitles  = document.querySelectorAll('.nav-title');
   const prevBtns   = document.querySelectorAll('.nav-prev');
   const nextBtns   = document.querySelectorAll('.nav-next');
+  const editLinks  = document.querySelectorAll('.nav-edit');
   const homeName   = document.getElementById('home-name');
 
   // Navigation history stack
@@ -113,11 +115,15 @@
   // ----------------------------------------------------------------
   // Render
   // ----------------------------------------------------------------
-  function renderPage(data) {
+  function renderPage(data, filename) {
     contentH1.textContent = data.h1;
     contentPre.innerHTML  = data.preContent;
     document.title        = data.title;
     navTitles.forEach(el => { el.textContent = data.h1; });
+
+    if (filename) {
+      editLinks.forEach(a => { a.href = GH_EDIT_BASE + filename; });
+    }
 
     const pane = document.querySelector('.shell-content');
     if (pane) pane.scrollTop = 0;
@@ -143,7 +149,7 @@
       navPos = navStack.length - 1;
 
       history.pushState({ navPos, filename }, '', '#' + filename);
-      renderPage(data);
+      renderPage(data, filename);
       updateButtons();
     } catch (err) {
       contentH1.textContent  = 'Error loading page';
@@ -159,7 +165,7 @@
     showLoading();
     try {
       const data = await fetchPage(navStack[pos]);
-      renderPage(data);
+      renderPage(data, navStack[pos]);
       updateButtons();
     } catch (err) {
       contentH1.textContent  = 'Error loading page';
@@ -244,7 +250,7 @@
     showLoading();
     try {
       const data = await fetchPage(filename);
-      renderPage(data);
+      renderPage(data, filename);
     } catch (err) {
       contentH1.textContent  = 'Error loading page';
       contentPre.textContent = String(err);
@@ -284,11 +290,11 @@
     if (m) {
       const start = Math.max(0, m.index - WINDOW);
       const end   = Math.min(text.length, m.index + m[0].length + WINDOW);
-      snippet = (start > 0 ? '…' : '') +
+      snippet = (start > 0 ? '...' : '') +
                 text.slice(start, end) +
-                (end < text.length ? '…' : '');
+                (end < text.length ? '...' : '');
     } else {
-      snippet = text.slice(0, WINDOW * 2) + (text.length > WINDOW * 2 ? '…' : '');
+      snippet = text.slice(0, WINDOW * 2) + (text.length > WINDOW * 2 ? '...' : '');
     }
 
     // Highlight all occurrences in the snippet
@@ -315,20 +321,20 @@
     const escaped = terms
       .map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
       .join('|');
-    if (!escaped) return escapeHtml(body.slice(0, 160)) + '…';
+    if (!escaped) return escapeHtml(body.slice(0, 160)) + '...';
 
     const re = new RegExp(escaped, 'i');
     let text = body.replace(/\n/g, ' ').replace(/\s+/g, ' ');
     const m  = re.exec(text);
 
     let start = 0, end = Math.min(text.length, WINDOW * 2);
-    let prefix = '', suffix = text.length > end ? '…' : '';
+    let prefix = '', suffix = text.length > end ? '...' : '';
 
     if (m) {
       start  = Math.max(0, m.index - WINDOW);
       end    = Math.min(text.length, m.index + m[0].length + WINDOW);
-      prefix = start > 0 ? '…' : '';
-      suffix = end < text.length ? '…' : '';
+      prefix = start > 0 ? '...' : '';
+      suffix = end < text.length ? '...' : '';
     }
 
     const snippet = text.slice(start, end);
@@ -556,7 +562,7 @@
       });
 
       // Index is ready
-      searchInput.placeholder = 'Search…';
+      searchInput.placeholder = 'Search...';
       searchInput.disabled    = false;
       searchInput.title       = '';
 
