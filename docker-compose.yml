@@ -1,6 +1,41 @@
 services:
   web:
     build: .
-    ports:
-      - "${HOST_PORT:-80}:80"
+    container_name: techhelp
     restart: unless-stopped
+    networks:
+      - proxy_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.techhelp.entrypoints=websecure"
+      - "traefik.http.routers.techhelp.rule=Host(`thelp.neburalis.space`)"
+      - "traefik.http.routers.techhelp.tls=true"
+      - "traefik.http.routers.techhelp.tls.certresolver=letsencrypt"
+      - "traefik.http.services.techhelp.loadbalancer.server.port=80"
+      - "traefik.http.routers.techhelp.middlewares=security-headers@file"
+
+  mcp:
+    build: ./mcp-server
+    container_name: mcp-server
+    restart: unless-stopped
+    networks:
+      - proxy_network
+    volumes:
+      - chroma_data:/data/chroma
+      - ./mcp-server/tokens.json:/app/tokens.json
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mcp.entrypoints=websecure"
+      - "traefik.http.routers.mcp.rule=Host(`thelp.neburalis.space`) && PathPrefix(`/mcp`)"
+      - "traefik.http.routers.mcp.tls=true"
+      - "traefik.http.routers.mcp.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.mcp.middlewares=strip-mcp@docker,security-headers@file"
+      - "traefik.http.middlewares.strip-mcp.stripprefix.prefixes=/mcp"
+      - "traefik.http.services.mcp.loadbalancer.server.port=8000"
+
+volumes:
+  chroma_data:
+
+networks:
+  proxy_network:
+    external: true
